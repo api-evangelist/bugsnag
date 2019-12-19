@@ -1,0 +1,69 @@
+{
+    "name": "Bugsnag",
+    "description": "Bugsnag monitors apps for errors that impact customers & reports all diagnostic data. By default, we save every error, so your data won't be sampled. Try it free.",
+    "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/1314-bugsnag.jpg",
+    "tags": [
+        "api provider",
+        "bug tracking",
+        "have api"
+    ],
+    "created": "2019-12-19",
+    "modified": "2019-12-19",
+    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/bugsnag\/master\/apis.json",
+    "specificationVersion": "0.14",
+    "apis": [
+        {
+            "name": "Bugsnag",
+            "description": null,
+            "image": "http:\/\/kinlane-productions.s3.amazonaws.com\/screen-capture-api\/1314-bugsnag.jpg",
+            "humanURL": "https:\/\/www.bugsnag.com\/",
+            "baseURL": "",
+            "tags": [],
+            "properties": [
+                {
+                    "type": "x-openapi",
+                    "url": "https:\/\/raw.githubusercontent.com\/api-evangelist\/1forge\/master\/bugsnag-openapi.json"
+                }
+            ]
+        }
+    ],
+    "include": [],
+    "x-common": [
+        {
+            "type": "Base",
+            "url": "https:\/\/api.bugsnag.com"
+        },
+        {
+            "type": "Blog",
+            "url": "http:\/\/blog.bugsnag.com\/"
+        },
+        {
+            "type": "Blog RSS",
+            "url": "https:\/\/bugsnag.com\/blog\/feed.xml"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "https:\/\/crunchbase.com\/organization\/bugsnag"
+        },
+        {
+            "type": "Crunchbase",
+            "url": "http:\/\/www.crunchbase.com\/company\/bugsnag"
+        },
+        {
+            "type": "Email",
+            "url": "support@bugsnag.com"
+        },
+        {
+            "type": "Github",
+            "url": "https:\/\/github.com\/bugsnag"
+        },
+        {
+            "type": "Twitter",
+            "url": "https:\/\/twitter.com\/bugsnag"
+        },
+        {
+            "type": "Website",
+            "url": "https:\/\/www.bugsnag.com\/"
+        }
+    ]
+}
