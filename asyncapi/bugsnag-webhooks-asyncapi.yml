@@ -1,0 +1,345 @@
+asyncapi: 2.6.0
+info:
+  title: Bugsnag Webhook Events
+  description: >-
+    Bugsnag webhooks deliver real-time notifications about error events
+    to a configured callback URL via HTTP POST. The webhook integration
+    sends JSON payloads containing information about the triggering event,
+    the error, the project, and the account. Webhooks can be configured
+    per project in the Bugsnag dashboard under Project Settings, Data
+    Forwarding, and support filtering by notification trigger type.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/product/integrations/data-forwarding/webhook/
+servers:
+  customerEndpoint:
+    url: '{webhookUrl}'
+    protocol: https
+    description: >-
+      The customer-configured webhook callback URL that receives
+      Bugsnag event notifications via HTTP POST.
+    variables:
+      webhookUrl:
+        description: >-
+          The webhook URL configured in Bugsnag project settings
+          under Data Forwarding.
+channels:
+  /webhook:
+    description: >-
+      Receives Bugsnag event notifications. The webhook sends a JSON
+      payload via HTTP POST when a configured trigger condition is met.
+      Supported triggers include new errors, frequent errors, error
+      milestones, every error occurrence, and auto-reopened errors.
+    publish:
+      operationId: receiveWebhookNotification
+      summary: Receive a Bugsnag webhook notification
+      description: >-
+        Bugsnag sends a webhook notification to the configured URL when
+        a trigger condition is met. The payload includes details about
+        the triggering event, the associated error, the project, and
+        the account. The specific trigger type determines which events
+        cause a notification to be sent.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/NewErrorNotification'
+          - $ref: '#/components/messages/FrequentErrorNotification'
+          - $ref: '#/components/messages/ErrorMilestoneNotification'
+          - $ref: '#/components/messages/EveryErrorNotification'
+          - $ref: '#/components/messages/ErrorReopenedNotification'
+components:
+  messages:
+    NewErrorNotification:
+      name: newError
+      title: New Error Notification
+      summary: >-
+        Sent when the first event of an error is received for a release stage.
+      description: >-
+        Triggered when Bugsnag detects the first occurrence of a new error
+        in a specific release stage. This notification helps teams respond
+        quickly to newly introduced bugs.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookPayload'
+    FrequentErrorNotification:
+      name: frequentError
+      title: Frequent Error Notification
+      summary: >-
+        Sent when an error occurs frequently within a time window.
+      description: >-
+        Triggered when an error receives a configured number of events or
+        impacts a configured number of users within a specified time window.
+        This notification identifies errors that are rapidly affecting users.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookPayload'
+    ErrorMilestoneNotification:
+      name: errorMilestone
+      title: Error Milestone Notification
+      summary: >-
+        Sent when an error reaches an event count milestone.
+      description: >-
+        Triggered when the total number of events for an error reaches a
+        milestone such as 10, 100, 1000, or 10000 occurrences. This
+        notification highlights errors that continue to accumulate events.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookPayload'
+    EveryErrorNotification:
+      name: everyError
+      title: Every Error Notification
+      summary: >-
+        Sent every time an error event occurs.
+      description: >-
+        Triggered on every single error event that matches the configured
+        filters. Use with caution as this can generate a high volume of
+        webhook requests for frequently occurring errors.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookPayload'
+    ErrorReopenedNotification:
+      name: errorReopened
+      title: Error Reopened Notification
+      summary: >-
+        Sent when a fixed or snoozed error is automatically reopened.
+      description: >-
+        Triggered when an error that was previously marked as fixed or
+        snoozed receives a new event that causes it to be automatically
+        reopened. This indicates a regression in the application.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WebhookPayload'
+  schemas:
+    WebhookPayload:
+      type: object
+      description: >-
+        The webhook notification payload sent by Bugsnag to the configured
+        callback URL. Contains information about the account, project,
+        trigger, error, and the triggering event.
+      properties:
+        account:
+          type: object
+          description: >-
+            Information about the Bugsnag account that owns the project.
+          properties:
+            id:
+              type: string
+              description: >-
+                The unique identifier of the account.
+            name:
+              type: string
+              description: >-
+                The name of the account.
+            url:
+              type: string
+              format: uri
+              description: >-
+                The URL to the account on the Bugsnag dashboard.
+        project:
+          type: object
+          description: >-
+            Information about the project in which the error occurred.
+          properties:
+            id:
+              type: string
+              description: >-
+                The unique identifier of the project.
+            name:
+              type: string
+              description: >-
+                The name of the project.
+            url:
+              type: string
+              format: uri
+              description: >-
+                The URL to the project on the Bugsnag dashboard.
+        trigger:
+          type: object
+          description: >-
+            Information about the notification trigger that caused
+            this webhook to fire.
+          properties:
+            type:
+              type: string
+              description: >-
+                The type of trigger that fired.
+              enum:
+                - firstException
+                - powerTen
+                - exception
+                - reopened
+                - projectSpiking
+            message:
+              type: string
+              description: >-
+                A human-readable description of the trigger.
+            snoozeRule:
+              type: object
+              description: >-
+                The snooze rule that was applied, if the error was snoozed.
+              properties:
+                type:
+                  type: string
+                  description: >-
+                    The type of snooze rule.
+                ruleValue:
+                  type: string
+                  description: >-
+                    The value of the snooze rule.
+            rate:
+              type: integer
+              description: >-
+                The number of events that triggered the notification,
+                for frequency-based triggers.
+        error:
+          type: object
+          description: >-
+            Information about the error that caused the notification.
+          properties:
+            id:
+              type: string
+              description: >-
+                The unique identifier of the error.
+            errorId:
+              type: string
+              description: >-
+                The Bugsnag error identifier.
+            exceptionClass:
+              type: string
+              description: >-
+                The class or type of the exception.
+            message:
+              type: string
+              description: >-
+                The error message.
+            context:
+              type: string
+              description: >-
+                The context in which the error occurred.
+            firstReceived:
+              type: string
+              format: date-time
+              description: >-
+                When the error was first received.
+            receivedCount:
+              type: integer
+              description: >-
+                The total number of events received for this error.
+            usersAffected:
+              type: integer
+              description: >-
+                The number of unique users affected by this error.
+            severity:
+              type: string
+              enum:
+                - error
+                - warning
+                - info
+              description: >-
+                The severity level of the error.
+            status:
+              type: string
+              enum:
+                - open
+                - fixed
+                - snoozed
+                - ignored
+              description: >-
+                The current status of the error.
+            url:
+              type: string
+              format: uri
+              description: >-
+                The URL to the error on the Bugsnag dashboard.
+            unhandled:
+              type: boolean
+              description: >-
+                Whether the error was unhandled.
+            releaseStage:
+              type: string
+              description: >-
+                The release stage where the error occurred.
+            app:
+              type: object
+              description: >-
+                Application information from the error event.
+              properties:
+                version:
+                  type: string
+                  description: >-
+                    The application version.
+                releaseStage:
+                  type: string
+                  description: >-
+                    The release stage.
+            assignedCollaborator:
+              type: string
+              description: >-
+                The email of the collaborator assigned to this error.
+            createdIssue:
+              type: object
+              description: >-
+                Information about a linked issue tracker issue.
+              properties:
+                id:
+                  type: string
+                  description: >-
+                    The issue identifier.
+                number:
+                  type: integer
+                  description: >-
+                    The issue number.
+                type:
+                  type: string
+                  description: >-
+                    The issue tracker type.
+                url:
+                  type: string
+                  format: uri
+                  description: >-
+                    The URL to the issue.
+            stackTrace:
+              type: array
+              description: >-
+                The stack trace from the triggering event.
+              items:
+                type: object
+                properties:
+                  file:
+                    type: string
+                    description: >-
+                      The file path.
+                  lineNumber:
+                    type: integer
+                    description: >-
+                      The line number.
+                  columnNumber:
+                    type: integer
+                    description: >-
+                      The column number.
+                  method:
+                    type: string
+                    description: >-
+                      The method or function name.
+                  inProject:
+                    type: boolean
+                    description: >-
+                      Whether the frame is from the project's code.
+        user:
+          type: object
+          description: >-
+            Information about the user who experienced the error.
+          properties:
+            id:
+              type: string
+              description: >-
+                The user's identifier.
+            name:
+              type: string
+              description: >-
+                The user's name.
+            email:
+              type: string
+              format: email
+              description: >-
+                The user's email address.

@@ -1,0 +1,185 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "bugsnag": "https://bugsnag.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+
+    "Organization": {
+      "@id": "bugsnag:Organization",
+      "@context": {
+        "name": "schema:name",
+        "slug": "bugsnag:slug",
+        "billingEmail": "schema:email",
+        "creator": {
+          "@id": "dcterms:creator",
+          "@type": "@id"
+        },
+        "autoUpgrade": "bugsnag:autoUpgrade",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Project": {
+      "@id": "bugsnag:Project",
+      "@context": {
+        "name": "schema:name",
+        "slug": "bugsnag:slug",
+        "apiKey": "bugsnag:apiKey",
+        "type": "bugsnag:projectType",
+        "language": "schema:programmingLanguage",
+        "releaseStages": {
+          "@id": "bugsnag:releaseStages",
+          "@container": "@set"
+        },
+        "organization": {
+          "@id": "bugsnag:organization",
+          "@type": "@id"
+        },
+        "htmlUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "openErrorCount": "bugsnag:openErrorCount",
+        "collaboratorsCount": "bugsnag:collaboratorsCount",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "updatedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Error": {
+      "@id": "bugsnag:Error",
+      "@context": {
+        "errorClass": "bugsnag:errorClass",
+        "message": "schema:description",
+        "context": "bugsnag:context",
+        "severity": "bugsnag:severity",
+        "status": "bugsnag:status",
+        "events": "bugsnag:eventCount",
+        "users": "bugsnag:userCount",
+        "firstSeen": {
+          "@id": "bugsnag:firstSeen",
+          "@type": "xsd:dateTime"
+        },
+        "lastSeen": {
+          "@id": "bugsnag:lastSeen",
+          "@type": "xsd:dateTime"
+        },
+        "releaseStages": {
+          "@id": "bugsnag:releaseStages",
+          "@container": "@set"
+        },
+        "htmlUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "project": {
+          "@id": "bugsnag:project",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Event": {
+      "@id": "bugsnag:Event",
+      "@context": {
+        "errorClass": "bugsnag:errorClass",
+        "message": "schema:description",
+        "context": "bugsnag:context",
+        "severity": "bugsnag:severity",
+        "unhandled": "bugsnag:unhandled",
+        "exceptions": {
+          "@id": "bugsnag:exceptions",
+          "@container": "@set"
+        },
+        "breadcrumbs": {
+          "@id": "bugsnag:breadcrumbs",
+          "@container": "@list"
+        },
+        "user": {
+          "@id": "bugsnag:user",
+          "@type": "@id"
+        },
+        "app": "bugsnag:app",
+        "device": "bugsnag:device",
+        "receivedAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "htmlUrl": {
+          "@id": "schema:url",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Collaborator": {
+      "@id": "bugsnag:Collaborator",
+      "@context": {
+        "name": "schema:name",
+        "email": "schema:email",
+        "isAdmin": "bugsnag:isAdmin",
+        "twoFactorEnabled": "bugsnag:twoFactorEnabled",
+        "gravatarUrl": {
+          "@id": "schema:image",
+          "@type": "@id"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Release": {
+      "@id": "bugsnag:Release",
+      "@context": {
+        "version": "schema:softwareVersion",
+        "releaseStage": "bugsnag:releaseStage",
+        "builderName": "bugsnag:builderName",
+        "sourceControl": "bugsnag:sourceControl",
+        "buildTime": {
+          "@id": "bugsnag:buildTime",
+          "@type": "xsd:dateTime"
+        },
+        "errorsIntroducedCount": "bugsnag:errorsIntroducedCount",
+        "errorsSeenCount": "bugsnag:errorsSeenCount",
+        "sessionsCount": "bugsnag:sessionsCount",
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Session": {
+      "@id": "bugsnag:Session",
+      "@context": {
+        "startedAt": {
+          "@id": "bugsnag:startedAt",
+          "@type": "xsd:dateTime"
+        },
+        "user": {
+          "@id": "bugsnag:user",
+          "@type": "@id"
+        },
+        "handledCount": "bugsnag:handledCount",
+        "unhandledCount": "bugsnag:unhandledCount"
+      }
+    }
+  }
+}

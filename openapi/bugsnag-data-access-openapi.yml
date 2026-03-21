@@ -1,0 +1,2272 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Data Access API
+  description: >-
+    The Bugsnag Data Access API provides programmatic access to information
+    about your organization, projects, errors, events, and more. It allows
+    developers to build custom integrations and dashboards using their
+    Bugsnag data. The REST API uses JSON and requires authentication via a
+    personal auth token sent in the Authorization header. It supports
+    querying error trends, project configurations, collaborators, and
+    release information.
+  version: '2.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/data-access/
+  termsOfService: https://smartbear.com/terms-of-use/
+externalDocs:
+  description: Bugsnag Data Access API Documentation
+  url: https://docs.bugsnag.com/api/data-access/
+servers:
+  - url: https://api.bugsnag.com
+    description: Bugsnag Production API Server
+tags:
+  - name: Organizations
+    description: >-
+      Access and manage organizations. An organization is the top-level
+      entity in Bugsnag that contains projects and collaborators.
+  - name: Projects
+    description: >-
+      Access and manage projects within an organization. Projects represent
+      individual applications being monitored by Bugsnag.
+  - name: Errors
+    description: >-
+      Access and manage errors within projects. Errors represent groups of
+      similar events that have been detected by Bugsnag.
+  - name: Events
+    description: >-
+      Access individual error events. Events represent individual
+      occurrences of an error within a project.
+  - name: Collaborators
+    description: >-
+      Manage collaborators within an organization or project. Collaborators
+      are users who have access to view and manage Bugsnag data.
+  - name: Comments
+    description: >-
+      Manage comments on errors. Comments allow team members to discuss
+      and annotate specific errors.
+  - name: Pivots
+    description: >-
+      Access pivot data for errors. Pivots allow you to group and analyze
+      error data by various dimensions such as browser, device, or location.
+  - name: Trends
+    description: >-
+      Access trend data for errors and projects. Trends provide time-series
+      data showing how error rates and stability change over time.
+  - name: Releases
+    description: >-
+      Access release information for projects. Releases represent deployed
+      versions of your application and their associated error data.
+  - name: Stability
+    description: >-
+      Access stability metrics for projects. Stability data provides
+      crash-free session and user percentages across releases.
+  - name: EventFields
+    description: >-
+      Access event field definitions for projects. Event fields describe
+      the available data dimensions for filtering and searching events.
+  - name: CurrentUser
+    description: >-
+      Access information about the currently authenticated user.
+security:
+  - tokenAuth: []
+paths:
+  /user:
+    get:
+      operationId: getCurrentUser
+      summary: Get current user
+      description: >-
+        Returns information about the currently authenticated user,
+        including their name, email, and associated organizations.
+      tags:
+        - CurrentUser
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/organizations:
+    get:
+      operationId: listOrganizations
+      summary: List organizations
+      description: >-
+        Returns a list of organizations that the currently authenticated
+        user belongs to. Results are paginated using the Link header.
+      tags:
+        - Organizations
+      parameters:
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /organizations/{organization_id}:
+    get:
+      operationId: getOrganization
+      summary: Get an organization
+      description: >-
+        Returns the details of a specific organization, including its name,
+        slug, billing email, and creation date.
+      tags:
+        - Organizations
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /organizations/{organization_id}/collaborators:
+    get:
+      operationId: listOrganizationCollaborators
+      summary: List organization collaborators
+      description: >-
+        Returns a list of collaborators for the specified organization.
+        Each collaborator includes their user information and permissions.
+      tags:
+        - Collaborators
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collaborator'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: inviteOrganizationCollaborator
+      summary: Invite a collaborator to an organization
+      description: >-
+        Invites a new collaborator to the specified organization by email
+        address. The invited user will receive an email with instructions
+        to join.
+      tags:
+        - Collaborators
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollaboratorInvite'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collaborator'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /organizations/{organization_id}/collaborators/{collaborator_id}:
+    get:
+      operationId: getOrganizationCollaborator
+      summary: Get an organization collaborator
+      description: >-
+        Returns the details of a specific collaborator within an
+        organization, including their role and project access.
+      tags:
+        - Collaborators
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/CollaboratorId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collaborator'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Collaborator not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateOrganizationCollaborator
+      summary: Update a collaborator
+      description: >-
+        Updates the permissions or role of an existing collaborator within
+        an organization.
+      tags:
+        - Collaborators
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/CollaboratorId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollaboratorUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collaborator'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Collaborator not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: removeOrganizationCollaborator
+      summary: Remove a collaborator
+      description: >-
+        Removes a collaborator from the specified organization. The user
+        will lose access to all projects within the organization.
+      tags:
+        - Collaborators
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/CollaboratorId'
+      responses:
+        '204':
+          description: Collaborator removed successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Collaborator not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /organizations/{organization_id}/projects:
+    get:
+      operationId: listOrganizationProjects
+      summary: List organization projects
+      description: >-
+        Returns a list of projects belonging to the specified organization.
+        Results are paginated using the Link header.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/PerPage'
+        - name: sort
+          in: query
+          description: >-
+            The field to sort results by. Supported values include
+            created_at and name.
+          schema:
+            type: string
+            enum:
+              - created_at
+              - name
+        - name: direction
+          in: query
+          description: >-
+            The sort direction, either ascending or descending.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createProject
+      summary: Create a project
+      description: >-
+        Creates a new project within the specified organization. Returns
+        the newly created project including its API key.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/OrganizationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: Get a project
+      description: >-
+        Returns the details of a specific project, including its name,
+        API key, type, and configuration settings.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateProject
+      summary: Update a project
+      description: >-
+        Updates the settings of an existing project, such as its name
+        or notification configuration.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteProject
+      summary: Delete a project
+      description: >-
+        Permanently deletes a project and all of its associated data,
+        including errors, events, and collaborator assignments.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/api_key:
+    delete:
+      operationId: regenerateProjectApiKey
+      summary: Regenerate a project API key
+      description: >-
+        Regenerates the API key for a project. The old API key will
+        immediately stop working and a new key will be generated.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors:
+    get:
+      operationId: listProjectErrors
+      summary: List project errors
+      description: >-
+        Returns a list of errors for the specified project. Errors can be
+        filtered by status, severity, and other criteria. Results are
+        paginated using the Link header.
+      tags:
+        - Errors
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/PerPage'
+        - name: sort
+          in: query
+          description: >-
+            The field to sort results by. Supported values include
+            last_seen, first_seen, users, events, and unsorted.
+          schema:
+            type: string
+            enum:
+              - last_seen
+              - first_seen
+              - users
+              - events
+              - unsorted
+        - name: direction
+          in: query
+          description: >-
+            The sort direction, either ascending or descending.
+          schema:
+            type: string
+            enum:
+              - asc
+              - desc
+        - name: status
+          in: query
+          description: >-
+            Filter errors by their status.
+          schema:
+            type: string
+            enum:
+              - open
+              - fixed
+              - snoozed
+              - ignored
+        - name: severity
+          in: query
+          description: >-
+            Filter errors by their severity level.
+          schema:
+            type: string
+            enum:
+              - error
+              - warning
+              - info
+        - name: release_stage
+          in: query
+          description: >-
+            Filter errors by the release stage in which they occurred.
+          schema:
+            type: string
+        - name: q
+          in: query
+          description: >-
+            A full-text search query to filter errors by their error
+            class, message, or context.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}:
+    get:
+      operationId: getError
+      summary: Get an error
+      description: >-
+        Returns the details of a specific error, including its error class,
+        message, severity, status, event count, and user count.
+      tags:
+        - Errors
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateError
+      summary: Update an error
+      description: >-
+        Updates the status or severity of an error. Use this to resolve,
+        snooze, ignore, or reopen errors.
+      tags:
+        - Errors
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteError
+      summary: Delete an error
+      description: >-
+        Permanently deletes an error and all of its associated events.
+      tags:
+        - Errors
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '204':
+          description: Error deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/events:
+    get:
+      operationId: listErrorEvents
+      summary: List error events
+      description: >-
+        Returns a list of events for the specified error. Events represent
+        individual occurrences of an error. Results are paginated.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/events/latest:
+    get:
+      operationId: getLatestEvent
+      summary: Get the latest event for an error
+      description: >-
+        Returns the most recent event for the specified error, including
+        full exception details, device information, and metadata.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/events/{event_id}:
+    get:
+      operationId: getEvent
+      summary: Get an event
+      description: >-
+        Returns the full details of a specific event, including exception
+        information, stack traces, device data, application state, and
+        any custom metadata attached to the event.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/EventId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/comments:
+    get:
+      operationId: listErrorComments
+      summary: List error comments
+      description: >-
+        Returns a list of comments for the specified error. Comments
+        allow team members to discuss and annotate errors.
+      tags:
+        - Comments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createErrorComment
+      summary: Create a comment on an error
+      description: >-
+        Creates a new comment on the specified error. Comments support
+        plain text content.
+      tags:
+        - Comments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/comments/{comment_id}:
+    get:
+      operationId: getComment
+      summary: Get a comment
+      description: >-
+        Returns the details of a specific comment on an error.
+      tags:
+        - Comments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - $ref: '#/components/parameters/CommentId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Comment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateComment
+      summary: Update a comment
+      description: >-
+        Updates the content of an existing comment on an error.
+      tags:
+        - Comments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - $ref: '#/components/parameters/CommentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommentCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Comment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteComment
+      summary: Delete a comment
+      description: >-
+        Permanently deletes a comment from an error.
+      tags:
+        - Comments
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - $ref: '#/components/parameters/CommentId'
+      responses:
+        '204':
+          description: Comment deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Comment not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/pivots:
+    get:
+      operationId: listProjectPivots
+      summary: List project pivots
+      description: >-
+        Returns a list of available pivot dimensions for the specified
+        project. Pivots allow you to group error data by dimensions
+        such as browser, device, operating system, or location.
+      tags:
+        - Pivots
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pivot'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/pivots/{pivot_id}/values:
+    get:
+      operationId: listPivotValues
+      summary: List pivot values
+      description: >-
+        Returns the values for a specific pivot dimension within a project.
+        For example, listing all browser names or operating system versions
+        seen in error events.
+      tags:
+        - Pivots
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/PivotId'
+        - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PivotValue'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Pivot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/trend:
+    get:
+      operationId: getErrorTrend
+      summary: Get error trend
+      description: >-
+        Returns time-series trend data for a specific error, showing how
+        the error frequency changes over time.
+      tags:
+        - Trends
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ErrorId'
+        - name: buckets_count
+          in: query
+          description: >-
+            The number of time buckets to return in the trend data.
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/trend:
+    get:
+      operationId: getProjectTrend
+      summary: Get project trend
+      description: >-
+        Returns time-series trend data for a project, showing the overall
+        error rate and resolution trends over time.
+      tags:
+        - Trends
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - name: buckets_count
+          in: query
+          description: >-
+            The number of time buckets to return in the trend data.
+          schema:
+            type: integer
+            minimum: 1
+        - name: resolution
+          in: query
+          description: >-
+            The time resolution for each bucket in the trend data.
+          schema:
+            type: string
+            enum:
+              - 1h
+              - 1d
+              - 1w
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/releases:
+    get:
+      operationId: listProjectReleases
+      summary: List project releases
+      description: >-
+        Returns a list of releases for the specified project. Releases
+        represent deployed versions of your application and include
+        associated error and stability data.
+      tags:
+        - Releases
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/PerPage'
+        - name: release_stage
+          in: query
+          description: >-
+            Filter releases by a specific release stage.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/releases/{release_id}:
+    get:
+      operationId: getRelease
+      summary: Get a release
+      description: >-
+        Returns the details of a specific release, including its version,
+        release stage, builder information, source control data, and
+        associated error statistics.
+      tags:
+        - Releases
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - $ref: '#/components/parameters/ReleaseId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Release not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/stability_trend:
+    get:
+      operationId: getProjectStabilityTrend
+      summary: Get project stability trend
+      description: >-
+        Returns the stability trend for a project over time, including
+        crash-free session percentages and crash-free user percentages
+        across releases.
+      tags:
+        - Stability
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+        - name: release_stage
+          in: query
+          description: >-
+            Filter the stability trend by a specific release stage.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StabilityTrend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/event_fields:
+    get:
+      operationId: listEventFields
+      summary: List event fields
+      description: >-
+        Returns a list of event field definitions for the specified
+        project. Event fields describe the available data dimensions
+        that can be used for filtering and searching events.
+      tags:
+        - EventFields
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventField'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Personal auth token sent as "token YOUR-AUTH-TOKEN". The token
+        can be found in the Bugsnag account settings under the API section.
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the organization.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the project.
+      schema:
+        type: string
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the error.
+      schema:
+        type: string
+    EventId:
+      name: event_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the event.
+      schema:
+        type: string
+    CollaboratorId:
+      name: collaborator_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the collaborator.
+      schema:
+        type: string
+    CommentId:
+      name: comment_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the comment.
+      schema:
+        type: string
+    PivotId:
+      name: pivot_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the pivot dimension.
+      schema:
+        type: string
+    ReleaseId:
+      name: release_id
+      in: path
+      required: true
+      description: >-
+        The unique identifier of the release.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: >-
+        The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+  schemas:
+    User:
+      type: object
+      description: >-
+        Represents an authenticated Bugsnag user account.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the user.
+        name:
+          type: string
+          description: >-
+            The full name of the user.
+        email:
+          type: string
+          format: email
+          description: >-
+            The email address associated with the user account.
+        gravatar_url:
+          type: string
+          format: uri
+          description: >-
+            The Gravatar URL for the user's profile image.
+        html_url:
+          type: string
+          format: uri
+          description: >-
+            The URL to the user's Bugsnag dashboard profile.
+    Organization:
+      type: object
+      description: >-
+        Represents a Bugsnag organization, the top-level entity
+        containing projects and collaborators.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the organization.
+        name:
+          type: string
+          description: >-
+            The name of the organization.
+        slug:
+          type: string
+          description: >-
+            The URL-friendly slug for the organization.
+        creator:
+          $ref: '#/components/schemas/User'
+        billing_email:
+          type: string
+          format: email
+          description: >-
+            The billing email address for the organization.
+        auto_upgrade:
+          type: boolean
+          description: >-
+            Whether the organization automatically upgrades to new plans.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the organization was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the organization was last updated.
+    Project:
+      type: object
+      description: >-
+        Represents a Bugsnag project, which corresponds to an individual
+        application being monitored.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the project.
+        organization_id:
+          type: string
+          description: >-
+            The identifier of the organization this project belongs to.
+        name:
+          type: string
+          description: >-
+            The name of the project.
+        slug:
+          type: string
+          description: >-
+            The URL-friendly slug for the project.
+        api_key:
+          type: string
+          description: >-
+            The API key used by notifier SDKs to report errors
+            for this project.
+        type:
+          type: string
+          description: >-
+            The platform type of the project (e.g., rails, js, android).
+        is_full_view:
+          type: boolean
+          description: >-
+            Whether the current user has full view access to this project.
+        release_stages:
+          type: array
+          items:
+            type: string
+          description: >-
+            The list of release stages configured for this project.
+        language:
+          type: string
+          description: >-
+            The primary programming language of the project.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the project was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the project was last updated.
+        errors_url:
+          type: string
+          format: uri
+          description: >-
+            The API URL to list errors for this project.
+        events_url:
+          type: string
+          format: uri
+          description: >-
+            The API URL to list events for this project.
+        html_url:
+          type: string
+          format: uri
+          description: >-
+            The URL to the project on the Bugsnag dashboard.
+        url:
+          type: string
+          format: uri
+          description: >-
+            The API URL for this project resource.
+        open_error_count:
+          type: integer
+          description: >-
+            The number of currently open errors in this project.
+        collaborators_count:
+          type: integer
+          description: >-
+            The number of collaborators on this project.
+        global_grouping:
+          type: array
+          items:
+            type: string
+          description: >-
+            The global grouping rules applied to errors in this project.
+        location_grouping:
+          type: array
+          items:
+            type: string
+          description: >-
+            The location-based grouping rules for this project.
+        discarded_app_versions:
+          type: array
+          items:
+            type: string
+          description: >-
+            Application versions for which errors are discarded.
+        discarded_errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            Error classes that are discarded and not stored.
+        custom_event_fields_used:
+          type: integer
+          description: >-
+            The number of custom event fields in use.
+    ProjectCreate:
+      type: object
+      description: >-
+        Request body for creating a new project.
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          description: >-
+            The name of the project.
+        type:
+          type: string
+          description: >-
+            The platform type of the project (e.g., rails, js, android).
+    ProjectUpdate:
+      type: object
+      description: >-
+        Request body for updating a project.
+      properties:
+        name:
+          type: string
+          description: >-
+            The new name for the project.
+        global_grouping:
+          type: array
+          items:
+            type: string
+          description: >-
+            Updated global grouping rules for errors.
+        location_grouping:
+          type: array
+          items:
+            type: string
+          description: >-
+            Updated location-based grouping rules.
+        discarded_app_versions:
+          type: array
+          items:
+            type: string
+          description: >-
+            Application versions for which errors should be discarded.
+        discarded_errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            Error classes that should be discarded.
+    ErrorItem:
+      type: object
+      description: >-
+        Represents a grouped error in Bugsnag, which aggregates multiple
+        individual events with the same error class and message.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the error.
+        project_id:
+          type: string
+          description: >-
+            The identifier of the project this error belongs to.
+        error_class:
+          type: string
+          description: >-
+            The class or type of the error (e.g., TypeError, NullPointerException).
+        message:
+          type: string
+          description: >-
+            The error message associated with this error group.
+        context:
+          type: string
+          description: >-
+            The context in which the error occurred (e.g., controller#action).
+        severity:
+          type: string
+          enum:
+            - error
+            - warning
+            - info
+          description: >-
+            The severity level of the error.
+        status:
+          type: string
+          enum:
+            - open
+            - fixed
+            - snoozed
+            - ignored
+          description: >-
+            The current status of the error.
+        events:
+          type: integer
+          description: >-
+            The total number of events for this error.
+        users:
+          type: integer
+          description: >-
+            The total number of unique users affected by this error.
+        first_seen:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the error was first seen.
+        last_seen:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the error was last seen.
+        first_seen_unfiltered:
+          type: string
+          format: date-time
+          description: >-
+            The unfiltered first seen date and time.
+        release_stages:
+          type: array
+          items:
+            type: string
+          description: >-
+            The release stages in which this error has been seen.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the error record was created.
+        events_url:
+          type: string
+          format: uri
+          description: >-
+            The API URL to list events for this error.
+        html_url:
+          type: string
+          format: uri
+          description: >-
+            The URL to the error on the Bugsnag dashboard.
+        url:
+          type: string
+          format: uri
+          description: >-
+            The API URL for this error resource.
+        comment_count:
+          type: integer
+          description: >-
+            The number of comments on this error.
+        missing_dsyms:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of missing debug symbol UUIDs for symbolication.
+        overrides:
+          type: object
+          description: >-
+            Override settings applied to this error.
+        assigned_collaborator_id:
+          type: string
+          description: >-
+            The ID of the collaborator assigned to this error.
+    ErrorUpdate:
+      type: object
+      description: >-
+        Request body for updating an error's status or severity.
+      properties:
+        status:
+          type: string
+          enum:
+            - open
+            - fixed
+            - snoozed
+            - ignored
+          description: >-
+            The new status for the error.
+        severity:
+          type: string
+          enum:
+            - error
+            - warning
+            - info
+          description: >-
+            The new severity level for the error.
+        assigned_collaborator_id:
+          type: string
+          description: >-
+            The ID of the collaborator to assign to this error.
+    Event:
+      type: object
+      description: >-
+        Represents an individual error occurrence, containing full
+        exception details, stack traces, device information, and metadata.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the event.
+        error_id:
+          type: string
+          description: >-
+            The identifier of the error group this event belongs to.
+        project_id:
+          type: string
+          description: >-
+            The identifier of the project this event belongs to.
+        error_class:
+          type: string
+          description: >-
+            The class or type of the error.
+        message:
+          type: string
+          description: >-
+            The error message for this event.
+        context:
+          type: string
+          description: >-
+            The context in which the error occurred.
+        severity:
+          type: string
+          enum:
+            - error
+            - warning
+            - info
+          description: >-
+            The severity level of this event.
+        user:
+          type: object
+          description: >-
+            Information about the user who experienced the error.
+          properties:
+            id:
+              type: string
+              description: >-
+                The user's identifier.
+            name:
+              type: string
+              description: >-
+                The user's name.
+            email:
+              type: string
+              format: email
+              description: >-
+                The user's email address.
+        app:
+          type: object
+          description: >-
+            Information about the application where the error occurred.
+          properties:
+            version:
+              type: string
+              description: >-
+                The application version.
+            release_stage:
+              type: string
+              description: >-
+                The release stage (e.g., production, staging).
+        device:
+          type: object
+          description: >-
+            Information about the device where the error occurred.
+          properties:
+            hostname:
+              type: string
+              description: >-
+                The hostname of the device.
+            os_name:
+              type: string
+              description: >-
+                The operating system name.
+            os_version:
+              type: string
+              description: >-
+                The operating system version.
+            browser_name:
+              type: string
+              description: >-
+                The browser name, if applicable.
+            browser_version:
+              type: string
+              description: >-
+                The browser version, if applicable.
+        exceptions:
+          type: array
+          description: >-
+            The list of exceptions in this event.
+          items:
+            $ref: '#/components/schemas/Exception'
+        breadcrumbs:
+          type: array
+          description: >-
+            The breadcrumb trail leading up to the error.
+          items:
+            $ref: '#/components/schemas/Breadcrumb'
+        request:
+          type: object
+          description: >-
+            Information about the HTTP request during which the error occurred.
+          properties:
+            url:
+              type: string
+              format: uri
+              description: >-
+                The URL of the request.
+            http_method:
+              type: string
+              description: >-
+                The HTTP method of the request.
+            referer:
+              type: string
+              description: >-
+                The referer header value.
+            client_ip:
+              type: string
+              description: >-
+                The client's IP address.
+        meta_data:
+          type: object
+          additionalProperties: true
+          description: >-
+            Custom metadata attached to the event.
+        received_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the event was received by Bugsnag.
+        url:
+          type: string
+          format: uri
+          description: >-
+            The API URL for this event resource.
+        html_url:
+          type: string
+          format: uri
+          description: >-
+            The URL to the event on the Bugsnag dashboard.
+    Exception:
+      type: object
+      description: >-
+        Represents an exception within an error event, including
+        the error class, message, and stack trace.
+      properties:
+        error_class:
+          type: string
+          description: >-
+            The class or type of the exception.
+        message:
+          type: string
+          description: >-
+            The exception message.
+        stacktrace:
+          type: array
+          description: >-
+            The stack trace frames for this exception.
+          items:
+            $ref: '#/components/schemas/StackFrame'
+    StackFrame:
+      type: object
+      description: >-
+        Represents a single frame in a stack trace.
+      properties:
+        file:
+          type: string
+          description: >-
+            The file path where the frame originated.
+        line_number:
+          type: integer
+          description: >-
+            The line number in the file.
+        column_number:
+          type: integer
+          description: >-
+            The column number in the file.
+        method:
+          type: string
+          description: >-
+            The method or function name.
+        in_project:
+          type: boolean
+          description: >-
+            Whether this frame is from the project's own code.
+        code:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            A map of line numbers to code content around the error.
+    Breadcrumb:
+      type: object
+      description: >-
+        Represents a breadcrumb event that occurred before the error.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            The time the breadcrumb was recorded.
+        name:
+          type: string
+          description: >-
+            The name or title of the breadcrumb event.
+        type:
+          type: string
+          enum:
+            - navigation
+            - request
+            - process
+            - log
+            - user
+            - state
+            - error
+            - manual
+          description: >-
+            The type of breadcrumb event.
+        meta_data:
+          type: object
+          additionalProperties: true
+          description: >-
+            Additional metadata associated with the breadcrumb.
+    Collaborator:
+      type: object
+      description: >-
+        Represents a user who has been granted access to an organization
+        or project in Bugsnag.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the collaborator.
+        name:
+          type: string
+          description: >-
+            The collaborator's name.
+        email:
+          type: string
+          format: email
+          description: >-
+            The collaborator's email address.
+        is_admin:
+          type: boolean
+          description: >-
+            Whether the collaborator has administrator privileges.
+        projects_url:
+          type: string
+          format: uri
+          description: >-
+            The API URL to list projects accessible to this collaborator.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the collaborator was added.
+        gravatar_url:
+          type: string
+          format: uri
+          description: >-
+            The Gravatar URL for the collaborator's profile image.
+        two_factor_enabled:
+          type: boolean
+          description: >-
+            Whether the collaborator has two-factor authentication enabled.
+    CollaboratorInvite:
+      type: object
+      description: >-
+        Request body for inviting a collaborator to an organization.
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: >-
+            The email address of the person to invite.
+        is_admin:
+          type: boolean
+          description: >-
+            Whether to grant administrator privileges.
+        project_ids:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of project IDs the collaborator should have access to.
+    CollaboratorUpdate:
+      type: object
+      description: >-
+        Request body for updating a collaborator's permissions.
+      properties:
+        is_admin:
+          type: boolean
+          description: >-
+            Whether the collaborator should have administrator privileges.
+        project_ids:
+          type: array
+          items:
+            type: string
+          description: >-
+            Updated list of project IDs the collaborator should access.
+    Comment:
+      type: object
+      description: >-
+        Represents a comment on an error, used for team discussion
+        and annotation.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the comment.
+        error_id:
+          type: string
+          description: >-
+            The identifier of the error this comment belongs to.
+        author:
+          $ref: '#/components/schemas/User'
+        message:
+          type: string
+          description: >-
+            The text content of the comment.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the comment was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the comment was last updated.
+    CommentCreate:
+      type: object
+      description: >-
+        Request body for creating or updating a comment.
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: >-
+            The text content of the comment.
+    Pivot:
+      type: object
+      description: >-
+        Represents an available pivot dimension for grouping error data.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the pivot.
+        display_name:
+          type: string
+          description: >-
+            The human-readable name for this pivot dimension.
+        key:
+          type: string
+          description: >-
+            The key used to reference this pivot in queries.
+        values_url:
+          type: string
+          format: uri
+          description: >-
+            The API URL to list values for this pivot.
+    PivotValue:
+      type: object
+      description: >-
+        Represents a specific value within a pivot dimension.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the pivot value.
+        name:
+          type: string
+          description: >-
+            The name of the pivot value.
+        events:
+          type: integer
+          description: >-
+            The number of events with this pivot value.
+        proportion:
+          type: number
+          format: float
+          description: >-
+            The proportion of events with this pivot value.
+    Trend:
+      type: object
+      description: >-
+        Represents time-series trend data for errors or projects.
+      properties:
+        buckets:
+          type: array
+          description: >-
+            The time-series data buckets.
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+                format: date-time
+                description: >-
+                  The start time of the bucket.
+              end:
+                type: string
+                format: date-time
+                description: >-
+                  The end time of the bucket.
+              events_count:
+                type: integer
+                description: >-
+                  The number of events in this bucket.
+    Release:
+      type: object
+      description: >-
+        Represents a deployed version of an application.
+      properties:
+        id:
+          type: string
+          description: >-
+            The unique identifier of the release.
+        version:
+          type: string
+          description: >-
+            The version string of the release.
+        release_stage:
+          type: string
+          description: >-
+            The release stage (e.g., production, staging).
+        builder_name:
+          type: string
+          description: >-
+            The name of the person or system that created the build.
+        release_source:
+          type: string
+          description: >-
+            The source of the release information.
+        source_control:
+          type: object
+          description: >-
+            Source control information for the release.
+          properties:
+            provider:
+              type: string
+              description: >-
+                The source control provider.
+            repository:
+              type: string
+              description: >-
+                The repository URL.
+            revision:
+              type: string
+              description: >-
+                The commit hash or revision identifier.
+        build_time:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the build was created.
+        errors_introduced_count:
+          type: integer
+          description: >-
+            The number of new errors introduced in this release.
+        errors_seen_count:
+          type: integer
+          description: >-
+            The total number of errors seen in this release.
+        sessions_count:
+          type: integer
+          description: >-
+            The total number of sessions for this release.
+        unhandled_sessions_count:
+          type: integer
+          description: >-
+            The number of sessions with unhandled errors.
+        accumulative_daily_users_seen:
+          type: integer
+          description: >-
+            The cumulative number of daily active users.
+        accumulative_daily_users_with_unhandled:
+          type: integer
+          description: >-
+            The cumulative number of daily users with unhandled errors.
+        created_at:
+          type: string
+          format: date-time
+          description: >-
+            The date and time the release record was created.
+    StabilityTrend:
+      type: object
+      description: >-
+        Represents stability metrics for a project over time.
+      properties:
+        timeline_points:
+          type: array
+          description: >-
+            The time-series stability data points.
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+                description: >-
+                  The date for this data point.
+              crash_free_sessions:
+                type: number
+                format: float
+                description: >-
+                  The percentage of sessions without crashes.
+              crash_free_users:
+                type: number
+                format: float
+                description: >-
+                  The percentage of users without crashes.
+              total_sessions:
+                type: integer
+                description: >-
+                  The total number of sessions.
+    EventField:
+      type: object
+      description: >-
+        Represents a data dimension available for filtering events.
+      properties:
+        display_id:
+          type: string
+          description: >-
+            The display identifier for the event field.
+        display_name:
+          type: string
+          description: >-
+            The human-readable name for the event field.
+        filter:
+          type: object
+          description: >-
+            Filter configuration for the event field.
+          properties:
+            type:
+              type: string
+              description: >-
+                The filter type (e.g., eq, contains).
+            values:
+              type: array
+              items:
+                type: string
+              description: >-
+                The available filter values.
+    Error:
+      type: object
+      description: >-
+        An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of error messages.

@@ -1,0 +1,196 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build API
+  description: >-
+    The Bugsnag Build API allows you to provide information about your
+    application builds, releases, and deployments. By notifying Bugsnag
+    when you deploy, you can track which releases introduced new errors,
+    view error trends across releases, and identify regressions. The API
+    accepts build metadata including version numbers, source control
+    information, and release stages. It integrates with CI/CD pipelines
+    to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/
+servers:
+  - url: https://build.bugsnag.com
+    description: Bugsnag Build Server
+tags:
+  - name: Builds
+    description: >-
+      Notify Bugsnag about application builds and deployments. Build
+      notifications are used to track releases, identify regressions,
+      and associate source control information with error data.
+security: []
+paths:
+  /:
+    post:
+      operationId: createBuild
+      summary: Notify Bugsnag of a new build
+      description: >-
+        Sends build and deployment information to Bugsnag. This allows
+        Bugsnag to track which release introduced specific errors, display
+        release-specific error trends, and link errors to source control
+        commits. The payload must include a valid API key and app version.
+        Source control information and builder name are optional but
+        recommended for full release tracking functionality.
+      tags:
+        - Builds
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuildPayload'
+      responses:
+        '200':
+          description: >-
+            The build notification was accepted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuildResponse'
+        '400':
+          description: >-
+            The payload was malformed or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            The API key is invalid or missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: >-
+            Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BuildPayload:
+      type: object
+      description: >-
+        The build notification payload containing information about an
+        application build or deployment.
+      required:
+        - apiKey
+        - appVersion
+      properties:
+        apiKey:
+          type: string
+          description: >-
+            The Bugsnag API key for the project. Found in project settings
+            on the Bugsnag dashboard.
+          example: c9d60ae4c7e70c4b6c4ebd3e8056d2b8
+        appVersion:
+          type: string
+          description: >-
+            The version of the application being built or deployed.
+          example: '1.5.0'
+        appVersionCode:
+          type: string
+          description: >-
+            The version code of the application, typically used for
+            Android applications.
+        appBundleVersion:
+          type: string
+          description: >-
+            The bundle version of the application, typically used for
+            iOS applications.
+        releaseStage:
+          type: string
+          description: >-
+            The release stage for this build (e.g., production, staging,
+            development). Defaults to production if not specified.
+          example: production
+        builderName:
+          type: string
+          description: >-
+            The name of the person or system that created this build.
+            If not provided, defaults to the machine's username.
+          example: CI Server
+        sourceControl:
+          type: object
+          description: >-
+            Source control information for the build, used to link
+            errors to specific commits and repositories.
+          properties:
+            provider:
+              type: string
+              description: >-
+                The source control provider name.
+              enum:
+                - github
+                - github-enterprise
+                - gitlab
+                - gitlab-onpremise
+                - bitbucket
+                - bitbucket-server
+            repository:
+              type: string
+              format: uri
+              description: >-
+                The URL of the source control repository.
+              example: https://github.com/myorg/myrepo
+            revision:
+              type: string
+              description: >-
+                The source control revision or commit hash for this build.
+              example: abc123def456
+            diff:
+              type: string
+              format: uri
+              description: >-
+                A URL to the diff between this build and the previous one.
+        metadata:
+          type: object
+          additionalProperties: true
+          description: >-
+            Custom metadata to associate with the build. This data
+            is stored alongside the release information in the
+            Bugsnag dashboard.
+        autoAssignRelease:
+          type: boolean
+          description: >-
+            Whether to automatically assign this build as a release.
+            Defaults to true.
+          default: true
+    BuildResponse:
+      type: object
+      description: >-
+        The response returned when a build notification is successfully
+        processed.
+      properties:
+        status:
+          type: string
+          description: >-
+            The status of the build notification.
+          example: ok
+        warnings:
+          type: array
+          items:
+            type: string
+          description: >-
+            Any warnings about the build notification payload.
+    ErrorResponse:
+      type: object
+      description: >-
+        An error response from the build notification endpoint.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of error messages describing the problem.

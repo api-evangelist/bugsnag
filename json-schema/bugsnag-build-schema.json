@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bugsnag.com/schemas/bugsnag/build.json",
+  "title": "Bugsnag Build",
+  "description": "Represents a build or deployment notification sent to the Bugsnag Build API, containing version information, source control details, and optional metadata.",
+  "type": "object",
+  "required": ["apiKey", "appVersion"],
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "description": "The Bugsnag API key for the project.",
+      "pattern": "^[a-f0-9]{32}$"
+    },
+    "appVersion": {
+      "type": "string",
+      "description": "The version of the application being built or deployed.",
+      "minLength": 1
+    },
+    "appVersionCode": {
+      "type": "string",
+      "description": "The version code of the application, typically used for Android applications."
+    },
+    "appBundleVersion": {
+      "type": "string",
+      "description": "The bundle version of the application, typically used for iOS applications."
+    },
+    "releaseStage": {
+      "type": "string",
+      "description": "The release stage for this build (e.g., production, staging, development).",
+      "default": "production"
+    },
+    "builderName": {
+      "type": "string",
+      "description": "The name of the person or system that created this build."
+    },
+    "sourceControl": {
+      "$ref": "#/$defs/SourceControl"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata to associate with the build.",
+      "additionalProperties": true
+    },
+    "autoAssignRelease": {
+      "type": "boolean",
+      "description": "Whether to automatically assign this build as a release.",
+      "default": true
+    }
+  },
+  "$defs": {
+    "SourceControl": {
+      "type": "object",
+      "description": "Source control information for the build, linking errors to specific commits and repositories.",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The source control provider name.",
+          "enum": [
+            "github",
+            "github-enterprise",
+            "gitlab",
+            "gitlab-onpremise",
+            "bitbucket",
+            "bitbucket-server"
+          ]
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the source control repository."
+        },
+        "revision": {
+          "type": "string",
+          "description": "The source control revision or commit hash for this build."
+        },
+        "diff": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL to the diff between this build and the previous one."
+        }
+      }
+    }
+  }
+}

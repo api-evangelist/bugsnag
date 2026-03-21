@@ -1,0 +1,431 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bugsnag.com/schemas/bugsnag/error-event.json",
+  "title": "Bugsnag Error Event",
+  "description": "Represents an individual error event reported to or retrieved from Bugsnag, containing exception details, stack traces, device and application information, breadcrumbs, and custom metadata.",
+  "type": "object",
+  "required": ["exceptions"],
+  "properties": {
+    "exceptions": {
+      "type": "array",
+      "description": "The list of exceptions that occurred. The first exception is the most significant. Multiple exceptions represent a causal chain.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Exception"
+      }
+    },
+    "breadcrumbs": {
+      "type": "array",
+      "description": "A trail of events leading up to the error, providing context about user actions and application state.",
+      "items": {
+        "$ref": "#/$defs/Breadcrumb"
+      }
+    },
+    "request": {
+      "$ref": "#/$defs/Request"
+    },
+    "threads": {
+      "type": "array",
+      "description": "Information about all running threads at the time of the error.",
+      "items": {
+        "$ref": "#/$defs/Thread"
+      }
+    },
+    "context": {
+      "type": "string",
+      "description": "A string representing what was happening in the application at the time of the error, such as a controller action or route name."
+    },
+    "groupingHash": {
+      "type": "string",
+      "description": "A custom grouping hash to override default error grouping. Events with the same hash are grouped together."
+    },
+    "unhandled": {
+      "type": "boolean",
+      "description": "Whether this error was unhandled (true) or caught and handled (false) by the application."
+    },
+    "severity": {
+      "type": "string",
+      "description": "The severity level of the error.",
+      "enum": ["error", "warning", "info"]
+    },
+    "severityReason": {
+      "$ref": "#/$defs/SeverityReason"
+    },
+    "user": {
+      "$ref": "#/$defs/User"
+    },
+    "app": {
+      "$ref": "#/$defs/App"
+    },
+    "device": {
+      "$ref": "#/$defs/Device"
+    },
+    "session": {
+      "$ref": "#/$defs/Session"
+    },
+    "metaData": {
+      "type": "object",
+      "description": "Custom metadata organized by tab name. Each key represents a tab on the Bugsnag dashboard containing key-value debugging information.",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "Exception": {
+      "type": "object",
+      "description": "Represents an exception including the error class, message, and stack trace.",
+      "required": ["errorClass", "stacktrace"],
+      "properties": {
+        "errorClass": {
+          "type": "string",
+          "description": "The class or type name of the exception (e.g., TypeError, NullPointerException)."
+        },
+        "message": {
+          "type": "string",
+          "description": "The human-readable error message describing what went wrong."
+        },
+        "stacktrace": {
+          "type": "array",
+          "description": "The stack trace frames, ordered from the error location to the entry point.",
+          "items": {
+            "$ref": "#/$defs/StackFrame"
+          }
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of error mechanism.",
+          "enum": ["android", "browserjs", "cocoa", "c", "csharp", "go", "java", "nodejs", "php", "python", "ruby"]
+        }
+      }
+    },
+    "StackFrame": {
+      "type": "object",
+      "description": "A single frame in an exception's stack trace.",
+      "required": ["file", "lineNumber", "method"],
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "The file path where the code is located."
+        },
+        "lineNumber": {
+          "type": "integer",
+          "description": "The line number in the file.",
+          "minimum": 0
+        },
+        "columnNumber": {
+          "type": "integer",
+          "description": "The column number in the file.",
+          "minimum": 0
+        },
+        "method": {
+          "type": "string",
+          "description": "The method or function name."
+        },
+        "inProject": {
+          "type": "boolean",
+          "description": "Whether this frame originates from the project's own code."
+        },
+        "code": {
+          "type": "object",
+          "description": "A map of line numbers to source code lines surrounding the error location.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Breadcrumb": {
+      "type": "object",
+      "description": "A breadcrumb event that occurred before the error.",
+      "required": ["timestamp", "name", "type"],
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The ISO 8601 timestamp when the breadcrumb was recorded."
+        },
+        "name": {
+          "type": "string",
+          "description": "A short summary of the breadcrumb event.",
+          "maxLength": 30
+        },
+        "type": {
+          "type": "string",
+          "description": "The category of breadcrumb event.",
+          "enum": ["navigation", "request", "process", "log", "user", "state", "error", "manual"]
+        },
+        "metaData": {
+          "type": "object",
+          "description": "Additional metadata associated with the breadcrumb.",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Request": {
+      "type": "object",
+      "description": "Information about the HTTP request during which the error occurred.",
+      "properties": {
+        "clientIp": {
+          "type": "string",
+          "description": "The IP address of the client making the request."
+        },
+        "headers": {
+          "type": "object",
+          "description": "The HTTP request headers.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "httpMethod": {
+          "type": "string",
+          "description": "The HTTP method used (GET, POST, etc.).",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the request."
+        },
+        "referer": {
+          "type": "string",
+          "description": "The referer URL."
+        }
+      }
+    },
+    "Thread": {
+      "type": "object",
+      "description": "Information about a thread running at the time of the error.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The thread identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "The thread name."
+        },
+        "errorReportingThread": {
+          "type": "boolean",
+          "description": "Whether this is the thread on which the error occurred."
+        },
+        "stacktrace": {
+          "type": "array",
+          "description": "The stack trace of this thread.",
+          "items": {
+            "$ref": "#/$defs/StackFrame"
+          }
+        }
+      }
+    },
+    "SeverityReason": {
+      "type": "object",
+      "description": "Information about why the severity was set to its current value.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The reason type for the severity assignment.",
+          "enum": [
+            "unhandledException",
+            "handledException",
+            "log",
+            "signal",
+            "strictMode",
+            "unhandledPromiseRejection",
+            "userSpecifiedSeverity",
+            "userCallbackSetSeverity",
+            "handledError",
+            "anrError"
+          ]
+        },
+        "attributes": {
+          "type": "object",
+          "description": "Additional attributes about the severity reason.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "description": "Information about the user who experienced the error.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "A unique identifier for the user."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        }
+      }
+    },
+    "App": {
+      "type": "object",
+      "description": "Information about the application where the error occurred.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The application identifier."
+        },
+        "version": {
+          "type": "string",
+          "description": "The application version string."
+        },
+        "versionCode": {
+          "type": "integer",
+          "description": "The numeric version code (Android)."
+        },
+        "bundleVersion": {
+          "type": "string",
+          "description": "The bundle version (iOS)."
+        },
+        "releaseStage": {
+          "type": "string",
+          "description": "The release stage (e.g., production, staging, development)."
+        },
+        "type": {
+          "type": "string",
+          "description": "The application type."
+        },
+        "dsymUUIDs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "UUIDs for dSYM files used in symbolication."
+        },
+        "duration": {
+          "type": "integer",
+          "description": "Time in milliseconds since the application started.",
+          "minimum": 0
+        },
+        "durationInForeground": {
+          "type": "integer",
+          "description": "Time in milliseconds the app has been in the foreground.",
+          "minimum": 0
+        },
+        "inForeground": {
+          "type": "boolean",
+          "description": "Whether the app was in the foreground when the error occurred."
+        }
+      }
+    },
+    "Device": {
+      "type": "object",
+      "description": "Information about the device on which the error occurred.",
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "The hostname of the device."
+        },
+        "id": {
+          "type": "string",
+          "description": "A unique device identifier."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "The device manufacturer."
+        },
+        "model": {
+          "type": "string",
+          "description": "The device model."
+        },
+        "modelNumber": {
+          "type": "string",
+          "description": "The device model number."
+        },
+        "osName": {
+          "type": "string",
+          "description": "The operating system name."
+        },
+        "osVersion": {
+          "type": "string",
+          "description": "The operating system version."
+        },
+        "freeMemory": {
+          "type": "integer",
+          "description": "Free memory in bytes.",
+          "minimum": 0
+        },
+        "totalMemory": {
+          "type": "integer",
+          "description": "Total device memory in bytes.",
+          "minimum": 0
+        },
+        "freeDisk": {
+          "type": "integer",
+          "description": "Free disk space in bytes.",
+          "minimum": 0
+        },
+        "browserName": {
+          "type": "string",
+          "description": "The browser name, for web applications."
+        },
+        "browserVersion": {
+          "type": "string",
+          "description": "The browser version."
+        },
+        "jailbroken": {
+          "type": "boolean",
+          "description": "Whether the device is jailbroken or rooted."
+        },
+        "orientation": {
+          "type": "string",
+          "description": "The device orientation.",
+          "enum": ["portrait", "landscape"]
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The device's local time when the error occurred."
+        },
+        "runtimeVersions": {
+          "type": "object",
+          "description": "Runtime version information (e.g., node, clr, swift).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "description": "Session information for the current user session.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The unique session identifier."
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the session started."
+        },
+        "events": {
+          "type": "object",
+          "description": "Event counts for this session.",
+          "properties": {
+            "handled": {
+              "type": "integer",
+              "description": "The number of handled events in this session.",
+              "minimum": 0
+            },
+            "unhandled": {
+              "type": "integer",
+              "description": "The number of unhandled events in this session.",
+              "minimum": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}
