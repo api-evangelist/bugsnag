@@ -1,5 +1,6 @@
 aid: bugsnag
-url: https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/apis.yml
 apis:
   - aid: bugsnag:data-access-api
     name: Bugsnag Data Access API
@@ -8,7 +9,8 @@ apis:
       - Application Stability
       - Data Access
       - Analytics
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/data-access/
     properties:
@@ -31,7 +33,8 @@ apis:
       - Error Monitoring
       - Notifications
       - Events
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://notify.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/error-reporting/
     properties:
@@ -53,7 +56,8 @@ apis:
       - Sessions
       - Stability
       - Application Monitoring
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://sessions.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/sessions/
     properties:
@@ -76,7 +80,8 @@ apis:
       - Releases
       - Deployments
       - CI/CD
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://build.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/build/
     properties:
@@ -99,7 +104,8 @@ apis:
       - Tracing
       - OpenTelemetry
       - Observability
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://otlp.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/
     properties:
@@ -125,3 +131,6 @@ common:
   - type: JSON-LD
     url: json-ld/bugsnag-context.jsonld
 modified: '2026-03-20'
+description: >-
+  Bugsnag is an application stability monitoring platform that helps software teams
+  detect, diagnose, and fix errors in web, mobile, and back-end applications.
