@@ -21,22 +21,6 @@ servers:
   - url: https://api.bugsnag.com
     description: Bugsnag Production API Server
 tags:
-  - name: Organizations
-    description: >-
-      Access and manage organizations. An organization is the top-level
-      entity in Bugsnag that contains projects and collaborators.
-  - name: Projects
-    description: >-
-      Access and manage projects within an organization. Projects represent
-      individual applications being monitored by Bugsnag.
-  - name: Errors
-    description: >-
-      Access and manage errors within projects. Errors represent groups of
-      similar events that have been detected by Bugsnag.
-  - name: Events
-    description: >-
-      Access individual error events. Events represent individual
-      occurrences of an error within a project.
   - name: Collaborators
     description: >-
       Manage collaborators within an organization or project. Collaborators
@@ -45,14 +29,33 @@ tags:
     description: >-
       Manage comments on errors. Comments allow team members to discuss
       and annotate specific errors.
+  - name: CurrentUser
+    description: >-
+      Access information about the currently authenticated user.
+  - name: Errors
+    description: >-
+      Access and manage errors within projects. Errors represent groups of
+      similar events that have been detected by Bugsnag.
+  - name: EventFields
+    description: >-
+      Access event field definitions for projects. Event fields describe
+      the available data dimensions for filtering and searching events.
+  - name: Events
+    description: >-
+      Access individual error events. Events represent individual
+      occurrences of an error within a project.
+  - name: Organizations
+    description: >-
+      Access and manage organizations. An organization is the top-level
+      entity in Bugsnag that contains projects and collaborators.
   - name: Pivots
     description: >-
       Access pivot data for errors. Pivots allow you to group and analyze
       error data by various dimensions such as browser, device, or location.
-  - name: Trends
+  - name: Projects
     description: >-
-      Access trend data for errors and projects. Trends provide time-series
-      data showing how error rates and stability change over time.
+      Access and manage projects within an organization. Projects represent
+      individual applications being monitored by Bugsnag.
   - name: Releases
     description: >-
       Access release information for projects. Releases represent deployed
@@ -61,13 +64,10 @@ tags:
     description: >-
       Access stability metrics for projects. Stability data provides
       crash-free session and user percentages across releases.
-  - name: EventFields
+  - name: Trends
     description: >-
-      Access event field definitions for projects. Event fields describe
-      the available data dimensions for filtering and searching events.
-  - name: CurrentUser
-    description: >-
-      Access information about the currently authenticated user.
+      Access trend data for errors and projects. Trends provide time-series
+      data showing how error rates and stability change over time.
 security:
   - tokenAuth: []
 paths:

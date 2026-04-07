@@ -1,16 +1,14 @@
 aid: bugsnag
-url: 
-  https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/apis.yml
 apis:
   - aid: bugsnag:data-access-api
     name: Bugsnag Data Access API
     tags:
-      - Error Monitoring
+      - Analytics
       - Application Stability
       - Data Access
-      - Analytics
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Error Monitoring
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/data-access/
     properties:
@@ -29,12 +27,11 @@ apis:
   - aid: bugsnag:error-reporting-api
     name: Bugsnag Error Reporting API
     tags:
-      - Error Reporting
       - Error Monitoring
-      - Notifications
+      - Error Reporting
       - Events
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Notifications
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://notify.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/error-reporting/
     properties:
@@ -53,11 +50,10 @@ apis:
   - aid: bugsnag:session-tracking-api
     name: Bugsnag Session Tracking API
     tags:
+      - Application Monitoring
       - Sessions
       - Stability
-      - Application Monitoring
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://sessions.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/sessions/
     properties:
@@ -77,11 +73,10 @@ apis:
     name: Bugsnag Build API
     tags:
       - Builds
-      - Releases
-      - Deployments
       - CI/CD
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Deployments
+      - Releases
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://build.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/build/
     properties:
@@ -100,12 +95,11 @@ apis:
   - aid: bugsnag:trace-api
     name: Bugsnag Trace API
     tags:
+      - Observability
+      - OpenTelemetry
       - Performance
       - Tracing
-      - OpenTelemetry
-      - Observability
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://otlp.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/
     properties:
