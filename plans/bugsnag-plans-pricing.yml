@@ -1,0 +1,122 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Bugsnag
+providerId: bugsnag
+created: '2026-05-04'
+modified: '2026-05-04'
+reconciled: true
+tags:
+  - Error Monitoring
+  - APM
+description: Bugsnag (SmartBear) pricing across Free / Select / Preferred / Enterprise.
+sources:
+  - https://bugsnag.com/pricing/
+plans:
+  - id: bugsnag-free
+    name: Free
+    type: freemium
+    description: 7.5K events/mo + 1M spans/mo; 1 user.
+    entries:
+      - label: Events
+        name: events
+        type: quota
+        metric: event
+        limit: 7500
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Spans
+        name: spans
+        type: quota
+        metric: span
+        limit: 1000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Users
+        name: users
+        type: quota
+        metric: user
+        limit: 1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Error and performance monitoring
+      - name: 50+ platforms
+      - name: 30+ third-party integrations
+  - id: bugsnag-select
+    name: Select
+    type: paid
+    description: Tiered from 50K to 3M events/mo, 1M to 150M spans/mo.
+    entries:
+      - label: Tier (variable)
+        name: tier
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: varies
+        userMultiplied: false
+    elements:
+      - name: Unlimited users
+      - name: End-to-end diagnostics
+      - name: Basic notifications
+      - name: Auto error prioritization
+      - name: Stability benchmarks
+      - name: Advanced segmentation
+      - name: SAML SSO
+      - name: System Metrics
+  - id: bugsnag-preferred
+    name: Preferred
+    type: paid
+    description: Tiered from 100K to 3M events/mo, 1M to 300M spans/mo.
+    entries:
+      - label: Tier (variable)
+        name: tier
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: varies
+        userMultiplied: false
+    elements:
+      - name: Auto error assignment
+      - name: Premium support
+      - name: Dedicated CSM
+      - name: Auto user provisioning via SSO
+      - name: Feature flags & experiments
+      - name: On-prem or SaaS
+      - name: Sensitive data management
+  - id: bugsnag-enterprise
+    name: Enterprise
+    type: enterprise
+    description: Custom event/span allowances.
+    entries:
+      - label: Annual (custom)
+        name: annual
+        type: subscription
+        metric: year
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: custom
+        userMultiplied: false
+    elements:
+      - name: All Preferred features
+      - name: Custom deployment
+      - name: Named CSM
+      - name: Guided onboarding
+      - name: Priority support
