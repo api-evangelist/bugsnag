@@ -1,0 +1,62 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Build API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments.
+    By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases,
+    and identify regressions. The API accepts build metadata including version numbers, source control information, and release
+    stages. It integrates with CI/CD pipelines to automate release tracking.
+  tags:
+  - Bugsnag
+  - API
+  created: '2026-05-06'
+  modified: '2026-05-06'
+capability:
+  consumes:
+  - type: http
+    namespace: bugsnag
+    baseUri: https://build.bugsnag.com
+    description: Bugsnag Build API HTTP API.
+    resources:
+    - name: resource
+      path: /
+      operations:
+      - name: createbuild
+        method: POST
+        description: Notify Bugsnag of a new build
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    port: 8080
+    namespace: bugsnag-rest
+    description: REST adapter for Bugsnag Build API.
+    resources:
+    - path: /
+      name: createbuild
+      operations:
+      - method: POST
+        name: createbuild
+        description: Notify Bugsnag of a new build
+        call: bugsnag.createbuild
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    port: 9090
+    namespace: bugsnag-mcp
+    transport: http
+    description: MCP adapter for Bugsnag Build API for AI agent use.
+    tools:
+    - name: createbuild
+      description: Notify Bugsnag of a new build
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: bugsnag.createbuild
+      outputParameters:
+      - type: object
+        mapping: $.
