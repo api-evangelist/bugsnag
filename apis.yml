@@ -107,7 +107,7 @@ common:
     url: json-schema/bugsnag-error-event-schema.json
   - type: JSONSchema
     url: json-schema/bugsnag-build-schema.json
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/bugsnag-context.jsonld
   - type: Features
     data:
