@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Comments
+  description: 'Bugsnag Data Access API — Comments. 5 operations. Lead operation: List error comments. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Comments
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-comments
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Comments business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-project_id-errors-error_id-comments
+      path: /projects/{project_id}/errors/{error_id}/comments
+      operations:
+      - name: listerrorcomments
+        method: GET
+        description: List error comments
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createerrorcomment
+        method: POST
+        description: Create a comment on an error
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: projects-project_id-errors-error_id-comments-comment_id
+      path: /projects/{project_id}/errors/{error_id}/comments/{comment_id}
+      operations:
+      - name: getcomment
+        method: GET
+        description: Get a comment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updatecomment
+        method: PATCH
+        description: Update a comment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deletecomment
+        method: DELETE
+        description: Delete a comment
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-comments-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Comments. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/projects/{project-id}/errors/{error-id}/comments
+      name: projects-project-id-errors-error-id-comments
+      description: REST surface for projects-project_id-errors-error_id-comments.
+      operations:
+      - method: GET
+        name: listerrorcomments
+        description: List error comments
+        call: data-access-comments.listerrorcomments
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createerrorcomment
+        description: Create a comment on an error
+        call: data-access-comments.createerrorcomment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{project-id}/errors/{error-id}/comments/{comment-id}
+      name: projects-project-id-errors-error-id-comments-comment-id
+      description: REST surface for projects-project_id-errors-error_id-comments-comment_id.
+      operations:
+      - method: GET
+        name: getcomment
+        description: Get a comment
+        call: data-access-comments.getcomment
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updatecomment
+        description: Update a comment
+        call: data-access-comments.updatecomment
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletecomment
+        description: Delete a comment
+        call: data-access-comments.deletecomment
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-comments-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Comments. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-error-comments
+      description: List error comments
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-comments.listerrorcomments
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-comment-error
+      description: Create a comment on an error
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: data-access-comments.createerrorcomment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-comment
+      description: Get a comment
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-comments.getcomment
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-comment
+      description: Update a comment
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: data-access-comments.updatecomment
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-comment
+      description: Delete a comment
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: data-access-comments.deletecomment
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Build API — Builds
+  description: 'Bugsnag Build API — Builds. 1 operations. Lead operation: Notify Bugsnag of a new build. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Builds
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: build-builds
+    baseUri: https://build.bugsnag.com
+    description: Bugsnag Build API — Builds business capability. Self-contained, no shared references.
+    resources:
+    - name: root
+      path: /
+      operations:
+      - name: createbuild
+        method: POST
+        description: Notify Bugsnag of a new build
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: build-builds-rest
+    port: 8080
+    description: REST adapter for Bugsnag Build API — Builds. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1
+      name: root
+      description: REST surface for root.
+      operations:
+      - method: POST
+        name: createbuild
+        description: Notify Bugsnag of a new build
+        call: build-builds.createbuild
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: build-builds-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Build API — Builds. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: notify-bugsnag-new-build
+      description: Notify Bugsnag of a new build
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: build-builds.createbuild
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

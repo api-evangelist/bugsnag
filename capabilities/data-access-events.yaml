@@ -1,0 +1,136 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Events
+  description: 'Bugsnag Data Access API — Events. 3 operations. Lead operation: List error events. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Events
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-events
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Events business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-project_id-errors-error_id-events
+      path: /projects/{project_id}/errors/{error_id}/events
+      operations:
+      - name: listerrorevents
+        method: GET
+        description: List error events
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: projects-project_id-errors-error_id-events-latest
+      path: /projects/{project_id}/errors/{error_id}/events/latest
+      operations:
+      - name: getlatestevent
+        method: GET
+        description: Get the latest event for an error
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: projects-project_id-events-event_id
+      path: /projects/{project_id}/events/{event_id}
+      operations:
+      - name: getevent
+        method: GET
+        description: Get an event
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-events-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Events. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/projects/{project-id}/errors/{error-id}/events
+      name: projects-project-id-errors-error-id-events
+      description: REST surface for projects-project_id-errors-error_id-events.
+      operations:
+      - method: GET
+        name: listerrorevents
+        description: List error events
+        call: data-access-events.listerrorevents
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{project-id}/errors/{error-id}/events/latest
+      name: projects-project-id-errors-error-id-events-latest
+      description: REST surface for projects-project_id-errors-error_id-events-latest.
+      operations:
+      - method: GET
+        name: getlatestevent
+        description: Get the latest event for an error
+        call: data-access-events.getlatestevent
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{project-id}/events/{event-id}
+      name: projects-project-id-events-event-id
+      description: REST surface for projects-project_id-events-event_id.
+      operations:
+      - method: GET
+        name: getevent
+        description: Get an event
+        call: data-access-events.getevent
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-events-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Events. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-error-events
+      description: List error events
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-events.listerrorevents
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-latest-event-error
+      description: Get the latest event for an error
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-events.getlatestevent
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-event
+      description: Get an event
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-events.getevent
+      outputParameters:
+      - type: object
+        mapping: $.

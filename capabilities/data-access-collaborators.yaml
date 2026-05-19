@@ -1,0 +1,199 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Collaborators
+  description: 'Bugsnag Data Access API — Collaborators. 5 operations. Lead operation: List organization collaborators. Self-contained
+    Naftiko capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Collaborators
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-collaborators
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Collaborators business capability. Self-contained, no shared references.
+    resources:
+    - name: organizations-organization_id-collaborators
+      path: /organizations/{organization_id}/collaborators
+      operations:
+      - name: listorganizationcollaborators
+        method: GET
+        description: List organization collaborators
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: inviteorganizationcollaborator
+        method: POST
+        description: Invite a collaborator to an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: organizations-organization_id-collaborators-collaborator_id
+      path: /organizations/{organization_id}/collaborators/{collaborator_id}
+      operations:
+      - name: getorganizationcollaborator
+        method: GET
+        description: Get an organization collaborator
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateorganizationcollaborator
+        method: PATCH
+        description: Update a collaborator
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: removeorganizationcollaborator
+        method: DELETE
+        description: Remove a collaborator
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-collaborators-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Collaborators. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/organizations/{organization-id}/collaborators
+      name: organizations-organization-id-collaborators
+      description: REST surface for organizations-organization_id-collaborators.
+      operations:
+      - method: GET
+        name: listorganizationcollaborators
+        description: List organization collaborators
+        call: data-access-collaborators.listorganizationcollaborators
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: inviteorganizationcollaborator
+        description: Invite a collaborator to an organization
+        call: data-access-collaborators.inviteorganizationcollaborator
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/organizations/{organization-id}/collaborators/{collaborator-id}
+      name: organizations-organization-id-collaborators-collaborator-id
+      description: REST surface for organizations-organization_id-collaborators-collaborator_id.
+      operations:
+      - method: GET
+        name: getorganizationcollaborator
+        description: Get an organization collaborator
+        call: data-access-collaborators.getorganizationcollaborator
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: updateorganizationcollaborator
+        description: Update a collaborator
+        call: data-access-collaborators.updateorganizationcollaborator
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: removeorganizationcollaborator
+        description: Remove a collaborator
+        call: data-access-collaborators.removeorganizationcollaborator
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-collaborators-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Collaborators. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-organization-collaborators
+      description: List organization collaborators
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-collaborators.listorganizationcollaborators
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: invite-collaborator-organization
+      description: Invite a collaborator to an organization
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: data-access-collaborators.inviteorganizationcollaborator
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-organization-collaborator
+      description: Get an organization collaborator
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-collaborators.getorganizationcollaborator
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-collaborator
+      description: Update a collaborator
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: data-access-collaborators.updateorganizationcollaborator
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: remove-collaborator
+      description: Remove a collaborator
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: data-access-collaborators.removeorganizationcollaborator
+      outputParameters:
+      - type: object
+        mapping: $.

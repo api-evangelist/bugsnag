@@ -1,0 +1,77 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Session Tracking API — Sessions
+  description: 'Bugsnag Session Tracking API — Sessions. 1 operations. Lead operation: Send session data. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Sessions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: session-tracking-sessions
+    baseUri: https://sessions.bugsnag.com
+    description: Bugsnag Session Tracking API — Sessions business capability. Self-contained, no shared references.
+    resources:
+    - name: sessions
+      path: /sessions
+      operations:
+      - name: sendsessions
+        method: POST
+        description: Send session data
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+  exposes:
+  - type: rest
+    namespace: session-tracking-sessions-rest
+    port: 8080
+    description: REST adapter for Bugsnag Session Tracking API — Sessions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/sessions
+      name: sessions
+      description: REST surface for sessions.
+      operations:
+      - method: POST
+        name: sendsessions
+        description: Send session data
+        call: session-tracking-sessions.sendsessions
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: session-tracking-sessions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Session Tracking API — Sessions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: send-session-data
+      description: Send session data
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: session-tracking-sessions.sendsessions
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

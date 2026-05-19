@@ -1,0 +1,81 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Stability
+  description: 'Bugsnag Data Access API — Stability. 1 operations. Lead operation: Get project stability trend. Self-contained
+    Naftiko capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Stability
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-stability
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Stability business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-project_id-stability_trend
+      path: /projects/{project_id}/stability_trend
+      operations:
+      - name: getprojectstabilitytrend
+        method: GET
+        description: Get project stability trend
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: release_stage
+          in: query
+          type: string
+          description: Filter the stability trend by a specific release stage.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-stability-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Stability. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/projects/{project-id}/stability-trend
+      name: projects-project-id-stability-trend
+      description: REST surface for projects-project_id-stability_trend.
+      operations:
+      - method: GET
+        name: getprojectstabilitytrend
+        description: Get project stability trend
+        call: data-access-stability.getprojectstabilitytrend
+        with:
+          release_stage: rest.release_stage
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-stability-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Stability. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-project-stability-trend
+      description: Get project stability trend
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-stability.getprojectstabilitytrend
+      with:
+        release_stage: tools.release_stage
+      outputParameters:
+      - type: object
+        mapping: $.

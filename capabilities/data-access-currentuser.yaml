@@ -1,0 +1,72 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — CurrentUser
+  description: 'Bugsnag Data Access API — CurrentUser. 1 operations. Lead operation: Get current user. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - CurrentUser
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-currentuser
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — CurrentUser business capability. Self-contained, no shared references.
+    resources:
+    - name: user
+      path: /user
+      operations:
+      - name: getcurrentuser
+        method: GET
+        description: Get current user
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-currentuser-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — CurrentUser. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/user
+      name: user
+      description: REST surface for user.
+      operations:
+      - method: GET
+        name: getcurrentuser
+        description: Get current user
+        call: data-access-currentuser.getcurrentuser
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-currentuser-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — CurrentUser. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-current-user
+      description: Get current user
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-currentuser.getcurrentuser
+      outputParameters:
+      - type: object
+        mapping: $.

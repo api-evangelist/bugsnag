@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Organizations
+  description: 'Bugsnag Data Access API — Organizations. 2 operations. Lead operation: Get an organization. Self-contained
+    Naftiko capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Organizations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-organizations
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Organizations business capability. Self-contained, no shared references.
+    resources:
+    - name: organizations-organization_id
+      path: /organizations/{organization_id}
+      operations:
+      - name: getorganization
+        method: GET
+        description: Get an organization
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: user-organizations
+      path: /user/organizations
+      operations:
+      - name: listorganizations
+        method: GET
+        description: List organizations
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-organizations-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Organizations. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/organizations/{organization-id}
+      name: organizations-organization-id
+      description: REST surface for organizations-organization_id.
+      operations:
+      - method: GET
+        name: getorganization
+        description: Get an organization
+        call: data-access-organizations.getorganization
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/user/organizations
+      name: user-organizations
+      description: REST surface for user-organizations.
+      operations:
+      - method: GET
+        name: listorganizations
+        description: List organizations
+        call: data-access-organizations.listorganizations
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-organizations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Organizations. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: get-organization
+      description: Get an organization
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-organizations.getorganization
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-organizations
+      description: List organizations
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-organizations.listorganizations
+      outputParameters:
+      - type: object
+        mapping: $.

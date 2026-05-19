@@ -1,0 +1,104 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Bugsnag Data Access API — Pivots
+  description: 'Bugsnag Data Access API — Pivots. 2 operations. Lead operation: List project pivots. Self-contained Naftiko
+    capability covering one Bugsnag business surface.'
+  tags:
+  - Bugsnag
+  - Pivots
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BUGSNAG_API_KEY: BUGSNAG_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: data-access-pivots
+    baseUri: https://api.bugsnag.com
+    description: Bugsnag Data Access API — Pivots business capability. Self-contained, no shared references.
+    resources:
+    - name: projects-project_id-pivots
+      path: /projects/{project_id}/pivots
+      operations:
+      - name: listprojectpivots
+        method: GET
+        description: List project pivots
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: projects-project_id-pivots-pivot_id-values
+      path: /projects/{project_id}/pivots/{pivot_id}/values
+      operations:
+      - name: listpivotvalues
+        method: GET
+        description: List pivot values
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.BUGSNAG_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: data-access-pivots-rest
+    port: 8080
+    description: REST adapter for Bugsnag Data Access API — Pivots. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/projects/{project-id}/pivots
+      name: projects-project-id-pivots
+      description: REST surface for projects-project_id-pivots.
+      operations:
+      - method: GET
+        name: listprojectpivots
+        description: List project pivots
+        call: data-access-pivots.listprojectpivots
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/projects/{project-id}/pivots/{pivot-id}/values
+      name: projects-project-id-pivots-pivot-id-values
+      description: REST surface for projects-project_id-pivots-pivot_id-values.
+      operations:
+      - method: GET
+        name: listpivotvalues
+        description: List pivot values
+        call: data-access-pivots.listpivotvalues
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: data-access-pivots-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Bugsnag Data Access API — Pivots. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-project-pivots
+      description: List project pivots
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-pivots.listprojectpivots
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-pivot-values
+      description: List pivot values
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: data-access-pivots.listpivotvalues
+      outputParameters:
+      - type: object
+        mapping: $.
