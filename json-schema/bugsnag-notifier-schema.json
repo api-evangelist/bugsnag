@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Notifier",
+  "title": "Notifier",
+  "type": "object",
+  "description": "Information about the notifier library sending the error report. Used by Bugsnag to identify the source SDK and version.",
+  "required": [
+    "name",
+    "version",
+    "url"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the notifier library.",
+      "example": "Bugsnag Ruby"
+    },
+    "version": {
+      "type": "string",
+      "description": "The version of the notifier library.",
+      "example": "6.24.0"
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL for the notifier library's homepage or repository.",
+      "example": "https://github.com/bugsnag/bugsnag-ruby"
+    }
+  }
+}

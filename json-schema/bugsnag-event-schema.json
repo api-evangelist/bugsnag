@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Event",
+  "title": "Event",
+  "type": "object",
+  "description": "Represents an individual error occurrence, containing full exception details, stack traces, device information, and metadata.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the event."
+    },
+    "error_id": {
+      "type": "string",
+      "description": "The identifier of the error group this event belongs to."
+    },
+    "project_id": {
+      "type": "string",
+      "description": "The identifier of the project this event belongs to."
+    },
+    "error_class": {
+      "type": "string",
+      "description": "The class or type of the error."
+    },
+    "message": {
+      "type": "string",
+      "description": "The error message for this event."
+    },
+    "context": {
+      "type": "string",
+      "description": "The context in which the error occurred."
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "description": "The severity level of this event."
+    },
+    "user": {
+      "type": "object",
+      "description": "Information about the user who experienced the error.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user's identifier."
+        },
+        "name": {
+          "type": "string",
+          "description": "The user's name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        }
+      }
+    },
+    "app": {
+      "type": "object",
+      "description": "Information about the application where the error occurred.",
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "The application version."
+        },
+        "release_stage": {
+          "type": "string",
+          "description": "The release stage (e.g., production, staging)."
+        }
+      }
+    },
+    "device": {
+      "type": "object",
+      "description": "Information about the device where the error occurred.",
+      "properties": {
+        "hostname": {
+          "type": "string",
+          "description": "The hostname of the device."
+        },
+        "os_name": {
+          "type": "string",
+          "description": "The operating system name."
+        },
+        "os_version": {
+          "type": "string",
+          "description": "The operating system version."
+        },
+        "browser_name": {
+          "type": "string",
+          "description": "The browser name, if applicable."
+        },
+        "browser_version": {
+          "type": "string",
+          "description": "The browser version, if applicable."
+        }
+      }
+    },
+    "exceptions": {
+      "type": "array",
+      "description": "The list of exceptions in this event.",
+      "items": {
+        "$ref": "#/components/schemas/Exception"
+      }
+    },
+    "breadcrumbs": {
+      "type": "array",
+      "description": "The breadcrumb trail leading up to the error.",
+      "items": {
+        "$ref": "#/components/schemas/Breadcrumb"
+      }
+    },
+    "request": {
+      "type": "object",
+      "description": "Information about the HTTP request during which the error occurred.",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the request."
+        },
+        "http_method": {
+          "type": "string",
+          "description": "The HTTP method of the request."
+        },
+        "referer": {
+          "type": "string",
+          "description": "The referer header value."
+        },
+        "client_ip": {
+          "type": "string",
+          "description": "The client's IP address."
+        }
+      }
+    },
+    "meta_data": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Custom metadata attached to the event."
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the event was received by Bugsnag."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL for this event resource."
+    },
+    "html_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL to the event on the Bugsnag dashboard."
+    }
+  }
+}

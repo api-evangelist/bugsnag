@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BuildPayload",
+  "title": "BuildPayload",
+  "type": "object",
+  "description": "The build notification payload containing information about an application build or deployment.",
+  "required": [
+    "apiKey",
+    "appVersion"
+  ],
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "description": "The Bugsnag API key for the project. Found in project settings on the Bugsnag dashboard.",
+      "example": "c9d60ae4c7e70c4b6c4ebd3e8056d2b8"
+    },
+    "appVersion": {
+      "type": "string",
+      "description": "The version of the application being built or deployed.",
+      "example": "1.5.0"
+    },
+    "appVersionCode": {
+      "type": "string",
+      "description": "The version code of the application, typically used for Android applications."
+    },
+    "appBundleVersion": {
+      "type": "string",
+      "description": "The bundle version of the application, typically used for iOS applications."
+    },
+    "releaseStage": {
+      "type": "string",
+      "description": "The release stage for this build (e.g., production, staging, development). Defaults to production if not specified.",
+      "example": "production"
+    },
+    "builderName": {
+      "type": "string",
+      "description": "The name of the person or system that created this build. If not provided, defaults to the machine's username.",
+      "example": "CI Server"
+    },
+    "sourceControl": {
+      "type": "object",
+      "description": "Source control information for the build, used to link errors to specific commits and repositories.",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The source control provider name.",
+          "enum": [
+            "github",
+            "github-enterprise",
+            "gitlab",
+            "gitlab-onpremise",
+            "bitbucket",
+            "bitbucket-server"
+          ]
+        },
+        "repository": {
+          "type": "string",
+          "format": "uri",
+          "description": "The URL of the source control repository.",
+          "example": "https://github.com/myorg/myrepo"
+        },
+        "revision": {
+          "type": "string",
+          "description": "The source control revision or commit hash for this build.",
+          "example": "abc123def456"
+        },
+        "diff": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URL to the diff between this build and the previous one."
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Custom metadata to associate with the build. This data is stored alongside the release information in the Bugsnag dashboard."
+    },
+    "autoAssignRelease": {
+      "type": "boolean",
+      "description": "Whether to automatically assign this build as a release. Defaults to true.",
+      "default": true
+    }
+  }
+}

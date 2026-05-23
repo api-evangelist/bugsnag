@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExportTraceServiceResponse",
+  "title": "ExportTraceServiceResponse",
+  "type": "object",
+  "description": "The response to an OTLP trace export request.",
+  "properties": {
+    "partialSuccess": {
+      "type": "object",
+      "description": "Information about partially successful exports.",
+      "properties": {
+        "rejectedSpans": {
+          "type": "integer",
+          "description": "The number of spans that were rejected."
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "An error message if some spans were rejected."
+        }
+      }
+    }
+  }
+}

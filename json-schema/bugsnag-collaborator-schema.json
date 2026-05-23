@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Collaborator",
+  "title": "Collaborator",
+  "type": "object",
+  "description": "Represents a user who has been granted access to an organization or project in Bugsnag.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the collaborator."
+    },
+    "name": {
+      "type": "string",
+      "description": "The collaborator's name."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "The collaborator's email address."
+    },
+    "is_admin": {
+      "type": "boolean",
+      "description": "Whether the collaborator has administrator privileges."
+    },
+    "projects_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL to list projects accessible to this collaborator."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the collaborator was added."
+    },
+    "gravatar_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The Gravatar URL for the collaborator's profile image."
+    },
+    "two_factor_enabled": {
+      "type": "boolean",
+      "description": "Whether the collaborator has two-factor authentication enabled."
+    }
+  }
+}

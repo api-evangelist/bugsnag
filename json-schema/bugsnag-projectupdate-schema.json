@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProjectUpdate",
+  "title": "ProjectUpdate",
+  "type": "object",
+  "description": "Request body for updating a project.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The new name for the project."
+    },
+    "global_grouping": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Updated global grouping rules for errors."
+    },
+    "location_grouping": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Updated location-based grouping rules."
+    },
+    "discarded_app_versions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Application versions for which errors should be discarded."
+    },
+    "discarded_errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Error classes that should be discarded."
+    }
+  }
+}

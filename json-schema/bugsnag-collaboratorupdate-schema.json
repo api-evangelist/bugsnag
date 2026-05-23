@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CollaboratorUpdate",
+  "title": "CollaboratorUpdate",
+  "type": "object",
+  "description": "Request body for updating a collaborator's permissions.",
+  "properties": {
+    "is_admin": {
+      "type": "boolean",
+      "description": "Whether the collaborator should have administrator privileges."
+    },
+    "project_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Updated list of project IDs the collaborator should access."
+    }
+  }
+}

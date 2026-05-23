@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Comment",
+  "title": "Comment",
+  "type": "object",
+  "description": "Represents a comment on an error, used for team discussion and annotation.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the comment."
+    },
+    "error_id": {
+      "type": "string",
+      "description": "The identifier of the error this comment belongs to."
+    },
+    "author": {
+      "$ref": "#/components/schemas/User"
+    },
+    "message": {
+      "type": "string",
+      "description": "The text content of the comment."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the comment was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the comment was last updated."
+    }
+  }
+}

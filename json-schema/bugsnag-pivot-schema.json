@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Pivot",
+  "title": "Pivot",
+  "type": "object",
+  "description": "Represents an available pivot dimension for grouping error data.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the pivot."
+    },
+    "display_name": {
+      "type": "string",
+      "description": "The human-readable name for this pivot dimension."
+    },
+    "key": {
+      "type": "string",
+      "description": "The key used to reference this pivot in queries."
+    },
+    "values_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL to list values for this pivot."
+    }
+  }
+}

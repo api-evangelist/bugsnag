@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Trend",
+  "title": "Trend",
+  "type": "object",
+  "description": "Represents time-series trend data for errors or projects.",
+  "properties": {
+    "buckets": {
+      "type": "array",
+      "description": "The time-series data buckets.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The start time of the bucket."
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The end time of the bucket."
+          },
+          "events_count": {
+            "type": "integer",
+            "description": "The number of events in this bucket."
+          }
+        }
+      }
+    }
+  }
+}

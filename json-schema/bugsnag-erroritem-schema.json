@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ErrorItem",
+  "title": "ErrorItem",
+  "type": "object",
+  "description": "Represents a grouped error in Bugsnag, which aggregates multiple individual events with the same error class and message.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the error."
+    },
+    "project_id": {
+      "type": "string",
+      "description": "The identifier of the project this error belongs to."
+    },
+    "error_class": {
+      "type": "string",
+      "description": "The class or type of the error (e.g., TypeError, NullPointerException)."
+    },
+    "message": {
+      "type": "string",
+      "description": "The error message associated with this error group."
+    },
+    "context": {
+      "type": "string",
+      "description": "The context in which the error occurred (e.g., controller#action)."
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "description": "The severity level of the error."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "fixed",
+        "snoozed",
+        "ignored"
+      ],
+      "description": "The current status of the error."
+    },
+    "events": {
+      "type": "integer",
+      "description": "The total number of events for this error."
+    },
+    "users": {
+      "type": "integer",
+      "description": "The total number of unique users affected by this error."
+    },
+    "first_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the error was first seen."
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the error was last seen."
+    },
+    "first_seen_unfiltered": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The unfiltered first seen date and time."
+    },
+    "release_stages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The release stages in which this error has been seen."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the error record was created."
+    },
+    "events_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL to list events for this error."
+    },
+    "html_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL to the error on the Bugsnag dashboard."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL for this error resource."
+    },
+    "comment_count": {
+      "type": "integer",
+      "description": "The number of comments on this error."
+    },
+    "missing_dsyms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of missing debug symbol UUIDs for symbolication."
+    },
+    "overrides": {
+      "type": "object",
+      "description": "Override settings applied to this error."
+    },
+    "assigned_collaborator_id": {
+      "type": "string",
+      "description": "The ID of the collaborator assigned to this error."
+    }
+  }
+}

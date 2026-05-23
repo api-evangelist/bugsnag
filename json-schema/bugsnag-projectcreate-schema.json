@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ProjectCreate",
+  "title": "ProjectCreate",
+  "type": "object",
+  "description": "Request body for creating a new project.",
+  "required": [
+    "name",
+    "type"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the project."
+    },
+    "type": {
+      "type": "string",
+      "description": "The platform type of the project (e.g., rails, js, android)."
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Exception",
+  "title": "Exception",
+  "type": "object",
+  "description": "Represents an exception within an error event, including the error class, message, and stack trace.",
+  "properties": {
+    "error_class": {
+      "type": "string",
+      "description": "The class or type of the exception."
+    },
+    "message": {
+      "type": "string",
+      "description": "The exception message."
+    },
+    "stacktrace": {
+      "type": "array",
+      "description": "The stack trace frames for this exception.",
+      "items": {
+        "$ref": "#/components/schemas/StackFrame"
+      }
+    }
+  }
+}

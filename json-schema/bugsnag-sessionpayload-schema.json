@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/SessionPayload",
+  "title": "SessionPayload",
+  "type": "object",
+  "description": "The top-level session tracking payload. Contains the notifier information, application and device context, and a batch of session counts.",
+  "required": [
+    "notifier",
+    "app",
+    "device",
+    "sessionCounts"
+  ],
+  "properties": {
+    "notifier": {
+      "$ref": "#/components/schemas/Notifier"
+    },
+    "app": {
+      "$ref": "#/components/schemas/ApplicationInfo"
+    },
+    "device": {
+      "$ref": "#/components/schemas/DeviceInfo"
+    },
+    "sessionCounts": {
+      "type": "array",
+      "description": "A batch of session count records. Each record represents sessions started at a specific time.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/SessionCount"
+      }
+    }
+  }
+}

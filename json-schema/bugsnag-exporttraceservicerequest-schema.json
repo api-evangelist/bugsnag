@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExportTraceServiceRequest",
+  "title": "ExportTraceServiceRequest",
+  "type": "object",
+  "description": "The OTLP ExportTraceServiceRequest containing resource spans. This follows the OpenTelemetry protocol specification.",
+  "properties": {
+    "resourceSpans": {
+      "type": "array",
+      "description": "A collection of spans from a single resource (service).",
+      "items": {
+        "$ref": "#/components/schemas/ResourceSpans"
+      }
+    }
+  }
+}

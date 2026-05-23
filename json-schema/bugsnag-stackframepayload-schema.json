@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StackFramePayload",
+  "title": "StackFramePayload",
+  "type": "object",
+  "description": "Represents a single frame in an exception's stack trace.",
+  "required": [
+    "file",
+    "lineNumber",
+    "method"
+  ],
+  "properties": {
+    "file": {
+      "type": "string",
+      "description": "The file path where the code is located."
+    },
+    "lineNumber": {
+      "type": "integer",
+      "description": "The line number in the file where the frame originates."
+    },
+    "columnNumber": {
+      "type": "integer",
+      "description": "The column number in the file."
+    },
+    "method": {
+      "type": "string",
+      "description": "The method or function name."
+    },
+    "inProject": {
+      "type": "boolean",
+      "description": "Whether this frame originates from the project's own code, as opposed to a library or framework."
+    },
+    "code": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "A map of line numbers to source code lines surrounding the error location."
+    }
+  }
+}

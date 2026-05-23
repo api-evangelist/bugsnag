@@ -1,0 +1,38 @@
+name: Bugsnag Domain Vocabulary
+provider: Bugsnag
+providerId: bugsnag
+description: Tag-derived vocabulary for the Bugsnag API surface; sourced from openapi/ tags.
+terms:
+- term: Collaborators
+  description: Manage collaborators within an organization or project. Collaborators are users who have access to view and
+    manage Bugsnag data.
+- term: Comments
+  description: Manage comments on errors. Comments allow team members to discuss and annotate specific errors.
+- term: CurrentUser
+  description: Access information about the currently authenticated user.
+- term: Errors
+  description: Access and manage errors within projects. Errors represent groups of similar events that have been detected
+    by Bugsnag.
+- term: EventFields
+  description: Access event field definitions for projects. Event fields describe the available data dimensions for filtering
+    and searching events.
+- term: Events
+  description: Access individual error events. Events represent individual occurrences of an error within a project.
+- term: Organizations
+  description: Access and manage organizations. An organization is the top-level entity in Bugsnag that contains projects
+    and collaborators.
+- term: Pivots
+  description: Access pivot data for errors. Pivots allow you to group and analyze error data by various dimensions such as
+    browser, device, or location.
+- term: Projects
+  description: Access and manage projects within an organization. Projects represent individual applications being monitored
+    by Bugsnag.
+- term: Releases
+  description: Access release information for projects. Releases represent deployed versions of your application and their
+    associated error data.
+- term: Stability
+  description: Access stability metrics for projects. Stability data provides crash-free session and user percentages across
+    releases.
+- term: Trends
+  description: Access trend data for errors and projects. Trends provide time-series data showing how error rates and stability
+    change over time.

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeviceInfo",
+  "title": "DeviceInfo",
+  "type": "object",
+  "description": "Information about the device running the application.",
+  "properties": {
+    "hostname": {
+      "type": "string",
+      "description": "The hostname of the device."
+    },
+    "osName": {
+      "type": "string",
+      "description": "The name of the operating system."
+    },
+    "osVersion": {
+      "type": "string",
+      "description": "The version of the operating system."
+    },
+    "manufacturer": {
+      "type": "string",
+      "description": "The device manufacturer."
+    },
+    "model": {
+      "type": "string",
+      "description": "The device model name."
+    },
+    "runtimeVersions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Runtime version information (e.g., node version, CLR version)."
+    }
+  }
+}

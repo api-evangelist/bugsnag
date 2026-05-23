@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ErrorResponse",
+  "title": "ErrorResponse",
+  "type": "object",
+  "description": "An error response from the build notification endpoint.",
+  "properties": {
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of error messages describing the problem."
+    }
+  }
+}

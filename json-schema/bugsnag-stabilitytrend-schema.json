@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StabilityTrend",
+  "title": "StabilityTrend",
+  "type": "object",
+  "description": "Represents stability metrics for a project over time.",
+  "properties": {
+    "timeline_points": {
+      "type": "array",
+      "description": "The time-series stability data points.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "The date for this data point."
+          },
+          "crash_free_sessions": {
+            "type": "number",
+            "format": "float",
+            "description": "The percentage of sessions without crashes."
+          },
+          "crash_free_users": {
+            "type": "number",
+            "format": "float",
+            "description": "The percentage of users without crashes."
+          },
+          "total_sessions": {
+            "type": "integer",
+            "description": "The total number of sessions."
+          }
+        }
+      }
+    }
+  }
+}

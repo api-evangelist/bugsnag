@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Project",
+  "title": "Project",
+  "type": "object",
+  "description": "Represents a Bugsnag project, which corresponds to an individual application being monitored.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the project."
+    },
+    "organization_id": {
+      "type": "string",
+      "description": "The identifier of the organization this project belongs to."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the project."
+    },
+    "slug": {
+      "type": "string",
+      "description": "The URL-friendly slug for the project."
+    },
+    "api_key": {
+      "type": "string",
+      "description": "The API key used by notifier SDKs to report errors for this project."
+    },
+    "type": {
+      "type": "string",
+      "description": "The platform type of the project (e.g., rails, js, android)."
+    },
+    "is_full_view": {
+      "type": "boolean",
+      "description": "Whether the current user has full view access to this project."
+    },
+    "release_stages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The list of release stages configured for this project."
+    },
+    "language": {
+      "type": "string",
+      "description": "The primary programming language of the project."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the project was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the project was last updated."
+    },
+    "errors_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL to list errors for this project."
+    },
+    "events_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL to list events for this project."
+    },
+    "html_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL to the project on the Bugsnag dashboard."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The API URL for this project resource."
+    },
+    "open_error_count": {
+      "type": "integer",
+      "description": "The number of currently open errors in this project."
+    },
+    "collaborators_count": {
+      "type": "integer",
+      "description": "The number of collaborators on this project."
+    },
+    "global_grouping": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The global grouping rules applied to errors in this project."
+    },
+    "location_grouping": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The location-based grouping rules for this project."
+    },
+    "discarded_app_versions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Application versions for which errors are discarded."
+    },
+    "discarded_errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Error classes that are discarded and not stored."
+    },
+    "custom_event_fields_used": {
+      "type": "integer",
+      "description": "The number of custom event fields in use."
+    }
+  }
+}

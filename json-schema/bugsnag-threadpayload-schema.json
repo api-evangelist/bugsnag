@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ThreadPayload",
+  "title": "ThreadPayload",
+  "type": "object",
+  "description": "Information about a thread running at the time of the error.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The thread identifier."
+    },
+    "name": {
+      "type": "string",
+      "description": "The thread name."
+    },
+    "errorReportingThread": {
+      "type": "boolean",
+      "description": "Whether this is the thread on which the error occurred."
+    },
+    "stacktrace": {
+      "type": "array",
+      "description": "The stack trace of this thread at the time of the error.",
+      "items": {
+        "$ref": "#/components/schemas/StackFramePayload"
+      }
+    }
+  }
+}

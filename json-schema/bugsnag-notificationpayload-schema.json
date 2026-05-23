@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/NotificationPayload",
+  "title": "NotificationPayload",
+  "type": "object",
+  "description": "The top-level notification payload sent to the Bugsnag Error Reporting API. Contains the API key, notifier information, and one or more error events.",
+  "required": [
+    "apiKey",
+    "notifier",
+    "events"
+  ],
+  "properties": {
+    "apiKey": {
+      "type": "string",
+      "description": "The Bugsnag API key for the project. Found in project settings on the Bugsnag dashboard.",
+      "example": "c9d60ae4c7e70c4b6c4ebd3e8056d2b8"
+    },
+    "payloadVersion": {
+      "type": "string",
+      "description": "The version of the payload format. Current version is 4.",
+      "enum": [
+        "4"
+      ],
+      "default": "4"
+    },
+    "notifier": {
+      "$ref": "#/components/schemas/Notifier"
+    },
+    "events": {
+      "type": "array",
+      "description": "The list of error events to report. Each event represents an individual error occurrence.",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/components/schemas/EventPayload"
+      }
+    }
+  }
+}

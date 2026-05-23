@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BreadcrumbPayload",
+  "title": "BreadcrumbPayload",
+  "type": "object",
+  "description": "Represents a breadcrumb event that occurred before the error, providing context about the user's actions and application state.",
+  "required": [
+    "timestamp",
+    "name",
+    "type"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The ISO 8601 timestamp when the breadcrumb was recorded."
+    },
+    "name": {
+      "type": "string",
+      "description": "A short summary of the breadcrumb event.",
+      "maxLength": 30
+    },
+    "type": {
+      "type": "string",
+      "description": "The category of breadcrumb event.",
+      "enum": [
+        "navigation",
+        "request",
+        "process",
+        "log",
+        "user",
+        "state",
+        "error",
+        "manual"
+      ]
+    },
+    "metaData": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional metadata associated with the breadcrumb."
+    }
+  }
+}

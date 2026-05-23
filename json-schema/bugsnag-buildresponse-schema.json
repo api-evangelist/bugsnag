@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/BuildResponse",
+  "title": "BuildResponse",
+  "type": "object",
+  "description": "The response returned when a build notification is successfully processed.",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "The status of the build notification.",
+      "example": "ok"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Any warnings about the build notification payload."
+    }
+  }
+}

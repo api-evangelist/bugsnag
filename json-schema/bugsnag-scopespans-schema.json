@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ScopeSpans",
+  "title": "ScopeSpans",
+  "type": "object",
+  "description": "A collection of spans from a single instrumentation scope (library or component).",
+  "properties": {
+    "scope": {
+      "type": "object",
+      "description": "The instrumentation scope that produced the spans.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the instrumentation scope."
+        },
+        "version": {
+          "type": "string",
+          "description": "The version of the instrumentation scope."
+        }
+      }
+    },
+    "spans": {
+      "type": "array",
+      "description": "The individual spans within this scope.",
+      "items": {
+        "$ref": "#/components/schemas/Span"
+      }
+    }
+  }
+}

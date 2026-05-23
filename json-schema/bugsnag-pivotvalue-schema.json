@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/PivotValue",
+  "title": "PivotValue",
+  "type": "object",
+  "description": "Represents a specific value within a pivot dimension.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the pivot value."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the pivot value."
+    },
+    "events": {
+      "type": "integer",
+      "description": "The number of events with this pivot value."
+    },
+    "proportion": {
+      "type": "number",
+      "format": "float",
+      "description": "The proportion of events with this pivot value."
+    }
+  }
+}

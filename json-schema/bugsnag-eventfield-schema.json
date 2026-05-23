@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EventField",
+  "title": "EventField",
+  "type": "object",
+  "description": "Represents a data dimension available for filtering events.",
+  "properties": {
+    "display_id": {
+      "type": "string",
+      "description": "The display identifier for the event field."
+    },
+    "display_name": {
+      "type": "string",
+      "description": "The human-readable name for the event field."
+    },
+    "filter": {
+      "type": "object",
+      "description": "Filter configuration for the event field.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The filter type (e.g., eq, contains)."
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The available filter values."
+        }
+      }
+    }
+  }
+}

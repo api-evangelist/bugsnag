@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ResourceSpans",
+  "title": "ResourceSpans",
+  "type": "object",
+  "description": "A collection of spans produced by a single instrumented resource.",
+  "properties": {
+    "resource": {
+      "type": "object",
+      "description": "The resource producing the spans, typically identifying the service name and version.",
+      "properties": {
+        "attributes": {
+          "type": "array",
+          "description": "Key-value attributes describing the resource.",
+          "items": {
+            "$ref": "#/components/schemas/KeyValue"
+          }
+        }
+      }
+    },
+    "scopeSpans": {
+      "type": "array",
+      "description": "A collection of spans grouped by instrumentation scope.",
+      "items": {
+        "$ref": "#/components/schemas/ScopeSpans"
+      }
+    }
+  }
+}

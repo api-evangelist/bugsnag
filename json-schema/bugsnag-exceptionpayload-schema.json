@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ExceptionPayload",
+  "title": "ExceptionPayload",
+  "type": "object",
+  "description": "Represents an exception within an error event, including the error class, message, and stack trace frames.",
+  "required": [
+    "errorClass",
+    "stacktrace"
+  ],
+  "properties": {
+    "errorClass": {
+      "type": "string",
+      "description": "The class or type name of the exception (e.g., TypeError, NullPointerException, RuntimeError)."
+    },
+    "message": {
+      "type": "string",
+      "description": "The human-readable error message describing what went wrong."
+    },
+    "stacktrace": {
+      "type": "array",
+      "description": "The stack trace frames for this exception, ordered from the frame where the error occurred to the entry point.",
+      "items": {
+        "$ref": "#/components/schemas/StackFramePayload"
+      }
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of error mechanism.",
+      "enum": [
+        "android",
+        "browserjs",
+        "cocoa",
+        "c",
+        "csharp",
+        "go",
+        "java",
+        "nodejs",
+        "php",
+        "python",
+        "ruby"
+      ]
+    }
+  }
+}

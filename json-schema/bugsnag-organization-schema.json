@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Organization",
+  "title": "Organization",
+  "type": "object",
+  "description": "Represents a Bugsnag organization, the top-level entity containing projects and collaborators.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the organization."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the organization."
+    },
+    "slug": {
+      "type": "string",
+      "description": "The URL-friendly slug for the organization."
+    },
+    "creator": {
+      "$ref": "#/components/schemas/User"
+    },
+    "billing_email": {
+      "type": "string",
+      "format": "email",
+      "description": "The billing email address for the organization."
+    },
+    "auto_upgrade": {
+      "type": "boolean",
+      "description": "Whether the organization automatically upgrades to new plans."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the organization was created."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the organization was last updated."
+    }
+  }
+}

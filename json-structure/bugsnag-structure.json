@@ -1,0 +1,463 @@
+{
+  "provider": "Bugsnag",
+  "providerId": "bugsnag",
+  "kind": "json-structure",
+  "description": "Structural overview of the Bugsnag API surface; extracted from openapi/.",
+  "schemaCount": 23,
+  "operationCount": 34,
+  "schemas": [
+    {
+      "name": "User",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "Organization",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "Project",
+      "type": "object",
+      "propertyCount": 22,
+      "required": []
+    },
+    {
+      "name": "ProjectCreate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "name",
+        "type"
+      ]
+    },
+    {
+      "name": "ProjectUpdate",
+      "type": "object",
+      "propertyCount": 5,
+      "required": []
+    },
+    {
+      "name": "ErrorItem",
+      "type": "object",
+      "propertyCount": 21,
+      "required": []
+    },
+    {
+      "name": "ErrorUpdate",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "Event",
+      "type": "object",
+      "propertyCount": 17,
+      "required": []
+    },
+    {
+      "name": "Exception",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "StackFrame",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "Breadcrumb",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "Collaborator",
+      "type": "object",
+      "propertyCount": 8,
+      "required": []
+    },
+    {
+      "name": "CollaboratorInvite",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "email"
+      ]
+    },
+    {
+      "name": "CollaboratorUpdate",
+      "type": "object",
+      "propertyCount": 2,
+      "required": []
+    },
+    {
+      "name": "Comment",
+      "type": "object",
+      "propertyCount": 6,
+      "required": []
+    },
+    {
+      "name": "CommentCreate",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "message"
+      ]
+    },
+    {
+      "name": "Pivot",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "PivotValue",
+      "type": "object",
+      "propertyCount": 4,
+      "required": []
+    },
+    {
+      "name": "Trend",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "Release",
+      "type": "object",
+      "propertyCount": 14,
+      "required": []
+    },
+    {
+      "name": "StabilityTrend",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    },
+    {
+      "name": "EventField",
+      "type": "object",
+      "propertyCount": 3,
+      "required": []
+    },
+    {
+      "name": "Error",
+      "type": "object",
+      "propertyCount": 1,
+      "required": []
+    }
+  ],
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/user",
+      "operationId": "getCurrentUser",
+      "summary": "Get current user",
+      "tags": [
+        "CurrentUser"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/user/organizations",
+      "operationId": "listOrganizations",
+      "summary": "List organizations",
+      "tags": [
+        "Organizations"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/organizations/{organization_id}",
+      "operationId": "getOrganization",
+      "summary": "Get an organization",
+      "tags": [
+        "Organizations"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/organizations/{organization_id}/collaborators",
+      "operationId": "listOrganizationCollaborators",
+      "summary": "List organization collaborators",
+      "tags": [
+        "Collaborators"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/organizations/{organization_id}/collaborators",
+      "operationId": "inviteOrganizationCollaborator",
+      "summary": "Invite a collaborator to an organization",
+      "tags": [
+        "Collaborators"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/organizations/{organization_id}/collaborators/{collaborator_id}",
+      "operationId": "getOrganizationCollaborator",
+      "summary": "Get an organization collaborator",
+      "tags": [
+        "Collaborators"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/organizations/{organization_id}/collaborators/{collaborator_id}",
+      "operationId": "removeOrganizationCollaborator",
+      "summary": "Remove a collaborator",
+      "tags": [
+        "Collaborators"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/organizations/{organization_id}/collaborators/{collaborator_id}",
+      "operationId": "updateOrganizationCollaborator",
+      "summary": "Update a collaborator",
+      "tags": [
+        "Collaborators"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/organizations/{organization_id}/projects",
+      "operationId": "listOrganizationProjects",
+      "summary": "List organization projects",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/organizations/{organization_id}/projects",
+      "operationId": "createProject",
+      "summary": "Create a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}",
+      "operationId": "getProject",
+      "summary": "Get a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{project_id}",
+      "operationId": "deleteProject",
+      "summary": "Delete a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/projects/{project_id}",
+      "operationId": "updateProject",
+      "summary": "Update a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{project_id}/api_key",
+      "operationId": "regenerateProjectApiKey",
+      "summary": "Regenerate a project API key",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors",
+      "operationId": "listProjectErrors",
+      "summary": "List project errors",
+      "tags": [
+        "Errors"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}",
+      "operationId": "getError",
+      "summary": "Get an error",
+      "tags": [
+        "Errors"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{project_id}/errors/{error_id}",
+      "operationId": "deleteError",
+      "summary": "Delete an error",
+      "tags": [
+        "Errors"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/projects/{project_id}/errors/{error_id}",
+      "operationId": "updateError",
+      "summary": "Update an error",
+      "tags": [
+        "Errors"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}/events",
+      "operationId": "listErrorEvents",
+      "summary": "List error events",
+      "tags": [
+        "Events"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}/events/latest",
+      "operationId": "getLatestEvent",
+      "summary": "Get the latest event for an error",
+      "tags": [
+        "Events"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/events/{event_id}",
+      "operationId": "getEvent",
+      "summary": "Get an event",
+      "tags": [
+        "Events"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}/comments",
+      "operationId": "listErrorComments",
+      "summary": "List error comments",
+      "tags": [
+        "Comments"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{project_id}/errors/{error_id}/comments",
+      "operationId": "createErrorComment",
+      "summary": "Create a comment on an error",
+      "tags": [
+        "Comments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}/comments/{comment_id}",
+      "operationId": "getComment",
+      "summary": "Get a comment",
+      "tags": [
+        "Comments"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/projects/{project_id}/errors/{error_id}/comments/{comment_id}",
+      "operationId": "deleteComment",
+      "summary": "Delete a comment",
+      "tags": [
+        "Comments"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/projects/{project_id}/errors/{error_id}/comments/{comment_id}",
+      "operationId": "updateComment",
+      "summary": "Update a comment",
+      "tags": [
+        "Comments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/pivots",
+      "operationId": "listProjectPivots",
+      "summary": "List project pivots",
+      "tags": [
+        "Pivots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/pivots/{pivot_id}/values",
+      "operationId": "listPivotValues",
+      "summary": "List pivot values",
+      "tags": [
+        "Pivots"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/errors/{error_id}/trend",
+      "operationId": "getErrorTrend",
+      "summary": "Get error trend",
+      "tags": [
+        "Trends"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/trend",
+      "operationId": "getProjectTrend",
+      "summary": "Get project trend",
+      "tags": [
+        "Trends"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/releases",
+      "operationId": "listProjectReleases",
+      "summary": "List project releases",
+      "tags": [
+        "Releases"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/releases/{release_id}",
+      "operationId": "getRelease",
+      "summary": "Get a release",
+      "tags": [
+        "Releases"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/stability_trend",
+      "operationId": "getProjectStabilityTrend",
+      "summary": "Get project stability trend",
+      "tags": [
+        "Stability"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/event_fields",
+      "operationId": "listEventFields",
+      "summary": "List event fields",
+      "tags": [
+        "EventFields"
+      ]
+    }
+  ]
+}

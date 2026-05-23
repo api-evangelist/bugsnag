@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ApplicationInfo",
+  "title": "ApplicationInfo",
+  "type": "object",
+  "description": "Information about the application reporting sessions.",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "The application version string."
+    },
+    "releaseStage": {
+      "type": "string",
+      "description": "The release stage of the application (e.g., production, staging)."
+    },
+    "type": {
+      "type": "string",
+      "description": "The type of application."
+    },
+    "versionCode": {
+      "type": "integer",
+      "description": "The numeric version code, for Android applications."
+    },
+    "bundleVersion": {
+      "type": "string",
+      "description": "The bundle version, for iOS applications."
+    }
+  }
+}

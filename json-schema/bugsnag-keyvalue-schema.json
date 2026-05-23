@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/KeyValue",
+  "title": "KeyValue",
+  "type": "object",
+  "description": "A key-value pair used for attributes in the OpenTelemetry data model.",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The attribute key."
+    },
+    "value": {
+      "type": "object",
+      "description": "The attribute value, which can be a string, integer, double, boolean, or array.",
+      "properties": {
+        "stringValue": {
+          "type": "string",
+          "description": "A string value."
+        },
+        "intValue": {
+          "type": "string",
+          "description": "An integer value, encoded as a string."
+        },
+        "doubleValue": {
+          "type": "number",
+          "description": "A double-precision floating point value."
+        },
+        "boolValue": {
+          "type": "boolean",
+          "description": "A boolean value."
+        }
+      }
+    }
+  }
+}

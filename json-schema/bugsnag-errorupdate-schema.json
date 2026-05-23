@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/ErrorUpdate",
+  "title": "ErrorUpdate",
+  "type": "object",
+  "description": "Request body for updating an error's status or severity.",
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "fixed",
+        "snoozed",
+        "ignored"
+      ],
+      "description": "The new status for the error."
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "error",
+        "warning",
+        "info"
+      ],
+      "description": "The new severity level for the error."
+    },
+    "assigned_collaborator_id": {
+      "type": "string",
+      "description": "The ID of the collaborator to assign to this error."
+    }
+  }
+}

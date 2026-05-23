@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/StackFrame",
+  "title": "StackFrame",
+  "type": "object",
+  "description": "Represents a single frame in a stack trace.",
+  "properties": {
+    "file": {
+      "type": "string",
+      "description": "The file path where the frame originated."
+    },
+    "line_number": {
+      "type": "integer",
+      "description": "The line number in the file."
+    },
+    "column_number": {
+      "type": "integer",
+      "description": "The column number in the file."
+    },
+    "method": {
+      "type": "string",
+      "description": "The method or function name."
+    },
+    "in_project": {
+      "type": "boolean",
+      "description": "Whether this frame is from the project's own code."
+    },
+    "code": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "A map of line numbers to code content around the error."
+    }
+  }
+}

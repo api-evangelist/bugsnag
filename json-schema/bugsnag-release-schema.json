@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Release",
+  "title": "Release",
+  "type": "object",
+  "description": "Represents a deployed version of an application.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique identifier of the release."
+    },
+    "version": {
+      "type": "string",
+      "description": "The version string of the release."
+    },
+    "release_stage": {
+      "type": "string",
+      "description": "The release stage (e.g., production, staging)."
+    },
+    "builder_name": {
+      "type": "string",
+      "description": "The name of the person or system that created the build."
+    },
+    "release_source": {
+      "type": "string",
+      "description": "The source of the release information."
+    },
+    "source_control": {
+      "type": "object",
+      "description": "Source control information for the release.",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The source control provider."
+        },
+        "repository": {
+          "type": "string",
+          "description": "The repository URL."
+        },
+        "revision": {
+          "type": "string",
+          "description": "The commit hash or revision identifier."
+        }
+      }
+    },
+    "build_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the build was created."
+    },
+    "errors_introduced_count": {
+      "type": "integer",
+      "description": "The number of new errors introduced in this release."
+    },
+    "errors_seen_count": {
+      "type": "integer",
+      "description": "The total number of errors seen in this release."
+    },
+    "sessions_count": {
+      "type": "integer",
+      "description": "The total number of sessions for this release."
+    },
+    "unhandled_sessions_count": {
+      "type": "integer",
+      "description": "The number of sessions with unhandled errors."
+    },
+    "accumulative_daily_users_seen": {
+      "type": "integer",
+      "description": "The cumulative number of daily active users."
+    },
+    "accumulative_daily_users_with_unhandled": {
+      "type": "integer",
+      "description": "The cumulative number of daily users with unhandled errors."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time the release record was created."
+    }
+  }
+}
