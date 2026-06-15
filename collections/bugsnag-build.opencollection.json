@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Builds",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Notify Bugsnag of a new build",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://build.bugsnag.com/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends build and deployment information to Bugsnag. This allows Bugsnag to track which release introduced specific errors, display release-specific error trends, and link errors to source control commits. The payload must include a valid API key and app version. Source control information and builder name are optional but recommended for full release tracking functionality."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

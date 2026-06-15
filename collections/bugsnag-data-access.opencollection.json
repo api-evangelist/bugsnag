@@ -1,0 +1,1020 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Data Access API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CurrentUser",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/user"
+          },
+          "docs": "Returns information about the currently authenticated user, including their name, email, and associated organizations."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/user/organizations",
+            "params": [
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of organizations that the currently authenticated user belongs to. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Get an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/organizations/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific organization, including its name, slug, billing email, and creation date."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Collaborators",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization collaborators",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/collaborators",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of collaborators for the specified organization. Each collaborator includes their user information and permissions."
+        },
+        {
+          "info": {
+            "name": "Invite a collaborator to an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/collaborators",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invites a new collaborator to the specified organization by email address. The invited user will receive an email with instructions to join."
+        },
+        {
+          "info": {
+            "name": "Get an organization collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific collaborator within an organization, including their role and project access."
+        },
+        {
+          "info": {
+            "name": "Update a collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the permissions or role of an existing collaborator within an organization."
+        },
+        {
+          "info": {
+            "name": "Remove a collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ]
+          },
+          "docs": "Removes a collaborator from the specified organization. The user will lose access to all projects within the organization."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/projects",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort results by. Supported values include created_at and name."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "The sort direction, either ascending or descending."
+              }
+            ]
+          },
+          "docs": "Returns a list of projects belonging to the specified organization. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bugsnag.com/organizations/:organization_id/projects",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the specified organization. Returns the newly created project including its API key."
+        },
+        {
+          "info": {
+            "name": "Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific project, including its name, API key, type, and configuration settings."
+        },
+        {
+          "info": {
+            "name": "Update a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the settings of an existing project, such as its name or notification configuration."
+        },
+        {
+          "info": {
+            "name": "Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a project and all of its associated data, including errors, events, and collaborator assignments."
+        },
+        {
+          "info": {
+            "name": "Regenerate a project API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bugsnag.com/projects/:project_id/api_key",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Regenerates the API key for a project. The old API key will immediately stop working and a new key will be generated."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Errors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project errors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort results by. Supported values include last_seen, first_seen, users, events, and unsorted."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "The sort direction, either ascending or descending."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by their status."
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by their severity level."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by the release stage in which they occurred."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A full-text search query to filter errors by their error class, message, or context."
+              }
+            ]
+          },
+          "docs": "Returns a list of errors for the specified project. Errors can be filtered by status, severity, and other criteria. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Get an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific error, including its error class, message, severity, status, event count, and user count."
+        },
+        {
+          "info": {
+            "name": "Update an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the status or severity of an error. Use this to resolve, snooze, ignore, or reopen errors."
+        },
+        {
+          "info": {
+            "name": "Delete an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Permanently deletes an error and all of its associated events."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List error events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/events",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of events for the specified error. Events represent individual occurrences of an error. Results are paginated."
+        },
+        {
+          "info": {
+            "name": "Get the latest event for an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/events/latest",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Returns the most recent event for the specified error, including full exception details, device information, and metadata."
+        },
+        {
+          "info": {
+            "name": "Get an event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/events/:event_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the event."
+              }
+            ]
+          },
+          "docs": "Returns the full details of a specific event, including exception information, stack traces, device data, application state, and any custom metadata attached to the event."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List error comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/comments",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of comments for the specified error. Comments allow team members to discuss and annotate errors."
+        },
+        {
+          "info": {
+            "name": "Create a comment on an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/comments",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new comment on the specified error. Comments support plain text content."
+        },
+        {
+          "info": {
+            "name": "Get a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific comment on an error."
+        },
+        {
+          "info": {
+            "name": "Update a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the content of an existing comment on an error."
+        },
+        {
+          "info": {
+            "name": "Delete a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a comment from an error."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Pivots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project pivots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/pivots",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Returns a list of available pivot dimensions for the specified project. Pivots allow you to group error data by dimensions such as browser, device, operating system, or location."
+        },
+        {
+          "info": {
+            "name": "List pivot values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/pivots/:pivot_id/values",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "pivot_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the pivot dimension."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns the values for a specific pivot dimension within a project. For example, listing all browser names or operating system versions seen in error events."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Trends",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get error trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/errors/:error_id/trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "buckets_count",
+                "value": "",
+                "type": "query",
+                "description": "The number of time buckets to return in the trend data."
+              }
+            ]
+          },
+          "docs": "Returns time-series trend data for a specific error, showing how the error frequency changes over time."
+        },
+        {
+          "info": {
+            "name": "Get project trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "buckets_count",
+                "value": "",
+                "type": "query",
+                "description": "The number of time buckets to return in the trend data."
+              },
+              {
+                "name": "resolution",
+                "value": "",
+                "type": "query",
+                "description": "The time resolution for each bucket in the trend data."
+              }
+            ]
+          },
+          "docs": "Returns time-series trend data for a project, showing the overall error rate and resolution trends over time."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Releases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/releases",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter releases by a specific release stage."
+              }
+            ]
+          },
+          "docs": "Returns a list of releases for the specified project. Releases represent deployed versions of your application and include associated error and stability data."
+        },
+        {
+          "info": {
+            "name": "Get a release",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/releases/:release_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "release_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the release."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific release, including its version, release stage, builder information, source control data, and associated error statistics."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Stability",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get project stability trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/stability_trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter the stability trend by a specific release stage."
+              }
+            ]
+          },
+          "docs": "Returns the stability trend for a project over time, including crash-free session percentages and crash-free user percentages across releases."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "EventFields",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List event fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.bugsnag.com/projects/:project_id/event_fields",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Returns a list of event field definitions for the specified project. Event fields describe the available data dimensions that can be used for filtering and searching events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

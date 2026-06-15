@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Session Tracking API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Send session data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://sessions.bugsnag.com/sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends session tracking data to Bugsnag. Session data is used to calculate stability scores and crash-free session and user percentages. Each payload contains notifier information, application and device details, and one or more session records. Session data should be batched and sent periodically rather than on every session start."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
