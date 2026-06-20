@@ -8,7 +8,7 @@ apis:
       - Application Stability
       - Data Access
       - Error Monitoring
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://api.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/data-access/
     properties:
@@ -28,7 +28,7 @@ apis:
       - Error Reporting
       - Events
       - Notifications
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://notify.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/error-reporting/
     properties:
@@ -48,7 +48,7 @@ apis:
       - Application Monitoring
       - Sessions
       - Stability
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://sessions.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/sessions/
     properties:
@@ -69,7 +69,7 @@ apis:
       - CI/CD
       - Deployments
       - Releases
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://build.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/build/
     properties:
@@ -89,7 +89,7 @@ apis:
       - OpenTelemetry
       - Performance
       - Tracing
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://otlp.bugsnag.com
     humanURL: https://docs.bugsnag.com/api/
     properties:
