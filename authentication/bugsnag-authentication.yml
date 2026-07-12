@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/bugsnag-data-access-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: tokenAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Personal auth token sent as "token YOUR-AUTH-TOKEN". The token can be found in
+    the Bugsnag account settings under the API section.
+  sources:
+  - openapi/bugsnag-data-access-openapi.yml

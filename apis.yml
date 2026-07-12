@@ -104,6 +104,12 @@ apis:
       with existing instrumentation libraries and observability tooling. Performance data is displayed in the Bugsnag
       dashboard alongside error information.
 common:
+  - type: VulnerabilityDisclosure
+    url: security/bugsnag-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/bugsnag-domain-security.yml
+  - type: Authentication
+    url: authentication/bugsnag-authentication.yml
   - type: GitHubOrganization
     url: https://github.com/bugsnag
   - type: LinkedIn
