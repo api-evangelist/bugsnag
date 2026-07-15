@@ -104,6 +104,8 @@ apis:
       with existing instrumentation libraries and observability tooling. Performance data is displayed in the Bugsnag
       dashboard alongside error information.
 common:
+  - type: AgenticAccess
+    url: agentic-access/bugsnag-agentic-access.yml
   - type: VulnerabilityDisclosure
     url: security/bugsnag-vulnerability-disclosure.yml
   - type: DomainSecurity
