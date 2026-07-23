@@ -1,0 +1,145 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Trends API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Trends
+  description: Access trend data for errors and projects. Trends provide time-series data showing how error rates and stability change over time.
+paths:
+  /projects/{project_id}/errors/{error_id}/trend:
+    get:
+      operationId: getErrorTrend
+      summary: Get error trend
+      description: Returns time-series trend data for a specific error, showing how the error frequency changes over time.
+      tags:
+      - Trends
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      - name: buckets_count
+        in: query
+        description: The number of time buckets to return in the trend data.
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/trend:
+    get:
+      operationId: getProjectTrend
+      summary: Get project trend
+      description: Returns time-series trend data for a project, showing the overall error rate and resolution trends over time.
+      tags:
+      - Trends
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - name: buckets_count
+        in: query
+        description: The number of time buckets to return in the trend data.
+        schema:
+          type: integer
+          minimum: 1
+      - name: resolution
+        in: query
+        description: The time resolution for each bucket in the trend data.
+        schema:
+          type: string
+          enum:
+          - 1h
+          - 1d
+          - 1w
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+  schemas:
+    Trend:
+      type: object
+      description: Represents time-series trend data for errors or projects.
+      properties:
+        buckets:
+          type: array
+          description: The time-series data buckets.
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+                format: date-time
+                description: The start time of the bucket.
+              end:
+                type: string
+                format: date-time
+                description: The end time of the bucket.
+              events_count:
+                type: integer
+                description: The number of events in this bucket.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

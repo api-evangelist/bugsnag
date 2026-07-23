@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds CurrentUser API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: CurrentUser
+  description: Access information about the currently authenticated user.
+paths:
+  /user:
+    get:
+      operationId: getCurrentUser
+      summary: Get current user
+      description: Returns information about the currently authenticated user, including their name, email, and associated organizations.
+      tags:
+      - CurrentUser
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    User:
+      type: object
+      description: Represents an authenticated Bugsnag user account.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user.
+        name:
+          type: string
+          description: The full name of the user.
+        email:
+          type: string
+          format: email
+          description: The email address associated with the user account.
+        gravatar_url:
+          type: string
+          format: uri
+          description: The Gravatar URL for the user's profile image.
+        html_url:
+          type: string
+          format: uri
+          description: The URL to the user's Bugsnag dashboard profile.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

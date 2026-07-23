@@ -1,0 +1,330 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Errors API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Errors
+  description: Access and manage errors within projects. Errors represent groups of similar events that have been detected by Bugsnag.
+paths:
+  /projects/{project_id}/errors:
+    get:
+      operationId: listProjectErrors
+      summary: List project errors
+      description: Returns a list of errors for the specified project. Errors can be filtered by status, severity, and other criteria. Results are paginated using the Link header.
+      tags:
+      - Errors
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/PerPage'
+      - name: sort
+        in: query
+        description: The field to sort results by. Supported values include last_seen, first_seen, users, events, and unsorted.
+        schema:
+          type: string
+          enum:
+          - last_seen
+          - first_seen
+          - users
+          - events
+          - unsorted
+      - name: direction
+        in: query
+        description: The sort direction, either ascending or descending.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      - name: status
+        in: query
+        description: Filter errors by their status.
+        schema:
+          type: string
+          enum:
+          - open
+          - fixed
+          - snoozed
+          - ignored
+      - name: severity
+        in: query
+        description: Filter errors by their severity level.
+        schema:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+      - name: release_stage
+        in: query
+        description: Filter errors by the release stage in which they occurred.
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: A full-text search query to filter errors by their error class, message, or context.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}:
+    get:
+      operationId: getError
+      summary: Get an error
+      description: Returns the details of a specific error, including its error class, message, severity, status, event count, and user count.
+      tags:
+      - Errors
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateError
+      summary: Update an error
+      description: Updates the status or severity of an error. Use this to resolve, snooze, ignore, or reopen errors.
+      tags:
+      - Errors
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteError
+      summary: Delete an error
+      description: Permanently deletes an error and all of its associated events.
+      tags:
+      - Errors
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '204':
+          description: Error deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    ErrorItem:
+      type: object
+      description: Represents a grouped error in Bugsnag, which aggregates multiple individual events with the same error class and message.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the error.
+        project_id:
+          type: string
+          description: The identifier of the project this error belongs to.
+        error_class:
+          type: string
+          description: The class or type of the error (e.g., TypeError, NullPointerException).
+        message:
+          type: string
+          description: The error message associated with this error group.
+        context:
+          type: string
+          description: The context in which the error occurred (e.g., controller#action).
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+          description: The severity level of the error.
+        status:
+          type: string
+          enum:
+          - open
+          - fixed
+          - snoozed
+          - ignored
+          description: The current status of the error.
+        events:
+          type: integer
+          description: The total number of events for this error.
+        users:
+          type: integer
+          description: The total number of unique users affected by this error.
+        first_seen:
+          type: string
+          format: date-time
+          description: The date and time the error was first seen.
+        last_seen:
+          type: string
+          format: date-time
+          description: The date and time the error was last seen.
+        first_seen_unfiltered:
+          type: string
+          format: date-time
+          description: The unfiltered first seen date and time.
+        release_stages:
+          type: array
+          items:
+            type: string
+          description: The release stages in which this error has been seen.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the error record was created.
+        events_url:
+          type: string
+          format: uri
+          description: The API URL to list events for this error.
+        html_url:
+          type: string
+          format: uri
+          description: The URL to the error on the Bugsnag dashboard.
+        url:
+          type: string
+          format: uri
+          description: The API URL for this error resource.
+        comment_count:
+          type: integer
+          description: The number of comments on this error.
+        missing_dsyms:
+          type: array
+          items:
+            type: string
+          description: List of missing debug symbol UUIDs for symbolication.
+        overrides:
+          type: object
+          description: Override settings applied to this error.
+        assigned_collaborator_id:
+          type: string
+          description: The ID of the collaborator assigned to this error.
+    ErrorUpdate:
+      type: object
+      description: Request body for updating an error's status or severity.
+      properties:
+        status:
+          type: string
+          enum:
+          - open
+          - fixed
+          - snoozed
+          - ignored
+          description: The new status for the error.
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+          description: The new severity level for the error.
+        assigned_collaborator_id:
+          type: string
+          description: The ID of the collaborator to assign to this error.
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

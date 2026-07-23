@@ -1,0 +1,151 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Pivots API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Pivots
+  description: Access pivot data for errors. Pivots allow you to group and analyze error data by various dimensions such as browser, device, or location.
+paths:
+  /projects/{project_id}/pivots:
+    get:
+      operationId: listProjectPivots
+      summary: List project pivots
+      description: Returns a list of available pivot dimensions for the specified project. Pivots allow you to group error data by dimensions such as browser, device, operating system, or location.
+      tags:
+      - Pivots
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pivot'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/pivots/{pivot_id}/values:
+    get:
+      operationId: listPivotValues
+      summary: List pivot values
+      description: Returns the values for a specific pivot dimension within a project. For example, listing all browser names or operating system versions seen in error events.
+      tags:
+      - Pivots
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/PivotId'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PivotValue'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Pivot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    PivotValue:
+      type: object
+      description: Represents a specific value within a pivot dimension.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the pivot value.
+        name:
+          type: string
+          description: The name of the pivot value.
+        events:
+          type: integer
+          description: The number of events with this pivot value.
+        proportion:
+          type: number
+          format: float
+          description: The proportion of events with this pivot value.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    Pivot:
+      type: object
+      description: Represents an available pivot dimension for grouping error data.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the pivot.
+        display_name:
+          type: string
+          description: The human-readable name for this pivot dimension.
+        key:
+          type: string
+          description: The key used to reference this pivot in queries.
+        values_url:
+          type: string
+          format: uri
+          description: The API URL to list values for this pivot.
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    PivotId:
+      name: pivot_id
+      in: path
+      required: true
+      description: The unique identifier of the pivot dimension.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

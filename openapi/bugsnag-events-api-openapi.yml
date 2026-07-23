@@ -1,0 +1,333 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Events API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Events
+  description: Access individual error events. Events represent individual occurrences of an error within a project.
+paths:
+  /projects/{project_id}/errors/{error_id}/events:
+    get:
+      operationId: listErrorEvents
+      summary: List error events
+      description: Returns a list of events for the specified error. Events represent individual occurrences of an error. Results are paginated.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/errors/{error_id}/events/latest:
+    get:
+      operationId: getLatestEvent
+      summary: Get the latest event for an error
+      description: Returns the most recent event for the specified error, including full exception details, device information, and metadata.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ErrorId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Error not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/events/{event_id}:
+    get:
+      operationId: getEvent
+      summary: Get an event
+      description: Returns the full details of a specific event, including exception information, stack traces, device data, application state, and any custom metadata attached to the event.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/EventId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    StackFrame:
+      type: object
+      description: Represents a single frame in a stack trace.
+      properties:
+        file:
+          type: string
+          description: The file path where the frame originated.
+        line_number:
+          type: integer
+          description: The line number in the file.
+        column_number:
+          type: integer
+          description: The column number in the file.
+        method:
+          type: string
+          description: The method or function name.
+        in_project:
+          type: boolean
+          description: Whether this frame is from the project's own code.
+        code:
+          type: object
+          additionalProperties:
+            type: string
+          description: A map of line numbers to code content around the error.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    Breadcrumb:
+      type: object
+      description: Represents a breadcrumb event that occurred before the error.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The time the breadcrumb was recorded.
+        name:
+          type: string
+          description: The name or title of the breadcrumb event.
+        type:
+          type: string
+          enum:
+          - navigation
+          - request
+          - process
+          - log
+          - user
+          - state
+          - error
+          - manual
+          description: The type of breadcrumb event.
+        meta_data:
+          type: object
+          additionalProperties: true
+          description: Additional metadata associated with the breadcrumb.
+    Exception:
+      type: object
+      description: Represents an exception within an error event, including the error class, message, and stack trace.
+      properties:
+        error_class:
+          type: string
+          description: The class or type of the exception.
+        message:
+          type: string
+          description: The exception message.
+        stacktrace:
+          type: array
+          description: The stack trace frames for this exception.
+          items:
+            $ref: '#/components/schemas/StackFrame'
+    Event:
+      type: object
+      description: Represents an individual error occurrence, containing full exception details, stack traces, device information, and metadata.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the event.
+        error_id:
+          type: string
+          description: The identifier of the error group this event belongs to.
+        project_id:
+          type: string
+          description: The identifier of the project this event belongs to.
+        error_class:
+          type: string
+          description: The class or type of the error.
+        message:
+          type: string
+          description: The error message for this event.
+        context:
+          type: string
+          description: The context in which the error occurred.
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+          description: The severity level of this event.
+        user:
+          type: object
+          description: Information about the user who experienced the error.
+          properties:
+            id:
+              type: string
+              description: The user's identifier.
+            name:
+              type: string
+              description: The user's name.
+            email:
+              type: string
+              format: email
+              description: The user's email address.
+        app:
+          type: object
+          description: Information about the application where the error occurred.
+          properties:
+            version:
+              type: string
+              description: The application version.
+            release_stage:
+              type: string
+              description: The release stage (e.g., production, staging).
+        device:
+          type: object
+          description: Information about the device where the error occurred.
+          properties:
+            hostname:
+              type: string
+              description: The hostname of the device.
+            os_name:
+              type: string
+              description: The operating system name.
+            os_version:
+              type: string
+              description: The operating system version.
+            browser_name:
+              type: string
+              description: The browser name, if applicable.
+            browser_version:
+              type: string
+              description: The browser version, if applicable.
+        exceptions:
+          type: array
+          description: The list of exceptions in this event.
+          items:
+            $ref: '#/components/schemas/Exception'
+        breadcrumbs:
+          type: array
+          description: The breadcrumb trail leading up to the error.
+          items:
+            $ref: '#/components/schemas/Breadcrumb'
+        request:
+          type: object
+          description: Information about the HTTP request during which the error occurred.
+          properties:
+            url:
+              type: string
+              format: uri
+              description: The URL of the request.
+            http_method:
+              type: string
+              description: The HTTP method of the request.
+            referer:
+              type: string
+              description: The referer header value.
+            client_ip:
+              type: string
+              description: The client's IP address.
+        meta_data:
+          type: object
+          additionalProperties: true
+          description: Custom metadata attached to the event.
+        received_at:
+          type: string
+          format: date-time
+          description: The date and time the event was received by Bugsnag.
+        url:
+          type: string
+          format: uri
+          description: The API URL for this event resource.
+        html_url:
+          type: string
+          format: uri
+          description: The URL to the event on the Bugsnag dashboard.
+  parameters:
+    EventId:
+      name: event_id
+      in: path
+      required: true
+      description: The unique identifier of the event.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

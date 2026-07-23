@@ -1,0 +1,178 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Releases API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Releases
+  description: Access release information for projects. Releases represent deployed versions of your application and their associated error data.
+paths:
+  /projects/{project_id}/releases:
+    get:
+      operationId: listProjectReleases
+      summary: List project releases
+      description: Returns a list of releases for the specified project. Releases represent deployed versions of your application and include associated error and stability data.
+      tags:
+      - Releases
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/PerPage'
+      - name: release_stage
+        in: query
+        description: Filter releases by a specific release stage.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/releases/{release_id}:
+    get:
+      operationId: getRelease
+      summary: Get a release
+      description: Returns the details of a specific release, including its version, release stage, builder information, source control data, and associated error statistics.
+      tags:
+      - Releases
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/ReleaseId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Release'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Release not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Release:
+      type: object
+      description: Represents a deployed version of an application.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the release.
+        version:
+          type: string
+          description: The version string of the release.
+        release_stage:
+          type: string
+          description: The release stage (e.g., production, staging).
+        builder_name:
+          type: string
+          description: The name of the person or system that created the build.
+        release_source:
+          type: string
+          description: The source of the release information.
+        source_control:
+          type: object
+          description: Source control information for the release.
+          properties:
+            provider:
+              type: string
+              description: The source control provider.
+            repository:
+              type: string
+              description: The repository URL.
+            revision:
+              type: string
+              description: The commit hash or revision identifier.
+        build_time:
+          type: string
+          format: date-time
+          description: The date and time the build was created.
+        errors_introduced_count:
+          type: integer
+          description: The number of new errors introduced in this release.
+        errors_seen_count:
+          type: integer
+          description: The total number of errors seen in this release.
+        sessions_count:
+          type: integer
+          description: The total number of sessions for this release.
+        unhandled_sessions_count:
+          type: integer
+          description: The number of sessions with unhandled errors.
+        accumulative_daily_users_seen:
+          type: integer
+          description: The cumulative number of daily active users.
+        accumulative_daily_users_with_unhandled:
+          type: integer
+          description: The cumulative number of daily users with unhandled errors.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the release record was created.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+  parameters:
+    ReleaseId:
+      name: release_id
+      in: path
+      required: true
+      description: The unique identifier of the release.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

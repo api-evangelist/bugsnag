@@ -1,0 +1,91 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds EventFields API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: EventFields
+  description: Access event field definitions for projects. Event fields describe the available data dimensions for filtering and searching events.
+paths:
+  /projects/{project_id}/event_fields:
+    get:
+      operationId: listEventFields
+      summary: List event fields
+      description: Returns a list of event field definitions for the specified project. Event fields describe the available data dimensions that can be used for filtering and searching events.
+      tags:
+      - EventFields
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventField'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    EventField:
+      type: object
+      description: Represents a data dimension available for filtering events.
+      properties:
+        display_id:
+          type: string
+          description: The display identifier for the event field.
+        display_name:
+          type: string
+          description: The human-readable name for the event field.
+        filter:
+          type: object
+          description: Filter configuration for the event field.
+          properties:
+            type:
+              type: string
+              description: The filter type (e.g., eq, contains).
+            values:
+              type: array
+              items:
+                type: string
+              description: The available filter values.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

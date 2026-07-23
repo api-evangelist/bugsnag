@@ -1,0 +1,152 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Organizations API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Organizations
+  description: Access and manage organizations. An organization is the top-level entity in Bugsnag that contains projects and collaborators.
+paths:
+  /user/organizations:
+    get:
+      operationId: listOrganizations
+      summary: List organizations
+      description: Returns a list of organizations that the currently authenticated user belongs to. Results are paginated using the Link header.
+      tags:
+      - Organizations
+      parameters:
+      - $ref: '#/components/parameters/PerPage'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /organizations/{organization_id}:
+    get:
+      operationId: getOrganization
+      summary: Get an organization
+      description: Returns the details of a specific organization, including its name, slug, billing email, and creation date.
+      tags:
+      - Organizations
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    Organization:
+      type: object
+      description: Represents a Bugsnag organization, the top-level entity containing projects and collaborators.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the organization.
+        name:
+          type: string
+          description: The name of the organization.
+        slug:
+          type: string
+          description: The URL-friendly slug for the organization.
+        creator:
+          $ref: '#/components/schemas/User'
+        billing_email:
+          type: string
+          format: email
+          description: The billing email address for the organization.
+        auto_upgrade:
+          type: boolean
+          description: Whether the organization automatically upgrades to new plans.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the organization was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the organization was last updated.
+    User:
+      type: object
+      description: Represents an authenticated Bugsnag user account.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the user.
+        name:
+          type: string
+          description: The full name of the user.
+        email:
+          type: string
+          format: email
+          description: The email address associated with the user account.
+        gravatar_url:
+          type: string
+          format: uri
+          description: The Gravatar URL for the user's profile image.
+        html_url:
+          type: string
+          format: uri
+          description: The URL to the user's Bugsnag dashboard profile.
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

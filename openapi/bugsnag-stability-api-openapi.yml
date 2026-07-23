@@ -1,0 +1,97 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Stability API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Stability
+  description: Access stability metrics for projects. Stability data provides crash-free session and user percentages across releases.
+paths:
+  /projects/{project_id}/stability_trend:
+    get:
+      operationId: getProjectStabilityTrend
+      summary: Get project stability trend
+      description: Returns the stability trend for a project over time, including crash-free session percentages and crash-free user percentages across releases.
+      tags:
+      - Stability
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - name: release_stage
+        in: query
+        description: Filter the stability trend by a specific release stage.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StabilityTrend'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    StabilityTrend:
+      type: object
+      description: Represents stability metrics for a project over time.
+      properties:
+        timeline_points:
+          type: array
+          description: The time-series stability data points.
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                format: date
+                description: The date for this data point.
+              crash_free_sessions:
+                type: number
+                format: float
+                description: The percentage of sessions without crashes.
+              crash_free_users:
+                type: number
+                format: float
+                description: The percentage of users without crashes.
+              total_sessions:
+                type: integer
+                description: The total number of sessions.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/

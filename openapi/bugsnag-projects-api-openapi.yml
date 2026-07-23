@@ -1,0 +1,373 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Build Builds Projects API
+  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/build/
+  termsOfService: https://smartbear.com/terms-of-use/
+servers:
+- url: https://build.bugsnag.com
+  description: Bugsnag Build Server
+security: []
+tags:
+- name: Projects
+  description: Access and manage projects within an organization. Projects represent individual applications being monitored by Bugsnag.
+paths:
+  /organizations/{organization_id}/projects:
+    get:
+      operationId: listOrganizationProjects
+      summary: List organization projects
+      description: Returns a list of projects belonging to the specified organization. Results are paginated using the Link header.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      - $ref: '#/components/parameters/PerPage'
+      - name: sort
+        in: query
+        description: The field to sort results by. Supported values include created_at and name.
+        schema:
+          type: string
+          enum:
+          - created_at
+          - name
+      - name: direction
+        in: query
+        description: The sort direction, either ascending or descending.
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Organization not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      operationId: createProject
+      summary: Create a project
+      description: Creates a new project within the specified organization. Returns the newly created project including its API key.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/OrganizationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectCreate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: Get a project
+      description: Returns the details of a specific project, including its name, API key, type, and configuration settings.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      operationId: updateProject
+      summary: Update a project
+      description: Updates the settings of an existing project, such as its name or notification configuration.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      operationId: deleteProject
+      summary: Delete a project
+      description: Permanently deletes a project and all of its associated data, including errors, events, and collaborator assignments.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{project_id}/api_key:
+    delete:
+      operationId: regenerateProjectApiKey
+      summary: Regenerate a project API key
+      description: Regenerates the API key for a project. The old API key will immediately stop working and a new key will be generated.
+      tags:
+      - Projects
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project.
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: The name of the project.
+        type:
+          type: string
+          description: The platform type of the project (e.g., rails, js, android).
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    Project:
+      type: object
+      description: Represents a Bugsnag project, which corresponds to an individual application being monitored.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the project.
+        organization_id:
+          type: string
+          description: The identifier of the organization this project belongs to.
+        name:
+          type: string
+          description: The name of the project.
+        slug:
+          type: string
+          description: The URL-friendly slug for the project.
+        api_key:
+          type: string
+          description: The API key used by notifier SDKs to report errors for this project.
+        type:
+          type: string
+          description: The platform type of the project (e.g., rails, js, android).
+        is_full_view:
+          type: boolean
+          description: Whether the current user has full view access to this project.
+        release_stages:
+          type: array
+          items:
+            type: string
+          description: The list of release stages configured for this project.
+        language:
+          type: string
+          description: The primary programming language of the project.
+        created_at:
+          type: string
+          format: date-time
+          description: The date and time the project was created.
+        updated_at:
+          type: string
+          format: date-time
+          description: The date and time the project was last updated.
+        errors_url:
+          type: string
+          format: uri
+          description: The API URL to list errors for this project.
+        events_url:
+          type: string
+          format: uri
+          description: The API URL to list events for this project.
+        html_url:
+          type: string
+          format: uri
+          description: The URL to the project on the Bugsnag dashboard.
+        url:
+          type: string
+          format: uri
+          description: The API URL for this project resource.
+        open_error_count:
+          type: integer
+          description: The number of currently open errors in this project.
+        collaborators_count:
+          type: integer
+          description: The number of collaborators on this project.
+        global_grouping:
+          type: array
+          items:
+            type: string
+          description: The global grouping rules applied to errors in this project.
+        location_grouping:
+          type: array
+          items:
+            type: string
+          description: The location-based grouping rules for this project.
+        discarded_app_versions:
+          type: array
+          items:
+            type: string
+          description: Application versions for which errors are discarded.
+        discarded_errors:
+          type: array
+          items:
+            type: string
+          description: Error classes that are discarded and not stored.
+        custom_event_fields_used:
+          type: integer
+          description: The number of custom event fields in use.
+    ProjectUpdate:
+      type: object
+      description: Request body for updating a project.
+      properties:
+        name:
+          type: string
+          description: The new name for the project.
+        global_grouping:
+          type: array
+          items:
+            type: string
+          description: Updated global grouping rules for errors.
+        location_grouping:
+          type: array
+          items:
+            type: string
+          description: Updated location-based grouping rules.
+        discarded_app_versions:
+          type: array
+          items:
+            type: string
+          description: Application versions for which errors should be discarded.
+        discarded_errors:
+          type: array
+          items:
+            type: string
+          description: Error classes that should be discarded.
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+externalDocs:
+  description: Bugsnag Build API Documentation
+  url: https://docs.bugsnag.com/api/build/
