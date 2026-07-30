@@ -1,108 +1,368 @@
 aid: bugsnag
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bugsnag.png
 url: https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/apis.yml
 apis:
-  - aid: bugsnag:data-access-api
-    name: Bugsnag Data Access API
-    tags:
-      - Analytics
-      - Application Stability
-      - Data Access
-      - Error Monitoring
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://api.bugsnag.com
-    humanURL: https://docs.bugsnag.com/api/data-access/
-    properties:
-      - url: https://docs.bugsnag.com/api/data-access/
-        type: Documentation
-      - url: openapi/bugsnag-data-access-openapi.yml
-        type: OpenAPI
-    description: >-
-      The Bugsnag Data Access API provides programmatic access to information about your organization, projects, errors,
-      events, and more. It allows developers to build custom integrations and dashboards using their Bugsnag data. The
-      REST API uses JSON and requires authentication via an API token, which can be found in Bugsnag account settings.
-      It supports querying error trends, project configurations, collaborators, and release information.
-  - aid: bugsnag:error-reporting-api
-    name: Bugsnag Error Reporting API
-    tags:
-      - Error Monitoring
-      - Error Reporting
-      - Events
-      - Notifications
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://notify.bugsnag.com
-    humanURL: https://docs.bugsnag.com/api/error-reporting/
-    properties:
-      - url: https://docs.bugsnag.com/api/error-reporting/
-        type: Documentation
-      - url: openapi/bugsnag-error-reporting-openapi.yml
-        type: OpenAPI
-    description: >-
-      The Bugsnag Error Reporting API allows applications to report error and exception details directly to the Bugsnag
-      dashboard. If there is no official SDK available for your platform, you can use this API to send error payloads
-      manually. The API accepts structured JSON payloads containing exception details, stack traces, device information,
-      and application metadata. It is the underlying mechanism used by all official Bugsnag notifier SDKs to deliver
-      error data.
-  - aid: bugsnag:session-tracking-api
-    name: Bugsnag Session Tracking API
-    tags:
-      - Application Monitoring
-      - Sessions
-      - Stability
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://sessions.bugsnag.com
-    humanURL: https://docs.bugsnag.com/api/sessions/
-    properties:
-      - url: https://docs.bugsnag.com/api/sessions/
-        type: Documentation
-      - url: openapi/bugsnag-session-tracking-openapi.yml
-        type: OpenAPI
-    description: >-
-      The Bugsnag Session Tracking API enables applications to report session data, which is used to calculate release
-      stability scores in the Bugsnag dashboard. By tracking when user sessions start and end, Bugsnag can determine
-      crash rates and overall application stability. This API works in conjunction with the Error Reporting API to
-      provide a complete picture of application health. Session data is required for accurate stability metrics and
-      crash-free user percentages.
-  - aid: bugsnag:build-api
-    name: Bugsnag Build API
-    tags:
-      - Builds
-      - CI/CD
-      - Deployments
-      - Releases
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://build.bugsnag.com
-    humanURL: https://docs.bugsnag.com/api/build/
-    properties:
-      - url: https://docs.bugsnag.com/api/build/
-        type: Documentation
-      - url: openapi/bugsnag-build-openapi.yml
-        type: OpenAPI
-    description: >-
-      The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments.
-      By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across
-      releases, and identify regressions. The API accepts build metadata including version numbers, source control
-      information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
-  - aid: bugsnag:trace-api
-    name: Bugsnag Trace API
-    tags:
-      - Observability
-      - OpenTelemetry
-      - Performance
-      - Tracing
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://otlp.bugsnag.com
-    humanURL: https://docs.bugsnag.com/api/
-    properties:
-      - url: https://docs.bugsnag.com/api/
-        type: Documentation
-      - url: openapi/bugsnag-trace-openapi.yml
-        type: OpenAPI
-    description: >-
-      The Bugsnag Trace API allows applications to send OpenTelemetry span data to Bugsnag for performance monitoring
-      and analysis. It enables developers to track request latency, identify slow operations, and monitor application
-      performance alongside error data. The API accepts trace data in the OpenTelemetry format, making it compatible
-      with existing instrumentation libraries and observability tooling. Performance data is displayed in the Bugsnag
-      dashboard alongside error information.
+- aid: bugsnag:bugsnag-builds-api
+  name: bugsnag Builds API
+  description: >-
+    Notify Bugsnag about application builds and deployments. Build notifications are used to track releases,
+    identify regressions, and associate source control information with error data.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Builds
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-builds-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-collaborators-api
+  name: bugsnag Collaborators API
+  description: >-
+    Manage collaborators within an organization or project. Collaborators are users who have access to
+    view and manage Bugsnag data.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Collaborators
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-collaborators-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-comments-api
+  name: bugsnag Comments API
+  description: >-
+    Manage comments on errors. Comments allow team members to discuss and annotate specific errors.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-comments-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-currentuser-api
+  name: bugsnag CurrentUser API
+  description: Access information about the currently authenticated user.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - CurrentUser
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-currentuser-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-errors-api
+  name: bugsnag Errors API
+  description: >-
+    Access and manage errors within projects. Errors represent groups of similar events that have been
+    detected by Bugsnag.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Errors
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-errors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-eventfields-api
+  name: bugsnag EventFields API
+  description: >-
+    Access event field definitions for projects. Event fields describe the available data dimensions for
+    filtering and searching events.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - EventFields
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-eventfields-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-events-api
+  name: bugsnag Events API
+  description: >-
+    Access individual error events. Events represent individual occurrences of an error within a project.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-events-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-notifications-api
+  name: bugsnag Notifications API
+  description: >-
+    Send error and exception notifications to Bugsnag. Each notification can contain one or more events
+    representing individual error occurrences.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-organizations-api
+  name: bugsnag Organizations API
+  description: >-
+    Access and manage organizations. An organization is the top-level entity in Bugsnag that contains
+    projects and collaborators.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-pivots-api
+  name: bugsnag Pivots API
+  description: >-
+    Access pivot data for errors. Pivots allow you to group and analyze error data by various dimensions
+    such as browser, device, or location.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Pivots
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-pivots-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-projects-api
+  name: bugsnag Projects API
+  description: >-
+    Access and manage projects within an organization. Projects represent individual applications being
+    monitored by Bugsnag.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-projects-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-releases-api
+  name: bugsnag Releases API
+  description: >-
+    Access release information for projects. Releases represent deployed versions of your application
+    and their associated error data.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Releases
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-releases-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-sessions-api
+  name: bugsnag Sessions API
+  description: >-
+    Report session data to Bugsnag for stability score calculations. Sessions represent periods of user
+    activity and are used to compute crash-free session and user percentages.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-stability-api
+  name: bugsnag Stability API
+  description: >-
+    Access stability metrics for projects. Stability data provides crash-free session and user percentages
+    across releases.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Stability
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-stability-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-traces-api
+  name: bugsnag Traces API
+  description: >-
+    Send OpenTelemetry trace data to Bugsnag for performance monitoring. Spans represent individual operations
+    and are assembled into traces that visualize request flow and latency.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Traces
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-traces-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
+- aid: bugsnag:bugsnag-trends-api
+  name: bugsnag Trends API
+  description: >-
+    Access trend data for errors and projects. Trends provide time-series data showing how error rates
+    and stability change over time.
+  humanURL: https://docs.bugsnag.com/api/data-access/
+  baseURL: https://api.bugsnag.com
+  tags:
+  - Trends
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-trends-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/data-access/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/error-reporting/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/sessions/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/build/
+  - type: Documentation
+    url: https://docs.bugsnag.com/api/
 common:
   - type: AgenticAccess
     url: agentic-access/bugsnag-agentic-access.yml
