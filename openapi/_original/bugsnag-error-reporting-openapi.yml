@@ -1,0 +1,578 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Error Reporting API
+  description: >-
+    The Bugsnag Error Reporting API allows applications to report error and
+    exception details directly to the Bugsnag dashboard. If there is no
+    official SDK available for your platform, you can use this API to send
+    error payloads manually. The API accepts structured JSON payloads
+    containing exception details, stack traces, device information, and
+    application metadata. It is the underlying mechanism used by all
+    official Bugsnag notifier SDKs to deliver error data.
+  version: '4'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/error-reporting/
+  termsOfService: https://smartbear.com/terms-of-use/
+externalDocs:
+  description: Bugsnag Error Reporting API Documentation
+  url: https://docs.bugsnag.com/api/error-reporting/
+servers:
+  - url: https://notify.bugsnag.com
+    description: Bugsnag Notification Server
+tags:
+  - name: Notifications
+    description: >-
+      Send error and exception notifications to Bugsnag. Each notification
+      can contain one or more events representing individual error occurrences.
+security: []
+paths:
+  /:
+    post:
+      operationId: sendErrorNotification
+      summary: Send an error notification
+      description: >-
+        Sends one or more error events to Bugsnag for processing and display
+        in the dashboard. Each event contains exception details, stack traces,
+        device and application information, and optional metadata. The payload
+        must include a valid Bugsnag API key and notifier information. This
+        endpoint is used by all official Bugsnag SDKs to deliver error data.
+      tags:
+        - Notifications
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationPayload'
+      responses:
+        '200':
+          description: >-
+            The notification was accepted successfully.
+        '400':
+          description: >-
+            The payload was malformed or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            The API key is invalid or missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '413':
+          description: >-
+            The payload exceeds the maximum allowed size.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: >-
+            Rate limit exceeded. Too many requests have been sent.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    NotificationPayload:
+      type: object
+      description: >-
+        The top-level notification payload sent to the Bugsnag Error
+        Reporting API. Contains the API key, notifier information,
+        and one or more error events.
+      required:
+        - apiKey
+        - notifier
+        - events
+      properties:
+        apiKey:
+          type: string
+          description: >-
+            The Bugsnag API key for the project. Found in project settings
+            on the Bugsnag dashboard.
+          example: c9d60ae4c7e70c4b6c4ebd3e8056d2b8
+        payloadVersion:
+          type: string
+          description: >-
+            The version of the payload format. Current version is 4.
+          enum:
+            - '4'
+          default: '4'
+        notifier:
+          $ref: '#/components/schemas/Notifier'
+        events:
+          type: array
+          description: >-
+            The list of error events to report. Each event represents
+            an individual error occurrence.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/EventPayload'
+    Notifier:
+      type: object
+      description: >-
+        Information about the notifier library sending the error report.
+        Used by Bugsnag to identify the source SDK and version.
+      required:
+        - name
+        - version
+        - url
+      properties:
+        name:
+          type: string
+          description: >-
+            The name of the notifier library.
+          example: Bugsnag Ruby
+        version:
+          type: string
+          description: >-
+            The version of the notifier library.
+          example: '6.24.0'
+        url:
+          type: string
+          format: uri
+          description: >-
+            The URL for the notifier library's homepage or repository.
+          example: https://github.com/bugsnag/bugsnag-ruby
+    EventPayload:
+      type: object
+      description: >-
+        Represents a single error event occurrence. Contains exception
+        details, stack traces, application and device information,
+        breadcrumbs, and custom metadata.
+      required:
+        - exceptions
+      properties:
+        exceptions:
+          type: array
+          description: >-
+            The list of exceptions that occurred. The first exception
+            is the most significant. Multiple exceptions can represent
+            a causal chain.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ExceptionPayload'
+        breadcrumbs:
+          type: array
+          description: >-
+            A trail of events leading up to the error, useful for
+            debugging the sequence of actions that caused the error.
+          items:
+            $ref: '#/components/schemas/BreadcrumbPayload'
+        request:
+          type: object
+          description: >-
+            Information about the HTTP request during which the error
+            occurred, if applicable.
+          properties:
+            clientIp:
+              type: string
+              description: >-
+                The IP address of the client making the request.
+            headers:
+              type: object
+              additionalProperties:
+                type: string
+              description: >-
+                The HTTP request headers.
+            httpMethod:
+              type: string
+              description: >-
+                The HTTP method used (GET, POST, etc.).
+            url:
+              type: string
+              format: uri
+              description: >-
+                The URL of the request.
+            referer:
+              type: string
+              description: >-
+                The referer URL.
+        threads:
+          type: array
+          description: >-
+            Information about all running threads at the time of the error.
+          items:
+            $ref: '#/components/schemas/ThreadPayload'
+        context:
+          type: string
+          description: >-
+            A string representing what was happening in the application
+            at the time of the error, such as a controller action or
+            route name.
+        groupingHash:
+          type: string
+          description: >-
+            A custom grouping hash to override the default error grouping
+            behavior. Events with the same grouping hash will be grouped
+            together.
+        unhandled:
+          type: boolean
+          description: >-
+            Whether this error was unhandled (true) or caught and handled
+            (false) by the application.
+        severity:
+          type: string
+          enum:
+            - error
+            - warning
+            - info
+          description: >-
+            The severity level of the error.
+        severityReason:
+          type: object
+          description: >-
+            Information about why the severity was set to its current value.
+          properties:
+            type:
+              type: string
+              description: >-
+                The reason type for the severity assignment.
+              enum:
+                - unhandledException
+                - handledException
+                - log
+                - signal
+                - strictMode
+                - unhandledPromiseRejection
+                - userSpecifiedSeverity
+                - userCallbackSetSeverity
+                - handledError
+                - anrError
+            attributes:
+              type: object
+              additionalProperties:
+                type: string
+              description: >-
+                Additional attributes about the severity reason.
+        user:
+          type: object
+          description: >-
+            Information about the user who experienced the error.
+          properties:
+            id:
+              type: string
+              description: >-
+                A unique identifier for the user.
+            name:
+              type: string
+              description: >-
+                The user's display name.
+            email:
+              type: string
+              format: email
+              description: >-
+                The user's email address.
+        app:
+          type: object
+          description: >-
+            Information about the application in which the error occurred.
+          properties:
+            id:
+              type: string
+              description: >-
+                The application identifier.
+            version:
+              type: string
+              description: >-
+                The application version string.
+            versionCode:
+              type: integer
+              description: >-
+                The numeric version code (Android).
+            bundleVersion:
+              type: string
+              description: >-
+                The bundle version (iOS).
+            releaseStage:
+              type: string
+              description: >-
+                The release stage (e.g., production, staging, development).
+            type:
+              type: string
+              description: >-
+                The application type.
+            dsymUUIDs:
+              type: array
+              items:
+                type: string
+              description: >-
+                UUIDs for dSYM files used in symbolication.
+            duration:
+              type: integer
+              description: >-
+                The time in milliseconds since the application started.
+            durationInForeground:
+              type: integer
+              description: >-
+                The time in milliseconds the app has been in the foreground.
+            inForeground:
+              type: boolean
+              description: >-
+                Whether the app was in the foreground when the error occurred.
+        device:
+          type: object
+          description: >-
+            Information about the device on which the error occurred.
+          properties:
+            hostname:
+              type: string
+              description: >-
+                The hostname of the device.
+            id:
+              type: string
+              description: >-
+                A unique device identifier.
+            manufacturer:
+              type: string
+              description: >-
+                The device manufacturer.
+            model:
+              type: string
+              description: >-
+                The device model.
+            modelNumber:
+              type: string
+              description: >-
+                The device model number.
+            osName:
+              type: string
+              description: >-
+                The operating system name.
+            osVersion:
+              type: string
+              description: >-
+                The operating system version.
+            freeMemory:
+              type: integer
+              description: >-
+                Free memory in bytes at the time of the error.
+            totalMemory:
+              type: integer
+              description: >-
+                Total device memory in bytes.
+            freeDisk:
+              type: integer
+              description: >-
+                Free disk space in bytes.
+            browserName:
+              type: string
+              description: >-
+                The browser name, for web applications.
+            browserVersion:
+              type: string
+              description: >-
+                The browser version.
+            jailbroken:
+              type: boolean
+              description: >-
+                Whether the device is jailbroken or rooted.
+            orientation:
+              type: string
+              description: >-
+                The device orientation at the time of the error.
+              enum:
+                - portrait
+                - landscape
+            time:
+              type: string
+              format: date-time
+              description: >-
+                The device's local time when the error occurred.
+            runtimeVersions:
+              type: object
+              additionalProperties:
+                type: string
+              description: >-
+                Runtime version information (e.g., node, clr, swift).
+        session:
+          type: object
+          description: >-
+            Session information for the current user session.
+          properties:
+            id:
+              type: string
+              description: >-
+                The unique session identifier.
+            startedAt:
+              type: string
+              format: date-time
+              description: >-
+                The date and time the session started.
+            events:
+              type: object
+              description: >-
+                Event counts for this session.
+              properties:
+                handled:
+                  type: integer
+                  description: >-
+                    The number of handled events in this session.
+                unhandled:
+                  type: integer
+                  description: >-
+                    The number of unhandled events in this session.
+        metaData:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties: true
+          description: >-
+            Custom metadata organized by tab name. Each key represents
+            a tab that will appear on the Bugsnag dashboard, containing
+            key-value pairs of additional debugging information.
+    ExceptionPayload:
+      type: object
+      description: >-
+        Represents an exception within an error event, including the error
+        class, message, and stack trace frames.
+      required:
+        - errorClass
+        - stacktrace
+      properties:
+        errorClass:
+          type: string
+          description: >-
+            The class or type name of the exception (e.g., TypeError,
+            NullPointerException, RuntimeError).
+        message:
+          type: string
+          description: >-
+            The human-readable error message describing what went wrong.
+        stacktrace:
+          type: array
+          description: >-
+            The stack trace frames for this exception, ordered from the
+            frame where the error occurred to the entry point.
+          items:
+            $ref: '#/components/schemas/StackFramePayload'
+        type:
+          type: string
+          description: >-
+            The type of error mechanism.
+          enum:
+            - android
+            - browserjs
+            - cocoa
+            - c
+            - csharp
+            - go
+            - java
+            - nodejs
+            - php
+            - python
+            - ruby
+    StackFramePayload:
+      type: object
+      description: >-
+        Represents a single frame in an exception's stack trace.
+      required:
+        - file
+        - lineNumber
+        - method
+      properties:
+        file:
+          type: string
+          description: >-
+            The file path where the code is located.
+        lineNumber:
+          type: integer
+          description: >-
+            The line number in the file where the frame originates.
+        columnNumber:
+          type: integer
+          description: >-
+            The column number in the file.
+        method:
+          type: string
+          description: >-
+            The method or function name.
+        inProject:
+          type: boolean
+          description: >-
+            Whether this frame originates from the project's own code,
+            as opposed to a library or framework.
+        code:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            A map of line numbers to source code lines surrounding the
+            error location.
+    BreadcrumbPayload:
+      type: object
+      description: >-
+        Represents a breadcrumb event that occurred before the error,
+        providing context about the user's actions and application state.
+      required:
+        - timestamp
+        - name
+        - type
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: >-
+            The ISO 8601 timestamp when the breadcrumb was recorded.
+        name:
+          type: string
+          description: >-
+            A short summary of the breadcrumb event.
+          maxLength: 30
+        type:
+          type: string
+          description: >-
+            The category of breadcrumb event.
+          enum:
+            - navigation
+            - request
+            - process
+            - log
+            - user
+            - state
+            - error
+            - manual
+        metaData:
+          type: object
+          additionalProperties: true
+          description: >-
+            Additional metadata associated with the breadcrumb.
+    ThreadPayload:
+      type: object
+      description: >-
+        Information about a thread running at the time of the error.
+      properties:
+        id:
+          type: string
+          description: >-
+            The thread identifier.
+        name:
+          type: string
+          description: >-
+            The thread name.
+        errorReportingThread:
+          type: boolean
+          description: >-
+            Whether this is the thread on which the error occurred.
+        stacktrace:
+          type: array
+          description: >-
+            The stack trace of this thread at the time of the error.
+          items:
+            $ref: '#/components/schemas/StackFramePayload'
+    ErrorResponse:
+      type: object
+      description: >-
+        An error response from the notification endpoint.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of error messages describing the problem.

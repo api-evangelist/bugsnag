@@ -1,0 +1,230 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Session Tracking API
+  description: >-
+    The Bugsnag Session Tracking API enables applications to report session
+    data, which is used to calculate release stability scores in the
+    Bugsnag dashboard. By tracking when user sessions start and end,
+    Bugsnag can determine crash rates and overall application stability.
+    This API works in conjunction with the Error Reporting API to provide
+    a complete picture of application health. Session data is required for
+    accurate stability metrics and crash-free user percentages.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/api/sessions/
+  termsOfService: https://smartbear.com/terms-of-use/
+externalDocs:
+  description: Bugsnag Session Tracking API Documentation
+  url: https://docs.bugsnag.com/api/sessions/
+servers:
+  - url: https://sessions.bugsnag.com
+    description: Bugsnag Sessions Server
+tags:
+  - name: Sessions
+    description: >-
+      Report session data to Bugsnag for stability score calculations.
+      Sessions represent periods of user activity and are used to
+      compute crash-free session and user percentages.
+security: []
+paths:
+  /sessions:
+    post:
+      operationId: sendSessions
+      summary: Send session data
+      description: >-
+        Sends session tracking data to Bugsnag. Session data is used to
+        calculate stability scores and crash-free session and user
+        percentages. Each payload contains notifier information, application
+        and device details, and one or more session records. Session data
+        should be batched and sent periodically rather than on every
+        session start.
+      tags:
+        - Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionPayload'
+      responses:
+        '202':
+          description: >-
+            The session data was accepted for processing.
+        '400':
+          description: >-
+            The payload was malformed or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: >-
+            The API key is invalid or missing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: >-
+            Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    SessionPayload:
+      type: object
+      description: >-
+        The top-level session tracking payload. Contains the notifier
+        information, application and device context, and a batch of
+        session counts.
+      required:
+        - notifier
+        - app
+        - device
+        - sessionCounts
+      properties:
+        notifier:
+          $ref: '#/components/schemas/Notifier'
+        app:
+          $ref: '#/components/schemas/ApplicationInfo'
+        device:
+          $ref: '#/components/schemas/DeviceInfo'
+        sessionCounts:
+          type: array
+          description: >-
+            A batch of session count records. Each record represents
+            sessions started at a specific time.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/SessionCount'
+    Notifier:
+      type: object
+      description: >-
+        Information about the notifier library reporting sessions.
+      required:
+        - name
+        - version
+        - url
+      properties:
+        name:
+          type: string
+          description: >-
+            The name of the notifier library.
+          example: Bugsnag Ruby
+        version:
+          type: string
+          description: >-
+            The version of the notifier library.
+          example: '6.24.0'
+        url:
+          type: string
+          format: uri
+          description: >-
+            The URL for the notifier library's homepage or repository.
+    ApplicationInfo:
+      type: object
+      description: >-
+        Information about the application reporting sessions.
+      properties:
+        version:
+          type: string
+          description: >-
+            The application version string.
+        releaseStage:
+          type: string
+          description: >-
+            The release stage of the application (e.g., production, staging).
+        type:
+          type: string
+          description: >-
+            The type of application.
+        versionCode:
+          type: integer
+          description: >-
+            The numeric version code, for Android applications.
+        bundleVersion:
+          type: string
+          description: >-
+            The bundle version, for iOS applications.
+    DeviceInfo:
+      type: object
+      description: >-
+        Information about the device running the application.
+      properties:
+        hostname:
+          type: string
+          description: >-
+            The hostname of the device.
+        osName:
+          type: string
+          description: >-
+            The name of the operating system.
+        osVersion:
+          type: string
+          description: >-
+            The version of the operating system.
+        manufacturer:
+          type: string
+          description: >-
+            The device manufacturer.
+        model:
+          type: string
+          description: >-
+            The device model name.
+        runtimeVersions:
+          type: object
+          additionalProperties:
+            type: string
+          description: >-
+            Runtime version information (e.g., node version, CLR version).
+    SessionCount:
+      type: object
+      description: >-
+        Represents a batch of sessions that started at the same time.
+        Used for efficient batching of session data.
+      required:
+        - startedAt
+        - sessionsStarted
+      properties:
+        startedAt:
+          type: string
+          format: date-time
+          description: >-
+            The ISO 8601 timestamp when the sessions started.
+        sessionsStarted:
+          type: integer
+          minimum: 1
+          description: >-
+            The number of sessions that started at this time.
+        user:
+          type: object
+          description: >-
+            Information about the user associated with these sessions.
+          properties:
+            id:
+              type: string
+              description: >-
+                A unique identifier for the user.
+            name:
+              type: string
+              description: >-
+                The user's display name.
+            email:
+              type: string
+              format: email
+              description: >-
+                The user's email address.
+    ErrorResponse:
+      type: object
+      description: >-
+        An error response from the session tracking endpoint.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: >-
+            List of error messages describing the problem.

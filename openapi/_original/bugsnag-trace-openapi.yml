@@ -1,0 +1,280 @@
+openapi: 3.1.0
+info:
+  title: Bugsnag Trace API
+  description: >-
+    The Bugsnag Trace API allows applications to send OpenTelemetry span
+    data to Bugsnag for performance monitoring and analysis. It enables
+    developers to track request latency, identify slow operations, and
+    monitor application performance alongside error data. The API accepts
+    trace data in the OpenTelemetry OTLP format using HTTP/JSON or
+    HTTP/protobuf protocols, making it compatible with existing
+    instrumentation libraries and observability tooling. Performance
+    data is displayed in the Bugsnag dashboard alongside error information.
+    The maximum payload size is 1MB.
+  version: '1.0'
+  contact:
+    name: Bugsnag Support
+    url: https://docs.bugsnag.com/performance/sending-traces/
+  termsOfService: https://smartbear.com/terms-of-use/
+externalDocs:
+  description: Bugsnag Performance Trace Documentation
+  url: https://docs.bugsnag.com/performance/sending-traces/
+servers:
+  - url: https://otlp.bugsnag.com:4318
+    description: >-
+      Bugsnag OTLP HTTP Endpoint. The project API key should be
+      prepended as a subdomain (e.g., {apiKey}.otlp.bugsnag.com:4318).
+tags:
+  - name: Traces
+    description: >-
+      Send OpenTelemetry trace data to Bugsnag for performance monitoring.
+      Spans represent individual operations and are assembled into traces
+      that visualize request flow and latency.
+security: []
+paths:
+  /v1/traces:
+    post:
+      operationId: sendTraces
+      summary: Send trace data
+      description: >-
+        Sends OpenTelemetry span data to Bugsnag using the OTLP HTTP
+        protocol. Accepts payloads in JSON format (application/json)
+        or protobuf format (application/x-protobuf). Spans represent
+        individual operations such as HTTP requests, database queries,
+        or function calls. Bugsnag assembles spans into traces to
+        visualize request flow and identify performance bottlenecks.
+        The maximum payload size is 1MB, and a batch size of approximately
+        200 spans is recommended.
+      tags:
+        - Traces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportTraceServiceRequest'
+          application/x-protobuf:
+            schema:
+              type: string
+              format: binary
+              description: >-
+                Protobuf-encoded OTLP ExportTraceServiceRequest.
+      responses:
+        '200':
+          description: >-
+            The trace data was accepted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportTraceServiceResponse'
+        '400':
+          description: >-
+            The payload was malformed or invalid.
+        '413':
+          description: >-
+            The payload exceeds the 1MB maximum size limit.
+        '429':
+          description: >-
+            Rate limit or quota exceeded. Unmanaged span quota may be
+            exhausted for the day.
+components:
+  schemas:
+    ExportTraceServiceRequest:
+      type: object
+      description: >-
+        The OTLP ExportTraceServiceRequest containing resource spans.
+        This follows the OpenTelemetry protocol specification.
+      properties:
+        resourceSpans:
+          type: array
+          description: >-
+            A collection of spans from a single resource (service).
+          items:
+            $ref: '#/components/schemas/ResourceSpans'
+    ResourceSpans:
+      type: object
+      description: >-
+        A collection of spans produced by a single instrumented resource.
+      properties:
+        resource:
+          type: object
+          description: >-
+            The resource producing the spans, typically identifying the
+            service name and version.
+          properties:
+            attributes:
+              type: array
+              description: >-
+                Key-value attributes describing the resource.
+              items:
+                $ref: '#/components/schemas/KeyValue'
+        scopeSpans:
+          type: array
+          description: >-
+            A collection of spans grouped by instrumentation scope.
+          items:
+            $ref: '#/components/schemas/ScopeSpans'
+    ScopeSpans:
+      type: object
+      description: >-
+        A collection of spans from a single instrumentation scope
+        (library or component).
+      properties:
+        scope:
+          type: object
+          description: >-
+            The instrumentation scope that produced the spans.
+          properties:
+            name:
+              type: string
+              description: >-
+                The name of the instrumentation scope.
+            version:
+              type: string
+              description: >-
+                The version of the instrumentation scope.
+        spans:
+          type: array
+          description: >-
+            The individual spans within this scope.
+          items:
+            $ref: '#/components/schemas/Span'
+    Span:
+      type: object
+      description: >-
+        Represents a single operation within a trace. Spans have a name,
+        start and end time, and attributes describing the operation.
+      properties:
+        traceId:
+          type: string
+          description: >-
+            The trace identifier, a 32-character hex string shared by
+            all spans in the same trace.
+        spanId:
+          type: string
+          description: >-
+            The span identifier, a 16-character hex string unique
+            to this span.
+        parentSpanId:
+          type: string
+          description: >-
+            The span identifier of the parent span. Empty for root spans.
+        name:
+          type: string
+          description: >-
+            A descriptive name for the operation (e.g., HTTP GET /api/users).
+        kind:
+          type: integer
+          description: >-
+            The span kind indicating the relationship between the span
+            and its parent. 0=Unspecified, 1=Internal, 2=Server,
+            3=Client, 4=Producer, 5=Consumer.
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+        startTimeUnixNano:
+          type: string
+          description: >-
+            The start time of the span in nanoseconds since Unix epoch.
+        endTimeUnixNano:
+          type: string
+          description: >-
+            The end time of the span in nanoseconds since Unix epoch.
+        attributes:
+          type: array
+          description: >-
+            Key-value attributes describing the span's operation.
+          items:
+            $ref: '#/components/schemas/KeyValue'
+        status:
+          type: object
+          description: >-
+            The status of the span operation.
+          properties:
+            code:
+              type: integer
+              description: >-
+                The status code. 0=Unset, 1=Ok, 2=Error.
+              enum:
+                - 0
+                - 1
+                - 2
+            message:
+              type: string
+              description: >-
+                An optional status message.
+        events:
+          type: array
+          description: >-
+            Time-stamped events that occurred during the span.
+          items:
+            type: object
+            properties:
+              timeUnixNano:
+                type: string
+                description: >-
+                  The event time in nanoseconds since Unix epoch.
+              name:
+                type: string
+                description: >-
+                  The event name.
+              attributes:
+                type: array
+                description: >-
+                  Key-value attributes for the event.
+                items:
+                  $ref: '#/components/schemas/KeyValue'
+    KeyValue:
+      type: object
+      description: >-
+        A key-value pair used for attributes in the OpenTelemetry
+        data model.
+      properties:
+        key:
+          type: string
+          description: >-
+            The attribute key.
+        value:
+          type: object
+          description: >-
+            The attribute value, which can be a string, integer,
+            double, boolean, or array.
+          properties:
+            stringValue:
+              type: string
+              description: >-
+                A string value.
+            intValue:
+              type: string
+              description: >-
+                An integer value, encoded as a string.
+            doubleValue:
+              type: number
+              description: >-
+                A double-precision floating point value.
+            boolValue:
+              type: boolean
+              description: >-
+                A boolean value.
+    ExportTraceServiceResponse:
+      type: object
+      description: >-
+        The response to an OTLP trace export request.
+      properties:
+        partialSuccess:
+          type: object
+          description: >-
+            Information about partially successful exports.
+          properties:
+            rejectedSpans:
+              type: integer
+              description: >-
+                The number of spans that were rejected.
+            errorMessage:
+              type: string
+              description: >-
+                An error message if some spans were rejected.
