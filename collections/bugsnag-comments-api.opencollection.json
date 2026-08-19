@@ -1,0 +1,175 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Comments API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Comments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List error comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/comments",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of comments for the specified error. Comments allow team members to discuss and annotate errors."
+        },
+        {
+          "info": {
+            "name": "Create a comment on an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/comments",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new comment on the specified error. Comments support plain text content."
+        },
+        {
+          "info": {
+            "name": "Get a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific comment on an error."
+        },
+        {
+          "info": {
+            "name": "Update a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the content of an existing comment on an error."
+        },
+        {
+          "info": {
+            "name": "Delete a comment",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/comments/:comment_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "comment_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the comment."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a comment from an error."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

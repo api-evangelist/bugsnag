@@ -1,0 +1,158 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Projects API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization projects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/projects",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort results by. Supported values include created_at and name."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "The sort direction, either ascending or descending."
+              }
+            ]
+          },
+          "docs": "Returns a list of projects belonging to the specified organization. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Create a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/projects",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new project within the specified organization. Returns the newly created project including its API key."
+        },
+        {
+          "info": {
+            "name": "Get a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific project, including its name, API key, type, and configuration settings."
+        },
+        {
+          "info": {
+            "name": "Update a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://build.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the settings of an existing project, such as its name or notification configuration."
+        },
+        {
+          "info": {
+            "name": "Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://build.bugsnag.com/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a project and all of its associated data, including errors, events, and collaborator assignments."
+        },
+        {
+          "info": {
+            "name": "Regenerate a project API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://build.bugsnag.com/projects/:project_id/api_key",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Regenerates the API key for a project. The old API key will immediately stop working and a new key will be generated."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

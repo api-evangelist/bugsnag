@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "0076eb04-2cd3-404b-9be3-a96f4c0284dd",
+      "name": "Sessions",
+      "description": {
+        "content": "Report session data to Bugsnag for stability score calculations. Sessions represent periods of user activity and are used to compute crash-free session and user percentages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "dbad5678-1889-4969-9c8b-272c0234fc4a",
+          "name": "Send session data",
+          "request": {
+            "name": "Send session data",
+            "description": {
+              "content": "Sends session tracking data to Bugsnag. Session data is used to calculate stability scores and crash-free session and user percentages. Each payload contains notifier information, application and device details, and one or more session records. Session data should be batched and sent periodically rather than on every session start.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "sessions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notifier\": {\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"url\": \"<uri>\"\n  },\n  \"app\": {\n    \"version\": \"<string>\",\n    \"releaseStage\": \"<string>\",\n    \"type\": \"<string>\",\n    \"versionCode\": \"<integer>\",\n    \"bundleVersion\": \"<string>\"\n  },\n  \"device\": {\n    \"hostname\": \"<string>\",\n    \"osName\": \"<string>\",\n    \"osVersion\": \"<string>\",\n    \"manufacturer\": \"<string>\",\n    \"model\": \"<string>\",\n    \"runtimeVersions\": {\n      \"key_0\": \"<string>\",\n      \"key_1\": \"<string>\"\n    }\n  },\n  \"sessionCounts\": [\n    {\n      \"startedAt\": \"<dateTime>\",\n      \"sessionsStarted\": \"<integer>\",\n      \"user\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"email\": \"<email>\"\n      }\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "c396b2f8-0786-4cae-9e02-867b9c6ea59f",
+              "name": "The session data was accepted for processing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notifier\": {\n    \"name\": \"Bugsnag Ruby\",\n    \"version\": \"6.24.0\",\n    \"url\": \"https://CpWjlLFBUKkcvtgEHp.axesQ.k.YQo6CeMjn1iOzO-U,5ZMG7bC4uCrPQ3uNRVh6.,t9YVJc,SSKXEnRiExK9wHo\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"releaseStage\": \"string\",\n    \"type\": \"string\",\n    \"versionCode\": 6549,\n    \"bundleVersion\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"osName\": \"string\",\n    \"osVersion\": \"string\",\n    \"manufacturer\": \"string\",\n    \"model\": \"string\",\n    \"runtimeVersions\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"sessionCounts\": [\n    {\n      \"startedAt\": \"1996-12-16T01:26:11.030Z\",\n      \"sessionsStarted\": 7070,\n      \"user\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"Ke4l9LnA@tSmePTHbrXElIFTufpErkINlGSlDmG.rzw\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "163f015b-48e6-4875-85ec-14c5feccbf2b",
+              "name": "The payload was malformed or missing required fields.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notifier\": {\n    \"name\": \"Bugsnag Ruby\",\n    \"version\": \"6.24.0\",\n    \"url\": \"https://CpWjlLFBUKkcvtgEHp.axesQ.k.YQo6CeMjn1iOzO-U,5ZMG7bC4uCrPQ3uNRVh6.,t9YVJc,SSKXEnRiExK9wHo\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"releaseStage\": \"string\",\n    \"type\": \"string\",\n    \"versionCode\": 6549,\n    \"bundleVersion\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"osName\": \"string\",\n    \"osVersion\": \"string\",\n    \"manufacturer\": \"string\",\n    \"model\": \"string\",\n    \"runtimeVersions\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"sessionCounts\": [\n    {\n      \"startedAt\": \"1996-12-16T01:26:11.030Z\",\n      \"sessionsStarted\": 7070,\n      \"user\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"Ke4l9LnA@tSmePTHbrXElIFTufpErkINlGSlDmG.rzw\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "73527e1f-f0fd-4d87-88e9-14b6e32f9bd0",
+              "name": "The API key is invalid or missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notifier\": {\n    \"name\": \"Bugsnag Ruby\",\n    \"version\": \"6.24.0\",\n    \"url\": \"https://CpWjlLFBUKkcvtgEHp.axesQ.k.YQo6CeMjn1iOzO-U,5ZMG7bC4uCrPQ3uNRVh6.,t9YVJc,SSKXEnRiExK9wHo\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"releaseStage\": \"string\",\n    \"type\": \"string\",\n    \"versionCode\": 6549,\n    \"bundleVersion\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"osName\": \"string\",\n    \"osVersion\": \"string\",\n    \"manufacturer\": \"string\",\n    \"model\": \"string\",\n    \"runtimeVersions\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"sessionCounts\": [\n    {\n      \"startedAt\": \"1996-12-16T01:26:11.030Z\",\n      \"sessionsStarted\": 7070,\n      \"user\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"Ke4l9LnA@tSmePTHbrXElIFTufpErkINlGSlDmG.rzw\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f13d66a6-a65e-466f-95a5-c5420f8b7446",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "sessions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"notifier\": {\n    \"name\": \"Bugsnag Ruby\",\n    \"version\": \"6.24.0\",\n    \"url\": \"https://CpWjlLFBUKkcvtgEHp.axesQ.k.YQo6CeMjn1iOzO-U,5ZMG7bC4uCrPQ3uNRVh6.,t9YVJc,SSKXEnRiExK9wHo\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"releaseStage\": \"string\",\n    \"type\": \"string\",\n    \"versionCode\": 6549,\n    \"bundleVersion\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"osName\": \"string\",\n    \"osVersion\": \"string\",\n    \"manufacturer\": \"string\",\n    \"model\": \"string\",\n    \"runtimeVersions\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  },\n  \"sessionCounts\": [\n    {\n      \"startedAt\": \"1996-12-16T01:26:11.030Z\",\n      \"sessionsStarted\": 7070,\n      \"user\": {\n        \"id\": \"string\",\n        \"name\": \"string\",\n        \"email\": \"Ke4l9LnA@tSmePTHbrXElIFTufpErkINlGSlDmG.rzw\"\n      }\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "840081bd-2044-4ead-accf-0e17ef8bc841",
+    "name": "Bugsnag Build Builds Sessions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

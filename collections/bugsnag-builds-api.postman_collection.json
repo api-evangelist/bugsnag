@@ -1,0 +1,252 @@
+{
+  "item": [
+    {
+      "id": "d344c484-63df-4213-8923-855ef9ec0044",
+      "name": "Builds",
+      "description": {
+        "content": "Notify Bugsnag about application builds and deployments. Build notifications are used to track releases, identify regressions, and associate source control information with error data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d040fb1f-735b-472e-805f-f6adb2b26dc5",
+          "name": "Notify Bugsnag of a new build",
+          "request": {
+            "name": "Notify Bugsnag of a new build",
+            "description": {
+              "content": "Sends build and deployment information to Bugsnag. This allows Bugsnag to track which release introduced specific errors, display release-specific error trends, and link errors to source control commits. The payload must include a valid API key and app version. Source control information and builder name are optional but recommended for full release tracking functionality.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"apiKey\": \"<string>\",\n  \"appVersion\": \"<string>\",\n  \"appVersionCode\": \"<string>\",\n  \"appBundleVersion\": \"<string>\",\n  \"releaseStage\": \"<string>\",\n  \"builderName\": \"<string>\",\n  \"sourceControl\": {\n    \"provider\": \"<string>\",\n    \"repository\": \"<uri>\",\n    \"revision\": \"<string>\",\n    \"diff\": \"<uri>\"\n  },\n  \"metadata\": {\n    \"key_0\": 1809,\n    \"key_1\": 6615.766369115472\n  },\n  \"autoAssignRelease\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7dd3d06d-f3c1-4263-b0b6-a518f5117e9a",
+              "name": "The build notification was accepted successfully.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiKey\": \"c9d60ae4c7e70c4b6c4ebd3e8056d2b8\",\n  \"appVersion\": \"1.5.0\",\n  \"appVersionCode\": \"<string>\",\n  \"appBundleVersion\": \"<string>\",\n  \"releaseStage\": \"production\",\n  \"builderName\": \"CI Server\",\n  \"sourceControl\": {\n    \"provider\": \"<string>\",\n    \"repository\": \"https://github.com/myorg/myrepo\",\n    \"revision\": \"abc123def456\",\n    \"diff\": \"<uri>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"autoAssignRelease\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb129c4d-135d-4b7b-8b27-136fc2350afd",
+              "name": "The payload was malformed or missing required fields.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiKey\": \"c9d60ae4c7e70c4b6c4ebd3e8056d2b8\",\n  \"appVersion\": \"1.5.0\",\n  \"appVersionCode\": \"<string>\",\n  \"appBundleVersion\": \"<string>\",\n  \"releaseStage\": \"production\",\n  \"builderName\": \"CI Server\",\n  \"sourceControl\": {\n    \"provider\": \"<string>\",\n    \"repository\": \"https://github.com/myorg/myrepo\",\n    \"revision\": \"abc123def456\",\n    \"diff\": \"<uri>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"autoAssignRelease\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4bf9c7be-d950-4e6b-aa1a-07cf93a554a8",
+              "name": "The API key is invalid or missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiKey\": \"c9d60ae4c7e70c4b6c4ebd3e8056d2b8\",\n  \"appVersion\": \"1.5.0\",\n  \"appVersionCode\": \"<string>\",\n  \"appBundleVersion\": \"<string>\",\n  \"releaseStage\": \"production\",\n  \"builderName\": \"CI Server\",\n  \"sourceControl\": {\n    \"provider\": \"<string>\",\n    \"repository\": \"https://github.com/myorg/myrepo\",\n    \"revision\": \"abc123def456\",\n    \"diff\": \"<uri>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"autoAssignRelease\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fc39e95-f1f8-49fa-a028-7a649d86e377",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"apiKey\": \"c9d60ae4c7e70c4b6c4ebd3e8056d2b8\",\n  \"appVersion\": \"1.5.0\",\n  \"appVersionCode\": \"<string>\",\n  \"appBundleVersion\": \"<string>\",\n  \"releaseStage\": \"production\",\n  \"builderName\": \"CI Server\",\n  \"sourceControl\": {\n    \"provider\": \"<string>\",\n    \"repository\": \"https://github.com/myorg/myrepo\",\n    \"revision\": \"abc123def456\",\n    \"diff\": \"<uri>\"\n  },\n  \"metadata\": {\n    \"key_0\": \"string\"\n  },\n  \"autoAssignRelease\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "15e31326-2f64-4599-bb13-3694bcbe78cd",
+    "name": "Bugsnag Build Builds API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

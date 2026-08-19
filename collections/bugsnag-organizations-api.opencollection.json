@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Organizations API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/user/organizations",
+            "params": [
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of organizations that the currently authenticated user belongs to. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Get an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/organizations/:organization_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific organization, including its name, slug, billing email, and creation date."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

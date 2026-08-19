@@ -1,0 +1,137 @@
+{
+  "item": [
+    {
+      "id": "0977d5b1-1aa3-4af5-908c-cf1456c76ad0",
+      "name": "CurrentUser",
+      "description": {
+        "content": "Access information about the currently authenticated user.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8de28173-111e-4d78-bc91-9807e522b60d",
+          "name": "Get current user",
+          "request": {
+            "name": "Get current user",
+            "description": {
+              "content": "Returns information about the currently authenticated user, including their name, email, and associated organizations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "89c5dcdf-6591-4784-94ef-454dc96bc4da",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"email\": \"Gq58nOQkOSc@vWAaJJHrMdpFXstONJThO.ytn\",\n  \"gravatar_url\": \"https://ChCWDhBtpEGFtemsjvOeQFG.fawzJMlgf+YoGmPn15wlgD-,eSWws8o\",\n  \"html_url\": \"http://AXptAEtveiPHUbmAPjk.qeugDT6y2dWmuhFyhPIlVj4\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e951b30d-0dac-4bb1-ba11-407f10f068c1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "2c63d7eb-0704-4e9a-8294-3caa72fe9490",
+    "name": "Bugsnag Build Builds CurrentUser API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

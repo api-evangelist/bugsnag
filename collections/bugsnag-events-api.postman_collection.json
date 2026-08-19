@@ -1,0 +1,702 @@
+{
+  "item": [
+    {
+      "id": "b74a21b7-2151-4e61-a980-df84dbaa63b9",
+      "name": "Events",
+      "description": {
+        "content": "Access individual error events. Events represent individual occurrences of an error within a project.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1ce03b8c-ba46-4af0-ba6d-2fa89194c346",
+          "name": "List error events",
+          "request": {
+            "name": "List error events",
+            "description": {
+              "content": "Returns a list of events for the specified error. Events represent individual occurrences of an error. Results are paginated.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors",
+                ":error_id",
+                "events"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "30",
+                  "description": "The number of results to return per page. Used for pagination."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "error_id",
+                  "description": "(Required) The unique identifier of the error."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "65cd7c7e-e009-418f-831b-d514e1065a8a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"error_id\": \"string\",\n    \"project_id\": \"string\",\n    \"error_class\": \"string\",\n    \"message\": \"string\",\n    \"context\": \"string\",\n    \"severity\": \"info\",\n    \"user\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"M29P@UOeUoHvBrKBMsNUzKVpUzoGanwr.pki\"\n    },\n    \"app\": {\n      \"version\": \"string\",\n      \"release_stage\": \"string\"\n    },\n    \"device\": {\n      \"hostname\": \"string\",\n      \"os_name\": \"string\",\n      \"os_version\": \"string\",\n      \"browser_name\": \"string\",\n      \"browser_version\": \"string\"\n    },\n    \"exceptions\": [\n      {\n        \"error_class\": \"string\",\n        \"message\": \"string\",\n        \"stacktrace\": [\n          {\n            \"file\": \"string\",\n            \"line_number\": 233,\n            \"column_number\": 9880,\n            \"method\": \"string\",\n            \"in_project\": true,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"file\": \"string\",\n            \"line_number\": 4748,\n            \"column_number\": 2840,\n            \"method\": \"string\",\n            \"in_project\": true,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ]\n      },\n      {\n        \"error_class\": \"string\",\n        \"message\": \"string\",\n        \"stacktrace\": [\n          {\n            \"file\": \"string\",\n            \"line_number\": 2142,\n            \"column_number\": 6132,\n            \"method\": \"string\",\n            \"in_project\": false,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"file\": \"string\",\n            \"line_number\": 946,\n            \"column_number\": 4712,\n            \"method\": \"string\",\n            \"in_project\": true,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ]\n      }\n    ],\n    \"breadcrumbs\": [\n      {\n        \"timestamp\": \"2024-02-03T15:32:48.858Z\",\n        \"name\": \"string\",\n        \"type\": \"request\",\n        \"meta_data\": {\n          \"key_0\": 261.50429460831015,\n          \"key_1\": false,\n          \"key_2\": \"string\"\n        }\n      },\n      {\n        \"timestamp\": \"1970-08-13T12:05:15.020Z\",\n        \"name\": \"string\",\n        \"type\": \"state\",\n        \"meta_data\": {\n          \"key_0\": 4822\n        }\n      }\n    ],\n    \"request\": {\n      \"url\": \"https://IDgjaPutxWCwZsMuwkKqEhJvrYLh.nbkcwy7Gyo4ssTkNhSCvn\",\n      \"http_method\": \"string\",\n      \"referer\": \"string\",\n      \"client_ip\": \"string\"\n    },\n    \"meta_data\": {\n      \"key_0\": 7135,\n      \"key_1\": true\n    },\n    \"received_at\": \"2024-12-24T13:46:36.268Z\",\n    \"url\": \"http://QoxHvEEffbtKZTmDGHCEyJcxHDIy.gwoxVX4I+bA4rMK7b25z5UQStyVyEv7Gtk-7t\",\n    \"html_url\": \"https://bsR.xvkMu0gS2uKt2zsm-joP-npV\"\n  },\n  {\n    \"id\": \"string\",\n    \"error_id\": \"string\",\n    \"project_id\": \"string\",\n    \"error_class\": \"string\",\n    \"message\": \"string\",\n    \"context\": \"string\",\n    \"severity\": \"info\",\n    \"user\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"4E4rY@QtUaTeodcQfVpElSWsYZCJpMezg.dmj\"\n    },\n    \"app\": {\n      \"version\": \"string\",\n      \"release_stage\": \"string\"\n    },\n    \"device\": {\n      \"hostname\": \"string\",\n      \"os_name\": \"string\",\n      \"os_version\": \"string\",\n      \"browser_name\": \"string\",\n      \"browser_version\": \"string\"\n    },\n    \"exceptions\": [\n      {\n        \"error_class\": \"string\",\n        \"message\": \"string\",\n        \"stacktrace\": [\n          {\n            \"file\": \"string\",\n            \"line_number\": 6554,\n            \"column_number\": 925,\n            \"method\": \"string\",\n            \"in_project\": false,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"file\": \"string\",\n            \"line_number\": 4622,\n            \"column_number\": 8340,\n            \"method\": \"string\",\n            \"in_project\": false,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_3\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ]\n      },\n      {\n        \"error_class\": \"string\",\n        \"message\": \"string\",\n        \"stacktrace\": [\n          {\n            \"file\": \"string\",\n            \"line_number\": 683,\n            \"column_number\": 854,\n            \"method\": \"string\",\n            \"in_project\": false,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_2\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          },\n          {\n            \"file\": \"string\",\n            \"line_number\": 7653,\n            \"column_number\": 5388,\n            \"method\": \"string\",\n            \"in_project\": false,\n            \"code\": {\n              \"key_0\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              },\n              \"key_1\": {\n                \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n              }\n            }\n          }\n        ]\n      }\n    ],\n    \"breadcrumbs\": [\n      {\n        \"timestamp\": \"1997-05-14T05:57:04.770Z\",\n        \"name\": \"string\",\n        \"type\": \"user\",\n        \"meta_data\": {\n          \"key_0\": false,\n          \"key_1\": 1398,\n          \"key_2\": true\n        }\n      },\n      {\n        \"timestamp\": \"1994-11-03T11:35:41.000Z\",\n        \"name\": \"string\",\n        \"type\": \"error\",\n        \"meta_data\": {\n          \"key_0\": 7207,\n          \"key_1\": true,\n          \"key_2\": \"string\"\n        }\n      }\n    ],\n    \"request\": {\n      \"url\": \"http://smk.lfpvOpyw\",\n      \"http_method\": \"string\",\n      \"referer\": \"string\",\n      \"client_ip\": \"string\"\n    },\n    \"meta_data\": {\n      \"key_0\": 913\n    },\n    \"received_at\": \"1948-01-25T01:43:44.690Z\",\n    \"url\": \"https://HqLCJrJkAsgMZxUGWV.hmeWBZn3j1YypFc73QZ+Fxpyf\",\n    \"html_url\": \"http://LHtjjUpgVIWNBTdvqXYUUlAJBeQMfkVy.hqxmMu2QNYYM.C7VHLutZWmBf\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "61dbe846-bdf9-4b41-8f67-79aa849e44f1",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9df57dad-dfab-46ce-ba9f-30cbcc95d5df",
+              "name": "Error not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75546cff-2dd4-4540-bc21-88a53f1407c9",
+          "name": "Get the latest event for an error",
+          "request": {
+            "name": "Get the latest event for an error",
+            "description": {
+              "content": "Returns the most recent event for the specified error, including full exception details, device information, and metadata.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors",
+                ":error_id",
+                "events",
+                "latest"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "error_id",
+                  "description": "(Required) The unique identifier of the error."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "275aa144-37ae-4aef-80b4-49bac36264b3",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"error_id\": \"string\",\n  \"project_id\": \"string\",\n  \"error_class\": \"string\",\n  \"message\": \"string\",\n  \"context\": \"string\",\n  \"severity\": \"info\",\n  \"user\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"email\": \"FeRLqt7zoDTz7@rBbzhpLkrovjJhayj.nuln\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"release_stage\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"os_name\": \"string\",\n    \"os_version\": \"string\",\n    \"browser_name\": \"string\",\n    \"browser_version\": \"string\"\n  },\n  \"exceptions\": [\n    {\n      \"error_class\": \"string\",\n      \"message\": \"string\",\n      \"stacktrace\": [\n        {\n          \"file\": \"string\",\n          \"line_number\": 8668,\n          \"column_number\": 2236,\n          \"method\": \"string\",\n          \"in_project\": false,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"file\": \"string\",\n          \"line_number\": 4383,\n          \"column_number\": 3812,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"error_class\": \"string\",\n      \"message\": \"string\",\n      \"stacktrace\": [\n        {\n          \"file\": \"string\",\n          \"line_number\": 9719,\n          \"column_number\": 1162,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"file\": \"string\",\n          \"line_number\": 8795,\n          \"column_number\": 5847,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\"\n          }\n        }\n      ]\n    }\n  ],\n  \"breadcrumbs\": [\n    {\n      \"timestamp\": \"2000-08-14T21:36:05.201Z\",\n      \"name\": \"string\",\n      \"type\": \"process\",\n      \"meta_data\": {\n        \"key_0\": 7347.696125430283\n      }\n    },\n    {\n      \"timestamp\": \"2004-08-09T15:16:21.915Z\",\n      \"name\": \"string\",\n      \"type\": \"log\",\n      \"meta_data\": {\n        \"key_0\": false\n      }\n    }\n  ],\n  \"request\": {\n    \"url\": \"https://fbUeUUyqZOlWLyN.vyfiAyJeKCAA,3OUnGgzjMR-ww5,JvqEdOO3xY,hMPAyNPyLeLgZ4jnxvATA.Pg9k\",\n    \"http_method\": \"string\",\n    \"referer\": \"string\",\n    \"client_ip\": \"string\"\n  },\n  \"meta_data\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": true\n  },\n  \"received_at\": \"2013-01-09T19:49:24.038Z\",\n  \"url\": \"http://dXqBhklvqBSxDtebkfno.tbqACYvnS2NMxbpGqjD53+xs-KahF2Dfg-RV1LhkT1UIU6IOu,G-yGgD\",\n  \"html_url\": \"http://CVDEgcedOOaEDjNZaM.ryqmOoXXB5QOgbBO5EGva6DsDM0AOW2LIr-se+GDkomuC+B1-KgAurCo8FecDk8-IJ,u2eKxaryIZjZ7skbQExBgwMl1T\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d1411907-cb19-4fbc-b7c8-21ca83f86c28",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a5045f3-281e-454e-9902-e7d7c9a78fff",
+              "name": "Error not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id",
+                    "events",
+                    "latest"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "496b85ad-21af-409b-bab3-00586b8f5d43",
+          "name": "Get an event",
+          "request": {
+            "name": "Get an event",
+            "description": {
+              "content": "Returns the full details of a specific event, including exception information, stack traces, device data, application state, and any custom metadata attached to the event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "events",
+                ":event_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "event_id",
+                  "description": "(Required) The unique identifier of the event."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b91b9830-201e-4c1b-b741-b7c37b2a7321",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "events",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_id",
+                      "description": "(Required) The unique identifier of the event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"error_id\": \"string\",\n  \"project_id\": \"string\",\n  \"error_class\": \"string\",\n  \"message\": \"string\",\n  \"context\": \"string\",\n  \"severity\": \"info\",\n  \"user\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"email\": \"FeRLqt7zoDTz7@rBbzhpLkrovjJhayj.nuln\"\n  },\n  \"app\": {\n    \"version\": \"string\",\n    \"release_stage\": \"string\"\n  },\n  \"device\": {\n    \"hostname\": \"string\",\n    \"os_name\": \"string\",\n    \"os_version\": \"string\",\n    \"browser_name\": \"string\",\n    \"browser_version\": \"string\"\n  },\n  \"exceptions\": [\n    {\n      \"error_class\": \"string\",\n      \"message\": \"string\",\n      \"stacktrace\": [\n        {\n          \"file\": \"string\",\n          \"line_number\": 8668,\n          \"column_number\": 2236,\n          \"method\": \"string\",\n          \"in_project\": false,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"file\": \"string\",\n          \"line_number\": 4383,\n          \"column_number\": 3812,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        }\n      ]\n    },\n    {\n      \"error_class\": \"string\",\n      \"message\": \"string\",\n      \"stacktrace\": [\n        {\n          \"file\": \"string\",\n          \"line_number\": 9719,\n          \"column_number\": 1162,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\",\n            \"key_1\": \"string\"\n          }\n        },\n        {\n          \"file\": \"string\",\n          \"line_number\": 8795,\n          \"column_number\": 5847,\n          \"method\": \"string\",\n          \"in_project\": true,\n          \"code\": {\n            \"key_0\": \"string\"\n          }\n        }\n      ]\n    }\n  ],\n  \"breadcrumbs\": [\n    {\n      \"timestamp\": \"2000-08-14T21:36:05.201Z\",\n      \"name\": \"string\",\n      \"type\": \"process\",\n      \"meta_data\": {\n        \"key_0\": 7347.696125430283\n      }\n    },\n    {\n      \"timestamp\": \"2004-08-09T15:16:21.915Z\",\n      \"name\": \"string\",\n      \"type\": \"log\",\n      \"meta_data\": {\n        \"key_0\": false\n      }\n    }\n  ],\n  \"request\": {\n    \"url\": \"https://fbUeUUyqZOlWLyN.vyfiAyJeKCAA,3OUnGgzjMR-ww5,JvqEdOO3xY,hMPAyNPyLeLgZ4jnxvATA.Pg9k\",\n    \"http_method\": \"string\",\n    \"referer\": \"string\",\n    \"client_ip\": \"string\"\n  },\n  \"meta_data\": {\n    \"key_0\": \"string\",\n    \"key_1\": \"string\",\n    \"key_2\": true\n  },\n  \"received_at\": \"2013-01-09T19:49:24.038Z\",\n  \"url\": \"http://dXqBhklvqBSxDtebkfno.tbqACYvnS2NMxbpGqjD53+xs-KahF2Dfg-RV1LhkT1UIU6IOu,G-yGgD\",\n  \"html_url\": \"http://CVDEgcedOOaEDjNZaM.ryqmOoXXB5QOgbBO5EGva6DsDM0AOW2LIr-se+GDkomuC+B1-KgAurCo8FecDk8-IJ,u2eKxaryIZjZ7skbQExBgwMl1T\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ad22bbf4-af1a-4bcd-b8ed-5bb604edfc06",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "events",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_id",
+                      "description": "(Required) The unique identifier of the event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cca793d0-94e5-48e1-9ffe-ceb53c457142",
+              "name": "Event not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "events",
+                    ":event_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "event_id",
+                      "description": "(Required) The unique identifier of the event."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a275d56b-6247-4cda-820e-586fccd5fcc8",
+    "name": "Bugsnag Build Builds Events API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Pivots API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pivots",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project pivots",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/pivots",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              }
+            ]
+          },
+          "docs": "Returns a list of available pivot dimensions for the specified project. Pivots allow you to group error data by dimensions such as browser, device, operating system, or location."
+        },
+        {
+          "info": {
+            "name": "List pivot values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/pivots/:pivot_id/values",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "pivot_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the pivot dimension."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns the values for a specific pivot dimension within a project. For example, listing all browser names or operating system versions seen in error events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

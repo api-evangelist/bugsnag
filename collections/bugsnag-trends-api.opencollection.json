@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Trends API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Trends",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get error trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "buckets_count",
+                "value": "",
+                "type": "query",
+                "description": "The number of time buckets to return in the trend data."
+              }
+            ]
+          },
+          "docs": "Returns time-series trend data for a specific error, showing how the error frequency changes over time."
+        },
+        {
+          "info": {
+            "name": "Get project trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "buckets_count",
+                "value": "",
+                "type": "query",
+                "description": "The number of time buckets to return in the trend data."
+              },
+              {
+                "name": "resolution",
+                "value": "",
+                "type": "query",
+                "description": "The time resolution for each bucket in the trend data."
+              }
+            ]
+          },
+          "docs": "Returns time-series trend data for a project, showing the overall error rate and resolution trends over time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

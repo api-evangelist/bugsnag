@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Stability API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stability",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get project stability trend",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/stability_trend",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter the stability trend by a specific release stage."
+              }
+            ]
+          },
+          "docs": "Returns the stability trend for a project over time, including crash-free session percentages and crash-free user percentages across releases."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

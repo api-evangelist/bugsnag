@@ -1,0 +1,99 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Events API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List error events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/events",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of events for the specified error. Events represent individual occurrences of an error. Results are paginated."
+        },
+        {
+          "info": {
+            "name": "Get the latest event for an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id/events/latest",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Returns the most recent event for the specified error, including full exception details, device information, and metadata."
+        },
+        {
+          "info": {
+            "name": "Get an event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/events/:event_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the event."
+              }
+            ]
+          },
+          "docs": "Returns the full details of a specific event, including exception information, stack traces, device data, application state, and any custom metadata attached to the event."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

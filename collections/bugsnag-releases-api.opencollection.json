@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Releases API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Releases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/releases",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter releases by a specific release stage."
+              }
+            ]
+          },
+          "docs": "Returns a list of releases for the specified project. Releases represent deployed versions of your application and include associated error and stability data."
+        },
+        {
+          "info": {
+            "name": "Get a release",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/releases/:release_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "release_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the release."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific release, including its version, release stage, builder information, source control data, and associated error statistics."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

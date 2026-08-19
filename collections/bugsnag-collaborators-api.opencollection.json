@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Collaborators API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collaborators",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List organization collaborators",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/collaborators",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              }
+            ]
+          },
+          "docs": "Returns a list of collaborators for the specified organization. Each collaborator includes their user information and permissions."
+        },
+        {
+          "info": {
+            "name": "Invite a collaborator to an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/collaborators",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invites a new collaborator to the specified organization by email address. The invited user will receive an email with instructions to join."
+        },
+        {
+          "info": {
+            "name": "Get an organization collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific collaborator within an organization, including their role and project access."
+        },
+        {
+          "info": {
+            "name": "Update a collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the permissions or role of an existing collaborator within an organization."
+        },
+        {
+          "info": {
+            "name": "Remove a collaborator",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://build.bugsnag.com/organizations/:organization_id/collaborators/:collaborator_id",
+            "params": [
+              {
+                "name": "organization_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the organization."
+              },
+              {
+                "name": "collaborator_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the collaborator."
+              }
+            ]
+          },
+          "docs": "Removes a collaborator from the specified organization. The user will lose access to all projects within the organization."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

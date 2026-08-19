@@ -1,0 +1,1009 @@
+{
+  "item": [
+    {
+      "id": "58f1cb23-1bb5-49b9-9dee-0492d1b45558",
+      "name": "Errors",
+      "description": {
+        "content": "Access and manage errors within projects. Errors represent groups of similar events that have been detected by Bugsnag.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "8d8dfdf2-a2c6-49a6-b588-d1ad2b4dedc1",
+          "name": "List project errors",
+          "request": {
+            "name": "List project errors",
+            "description": {
+              "content": "Returns a list of errors for the specified project. Errors can be filtered by status, severity, and other criteria. Results are paginated using the Link header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "30",
+                  "description": "The number of results to return per page. Used for pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "The field to sort results by. Supported values include last_seen, first_seen, users, events, and unsorted."
+                },
+                {
+                  "disabled": false,
+                  "key": "direction",
+                  "value": "<string>",
+                  "description": "The sort direction, either ascending or descending."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter errors by their status."
+                },
+                {
+                  "disabled": false,
+                  "key": "severity",
+                  "value": "<string>",
+                  "description": "Filter errors by their severity level."
+                },
+                {
+                  "disabled": false,
+                  "key": "release_stage",
+                  "value": "<string>",
+                  "description": "Filter errors by the release stage in which they occurred."
+                },
+                {
+                  "disabled": false,
+                  "key": "q",
+                  "value": "<string>",
+                  "description": "A full-text search query to filter errors by their error class, message, or context."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b26ae01f-897e-4f7c-8eba-72d530d1b13b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "release_stage",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"project_id\": \"string\",\n    \"error_class\": \"string\",\n    \"message\": \"string\",\n    \"context\": \"string\",\n    \"severity\": \"error\",\n    \"status\": \"snoozed\",\n    \"events\": 1934,\n    \"users\": 1485,\n    \"first_seen\": \"2018-08-22T13:20:16.142Z\",\n    \"last_seen\": \"2006-09-16T11:38:41.886Z\",\n    \"first_seen_unfiltered\": \"2002-11-26T02:40:23.810Z\",\n    \"release_stages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"created_at\": \"1979-07-23T20:22:11.509Z\",\n    \"events_url\": \"https://KBHCStXhiwEKMBmfMFIA.natnYSajGtp-CXUFymshSSHswEUjVysZig-CecgUYmfTPxW6tYthyXcdw8IruPR\",\n    \"html_url\": \"https://qjKQsGIzwkJNPXEbwAKV.zwvxwK7g\",\n    \"url\": \"https://ZkCBsdkSnHMRTCnqBiTJuVOoPfMV.iirxo3oGjuhc1to3TGcCm87li+JEWcuycFIrtsCy03RK3gSqYkRGU9sMB268lBrRsN-skjNk\",\n    \"comment_count\": 6438,\n    \"missing_dsyms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"overrides\": {},\n    \"assigned_collaborator_id\": \"string\"\n  },\n  {\n    \"id\": \"string\",\n    \"project_id\": \"string\",\n    \"error_class\": \"string\",\n    \"message\": \"string\",\n    \"context\": \"string\",\n    \"severity\": \"info\",\n    \"status\": \"ignored\",\n    \"events\": 1681,\n    \"users\": 6804,\n    \"first_seen\": \"1946-11-17T13:14:13.007Z\",\n    \"last_seen\": \"1960-01-04T17:30:18.749Z\",\n    \"first_seen_unfiltered\": \"1985-07-16T01:13:51.104Z\",\n    \"release_stages\": [\n      \"string\",\n      \"string\"\n    ],\n    \"created_at\": \"2009-10-01T13:49:41.282Z\",\n    \"events_url\": \"http://VnRLStottEyBGcTgxVGOgsecthqUYcyT.mrikJG9g12si-13gmdSHJGbKdvQDr0CTRC,r\",\n    \"html_url\": \"https://aiBNGbcggHYOiXupI.itcdoWQzP5IyRgMyjNJgTE3fcG1S\",\n    \"url\": \"http://ugQTOGdbHIHB.sgbSQ9DUnTa.kO7oPizGHU4K\",\n    \"comment_count\": 7326,\n    \"missing_dsyms\": [\n      \"string\",\n      \"string\"\n    ],\n    \"overrides\": {},\n    \"assigned_collaborator_id\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2ea2e449-bf9b-47c5-b65c-56d45b6339b0",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "release_stage",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "48bc9a04-dbcd-4cc7-bca1-cbecbbcae93f",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "direction",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "severity",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "release_stage",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "q",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb873fdf-ea06-4b47-ba32-40bf37de728a",
+          "name": "Get an error",
+          "request": {
+            "name": "Get an error",
+            "description": {
+              "content": "Returns the details of a specific error, including its error class, message, severity, status, event count, and user count.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors",
+                ":error_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "error_id",
+                  "description": "(Required) The unique identifier of the error."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "300b2dc6-74da-4896-a5a9-44d3048c08e5",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"project_id\": \"string\",\n  \"error_class\": \"string\",\n  \"message\": \"string\",\n  \"context\": \"string\",\n  \"severity\": \"error\",\n  \"status\": \"ignored\",\n  \"events\": 505,\n  \"users\": 7414,\n  \"first_seen\": \"1979-12-17T16:01:01.630Z\",\n  \"last_seen\": \"1961-08-28T21:35:25.458Z\",\n  \"first_seen_unfiltered\": \"1981-06-23T17:50:17.601Z\",\n  \"release_stages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created_at\": \"1997-06-27T05:44:48.238Z\",\n  \"events_url\": \"http://mQAUASvnJBsttPgOcQydJldaia.cybjcf,Av\",\n  \"html_url\": \"http://HkdrddIeuoGxfyLKYIDLXuhwToAA.urlVbc+wu5IPkOfaAPqjNy.wsh\",\n  \"url\": \"https://JgTbFXh.alkOK6VZZAEO6ltwEZI3XZsZGklQQILAUTTZH75aZTEjxlZGy0FLbUhfXBN4j4YB\",\n  \"comment_count\": 3330,\n  \"missing_dsyms\": [\n    \"string\",\n    \"string\"\n  ],\n  \"overrides\": {},\n  \"assigned_collaborator_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3fe9c25-dc52-4da1-a575-63939e0750d3",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9dfa5463-71fb-4e0a-bdd6-6419546ae9a6",
+              "name": "Error not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "adc1a1e4-5bb8-4f4b-b333-35842b1433c1",
+          "name": "Update an error",
+          "request": {
+            "name": "Update an error",
+            "description": {
+              "content": "Updates the status or severity of an error. Use this to resolve, snooze, ignore, or reopen errors.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors",
+                ":error_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "error_id",
+                  "description": "(Required) The unique identifier of the error."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"assigned_collaborator_id\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "57b0e6c3-3536-4728-b6ee-9ac576bee2c8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"assigned_collaborator_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"project_id\": \"string\",\n  \"error_class\": \"string\",\n  \"message\": \"string\",\n  \"context\": \"string\",\n  \"severity\": \"error\",\n  \"status\": \"ignored\",\n  \"events\": 505,\n  \"users\": 7414,\n  \"first_seen\": \"1979-12-17T16:01:01.630Z\",\n  \"last_seen\": \"1961-08-28T21:35:25.458Z\",\n  \"first_seen_unfiltered\": \"1981-06-23T17:50:17.601Z\",\n  \"release_stages\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created_at\": \"1997-06-27T05:44:48.238Z\",\n  \"events_url\": \"http://mQAUASvnJBsttPgOcQydJldaia.cybjcf,Av\",\n  \"html_url\": \"http://HkdrddIeuoGxfyLKYIDLXuhwToAA.urlVbc+wu5IPkOfaAPqjNy.wsh\",\n  \"url\": \"https://JgTbFXh.alkOK6VZZAEO6ltwEZI3XZsZGklQQILAUTTZH75aZTEjxlZGy0FLbUhfXBN4j4YB\",\n  \"comment_count\": 3330,\n  \"missing_dsyms\": [\n    \"string\",\n    \"string\"\n  ],\n  \"overrides\": {},\n  \"assigned_collaborator_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a1200e0f-36b9-4e31-9a3e-3581c793eb75",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"assigned_collaborator_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ea1596d-af25-4376-aee9-5febcac9c2a5",
+              "name": "Error not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"assigned_collaborator_id\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b337bd2f-8d43-43c4-9405-0ce0b24add04",
+          "name": "Delete an error",
+          "request": {
+            "name": "Delete an error",
+            "description": {
+              "content": "Permanently deletes an error and all of its associated events.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "errors",
+                ":error_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_id",
+                  "description": "(Required) The unique identifier of the project."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "error_id",
+                  "description": "(Required) The unique identifier of the error."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b82c1d82-f344-458a-8cff-1b90e467beb6",
+              "name": "Error deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "95132594-80fb-46ca-8634-c4a7478d9a38",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ab6ff95-a12e-4aa9-bb50-d6fbee4d621c",
+              "name": "Error not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "errors",
+                    ":error_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_id",
+                      "description": "(Required) The unique identifier of the project."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "error_id",
+                      "description": "(Required) The unique identifier of the error."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "277c1005-d3e0-4230-959a-0feec2be2c9d",
+    "name": "Bugsnag Build Builds Errors API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

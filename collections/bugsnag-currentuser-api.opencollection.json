@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds CurrentUser API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CurrentUser",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/user"
+          },
+          "docs": "Returns information about the currently authenticated user, including their name, email, and associated organizations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,333 @@
+{
+  "item": [
+    {
+      "id": "0187a9fe-8d28-4b54-ac13-a7bca7b70dda",
+      "name": "Organizations",
+      "description": {
+        "content": "Access and manage organizations. An organization is the top-level entity in Bugsnag that contains projects and collaborators.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd2e621c-d630-465d-91f7-bfecec787515",
+          "name": "List organizations",
+          "request": {
+            "name": "List organizations",
+            "description": {
+              "content": "Returns a list of organizations that the currently authenticated user belongs to. Results are paginated using the Link header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user",
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "30",
+                  "description": "The number of results to return per page. Used for pagination."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f90e5339-a130-4cbb-9b41-b30f845535de",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"creator\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"TbF6sgoxI7l2z@lx.ay\",\n      \"gravatar_url\": \"https://CvxCC.cmaznNigXWTzhPMQdxdFnNsNRH-+Tji+7M+rVSNYbjP9LrFyo\",\n      \"html_url\": \"https://azSqXTtOY.wdpj3.AsEp4rtaaXTEtuUS.lHFn5vYW5cLw0FzR5sORyBarL5tOtqBjxTs.JUP\"\n    },\n    \"billing_email\": \"LUFIBOLhHo@RsvIyqUwkzoRZeSlqKSyPWhSGw.mq\",\n    \"auto_upgrade\": false,\n    \"created_at\": \"2009-04-16T10:34:50.470Z\",\n    \"updated_at\": \"1999-12-18T14:06:06.436Z\"\n  },\n  {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"creator\": {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"email\": \"O8pK7MZSf@O.cox\",\n      \"gravatar_url\": \"https://DjCfcRTQWFZOnhzW.uylD,PC9UF9.6teA7j6Ighz1E+z1knWo,SCBn6kVVegXjRapA\",\n      \"html_url\": \"http://qXc.bopGudrogbPOtB4-42bz9F5rAA0XLbuHEdCIL3h3gwSOQB.B\"\n    },\n    \"billing_email\": \"KbOqTQxtFC@GtLTqbWKHKmm.igb\",\n    \"auto_upgrade\": false,\n    \"created_at\": \"1968-10-31T21:48:47.096Z\",\n    \"updated_at\": \"1998-06-03T15:44:30.510Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b5a6890e-7769-4849-a19c-f7b48f7bd619",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "per_page",
+                      "value": "30"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d15a13fa-bc3c-44c4-aec4-f92c7565e399",
+          "name": "Get an organization",
+          "request": {
+            "name": "Get an organization",
+            "description": {
+              "content": "Returns the details of a specific organization, including its name, slug, billing email, and creation date.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "organizations",
+                ":organization_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "organization_id",
+                  "description": "(Required) The unique identifier of the organization."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d3b80b3e-da69-43c0-9001-8d6ee477b737",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The unique identifier of the organization."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"creator\": {\n    \"id\": \"string\",\n    \"name\": \"string\",\n    \"email\": \"Z9A83OjhCmCaEA@KnwJPL.iqfl\",\n    \"gravatar_url\": \"https://guhmdoAqerj.tpaMP8s1dGzvpkpGwG0Yof7h\",\n    \"html_url\": \"https://nCiLWjiQUaGxMXZxeOddGexIJLjJFvHh.gdtvD3AEoZYt8pe,8s7SUrRwyc0JvOLYponY\"\n  },\n  \"billing_email\": \"AHDmBZ@FsJQJDPLZzLSO.vqv\",\n  \"auto_upgrade\": true,\n  \"created_at\": \"1951-05-19T23:44:31.529Z\",\n  \"updated_at\": \"1990-12-20T13:34:13.810Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fcd23c2c-5a38-4dec-95ec-5b91c8ce2d4c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The unique identifier of the organization."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2ef0d2c-5e19-4aef-94ca-548c537ffc04",
+              "name": "Organization not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "organizations",
+                    ":organization_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "organization_id",
+                      "description": "(Required) The unique identifier of the organization."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://build.bugsnag.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "13476f16-0f97-47ba-9088-855a2f9f4ab6",
+    "name": "Bugsnag Build Builds Organizations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.\n\nContact Support:\n Name: Bugsnag Support",
+      "type": "text/plain"
+    }
+  }
+}

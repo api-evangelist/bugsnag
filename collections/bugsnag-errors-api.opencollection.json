@@ -1,0 +1,158 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Bugsnag Build Builds Errors API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Errors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List project errors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return per page. Used for pagination."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "The field to sort results by. Supported values include last_seen, first_seen, users, events, and unsorted."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "The sort direction, either ascending or descending."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by their status."
+              },
+              {
+                "name": "severity",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by their severity level."
+              },
+              {
+                "name": "release_stage",
+                "value": "",
+                "type": "query",
+                "description": "Filter errors by the release stage in which they occurred."
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "A full-text search query to filter errors by their error class, message, or context."
+              }
+            ]
+          },
+          "docs": "Returns a list of errors for the specified project. Errors can be filtered by status, severity, and other criteria. Results are paginated using the Link header."
+        },
+        {
+          "info": {
+            "name": "Get an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Returns the details of a specific error, including its error class, message, severity, status, event count, and user count."
+        },
+        {
+          "info": {
+            "name": "Update an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the status or severity of an error. Use this to resolve, snooze, ignore, or reopen errors."
+        },
+        {
+          "info": {
+            "name": "Delete an error",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://build.bugsnag.com/projects/:project_id/errors/:error_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the project."
+              },
+              {
+                "name": "error_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the error."
+              }
+            ]
+          },
+          "docs": "Permanently deletes an error and all of its associated events."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
