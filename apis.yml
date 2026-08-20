@@ -87,6 +87,8 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
+  - Current User
+  tags_raw:
   - CurrentUser
   properties:
   - type: OpenAPI
@@ -152,6 +154,8 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -174,6 +178,8 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -196,6 +202,8 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -240,6 +248,8 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
