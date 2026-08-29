@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bugsnag Build Builds Notifications API
-  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
-  version: '1.0'
+  title: Bugsnag Error Reporting Notifications API
+  description: The Bugsnag Error Reporting API allows applications to report error and exception details directly to the Bugsnag dashboard. If there is no official SDK available for your platform, you can use this API to send error payloads manually. The API accepts structured JSON payloads containing exception details, stack traces, device information, and application metadata. It is the underlying mechanism used by all official Bugsnag notifier SDKs to deliver error data.
+  version: '4'
   contact:
     name: Bugsnag Support
-    url: https://docs.bugsnag.com/api/build/
+    url: https://docs.bugsnag.com/api/error-reporting/
   termsOfService: https://smartbear.com/terms-of-use/
 servers:
-- url: https://build.bugsnag.com
-  description: Bugsnag Build Server
+- url: https://notify.bugsnag.com
+  description: Bugsnag Notification Server
 security: []
 tags:
 - name: Notifications
@@ -57,134 +57,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ExceptionPayload:
-      type: object
-      description: Represents an exception within an error event, including the error class, message, and stack trace frames.
-      required:
-      - errorClass
-      - stacktrace
-      properties:
-        errorClass:
-          type: string
-          description: The class or type name of the exception (e.g., TypeError, NullPointerException, RuntimeError).
-        message:
-          type: string
-          description: The human-readable error message describing what went wrong.
-        stacktrace:
-          type: array
-          description: The stack trace frames for this exception, ordered from the frame where the error occurred to the entry point.
-          items:
-            $ref: '#/components/schemas/StackFramePayload'
-        type:
-          type: string
-          description: The type of error mechanism.
-          enum:
-          - android
-          - browserjs
-          - cocoa
-          - c
-          - csharp
-          - go
-          - java
-          - nodejs
-          - php
-          - python
-          - ruby
-    StackFramePayload:
-      type: object
-      description: Represents a single frame in an exception's stack trace.
-      required:
-      - file
-      - lineNumber
-      - method
-      properties:
-        file:
-          type: string
-          description: The file path where the code is located.
-        lineNumber:
-          type: integer
-          description: The line number in the file where the frame originates.
-        columnNumber:
-          type: integer
-          description: The column number in the file.
-        method:
-          type: string
-          description: The method or function name.
-        inProject:
-          type: boolean
-          description: Whether this frame originates from the project's own code, as opposed to a library or framework.
-        code:
-          type: object
-          additionalProperties:
-            type: string
-          description: A map of line numbers to source code lines surrounding the error location.
-    BreadcrumbPayload:
-      type: object
-      description: Represents a breadcrumb event that occurred before the error, providing context about the user's actions and application state.
-      required:
-      - timestamp
-      - name
-      - type
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          description: The ISO 8601 timestamp when the breadcrumb was recorded.
-        name:
-          type: string
-          description: A short summary of the breadcrumb event.
-          maxLength: 30
-        type:
-          type: string
-          description: The category of breadcrumb event.
-          enum:
-          - navigation
-          - request
-          - process
-          - log
-          - user
-          - state
-          - error
-          - manual
-        metaData:
-          type: object
-          additionalProperties: true
-          description: Additional metadata associated with the breadcrumb.
-    NotificationPayload:
-      type: object
-      description: The top-level notification payload sent to the Bugsnag Error Reporting API. Contains the API key, notifier information, and one or more error events.
-      required:
-      - apiKey
-      - notifier
-      - events
-      properties:
-        apiKey:
-          type: string
-          description: The Bugsnag API key for the project. Found in project settings on the Bugsnag dashboard.
-          example: c9d60ae4c7e70c4b6c4ebd3e8056d2b8
-        payloadVersion:
-          type: string
-          description: The version of the payload format. Current version is 4.
-          enum:
-          - '4'
-          default: '4'
-        notifier:
-          $ref: '#/components/schemas/Notifier'
-        events:
-          type: array
-          description: The list of error events to report. Each event represents an individual error occurrence.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/EventPayload'
-    ErrorResponse:
-      type: object
-      description: An error response from the notification endpoint.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages describing the problem.
     EventPayload:
       type: object
       description: Represents a single error event occurrence. Contains exception details, stack traces, application and device information, breadcrumbs, and custom metadata.
@@ -403,6 +275,94 @@ components:
             type: object
             additionalProperties: true
           description: Custom metadata organized by tab name. Each key represents a tab that will appear on the Bugsnag dashboard, containing key-value pairs of additional debugging information.
+    ThreadPayload:
+      type: object
+      description: Information about a thread running at the time of the error.
+      properties:
+        id:
+          type: string
+          description: The thread identifier.
+        name:
+          type: string
+          description: The thread name.
+        errorReportingThread:
+          type: boolean
+          description: Whether this is the thread on which the error occurred.
+        stacktrace:
+          type: array
+          description: The stack trace of this thread at the time of the error.
+          items:
+            $ref: '#/components/schemas/StackFramePayload'
+    ErrorResponse:
+      type: object
+      description: An error response from the notification endpoint.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages describing the problem.
+    ExceptionPayload:
+      type: object
+      description: Represents an exception within an error event, including the error class, message, and stack trace frames.
+      required:
+      - errorClass
+      - stacktrace
+      properties:
+        errorClass:
+          type: string
+          description: The class or type name of the exception (e.g., TypeError, NullPointerException, RuntimeError).
+        message:
+          type: string
+          description: The human-readable error message describing what went wrong.
+        stacktrace:
+          type: array
+          description: The stack trace frames for this exception, ordered from the frame where the error occurred to the entry point.
+          items:
+            $ref: '#/components/schemas/StackFramePayload'
+        type:
+          type: string
+          description: The type of error mechanism.
+          enum:
+          - android
+          - browserjs
+          - cocoa
+          - c
+          - csharp
+          - go
+          - java
+          - nodejs
+          - php
+          - python
+          - ruby
+    StackFramePayload:
+      type: object
+      description: Represents a single frame in an exception's stack trace.
+      required:
+      - file
+      - lineNumber
+      - method
+      properties:
+        file:
+          type: string
+          description: The file path where the code is located.
+        lineNumber:
+          type: integer
+          description: The line number in the file where the frame originates.
+        columnNumber:
+          type: integer
+          description: The column number in the file.
+        method:
+          type: string
+          description: The method or function name.
+        inProject:
+          type: boolean
+          description: Whether this frame originates from the project's own code, as opposed to a library or framework.
+        code:
+          type: object
+          additionalProperties:
+            type: string
+          description: A map of line numbers to source code lines surrounding the error location.
     Notifier:
       type: object
       description: Information about the notifier library sending the error report. Used by Bugsnag to identify the source SDK and version.
@@ -424,24 +384,64 @@ components:
           format: uri
           description: The URL for the notifier library's homepage or repository.
           example: https://github.com/bugsnag/bugsnag-ruby
-    ThreadPayload:
+    NotificationPayload:
       type: object
-      description: Information about a thread running at the time of the error.
+      description: The top-level notification payload sent to the Bugsnag Error Reporting API. Contains the API key, notifier information, and one or more error events.
+      required:
+      - apiKey
+      - notifier
+      - events
       properties:
-        id:
+        apiKey:
           type: string
-          description: The thread identifier.
+          description: The Bugsnag API key for the project. Found in project settings on the Bugsnag dashboard.
+          example: c9d60ae4c7e70c4b6c4ebd3e8056d2b8
+        payloadVersion:
+          type: string
+          description: The version of the payload format. Current version is 4.
+          enum:
+          - '4'
+          default: '4'
+        notifier:
+          $ref: '#/components/schemas/Notifier'
+        events:
+          type: array
+          description: The list of error events to report. Each event represents an individual error occurrence.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/EventPayload'
+    BreadcrumbPayload:
+      type: object
+      description: Represents a breadcrumb event that occurred before the error, providing context about the user's actions and application state.
+      required:
+      - timestamp
+      - name
+      - type
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The ISO 8601 timestamp when the breadcrumb was recorded.
         name:
           type: string
-          description: The thread name.
-        errorReportingThread:
-          type: boolean
-          description: Whether this is the thread on which the error occurred.
-        stacktrace:
-          type: array
-          description: The stack trace of this thread at the time of the error.
-          items:
-            $ref: '#/components/schemas/StackFramePayload'
+          description: A short summary of the breadcrumb event.
+          maxLength: 30
+        type:
+          type: string
+          description: The category of breadcrumb event.
+          enum:
+          - navigation
+          - request
+          - process
+          - log
+          - user
+          - state
+          - error
+          - manual
+        metaData:
+          type: object
+          additionalProperties: true
+          description: Additional metadata associated with the breadcrumb.
 externalDocs:
-  description: Bugsnag Build API Documentation
-  url: https://docs.bugsnag.com/api/build/
+  description: Bugsnag Error Reporting API Documentation
+  url: https://docs.bugsnag.com/api/error-reporting/

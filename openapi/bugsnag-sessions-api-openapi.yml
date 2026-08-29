@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bugsnag Build Builds Sessions API
-  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  title: Bugsnag Session Tracking Sessions API
+  description: The Bugsnag Session Tracking API enables applications to report session data, which is used to calculate release stability scores in the Bugsnag dashboard. By tracking when user sessions start and end, Bugsnag can determine crash rates and overall application stability. This API works in conjunction with the Error Reporting API to provide a complete picture of application health. Session data is required for accurate stability metrics and crash-free user percentages.
   version: '1.0'
   contact:
     name: Bugsnag Support
-    url: https://docs.bugsnag.com/api/build/
+    url: https://docs.bugsnag.com/api/sessions/
   termsOfService: https://smartbear.com/terms-of-use/
 servers:
-- url: https://build.bugsnag.com
-  description: Bugsnag Build Server
+- url: https://sessions.bugsnag.com
+  description: Bugsnag Sessions Server
 security: []
 tags:
 - name: Sessions
@@ -51,25 +51,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ApplicationInfo:
-      type: object
-      description: Information about the application reporting sessions.
-      properties:
-        version:
-          type: string
-          description: The application version string.
-        releaseStage:
-          type: string
-          description: The release stage of the application (e.g., production, staging).
-        type:
-          type: string
-          description: The type of application.
-        versionCode:
-          type: integer
-          description: The numeric version code, for Android applications.
-        bundleVersion:
-          type: string
-          description: The bundle version, for iOS applications.
     ErrorResponse:
       type: object
       description: An error response from the session tracking endpoint.
@@ -99,51 +80,6 @@ components:
           type: string
           format: uri
           description: The URL for the notifier library's homepage or repository.
-    DeviceInfo:
-      type: object
-      description: Information about the device running the application.
-      properties:
-        hostname:
-          type: string
-          description: The hostname of the device.
-        osName:
-          type: string
-          description: The name of the operating system.
-        osVersion:
-          type: string
-          description: The version of the operating system.
-        manufacturer:
-          type: string
-          description: The device manufacturer.
-        model:
-          type: string
-          description: The device model name.
-        runtimeVersions:
-          type: object
-          additionalProperties:
-            type: string
-          description: Runtime version information (e.g., node version, CLR version).
-    SessionPayload:
-      type: object
-      description: The top-level session tracking payload. Contains the notifier information, application and device context, and a batch of session counts.
-      required:
-      - notifier
-      - app
-      - device
-      - sessionCounts
-      properties:
-        notifier:
-          $ref: '#/components/schemas/Notifier'
-        app:
-          $ref: '#/components/schemas/ApplicationInfo'
-        device:
-          $ref: '#/components/schemas/DeviceInfo'
-        sessionCounts:
-          type: array
-          description: A batch of session count records. Each record represents sessions started at a specific time.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/SessionCount'
     SessionCount:
       type: object
       description: Represents a batch of sessions that started at the same time. Used for efficient batching of session data.
@@ -173,6 +109,70 @@ components:
               type: string
               format: email
               description: The user's email address.
+    SessionPayload:
+      type: object
+      description: The top-level session tracking payload. Contains the notifier information, application and device context, and a batch of session counts.
+      required:
+      - notifier
+      - app
+      - device
+      - sessionCounts
+      properties:
+        notifier:
+          $ref: '#/components/schemas/Notifier'
+        app:
+          $ref: '#/components/schemas/ApplicationInfo'
+        device:
+          $ref: '#/components/schemas/DeviceInfo'
+        sessionCounts:
+          type: array
+          description: A batch of session count records. Each record represents sessions started at a specific time.
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/SessionCount'
+    ApplicationInfo:
+      type: object
+      description: Information about the application reporting sessions.
+      properties:
+        version:
+          type: string
+          description: The application version string.
+        releaseStage:
+          type: string
+          description: The release stage of the application (e.g., production, staging).
+        type:
+          type: string
+          description: The type of application.
+        versionCode:
+          type: integer
+          description: The numeric version code, for Android applications.
+        bundleVersion:
+          type: string
+          description: The bundle version, for iOS applications.
+    DeviceInfo:
+      type: object
+      description: Information about the device running the application.
+      properties:
+        hostname:
+          type: string
+          description: The hostname of the device.
+        osName:
+          type: string
+          description: The name of the operating system.
+        osVersion:
+          type: string
+          description: The version of the operating system.
+        manufacturer:
+          type: string
+          description: The device manufacturer.
+        model:
+          type: string
+          description: The device model name.
+        runtimeVersions:
+          type: object
+          additionalProperties:
+            type: string
+          description: Runtime version information (e.g., node version, CLR version).
 externalDocs:
-  description: Bugsnag Build API Documentation
-  url: https://docs.bugsnag.com/api/build/
+  description: Bugsnag Session Tracking API Documentation
+  url: https://docs.bugsnag.com/api/sessions/

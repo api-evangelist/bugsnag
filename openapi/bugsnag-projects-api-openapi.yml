@@ -1,16 +1,17 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bugsnag Build Builds Projects API
-  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
-  version: '1.0'
+  title: Bugsnag Data Access Projects API
+  description: The Bugsnag Data Access API provides programmatic access to information about your organization, projects, errors, events, and more. It allows developers to build custom integrations and dashboards using their Bugsnag data. The REST API uses JSON and requires authentication via a personal auth token sent in the Authorization header. It supports querying error trends, project configurations, collaborators, and release information.
+  version: '2.0'
   contact:
     name: Bugsnag Support
-    url: https://docs.bugsnag.com/api/build/
+    url: https://docs.bugsnag.com/api/data-access/
   termsOfService: https://smartbear.com/terms-of-use/
 servers:
-- url: https://build.bugsnag.com
-  description: Bugsnag Build Server
-security: []
+- url: https://api.bugsnag.com
+  description: Bugsnag Production API Server
+security:
+- tokenAuth: []
 tags:
 - name: Projects
   description: Access and manage projects within an organization. Projects represent individual applications being monitored by Bugsnag.
@@ -209,19 +210,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    ProjectCreate:
-      type: object
-      description: Request body for creating a new project.
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-          description: The name of the project.
-        type:
-          type: string
-          description: The platform type of the project (e.g., rails, js, android).
     Error:
       type: object
       description: An API error response.
@@ -231,6 +219,33 @@ components:
           items:
             type: string
           description: List of error messages.
+    ProjectUpdate:
+      type: object
+      description: Request body for updating a project.
+      properties:
+        name:
+          type: string
+          description: The new name for the project.
+        global_grouping:
+          type: array
+          items:
+            type: string
+          description: Updated global grouping rules for errors.
+        location_grouping:
+          type: array
+          items:
+            type: string
+          description: Updated location-based grouping rules.
+        discarded_app_versions:
+          type: array
+          items:
+            type: string
+          description: Application versions for which errors should be discarded.
+        discarded_errors:
+          type: array
+          items:
+            type: string
+          description: Error classes that should be discarded.
     Project:
       type: object
       description: Represents a Bugsnag project, which corresponds to an individual application being monitored.
@@ -317,34 +332,34 @@ components:
         custom_event_fields_used:
           type: integer
           description: The number of custom event fields in use.
-    ProjectUpdate:
+    ProjectCreate:
       type: object
-      description: Request body for updating a project.
+      description: Request body for creating a new project.
+      required:
+      - name
+      - type
       properties:
         name:
           type: string
-          description: The new name for the project.
-        global_grouping:
-          type: array
-          items:
-            type: string
-          description: Updated global grouping rules for errors.
-        location_grouping:
-          type: array
-          items:
-            type: string
-          description: Updated location-based grouping rules.
-        discarded_app_versions:
-          type: array
-          items:
-            type: string
-          description: Application versions for which errors should be discarded.
-        discarded_errors:
-          type: array
-          items:
-            type: string
-          description: Error classes that should be discarded.
+          description: The name of the project.
+        type:
+          type: string
+          description: The platform type of the project (e.g., rails, js, android).
   parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
     PerPage:
       name: per_page
       in: query
@@ -354,20 +369,12 @@ components:
         minimum: 1
         maximum: 100
         default: 30
-    OrganizationId:
-      name: organization_id
-      in: path
-      required: true
-      description: The unique identifier of the organization.
-      schema:
-        type: string
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Personal auth token sent as "token YOUR-AUTH-TOKEN". The token can be found in the Bugsnag account settings under the API section.
 externalDocs:
-  description: Bugsnag Build API Documentation
-  url: https://docs.bugsnag.com/api/build/
+  description: Bugsnag Data Access API Documentation
+  url: https://docs.bugsnag.com/api/data-access/

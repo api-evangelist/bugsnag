@@ -1,15 +1,15 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Bugsnag Build Builds Traces API
-  description: The Bugsnag Build API allows you to provide information about your application builds, releases, and deployments. By notifying Bugsnag when you deploy, you can track which releases introduced new errors, view error trends across releases, and identify regressions. The API accepts build metadata including version numbers, source control information, and release stages. It integrates with CI/CD pipelines to automate release tracking.
+  title: Bugsnag Trace Traces API
+  description: The Bugsnag Trace API allows applications to send OpenTelemetry span data to Bugsnag for performance monitoring and analysis. It enables developers to track request latency, identify slow operations, and monitor application performance alongside error data. The API accepts trace data in the OpenTelemetry OTLP format using HTTP/JSON or HTTP/protobuf protocols, making it compatible with existing instrumentation libraries and observability tooling. Performance data is displayed in the Bugsnag dashboard alongside error information. The maximum payload size is 1MB.
   version: '1.0'
   contact:
     name: Bugsnag Support
-    url: https://docs.bugsnag.com/api/build/
+    url: https://docs.bugsnag.com/performance/sending-traces/
   termsOfService: https://smartbear.com/terms-of-use/
 servers:
-- url: https://build.bugsnag.com
-  description: Bugsnag Build Server
+- url: https://otlp.bugsnag.com:4318
+  description: Bugsnag OTLP HTTP Endpoint. The project API key should be prepended as a subdomain (e.g., {apiKey}.otlp.bugsnag.com:4318).
 security: []
 tags:
 - name: Traces
@@ -80,6 +80,20 @@ components:
             boolValue:
               type: boolean
               description: A boolean value.
+    ExportTraceServiceResponse:
+      type: object
+      description: The response to an OTLP trace export request.
+      properties:
+        partialSuccess:
+          type: object
+          description: Information about partially successful exports.
+          properties:
+            rejectedSpans:
+              type: integer
+              description: The number of spans that were rejected.
+            errorMessage:
+              type: string
+              description: An error message if some spans were rejected.
     Span:
       type: object
       description: Represents a single operation within a trace. Spans have a name, start and end time, and attributes describing the operation.
@@ -148,6 +162,24 @@ components:
                 description: Key-value attributes for the event.
                 items:
                   $ref: '#/components/schemas/KeyValue'
+    ResourceSpans:
+      type: object
+      description: A collection of spans produced by a single instrumented resource.
+      properties:
+        resource:
+          type: object
+          description: The resource producing the spans, typically identifying the service name and version.
+          properties:
+            attributes:
+              type: array
+              description: Key-value attributes describing the resource.
+              items:
+                $ref: '#/components/schemas/KeyValue'
+        scopeSpans:
+          type: array
+          description: A collection of spans grouped by instrumentation scope.
+          items:
+            $ref: '#/components/schemas/ScopeSpans'
     ScopeSpans:
       type: object
       description: A collection of spans from a single instrumentation scope (library or component).
@@ -167,38 +199,6 @@ components:
           description: The individual spans within this scope.
           items:
             $ref: '#/components/schemas/Span'
-    ExportTraceServiceResponse:
-      type: object
-      description: The response to an OTLP trace export request.
-      properties:
-        partialSuccess:
-          type: object
-          description: Information about partially successful exports.
-          properties:
-            rejectedSpans:
-              type: integer
-              description: The number of spans that were rejected.
-            errorMessage:
-              type: string
-              description: An error message if some spans were rejected.
-    ResourceSpans:
-      type: object
-      description: A collection of spans produced by a single instrumented resource.
-      properties:
-        resource:
-          type: object
-          description: The resource producing the spans, typically identifying the service name and version.
-          properties:
-            attributes:
-              type: array
-              description: Key-value attributes describing the resource.
-              items:
-                $ref: '#/components/schemas/KeyValue'
-        scopeSpans:
-          type: array
-          description: A collection of spans grouped by instrumentation scope.
-          items:
-            $ref: '#/components/schemas/ScopeSpans'
 externalDocs:
-  description: Bugsnag Build API Documentation
-  url: https://docs.bugsnag.com/api/build/
+  description: Bugsnag Performance Trace Documentation
+  url: https://docs.bugsnag.com/performance/sending-traces/

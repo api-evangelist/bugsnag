@@ -1,22 +1,11 @@
 {
   "provider": "bugsnag",
   "sources": [
-    "bugsnag-builds-api-openapi.yml",
-    "bugsnag-collaborators-api-openapi.yml",
-    "bugsnag-comments-api-openapi.yml",
-    "bugsnag-currentuser-api-openapi.yml",
-    "bugsnag-errors-api-openapi.yml",
-    "bugsnag-eventfields-api-openapi.yml",
-    "bugsnag-events-api-openapi.yml",
-    "bugsnag-notifications-api-openapi.yml",
-    "bugsnag-organizations-api-openapi.yml",
-    "bugsnag-pivots-api-openapi.yml",
-    "bugsnag-projects-api-openapi.yml",
-    "bugsnag-releases-api-openapi.yml",
-    "bugsnag-sessions-api-openapi.yml",
-    "bugsnag-stability-api-openapi.yml",
-    "bugsnag-traces-api-openapi.yml",
-    "bugsnag-trends-api-openapi.yml"
+    "_original/bugsnag-build-openapi.yml",
+    "_original/bugsnag-data-access-openapi.yml",
+    "_original/bugsnag-error-reporting-openapi.yml",
+    "_original/bugsnag-session-tracking-openapi.yml",
+    "_original/bugsnag-trace-openapi.yml"
   ],
   "outputs": [
     "bugsnag-builds-api-openapi.yml",
@@ -26,19 +15,43 @@
     "bugsnag-errors-api-openapi.yml",
     "bugsnag-eventfields-api-openapi.yml",
     "bugsnag-events-api-openapi.yml",
-    "bugsnag-notifications-api-openapi.yml",
     "bugsnag-organizations-api-openapi.yml",
     "bugsnag-pivots-api-openapi.yml",
     "bugsnag-projects-api-openapi.yml",
     "bugsnag-releases-api-openapi.yml",
-    "bugsnag-sessions-api-openapi.yml",
     "bugsnag-stability-api-openapi.yml",
-    "bugsnag-traces-api-openapi.yml",
-    "bugsnag-trends-api-openapi.yml"
+    "bugsnag-trends-api-openapi.yml",
+    "bugsnag-notifications-api-openapi.yml",
+    "bugsnag-sessions-api-openapi.yml",
+    "bugsnag-traces-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (5 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "bugsnag-build-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "bugsnag-data-access-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "bugsnag-error-reporting-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "bugsnag-session-tracking-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "bugsnag-trace-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+  ],
+  "skipped": [
+    "bugsnag-builds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-collaborators-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-currentuser-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-errors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-eventfields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-pivots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-releases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-stability-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-traces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-trends-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
