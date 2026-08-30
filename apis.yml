@@ -98,7 +98,7 @@ apis:
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
-  - Current User
+  - CurrentUser
   tags_raw:
   - CurrentUser
   properties:
