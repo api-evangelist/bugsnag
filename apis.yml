@@ -31,9 +31,8 @@ url: https://raw.githubusercontent.com/api-evangelist/bugsnag/refs/heads/main/ap
 apis:
 - aid: bugsnag:bugsnag-builds-api
   name: bugsnag Builds API
-  description: >-
-    Notify Bugsnag about application builds and deployments. Build notifications are used to track releases,
-    identify regressions, and associate source control information with error data.
+  description: Notify Bugsnag about application builds and deployments. Build notifications are used to
+    track releases, identify regressions, and associate source control information with error data.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -53,9 +52,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-collaborators-api
   name: bugsnag Collaborators API
-  description: >-
-    Manage collaborators within an organization or project. Collaborators are users who have access to
-    view and manage Bugsnag data.
+  description: Manage collaborators within an organization or project. Collaborators are users who have
+    access to view and manage Bugsnag data.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -75,8 +73,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-comments-api
   name: bugsnag Comments API
-  description: >-
-    Manage comments on errors. Comments allow team members to discuss and annotate specific errors.
+  description: Manage comments on errors. Comments allow team members to discuss and annotate specific
+    errors.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -118,9 +116,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-errors-api
   name: bugsnag Errors API
-  description: >-
-    Access and manage errors within projects. Errors represent groups of similar events that have been
-    detected by Bugsnag.
+  description: Access and manage errors within projects. Errors represent groups of similar events that
+    have been detected by Bugsnag.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -140,9 +137,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-eventfields-api
   name: bugsnag EventFields API
-  description: >-
-    Access event field definitions for projects. Event fields describe the available data dimensions for
-    filtering and searching events.
+  description: Access event field definitions for projects. Event fields describe the available data dimensions
+    for filtering and searching events.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -162,8 +158,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-events-api
   name: bugsnag Events API
-  description: >-
-    Access individual error events. Events represent individual occurrences of an error within a project.
+  description: Access individual error events. Events represent individual occurrences of an error within
+    a project.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -183,35 +179,10 @@ apis:
     url: https://docs.bugsnag.com/api/build/
   - type: Documentation
     url: https://docs.bugsnag.com/api/
-- aid: bugsnag:bugsnag-notifications-api
-  name: bugsnag Notifications API
-  description: >-
-    Send error and exception notifications to Bugsnag. Each notification can contain one or more events
-    representing individual error occurrences.
-  humanURL: https://docs.bugsnag.com/api/data-access/
-  baseURL: https://api.bugsnag.com
-  tags:
-  - Notification
-  tags_raw:
-  - Notifications
-  properties:
-  - type: OpenAPI
-    url: openapi/bugsnag-notifications-api-openapi.yml
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-organizations-api
   name: bugsnag Organizations API
-  description: >-
-    Access and manage organizations. An organization is the top-level entity in Bugsnag that contains
-    projects and collaborators.
+  description: Access and manage organizations. An organization is the top-level entity in Bugsnag that
+    contains projects and collaborators.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -233,9 +204,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-pivots-api
   name: bugsnag Pivots API
-  description: >-
-    Access pivot data for errors. Pivots allow you to group and analyze error data by various dimensions
-    such as browser, device, or location.
+  description: Access pivot data for errors. Pivots allow you to group and analyze error data by various
+    dimensions such as browser, device, or location.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -255,9 +225,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-projects-api
   name: bugsnag Projects API
-  description: >-
-    Access and manage projects within an organization. Projects represent individual applications being
-    monitored by Bugsnag.
+  description: Access and manage projects within an organization. Projects represent individual applications
+    being monitored by Bugsnag.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -279,8 +248,7 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-releases-api
   name: bugsnag Releases API
-  description: >-
-    Access release information for projects. Releases represent deployed versions of your application
+  description: Access release information for projects. Releases represent deployed versions of your application
     and their associated error data.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
@@ -301,9 +269,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-sessions-api
   name: bugsnag Sessions API
-  description: >-
-    Report session data to Bugsnag for stability score calculations. Sessions represent periods of user
-    activity and are used to compute crash-free session and user percentages.
+  description: Report session data to Bugsnag for stability score calculations. Sessions represent periods
+    of user activity and are used to compute crash-free session and user percentages.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -323,9 +290,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-stability-api
   name: bugsnag Stability API
-  description: >-
-    Access stability metrics for projects. Stability data provides crash-free session and user percentages
-    across releases.
+  description: Access stability metrics for projects. Stability data provides crash-free session and user
+    percentages across releases.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -345,9 +311,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-traces-api
   name: bugsnag Traces API
-  description: >-
-    Send OpenTelemetry trace data to Bugsnag for performance monitoring. Spans represent individual operations
-    and are assembled into traces that visualize request flow and latency.
+  description: Send OpenTelemetry trace data to Bugsnag for performance monitoring. Spans represent individual
+    operations and are assembled into traces that visualize request flow and latency.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -367,9 +332,8 @@ apis:
     url: https://docs.bugsnag.com/api/
 - aid: bugsnag:bugsnag-trends-api
   name: bugsnag Trends API
-  description: >-
-    Access trend data for errors and projects. Trends provide time-series data showing how error rates
-    and stability change over time.
+  description: Access trend data for errors and projects. Trends provide time-series data showing how
+    error rates and stability change over time.
   humanURL: https://docs.bugsnag.com/api/data-access/
   baseURL: https://api.bugsnag.com
   tags:
@@ -388,48 +352,49 @@ apis:
   - type: Documentation
     url: https://docs.bugsnag.com/api/
 common:
-  - type: AgenticAccess
-    url: agentic-access/bugsnag-agentic-access.yml
-  - type: VulnerabilityDisclosure
-    url: security/bugsnag-vulnerability-disclosure.yml
-  - type: DomainSecurity
-    url: security/bugsnag-domain-security.yml
-  - type: Authentication
-    url: authentication/bugsnag-authentication.yml
-  - type: GitHubOrganization
-    url: https://github.com/bugsnag
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/bugsnag2
-  - type: AsyncAPI
-    url: asyncapi/bugsnag-webhooks-asyncapi.yml
-  - type: JSONSchema
-    url: json-schema/bugsnag-error-event-schema.json
-  - type: JSONSchema
-    url: json-schema/bugsnag-build-schema.json
-  - type: JSONLD
-    url: json-ld/bugsnag-context.jsonld
-  - type: Features
-    data:
-      - 'Free: 7.5K events + 1M spans/mo, 1 user'
-      - 'Select: 50K-3M events tiers, unlimited users, SAML SSO'
-      - 'Preferred: 100K-3M events, premium support, dedicated CSM'
-      - 'Enterprise: custom allowances, on-prem option, named CSM'
-      - Notify API for event ingest from any platform
-      - Data API at 60 req/min for issue queries
-      - 50+ platform SDKs (Node, Ruby, Python, JS, mobile, game engines)
-      - Stability scores and crash benchmarks
-      - End-to-end distributed tracing
-      - Auto error prioritization (Select+)
-      - Auto error assignment (Preferred+)
-      - Feature flags & experiments (Preferred+)
-      - On-prem deployment option (Preferred+)
-      - Sensitive data filtering
-      - 30+ integrations (Slack, Jira, GitHub, etc.)
-      - Source map upload for minified JS/native crashes
-    sources:
-      - https://bugsnag.com/pricing/
-    updated: '2026-05-04'
-modified: '2026-05-19'
-description: >-
-  Bugsnag is an application stability monitoring platform that helps software teams detect, diagnose, and fix errors in
-  web, mobile, and back-end applications.
+- type: Website
+  url: https://bugsnag.com
+- type: AgenticAccess
+  url: agentic-access/bugsnag-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/bugsnag-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/bugsnag-domain-security.yml
+- type: Authentication
+  url: authentication/bugsnag-authentication.yml
+- type: GitHubOrganization
+  url: https://github.com/bugsnag
+- type: LinkedIn
+  url: https://www.linkedin.com/company/bugsnag2
+- type: AsyncAPI
+  url: asyncapi/bugsnag-webhooks-asyncapi.yml
+- type: JSONSchema
+  url: json-schema/bugsnag-error-event-schema.json
+- type: JSONSchema
+  url: json-schema/bugsnag-build-schema.json
+- type: JSONLD
+  url: json-ld/bugsnag-context.jsonld
+- type: Features
+  data:
+  - 'Free: 7.5K events + 1M spans/mo, 1 user'
+  - 'Select: 50K-3M events tiers, unlimited users, SAML SSO'
+  - 'Preferred: 100K-3M events, premium support, dedicated CSM'
+  - 'Enterprise: custom allowances, on-prem option, named CSM'
+  - Notify API for event ingest from any platform
+  - Data API at 60 req/min for issue queries
+  - 50+ platform SDKs (Node, Ruby, Python, JS, mobile, game engines)
+  - Stability scores and crash benchmarks
+  - End-to-end distributed tracing
+  - Auto error prioritization (Select+)
+  - Auto error assignment (Preferred+)
+  - Feature flags & experiments (Preferred+)
+  - On-prem deployment option (Preferred+)
+  - Sensitive data filtering
+  - 30+ integrations (Slack, Jira, GitHub, etc.)
+  - Source map upload for minified JS/native crashes
+  sources:
+  - https://bugsnag.com/pricing/
+  updated: '2026-05-04'
+modified: '2026-09-16'
+description: Bugsnag is an application stability monitoring platform that helps software teams detect,
+  diagnose, and fix errors in web, mobile, and back-end applications.
