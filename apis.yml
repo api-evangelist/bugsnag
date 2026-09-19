@@ -34,115 +34,100 @@ apis:
   description: >-
     Notify Bugsnag about application builds and deployments. Build notifications are used to track releases,
     identify regressions, and associate source control information with error data.
-  humanURL: https://docs.bugsnag.com/api/data-access/
-  baseURL: https://api.bugsnag.com
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
   tags:
   - Builds
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-builds-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-build-api v1)
+    url: openapi/bugsnag-build-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-collaborators-api
   name: bugsnag Collaborators API
   description: >-
     Manage collaborators within an organization or project. Collaborators are users who have access to
     view and manage Bugsnag data.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Collaborators
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-collaborators-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-comments-api
   name: bugsnag Comments API
   description: >-
     Manage comments on errors. Comments allow team members to discuss and annotate specific errors.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Comments
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-comments-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-errors-api
   name: bugsnag Errors API
   description: >-
     Access and manage errors within projects. Errors represent groups of similar events that have been
     detected by Bugsnag.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Errors
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-errors-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-eventfields-api
   name: bugsnag EventFields API
   description: >-
     Access event field definitions for projects. Event fields describe the available data dimensions for
     filtering and searching events.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - EventFields
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-eventfields-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-events-api
   name: bugsnag Events API
   description: >-
     Access individual error events. Events represent individual occurrences of an error within a project.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Event
@@ -151,22 +136,19 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-events-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-organizations-api
   name: bugsnag Organizations API
   description: >-
     Access and manage organizations. An organization is the top-level entity in Bugsnag that contains
     projects and collaborators.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Organization
@@ -175,44 +157,38 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-organizations-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-pivots-api
   name: bugsnag Pivots API
   description: >-
     Access pivot data for errors. Pivots allow you to group and analyze error data by various dimensions
     such as browser, device, or location.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Pivots
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-pivots-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-projects-api
   name: bugsnag Projects API
   description: >-
     Access and manage projects within an organization. Projects represent individual applications being
     monitored by Bugsnag.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Project
@@ -221,146 +197,166 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-projects-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-releases-api
   name: bugsnag Releases API
   description: >-
     Access release information for projects. Releases represent deployed versions of your application
     and their associated error data.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Releases
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-releases-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-sessions-api
   name: bugsnag Sessions API
   description: >-
     Report session data to Bugsnag for stability score calculations. Sessions represent periods of user
     activity and are used to compute crash-free session and user percentages.
-  humanURL: https://docs.bugsnag.com/api/data-access/
-  baseURL: https://api.bugsnag.com
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://sessions.bugsnag.com
   tags:
   - Sessions
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-sessions-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-session-tracking-api v1)
+    url: openapi/bugsnag-session-tracking-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-stability-api
   name: bugsnag Stability API
   description: >-
     Access stability metrics for projects. Stability data provides crash-free session and user percentages
     across releases.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Stability
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-stability-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-traces-api
   name: bugsnag Traces API
   description: >-
     Send OpenTelemetry trace data to Bugsnag for performance monitoring. Spans represent individual operations
     and are assembled into traces that visualize request flow and latency.
-  humanURL: https://docs.bugsnag.com/api/data-access/
-  baseURL: https://api.bugsnag.com
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://otlp.bugsnag.com
   tags:
   - Traces
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-traces-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-trace-api v1)
+    url: openapi/bugsnag-trace-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-trends-api
   name: bugsnag Trends API
   description: >-
     Access trend data for errors and projects. Trends provide time-series data showing how error rates
     and stability change over time.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Trends
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-trends-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
 - aid: bugsnag:bugsnag-current-user-api
   name: Bugsnag Current User API
   description: Access information about the currently authenticated user.
-  humanURL: https://docs.bugsnag.com/api/data-access/
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
   baseURL: https://api.bugsnag.com
   tags:
   - Current User
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-current-user-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
+    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/data-access/
+    url: https://developer.smartbear.com/bugsnag/docs/data-access
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+- aid: bugsnag:bugsnag-error-reporting-api
+  name: BugSnag Error Reporting API
+  description: >-
+    Ingest endpoint for error and crash reports. Notifier SDKs POST an event payload to
+    notify.bugsnag.com identified by a per-project API key; a companion /minidump endpoint accepts
+    native crash minidumps. This is the highest-volume BugSnag surface and the one every SDK wraps.
+  humanURL: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  baseURL: https://notify.bugsnag.com
+  tags:
+  - Error Reporting
+  - Notify
+  properties:
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-error-reporting-api v1)
+    url: openapi/bugsnag-error-reporting-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/error-reporting/
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+- aid: bugsnag:bugsnag-upload-api
+  name: BugSnag Upload API
+  description: >-
+    Upload the symbol and mapping files that make stacktraces readable — Apple dSYMs, Android
+    ProGuard and NDK symbols, JavaScript and React Native source maps, Dart, Linux, Breakpad,
+    Nintendo Switch and Unity IL2CPP line mappings. Ten endpoints on upload.bugsnag.com, normally
+    driven from CI by the BugSnag CLI.
+  humanURL: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  baseURL: https://upload.bugsnag.com
+  tags:
+  - Symbol Upload
+  - Source Maps
+  properties:
+  - type: OpenAPI
+    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-upload-api v1)
+    url: openapi/bugsnag-upload-api-openapi.json
   - type: Documentation
-    url: https://docs.bugsnag.com/api/sessions/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/build/
-  - type: Documentation
-    url: https://docs.bugsnag.com/api/
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: CLI
+    url: cli/bugsnag-cli.yml
 common:
 - type: Website
   url: https://bugsnag.com
@@ -376,6 +372,80 @@ common:
   url: https://github.com/bugsnag
 - type: LinkedIn
   url: https://www.linkedin.com/company/bugsnag2
+- type: Packages
+  url: packages/bugsnag-packages.yml
+- type: SDKs
+  url: packages/bugsnag-packages.yml
+- type: CLI
+  url: cli/bugsnag-cli.yml
+- type: MCPServer
+  url: mcp/bugsnag-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/bugsnag-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/bugsnag-llms.txt
+- type: WellKnown
+  url: well-known/bugsnag-well-known.yml
+- type: Conformance
+  url: conformance/bugsnag-conformance.yml
+- type: Compliance
+  url: conformance/bugsnag-conformance.yml
+- type: ErrorCatalog
+  url: errors/bugsnag-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/bugsnag-lifecycle.yml
+- type: StatusPage
+  url: https://status.bugsnag.com/
+- type: Deprecation
+  url: https://developer.smartbear.com/bugsnag/docs/data-access-versioning
+- type: OAuthScopes
+  url: scopes/bugsnag-scopes.yml
+- type: Conventions
+  url: conventions/bugsnag-conventions.yml
+- type: ChangeLog
+  url: changelog/bugsnag-changelog.yml
+- type: DataModel
+  url: data-model/bugsnag-data-model.yml
+- type: Overlay
+  url: overlays/bugsnag-data-access-api-overlay.yaml
+- type: Security
+  url: security/bugsnag-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/bugsnag-trust-center.yml
+- type: Webhooks
+  url: https://docs.bugsnag.com/product/integrations/data-forwarding/webhook/
+- type: Plans
+  url: plans/bugsnag-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/bugsnag-rate-limits.yml
+- type: Vocabulary
+  url: vocabulary/bugsnag-vocabulary.yml
+- type: JSONStructure
+  url: json-structure/bugsnag-structure.json
+- type: DeveloperPortal
+  url: https://developer.smartbear.com/bugsnag
+- type: Documentation
+  url: https://docs.bugsnag.com/
+- type: APIReference
+  url: https://developer.smartbear.com/bugsnag
+- type: GettingStarted
+  url: https://developer.smartbear.com/bugsnag/docs/getting-started
+- type: Support
+  url: https://docs.bugsnag.com/support/
+- type: Pricing
+  url: https://www.bugsnag.com/pricing/
+- type: SignUp
+  url: https://app.bugsnag.com/user/new/
+- type: Login
+  url: https://app.bugsnag.com/user/sign_in
+- type: TermsOfService
+  url: https://smartbear.com/terms-of-use/
+- type: PrivacyPolicy
+  url: https://smartbear.com/privacy/
+- type: Blog
+  url: https://smartbear.com/blog/
 - type: AsyncAPI
   url: asyncapi/bugsnag-webhooks-asyncapi.yml
 - type: JSONSchema
@@ -405,6 +475,48 @@ common:
   sources:
   - https://bugsnag.com/pricing/
   updated: '2026-05-04'
-modified: '2026-09-16'
-description: Bugsnag is an application stability monitoring platform that helps software teams detect,
-  diagnose, and fix errors in web, mobile, and back-end applications.
+created: '2024/04/14'
+modified: '2026-09-17'
+tags:
+- Monitoring
+- Observability
+- Error Monitoring
+- Application Performance Monitoring
+- Distributed Tracing
+- Developer Tools
+- SmartBear
+tags_raw:
+- Monitoring
+- Observability
+- Error-Monitoring
+- Application-Performance-Monitoring
+- Distributed-Tracing
+- Developer-Tools
+- SmartBear
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+- FN: APIs.json
+  email: info@apis.io
+- name: BugSnag Support
+  email: support@bugsnag.com
+  url: https://docs.bugsnag.com/support/
+description: >-
+  BugSnag is an application stability monitoring platform from SmartBear that helps software teams
+  detect, diagnose and fix errors in web, mobile, desktop and back-end applications. It combines
+  error monitoring, real user monitoring and end-to-end distributed tracing behind a stability score
+  that tells a team whether a release is safe to ship. BugSnag publishes six OpenAPI 3.0 definitions
+  on SwaggerHub under the smartbear-public organization: a 141-operation Data Access API on
+  api.bugsnag.com (errors, events, projects, releases, span groups, traces, feature flags and a full
+  SCIM 2.0 provisioning surface), plus ingest and build-time APIs for error reporting
+  (notify.bugsnag.com), session tracking (sessions.bugsnag.com), OTLP trace ingest
+  (otlp.bugsnag.com), build notification (build.bugsnag.com) and symbol/source-map upload
+  (upload.bugsnag.com). Agent access is first class: SmartBear runs a hosted MCP server at
+  bugsnag.mcp.smartbear.com behind OAuth 2.1, and ships the same 19 BugSnag tools in the local
+  @smartbear/mcp npm package.
+
+x-enrichment:
+  date: '2026-09-17'
+  status: enriched
+  artifacts_added: 33
+  pass: local-v3
