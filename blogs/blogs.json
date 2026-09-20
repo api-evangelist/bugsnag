@@ -1,0 +1,14 @@
+{
+  "repo": "bugsnag",
+  "feeds": [
+    {
+      "source": "https://smartbear.com/privacy/",
+      "feed_url": "https://smartbear.com/privacy/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-19T20:17:39Z"
+}
