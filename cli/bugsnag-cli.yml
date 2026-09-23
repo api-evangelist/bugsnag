@@ -1,0 +1,68 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://docs.bugsnag.com/build-integrations/bugsnag-cli/ ,
+  https://github.com/bugsnag/bugsnag-cli (README, MIT) ,
+  https://www.npmjs.com/package/@bugsnag/cli
+name: BugSnag CLI
+binary: bugsnag-cli
+description: >-
+  First-party command line tool for creating builds/releases on the BugSnag
+  dashboard and uploading the symbol and mapping files that make stacktraces
+  readable. Written in Go, MIT licensed, developed in the open at
+  github.com/bugsnag/bugsnag-cli. It is the build-time counterpart to the
+  Build API and the Upload API.
+version: 3.10.6
+published: '2026-09-07'
+repository: https://github.com/bugsnag/bugsnag-cli
+docs: https://docs.bugsnag.com/build-integrations/bugsnag-cli/
+license: MIT
+install:
+  - method: script
+    command: curl -o- https://raw.githubusercontent.com/bugsnag/bugsnag-cli/main/install.sh | bash
+    note: Installs the architecture-appropriate binary to ~/.local/bugsnag.
+  - method: npm
+    command: npm install @bugsnag/cli
+    note: Executable at node_modules/.bin/bugsnag-cli, or via npx @bugsnag/cli.
+  - method: homebrew
+    command: brew tap bugsnag/tap && brew install bugsnag-cli
+  - method: binary
+    command: Download from https://github.com/bugsnag/bugsnag-cli/releases
+    note: macOS, Linux and Windows binaries published per release.
+commands:
+  - group: Releases
+    command: create-build
+    summary: Create a build in BugSnag to enrich the releases shown on the dashboard.
+    example: bugsnag-cli create-build --api-key=YOUR_API_KEY --app-version=YOUR_APP_VERSION
+    docs: https://docs.bugsnag.com/build-integrations/bugsnag-cli/create-build/
+    backing_api: Build API (POST https://build.bugsnag.com/)
+  - group: Uploads
+    command: upload
+    summary: >-
+      Upload symbol and mapping files. Locates candidate files and project
+      settings (including the API key) automatically, with every option
+      overridable for custom build systems.
+    docs: https://docs.bugsnag.com/build-integrations/bugsnag-cli/
+    backing_api: Upload API (https://upload.bugsnag.com/)
+    subcommands:
+      - android-proguard
+      - android-ndk
+      - android-aab
+      - xcode-build
+      - xcode-archive
+      - js
+      - react-native
+      - unity-android
+      - unity-ios
+      - dart
+      - breakpad
+flows:
+  - name: Release tracking in CI
+    steps:
+      - bugsnag-cli create-build --api-key=... --app-version=... (Build API)
+      - bugsnag-cli upload <platform> ... (Upload API)
+  - name: On-premise
+    note: >-
+      --build-api-root-url and --upload-api-root-url point the CLI at a
+      self-hosted BugSnag installation instead of build./upload.bugsnag.com.
+    docs: https://docs.bugsnag.com/on-premise/single-machine/service-ports/

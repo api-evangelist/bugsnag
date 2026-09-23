@@ -1,0 +1,95 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.smartbear.com/bugsnag/docs/data-access-versioning ,
+  https://status.bugsnag.com/ ,
+  https://docs.bugsnag.com/whats-new/ ,
+  openapi/bugsnag-data-access-api-openapi.json
+description: >-
+  Versioning, deprecation, status and support posture for the BugSnag APIs.
+versioning:
+  scheme: major version, selected by request header
+  current_version: '2'
+  header: X-Version
+  query_alternative: true
+  documentation: https://developer.smartbear.com/bugsnag/docs/data-access-versioning
+  policy: >-
+    Verbatim: "This documentation describes version 2 of the Data Access API.
+    Version 1 of the API has been decommissioned." and "We recommend always
+    passing a header, as the default version will change as old versions are
+    disabled."
+  implication: >-
+    The default version is a moving target by design. A client that omits
+    X-Version is opting into silent major-version drift — the one genuine
+    breaking-change hazard in this API.
+  spec_versions:
+    - api: Data Access API
+      version: '2'
+      spec: openapi/bugsnag-data-access-api-openapi.json
+    - api: Error Reporting API
+      version: '1'
+      spec: openapi/bugsnag-error-reporting-api-openapi.json
+    - api: Session Tracking API
+      version: '1'
+      spec: openapi/bugsnag-session-tracking-api-openapi.json
+    - api: Build API
+      version: '1'
+      spec: openapi/bugsnag-build-api-openapi.json
+    - api: Trace API
+      version: '1'
+      spec: openapi/bugsnag-trace-api-openapi.json
+    - api: Upload API
+      version: '1'
+      spec: openapi/bugsnag-upload-api-openapi.json
+deprecation:
+  policy_published: true
+  policy_url: https://developer.smartbear.com/bugsnag/docs/data-access-versioning
+  mechanism: version decommissioning
+  summary: >-
+    Deprecation is handled by retiring a whole API version, not by marking
+    individual operations. v1 of the Data Access API has been decommissioned;
+    v2 is current.
+  rfc8594_headers:
+    sunset: false
+    deprecation: false
+    note: >-
+      No Sunset or Deprecation response header is declared in any of the six
+      specs (0 matches for /sunset/i and no Deprecation header), and no dated
+      retirement calendar is published. An agent cannot detect an approaching
+      retirement from a response.
+  deprecated_operations:
+    count: 0
+    note: >-
+      No operation in any published spec carries `deprecated: true`. Derived
+      from the specs, not assumed.
+status_page:
+  url: https://status.bugsnag.com/
+  http_status: 200
+  title: BugSnag SaaS at bugsnag.com Status
+  probed: '2026-09-17'
+  components_monitored: SaaS platform at bugsnag.com
+changelog:
+  url: https://docs.bugsnag.com/whats-new/
+  cadence: monthly
+  see: changelog/bugsnag-changelog.yml
+sla:
+  published: false
+  note: >-
+    No public SLA document was found. Premium support and a dedicated Customer
+    Success Manager are Preferred/Enterprise plan features per the pricing page,
+    but no uptime commitment is published at a public URL.
+support:
+  docs: https://docs.bugsnag.com/support/
+  email: support@bugsnag.com
+  enterprise_email: enterprise@bugsnag.com
+  notifiers_email: notifiers@bugsnag.com
+  parent: https://smartbear.com/support/contact-support/
+ownership:
+  operator: SmartBear Software
+  note: >-
+    BugSnag is a SmartBear product. Product documentation remains at
+    docs.bugsnag.com; the API reference moved to the SmartBear developer portal
+    at developer.smartbear.com/bugsnag (docs.bugsnag.com/api/ now 301s there),
+    and the OpenAPI definitions are published on SwaggerHub under the
+    smartbear-public organization. Marketing also mirrors at
+    smartbear.com/insight-hub.

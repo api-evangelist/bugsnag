@@ -1,0 +1,240 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/bugsnag-data-access-api-openapi.json (190 component schemas, 141
+  operations), cross-checked against the path hierarchy
+description: >-
+  Entity-relationship graph for the BugSnag Data Access API, derived from the
+  published schemas' id-reference fields and the URL hierarchy. Two independent
+  subgraphs hang off a Project: the error-monitoring graph (Error → Event →
+  Pivot) and the performance graph (SpanGroup → Span → Trace). Identity and
+  access (Collaborator, Team) hang off the Organization.
+root: Organization
+entities:
+  - name: Organization
+    id_field: id
+    path: /organizations/{id}
+    description: Top-level tenant. Owns projects, collaborators, teams and billing.
+    relationships:
+      - has_many: Project
+        via: organization_id
+      - has_many: Collaborator
+        via: organization_id
+      - has_many: Team
+        via: organization_id
+  - name: Project
+    id_field: project_id
+    path: /projects/{project_id}
+    description: One monitored application. The unit every error, event and span belongs to.
+    relationships:
+      - belongs_to: Organization
+        via: organization_id
+      - has_many: Error
+        via: project_id
+      - has_many: Event
+        via: project_id
+      - has_many: EventField
+        via: project_id
+      - has_many: Release
+        via: project_id
+      - has_many: ReleaseGroup
+        via: project_id
+      - has_many: SpanGroup
+        via: project_id
+      - has_many: FeatureFlag
+        via: project_id
+      - has_many: SavedSearch
+        via: project_id
+    keys:
+      - name: api_key
+        note: Ingest key shipped in client apps; rotatable via regenerateProjectApiKey.
+      - name: upload_api_key
+        note: Symbol-upload key; rotatable via regenerateProjectUploadApiKey.
+  - name: Error
+    schema: ErrorApiView
+    id_field: error_id
+    path: /projects/{project_id}/errors/{error_id}
+    description: >-
+      A group of events sharing a root cause. Carries status, severity,
+      assignment, first/last seen and occurrence counts.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: Event
+        via: error_id
+      - has_many: Comment
+        via: error_id
+      - has_many: Pivot
+        via: error_id
+      - has_one: Collaborator
+        via: assigned_collaborator_id
+      - has_one: Team
+        via: assigned_team_id
+      - has_one: Release
+        via: 'ErrorIntroducedInRelease.release_id'
+    enums:
+      status: [open, 'in progress', for_review, fixed, snoozed, ignored]
+      update_operations:
+        - override_severity
+        - assign
+        - create_issue
+        - link_issue
+        - unlink_issue
+        - open
+        - snooze
+        - fix
+        - ignore
+        - delete
+        - discard
+        - undiscard
+  - name: Event
+    id_field: event_id
+    path: /projects/{project_id}/events/{event_id}
+    description: >-
+      One occurrence of an error — stacktrace, breadcrumbs, user, device, app
+      and custom metadata.
+    relationships:
+      - belongs_to: Error
+        via: error_id
+      - belongs_to: Project
+        via: project_id
+  - name: EventField
+    id_field: display_id
+    path: /projects/{project_id}/event_fields/{display_id}
+    description: >-
+      Per-project definition of a filterable/pivotable event dimension. The
+      discovery surface for filters — an agent must read these before filtering.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: Pivot
+        via: event_field_display_id
+  - name: Pivot
+    path: /projects/{project_id}/errors/{error_id}/pivots/{event_field_display_id}/values
+    description: Aggregated event counts grouped by an event field (app version, OS, device).
+    relationships:
+      - belongs_to: Error
+        via: error_id
+      - belongs_to: EventField
+        via: event_field_display_id
+  - name: Comment
+    path: /projects/{project_id}/errors/{error_id}/comments
+    relationships:
+      - belongs_to: Error
+        via: error_id
+  - name: Release
+    id_field: release_id
+    path: /projects/{project_id}/releases/{release_id}
+    description: >-
+      A single build of an app in a release stage, with its stability score and
+      source-control metadata. Created by the Build API / BugSnag CLI.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - belongs_to: ReleaseGroup
+        via: release_group_id
+  - name: ReleaseGroup
+    id_field: id
+    path: /release_groups/{id}
+    description: >-
+      An app version across its builds. What the MCP server calls a "release".
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: Release
+        via: release_group_id
+      - has_one: Release
+        via: first_release_id
+  - name: SpanGroup
+    id_field: id
+    path: /projects/{project_id}/span_groups/{id}
+    description: >-
+      A named operation in performance monitoring (screen load, HTTP call, app
+      start), with percentile statistics, timeline and distribution.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: Span
+        via: span_group_id
+      - has_many: PerformanceTarget
+        via: span_group_id
+  - name: Span
+    path: /projects/{project_id}/span_groups/{id}/spans
+    description: One instance of an operation, carrying its trace id.
+    relationships:
+      - belongs_to: SpanGroup
+        via: span_group_id
+      - belongs_to: Project
+        via: project_id
+      - belongs_to: Trace
+        via: trace_id
+      - belongs_to: Span
+        via: parent_span_id
+      - has_one: Release
+        via: build_id
+  - name: Trace
+    id_field: trace_id
+    path: /projects/{project_id}/traces/{trace_id}/spans
+    description: >-
+      The full execution path of one request. Not a standalone resource — it is
+      addressed only as the set of spans sharing a trace_id.
+    relationships:
+      - has_many: Span
+        via: trace_id
+  - name: TraceField
+    path: /projects/{project_id}/trace_fields
+    description: Performance equivalent of EventField — the filterable attributes for spans.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+  - name: Collaborator
+    id_field: id
+    path: /organizations/{organization_id}/collaborators/{id}
+    description: A user with access to organization data. Also provisionable over SCIM as ScimUser.
+    relationships:
+      - belongs_to: Organization
+        via: organization_id
+      - has_many: Team
+        via: team_memberships
+      - has_many: ProjectAccess
+        via: collaborator_id
+  - name: Team
+    id_field: id
+    path: /organizations/{organization_id}/teams/{id}
+    description: A group of collaborators with shared project access. SCIM equivalent is ScimGroup.
+    relationships:
+      - belongs_to: Organization
+        via: organization_id
+      - has_many: Collaborator
+        via: team_memberships
+      - has_many: ProjectAccess
+        via: team_id
+  - name: FeatureFlag
+    id_field: id
+    path: /projects/{project_id}/feature_flags/{id}
+    description: A feature flag observed on events, with per-variant error overviews.
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - has_many: FeatureFlagVariant
+        via: feature_flag_id
+  - name: SavedSearch
+    id_field: id
+    path: /saved_searches/{id}
+    relationships:
+      - belongs_to: Project
+        via: project_id
+      - belongs_to: Collaborator
+        via: user_id
+id_conventions:
+  format: >-
+    24-character hexadecimal strings (MongoDB ObjectId shape), e.g.
+    6863e2af8c857c0a5023b411 for an error id, 515fb9337c1074f6fd000003 for a
+    project id. No type prefixes — an id alone does not say what it identifies.
+  implication: >-
+    An agent cannot infer resource type from an id, so it must carry the path
+    context. This is the opposite of a Stripe-style prefixed id scheme.
+counts:
+  schemas: 190
+  operations: 141
+  entities_modelled: 17

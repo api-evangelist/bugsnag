@@ -184,13 +184,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
     ProjectId:
       name: project_id
       in: path
@@ -207,6 +200,13 @@ components:
         minimum: 1
         maximum: 100
         default: 30
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
   schemas:
     Error:
       type: object
@@ -217,28 +217,6 @@ components:
           items:
             type: string
           description: List of error messages.
-    ErrorUpdate:
-      type: object
-      description: Request body for updating an error's status or severity.
-      properties:
-        status:
-          type: string
-          enum:
-          - open
-          - fixed
-          - snoozed
-          - ignored
-          description: The new status for the error.
-        severity:
-          type: string
-          enum:
-          - error
-          - warning
-          - info
-          description: The new severity level for the error.
-        assigned_collaborator_id:
-          type: string
-          description: The ID of the collaborator to assign to this error.
     ErrorItem:
       type: object
       description: Represents a grouped error in Bugsnag, which aggregates multiple individual events with the same error class and message.
@@ -326,6 +304,28 @@ components:
         assigned_collaborator_id:
           type: string
           description: The ID of the collaborator assigned to this error.
+    ErrorUpdate:
+      type: object
+      description: Request body for updating an error's status or severity.
+      properties:
+        status:
+          type: string
+          enum:
+          - open
+          - fixed
+          - snoozed
+          - ignored
+          description: The new status for the error.
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+          description: The new severity level for the error.
+        assigned_collaborator_id:
+          type: string
+          description: The ID of the collaborator to assign to this error.
   securitySchemes:
     tokenAuth:
       type: apiKey

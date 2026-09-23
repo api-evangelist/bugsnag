@@ -96,18 +96,18 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
     ProjectId:
       name: project_id
       in: path
       required: true
       description: The unique identifier of the project.
+      schema:
+        type: string
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
       schema:
         type: string
   schemas:

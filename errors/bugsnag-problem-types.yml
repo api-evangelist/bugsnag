@@ -1,0 +1,132 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  openapi/bugsnag-data-access-api-openapi.json,
+  openapi/bugsnag-error-reporting-api-openapi.json,
+  openapi/bugsnag-upload-api-openapi.json,
+  openapi/bugsnag-session-tracking-api-openapi.json,
+  openapi/bugsnag-trace-api-openapi.json,
+  openapi/bugsnag-build-api-openapi.json
+format: json
+rfc9457: false
+description: >-
+  Error catalogue derived from the 4xx/5xx responses declared across the six
+  published BugSnag OpenAPI documents. BugSnag does not use RFC 9457
+  application/problem+json; failures return a JSON body whose descriptions are
+  written per-operation in the spec rather than drawn from a central registry,
+  so the entries below are grouped by status and surface. No codes were invented
+  — every description is taken from a response the provider declared.
+envelope:
+  content_type: application/json
+  shape: >-
+    JSON object; validation failures return an `errors` array. There is no
+    machine-readable error code field on the Data Access API — the status code
+    plus the human description is the whole contract.
+  note: >-
+    One numeric code does appear in the spec: a 422 on sorted-result endpoints
+    refers the caller to "code 60000" for incomplete results. It is the only
+    numbered error in the corpus and has no published registry.
+problem_types:
+  - status: 400
+    title: Bad request
+    surfaces: [Data Access, Error Reporting, Upload, Session Tracking, Trace, Build]
+    meanings:
+      - 'Data Access: "The request was bad. Check the errors supplied in the response."'
+      - 'Data Access: "Improperly formatted filters."'
+      - 'Data Access: the number of data points required would exceed the maximum.'
+      - 'Data Access: project cannot be deleted (third-party-managed, e.g. Heroku add-on).'
+      - 'Error Reporting: payload empty or larger than 1MB.'
+      - 'Session Tracking: missing header, empty body, body over 1MB.'
+      - 'Trace: payload body missing, or Bugsnag-Span-Sampling header empty/absent.'
+      - 'Upload: required parameter missing, or file format invalid / not ELF / bad build ID.'
+    remediation: >-
+      Fix the request before retrying — none of these are transient. For filter
+      errors, re-discover valid fields with listProjectEventFields.
+  - status: 401
+    title: Unauthorized
+    surfaces: [Data Access, Error Reporting, Upload, Trace]
+    meanings:
+      - 'Data Access: auth token absent, or the token lacks permission for the action.'
+      - 'Error Reporting / Upload: invalid or missing project API key.'
+      - 'Trace: invalid integrity header.'
+    remediation: >-
+      Check the Authorization header carries `token <PERSONAL_AUTH_TOKEN>` on
+      api.bugsnag.com, or that Bugsnag-Api-Key / api_key matches a live project
+      on the ingest hosts. See authentication/bugsnag-authentication.yml.
+  - status: 403
+    title: Forbidden
+    surfaces: [Data Access]
+    meanings:
+      - Organization admin rights required (project deletion, collaborator access views).
+      - '"Insufficient organization feature" — the plan does not include the capability.'
+    remediation: >-
+      Not retryable. Either the principal needs an admin role or the
+      organization needs a higher plan tier; see plans/bugsnag-plans-pricing.yml.
+  - status: 404
+    title: Not found
+    surfaces: [Data Access]
+    meanings:
+      - Error, project, release group or other resource id does not resolve.
+    remediation: Re-resolve the id; ids are per-project and per-organization scoped.
+  - status: 405
+    title: Method not allowed
+    surfaces: [Session Tracking]
+    meanings:
+      - A method other than POST was used on the sessions endpoint.
+    remediation: The session endpoint accepts POST only.
+  - status: 408
+    title: Request timeout
+    surfaces: [Error Reporting, Trace]
+    meanings:
+      - '"The payload took too long (>30s) to read from the network."'
+    remediation: >-
+      Retryable. Reduce payload size or improve upstream throughput; 30s is the
+      published read budget.
+  - status: 409
+    title: Conflict
+    surfaces: [Data Access, Upload]
+    meanings:
+      - 'Data Access: a group with this name already exists.'
+      - 'Upload: duplicate file with the same identifier (dsymUUID / soBuildId) — use `overwrite` to replace.'
+    remediation: >-
+      Do not blind-retry. On Upload, set overwrite=true deliberately; the
+      conflict is the closest thing BugSnag has to replay protection, and it is
+      surface-specific rather than a general idempotency guarantee.
+  - status: 413
+    title: Payload too large
+    surfaces: [Trace]
+    meanings:
+      - '"The payload was too large (greater than 1MB)."'
+    remediation: Batch spans below the 1MB limit.
+  - status: 422
+    title: Unprocessable entity
+    surfaces: [Data Access, Error Reporting, Upload]
+    meanings:
+      - 'Data Access: required field missing (e.g. message on comment creation).'
+      - 'Data Access: starred-span-group limit reached for the project/category.'
+      - 'Data Access: "Unable to return complete results. See code 60000." — sorted-result limit.'
+      - 'Error Reporting / Upload: empty file received, nothing to upload.'
+    remediation: >-
+      Semantic failure — correct the payload or narrow the query. The 60000 case
+      means the result set exceeded what the endpoint will sort; add filters.
+  - status: 429
+    title: Too many requests
+    surfaces: [Data Access]
+    meanings:
+      - Rate limit exceeded for the 1-minute window.
+    headers:
+      - Retry-After
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+    remediation: >-
+      Wait the number of seconds in Retry-After. Documented on the portal's Rate
+      Limiting page but not declared as a response in the spec — an agent that
+      reads only the OpenAPI will not know 429 is possible.
+    note: >-
+      Gap worth reporting to the provider: 429 appears in zero of the 141
+      Data Access operations' declared responses.
+gaps:
+  - No RFC 9457 problem+json representation.
+  - No machine-readable error code field; only HTTP status plus prose.
+  - 429 is documented on the portal but absent from every operation in the spec.
+  - No published error-code registry to look a failure up in.

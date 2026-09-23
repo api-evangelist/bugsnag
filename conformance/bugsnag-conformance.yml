@@ -1,0 +1,163 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  openapi/bugsnag-data-access-api-openapi.json ,
+  openapi/bugsnag-trace-api-openapi.json ,
+  https://oauth.bugsnag.com/.well-known/oauth-authorization-server ,
+  https://bugsnag.mcp.smartbear.com/.well-known/oauth-protected-resource ,
+  https://smartbear.com/security/ ,
+  https://docs.bugsnag.com/security/overview/
+description: >-
+  Standards and compliance posture, each entry evidenced by a spec location or a
+  probed URL. Entries marked conforms:false are recorded because their absence is
+  itself useful to a buyer, not to penalise the provider.
+conformance:
+  - id: scim2
+    name: SCIM 2.0 (RFC 7643 / RFC 7644)
+    domain_standard: true
+    conforms: true
+    evidence: >-
+      openapi/bugsnag-data-access-api-openapi.json declares a full SCIM 2.0
+      service surface at /organizations/{organization_id}/scim/v2/Users and
+      /scim/v2/Groups — 11 operations covering list/create/get/replace/patch/
+      delete for both Users and Groups, with RFC 7644 PatchOp semantics
+      (ScimPatchOp, ScimGroupOperations) and SCIM list-response envelopes
+      (ScimUserListResponse, ScimGroupListResponse).
+    caveat: >-
+      The spec does not carry the literal schema URNs
+      (urn:ietf:params:scim:schemas:core:2.0:User). Conformance is asserted from
+      the endpoint shape, the operation set and the PatchOp/ListResponse schemas,
+      which are unambiguous; the URN declaration is a documentation gap.
+    market_significance: >-
+      SCIM is the identity-provisioning standard for B2B SaaS. An enterprise
+      running Okta, Entra ID or OneLogin can provision BugSnag collaborators and
+      teams with no bespoke connector.
+  - id: opentelemetry-otlp
+    name: OpenTelemetry Protocol (OTLP/HTTP)
+    domain_standard: true
+    conforms: true
+    evidence: >-
+      openapi/bugsnag-trace-api-openapi.json — POST https://otlp.bugsnag.com/traces/v1
+      accepts an OTLP ExportTraceServiceRequest and returns
+      ExportTraceServiceResponse (see json-schema/bugsnag-exporttraceservicerequest-schema.json).
+      The 2026-04 changelog records HTTP span attributes being aligned to the
+      latest OpenTelemetry semantic conventions in the Flutter Performance SDK.
+    market_significance: >-
+      Any OTLP-emitting instrumentation can send traces to BugSnag without a
+      vendor SDK; the observability market's interchange format.
+  - id: oauth2
+    name: OAuth 2.0 / 2.1 authorization code with PKCE
+    conforms: true
+    evidence: >-
+      https://oauth.bugsnag.com/.well-known/oauth-authorization-server (HTTP 200)
+      — grant_types_supported [authorization_code, refresh_token],
+      code_challenge_methods_supported [S256].
+    scope: BugSnag remote MCP server only; the REST API uses token auth.
+  - id: rfc8414
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: true
+    evidence: https://oauth.bugsnag.com/.well-known/oauth-authorization-server (HTTP 200)
+  - id: rfc9728
+    name: OAuth 2.0 Protected Resource Metadata (RFC 9728)
+    conforms: true
+    evidence: >-
+      https://bugsnag.mcp.smartbear.com/.well-known/oauth-protected-resource
+      (HTTP 200) and the WWW-Authenticate challenge on an unauthenticated MCP
+      initialize, which names that document.
+  - id: rfc7591
+    name: OAuth 2.0 Dynamic Client Registration (RFC 7591)
+    conforms: true
+    evidence: >-
+      registration_endpoint https://oauth.bugsnag.com/register declared in the
+      authorization-server metadata.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >-
+      https://bugsnag.mcp.smartbear.com/mcp responds to JSON-RPC over streamable
+      HTTP (401 without OAuth, with MCP-Session-Id and mcp-protocol-version in
+      access-control-allow-headers). Source at github.com/SmartBear/smartbear-mcp.
+    see: mcp/bugsnag-mcp.yml
+  - id: rfc5988
+    name: Web Linking (RFC 5988/8288) pagination
+    conforms: true
+    evidence: >-
+      Link response header declared on paginated Data Access operations; the
+      portal's Pagination guide instructs callers to follow Link values rather
+      than construct URLs.
+  - id: oidc
+    name: OpenID Connect
+    conforms: partial
+    evidence: >-
+      scopes_supported includes openid and profile, but
+      https://oauth.bugsnag.com/.well-known/openid-configuration returns 404, so
+      no OIDC discovery document is published.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs (RFC 9457)
+    conforms: false
+    evidence: >-
+      No application/problem+json media type and no problem-details schema in
+      any of the six published specs; errors are bespoke JSON.
+  - id: idempotency
+    name: HTTP idempotency keys
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent anywhere in the specs or docs.
+      See conventions/bugsnag-conventions.yml (idempotency.coverage: none).
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: >-
+      BugSnag documents a webhook / data-forwarding surface at
+      https://docs.bugsnag.com/product/integrations/data-forwarding/webhook/ but
+      publishes no AsyncAPI document; asyncapi/bugsnag-webhooks-asyncapi.yml in
+      this repo is API Evangelist's own derivation, not the provider's.
+  - id: saml-sso
+    name: SAML single sign-on
+    conforms: true
+    evidence: >-
+      Listed as a Select-tier plan feature on https://www.bugsnag.com/pricing/
+      ("SAML single sign-on") with automatic user provisioning via SSO at the
+      Preferred tier, which is what the SCIM surface implements.
+compliance:
+  operator: SmartBear Software
+  trust_center: https://trust.smartbear.com
+  source: https://smartbear.com/security/
+  certifications:
+    - name: SOC 2
+      description: Service Organization Control
+      evidence: https://smartbear.com/security/
+    - name: ISO/IEC 27001
+      description: Information Security Management
+      evidence: https://smartbear.com/security/
+    - name: NIST CSF
+      description: Cybersecurity Framework alignment
+      evidence: https://smartbear.com/security/
+  privacy_regimes:
+    - GDPR
+    - CCPA
+  infrastructure:
+    hosting: Google Cloud Platform, United States data centers
+    inherited_attestations:
+      - SSAE 16
+      - PCI DSS Level 1
+      - ISO 9001
+      - ISO 27001
+    evidence: https://docs.bugsnag.com/security/overview/
+    note: >-
+      These are GCP's data-centre attestations as cited by BugSnag, not BugSnag
+      certifications. Recorded separately so the distinction is not lost.
+  practices:
+    - Third-party penetration testing of the production network.
+    - Encryption in transit (TLS) and at rest.
+    - MFA required for production access; least-privilege, audited.
+    - 24/7 security incident response.
+  privacy_operations:
+    operations:
+      - createProjectEventDataRequest
+      - createProjectEventDataDeletion
+      - confirmProjectEventDataDeletion
+      - organizationEventDataDeletions
+    note: >-
+      Data-subject access and erasure are exposed as API operations, not just a
+      support ticket — a materially stronger GDPR/CCPA posture than the norm.

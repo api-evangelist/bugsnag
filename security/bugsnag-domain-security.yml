@@ -1,7 +1,12 @@
-generated: '2026-07-11'
+generated: '2026-09-17'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
+- host: bugsnag.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 11 23:59:59 2026 GMT
+  hsts: null
 - host: docs.bugsnag.com
   https: true
   tls_version: TLSv1.3
@@ -13,11 +18,6 @@ hosts:
   cert_expires: Oct 11 23:59:59 2026 GMT
   hsts: true
   hsts_max_age: 31536000
-- host: notify.bugsnag.com
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Oct 11 23:59:59 2026 GMT
-  hsts: null
 domains:
 - domain: bugsnag.com
   dnssec: false

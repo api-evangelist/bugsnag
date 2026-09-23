@@ -1,0 +1,63 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://smartbear.com/security/ , https://trust.smartbear.com ,
+  https://docs.bugsnag.com/security/overview/
+trust_center:
+  url: https://trust.smartbear.com
+  operator: SmartBear Software
+  probed: '2026-09-17'
+  http_status: 403
+  http_status_note: >-
+    403 to a plain crawler with a browser User-Agent — a Cloudflare interstitial
+    ("Just a moment..."), not a missing page. The trust centre is linked twice
+    from https://smartbear.com/security/ (HTTP 200), which is the readable
+    surface and the source of the certifications below.
+certifications:
+  - name: SOC 2
+    scope: Service Organization Control
+    evidence: https://smartbear.com/security/
+  - name: ISO/IEC 27001
+    scope: Information Security Management
+    evidence: https://smartbear.com/security/
+  - name: NIST CSF
+    scope: Cybersecurity Framework alignment
+    evidence: https://smartbear.com/security/
+privacy:
+  regimes:
+    - GDPR
+    - CCPA
+  privacy_policy: https://smartbear.com/privacy/
+program:
+  governance: Formal Information Security Program, reviewed regularly.
+  independent_assurance: Regular independent third-party assessments.
+  data_protection:
+    - Data classified and protected by sensitivity.
+    - Encryption in transit and at rest.
+    - Least-privilege access to customer data.
+  access_control:
+    - MFA for administrative and sensitive access.
+    - Periodic access reviews.
+  secure_sdlc:
+    - Secure design and architecture reviews.
+    - Code scanning and dependency analysis.
+    - Vulnerability management and remediation.
+  incident_response: Formal Incident Response Program with centralized logging and alerting.
+  third_party: Vendor assessment before onboarding and ongoing monitoring of critical suppliers.
+  ai_governance:
+    - Approved AI tools and use cases.
+    - Restrictions on sharing confidential or customer data with AI systems.
+    - Oversight by security, legal and privacy stakeholders.
+product_security:
+  source: https://docs.bugsnag.com/security/overview/
+  hosting: Google Cloud Platform (US data centers)
+  inherited_datacenter_attestations:
+    - SSAE 16
+    - PCI DSS Level 1
+    - ISO 9001
+    - ISO 27001
+  penetration_testing: Regular third-party penetration tests of the production network.
+  firewall_rules_doc: https://docs.bugsnag.com/security/
+  note: >-
+    The data-centre attestations belong to Google Cloud as cited by BugSnag, not
+    to BugSnag itself.

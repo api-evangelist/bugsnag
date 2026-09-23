@@ -1,0 +1,45 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for BugSnag Data Access API v2
+  version: 1.0.0
+extends: openapi/bugsnag-data-access-api-openapi.json
+x-generated: '2026-09-17'
+x-method: generated
+x-source: API Evangelist enrichment pipeline; the original spec is never mutated.
+actions:
+- target: $.info
+  description: Record the canonical documentation and contact surfaces, which the published spec omits.
+  update:
+    x-api-evangelist-profile: https://apis.io/provider/bugsnag
+- target: $
+  description: Attach the provider documentation link.
+  update:
+    externalDocs:
+      description: BugSnag API documentation (SmartBear developer portal)
+      url: https://developer.smartbear.com/bugsnag
+- target: $.servers[?(@.url=="https://api.bugsnag.com")]
+  description: Confirm the production host as the primary server for this API.
+  update:
+    x-primary: true
+- target: $.info
+  description: Record runtime semantics documented on the portal but absent from the contract.
+  update:
+    x-rate-limit:
+      window: 1 minute
+      status: 429
+      headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - Retry-After
+      source: https://developer.smartbear.com/bugsnag/docs/data-access-rate-limiting
+      note: 429 is declared on none of the 141 operations in the original spec.
+    x-versioning:
+      header: X-Version
+      current: '2'
+      note: The default version changes as old versions are decommissioned; always send the header.
+      source: https://developer.smartbear.com/bugsnag/docs/data-access-versioning
+    x-idempotency:
+      supported: false
+      coverage: none
+    x-domain-standards:
+    - SCIM 2.0 (RFC 7643/7644) at /organizations/{organization_id}/scim/v2/*

@@ -50,16 +50,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
     StabilityTrend:
       type: object
       description: Represents stability metrics for a project over time.
@@ -85,14 +84,15 @@ components:
               total_sessions:
                 type: integer
                 description: The total number of sessions.
-  parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
   securitySchemes:
     tokenAuth:
       type: apiKey

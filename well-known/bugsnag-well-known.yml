@@ -1,0 +1,230 @@
+generated: '2026-09-17'
+method: probed
+source: live HTTP probes on 2026-09-17 of every host this record knows
+description: '/.well-known/ discovery sweep across the BugSnag (SmartBear) host set. The marketing, docs
+  and REST API hosts publish nothing at these paths. The hosts that DO publish are the ones behind the
+  BugSnag MCP server: the remote MCP endpoint serves RFC 9728 protected-resource metadata, and the authorization
+  server it names serves RFC 8414 authorization-server metadata plus a JWKS.'
+hosts:
+- host: bugsnag.mcp.smartbear.com
+  role: BugSnag remote MCP server
+  documents:
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: bugsnag-oauth-protected-resource.json
+    note: RFC 9728. resource = https://bugsnag.mcp.smartbear.com/mcp , authorization_servers = [https://oauth.bugsnag.com].
+      Also served at the resource-suffixed path /.well-known/oauth-protected-resource/mcp (200, identical
+      body).
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: oauth.bugsnag.com
+  role: Authorization server named by the MCP protected-resource document; probed because a discovery
+    document pointed at it, not because it was guessed.
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: bugsnag-oauth-authorization-server.json
+    note: RFC 8414. issuer https://oauth.bugsnag.com, authorization/token/ registration endpoints, jwks_uri,
+      scopes_supported [api, openid, profile], PKCE S256, dynamic client registration.
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    note: Named by jwks_uri in the authorization-server metadata. Live RSA signing key set; not saved
+      to the repo because a JWKS rotates and a stale copy is worse than a pointer at the live document.
+  - path: /.well-known/openid-configuration
+    status: 404
+- host: bugsnag.com
+  role: registrable domain
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    note: 301 to www.bugsnag.com, which 404s.
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/ai-plugin.json
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 301
+  - path: /.well-known/agent.json
+    status: 301
+- host: www.bugsnag.com
+  role: marketing site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: api.bugsnag.com
+  role: Data Access API
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: notify.bugsnag.com
+  role: Error Reporting API
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: sessions.bugsnag.com
+  role: Session Tracking API
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: build.bugsnag.com
+  role: Build API
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: upload.bugsnag.com
+  role: Upload API
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: otlp.bugsnag.com
+  role: Trace API (OTLP)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: docs.bugsnag.com
+  role: product documentation
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 301
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+  - path: /.well-known/api-catalog
+    status: 301
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: app.bugsnag.com
+  role: dashboard
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: developer.smartbear.com
+  role: API developer portal (SwaggerHub Portal)
+  documents:
+  - path: /.well-known/security.txt
+    status: 302
+    note: 302 into the portal SSO flow; no document served.
+  - path: /.well-known/openid-configuration
+    status: 302
+  - path: /.well-known/oauth-authorization-server
+    status: 302
+  - path: /.well-known/api-catalog
+    status: 302
+  - path: /.well-known/ai-plugin.json
+    status: 302
+  - path: /.well-known/agent-card.json
+    status: 302
+  - path: /.well-known/agent.json
+    status: 302
+- host: smartbear.com
+  role: parent company site
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+summary:
+  hosts_probed: 14
+  documents_served: 3
+  security_txt: absent
+  api_catalog: absent
+  agent_card: absent
+  oauth_discovery: present

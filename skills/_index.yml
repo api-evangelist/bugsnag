@@ -1,0 +1,50 @@
+generated: '2026-09-17'
+method: generated
+source: >-
+  openapi/bugsnag-data-access-api-openapi.json (every operationId verified
+  present in the published spec), conventions/bugsnag-conventions.yml,
+  errors/bugsnag-problem-types.yml, rate-limits/bugsnag-rate-limits.yml,
+  mcp/bugsnag-tool-crosswalk.yml
+description: >-
+  Packaged Agent Skills for the BugSnag Data Access API, one per marquee flow.
+  Each is grounded in operationIds grepped from the provider's published
+  OpenAPI — none are invented — and each carries the conventions, error and
+  reversibility rules an agent needs before it writes. BugSnag publishes no
+  skills or AGENTS.md of its own; these are API Evangelist generations.
+skills:
+  - file: bugsnag-triage-errors.md
+    name: bugsnag-triage-errors
+    summary: >-
+      Find, diagnose and action open errors in a project — filter discovery,
+      impact-ranked listing, full diagnostic detail, status change.
+    operations: 9
+    writes: true
+  - file: bugsnag-release-health.md
+    name: bugsnag-release-health
+    summary: >-
+      Judge whether a release is healthy, using release groups, builds, and the
+      project stability trend as a baseline.
+    operations: 8
+    writes: false
+  - file: bugsnag-performance-investigation.md
+    name: bugsnag-performance-investigation
+    summary: >-
+      Trace a latency problem from percentile-ranked span groups down to the
+      individual spans and the full distributed trace.
+    operations: 10
+    writes: true
+  - file: bugsnag-provision-collaborators-scim.md
+    name: bugsnag-provision-collaborators-scim
+    summary: >-
+      Provision and audit collaborators and teams, over SCIM 2.0 or the native
+      collaborator/team operations.
+    operations: 15
+    writes: true
+notes:
+  - >-
+    Every skill tells the agent to send X-Version: 2 explicitly, because the
+    provider documents that the default API version changes as old versions are
+    decommissioned.
+  - >-
+    Every skill that writes states the same two facts: there is no idempotency
+    key, and there is no dry-run. Both are verified absences, not assumptions.

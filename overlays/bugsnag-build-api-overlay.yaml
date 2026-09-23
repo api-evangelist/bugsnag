@@ -1,0 +1,29 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist overlay for BugSnag Build API v1
+  version: 1.0.0
+extends: openapi/bugsnag-build-api-openapi.json
+x-generated: '2026-09-17'
+x-method: generated
+x-source: API Evangelist enrichment pipeline; the original spec is never mutated.
+actions:
+- target: $.info
+  description: Record the canonical documentation and contact surfaces, which the published spec omits.
+  update:
+    x-api-evangelist-profile: https://apis.io/provider/bugsnag
+- target: $
+  description: Attach the provider documentation link.
+  update:
+    externalDocs:
+      description: BugSnag API documentation (SmartBear developer portal)
+      url: https://developer.smartbear.com/bugsnag
+- target: $.servers[?(@.url=="https://build.bugsnag.com")]
+  description: Confirm the production host as the primary server for this API.
+  update:
+    x-primary: true
+- target: $.info
+  description: Record the ingest authentication carrier and payload ceiling.
+  update:
+    x-ingest:
+      auth: Per-project API key (Bugsnag-Api-Key header or api_key parameter)
+      note: No securitySchemes block is declared in the original spec.

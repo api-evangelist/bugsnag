@@ -79,50 +79,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  schemas:
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
-    Pivot:
-      type: object
-      description: Represents an available pivot dimension for grouping error data.
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the pivot.
-        display_name:
-          type: string
-          description: The human-readable name for this pivot dimension.
-        key:
-          type: string
-          description: The key used to reference this pivot in queries.
-        values_url:
-          type: string
-          format: uri
-          description: The API URL to list values for this pivot.
-    PivotValue:
-      type: object
-      description: Represents a specific value within a pivot dimension.
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the pivot value.
-        name:
-          type: string
-          description: The name of the pivot value.
-        events:
-          type: integer
-          description: The number of events with this pivot value.
-        proportion:
-          type: number
-          format: float
-          description: The proportion of events with this pivot value.
   parameters:
     ProjectId:
       name: project_id
@@ -147,6 +103,50 @@ components:
       description: The unique identifier of the pivot dimension.
       schema:
         type: string
+  schemas:
+    Pivot:
+      type: object
+      description: Represents an available pivot dimension for grouping error data.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the pivot.
+        display_name:
+          type: string
+          description: The human-readable name for this pivot dimension.
+        key:
+          type: string
+          description: The key used to reference this pivot in queries.
+        values_url:
+          type: string
+          format: uri
+          description: The API URL to list values for this pivot.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    PivotValue:
+      type: object
+      description: Represents a specific value within a pivot dimension.
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the pivot value.
+        name:
+          type: string
+          description: The name of the pivot value.
+        events:
+          type: integer
+          description: The number of events with this pivot value.
+        proportion:
+          type: number
+          format: float
+          description: The proportion of events with this pivot value.
   securitySchemes:
     tokenAuth:
       type: apiKey

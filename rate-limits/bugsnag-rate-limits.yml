@@ -4,34 +4,68 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Bugsnag
 providerId: bugsnag
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+generated: '2026-09-17'
+method: searched
+modified: '2026-09-17'
+source: https://developer.smartbear.com/bugsnag/docs/data-access-rate-limiting
+docs: https://developer.smartbear.com/bugsnag/docs/data-access-rate-limiting
 reconciled: true
 tags:
   - Rate Limiting
   - Error Monitoring
-description: Bugsnag Data API rate limits per token.
+description: >-
+  BugSnag publishes the rate-limit MECHANISM for the Data Access API — the
+  window, the exhaustion status and the three response headers — but not the
+  numeric ceiling. The limit is discoverable only at runtime, from
+  X-RateLimit-Limit on a successful response. Read verbatim from the SmartBear
+  developer portal's Rate Limiting guide on 2026-09-17; the previous version of
+  this artifact carried a "60 requests per minute" figure sourced from the
+  retired bugsnagapiv2.docs.apiary.io documentation, which is no longer
+  published anywhere and is therefore not restated here.
 sources:
-  - https://bugsnag.com/pricing/
-  - https://bugsnagapiv2.docs.apiary.io/
+  - https://developer.smartbear.com/bugsnag/docs/data-access-rate-limiting
+  - https://www.bugsnag.com/pricing/
 headers:
+  limit: X-RateLimit-Limit
+  remaining: X-RateLimit-Remaining
   retryAfter: Retry-After
+  note: >-
+    Verbatim from the docs — X-RateLimit-Remaining is "number of requests
+    remaining in the current time window", X-RateLimit-Limit is "number of
+    requests allowed per time window", and both are returned on requests that
+    were NOT denied. A 429 carries Retry-After with the number of seconds to
+    wait.
 responseCodes:
   throttled: 429
+window: 1 minute
 limits:
-  - name: Data API (default)
+  - name: Data Access API
     scope: token
-    metric: requests_per_minute
-    limit: 60
+    metric: requests_per_window
+    limit: null
     timeFrame: minute
-  - name: Notify API (event ingest)
+    headers:
+      - X-RateLimit-Limit
+      - X-RateLimit-Remaining
+      - Retry-After
+    status_on_exhaustion: 429
+    note: >-
+      The numeric limit is not published. Verbatim: "The time window for rate
+      limits is 1 minute." Read the ceiling from X-RateLimit-Limit at runtime.
+  - name: Event ingest (Error Reporting, Session Tracking, Trace)
     scope: project
-    metric: events_per_minute
-    limit: tier-based
-  - name: Build API
-    scope: project
-    metric: builds_per_minute
-    limit: 60
-    timeFrame: minute
+    metric: events_or_spans_per_month
+    limit: plan-based
+    timeFrame: month
+    note: >-
+      Ingest is metered by plan allowance (events and span packs) rather than by
+      request rate — see plans/bugsnag-plans-pricing.yml. Payload ceilings ARE
+      published in the specs: 1MB per Error Reporting payload, 1MB per Session
+      payload, 1MB per Trace payload (413), and a 30-second network read budget
+      (408).
+limit_count: 1
+gaps:
+  - No numeric request ceiling is published for the Data Access API.
+  - >-
+    429 is not declared as a response on any of the 141 Data Access operations
+    in the published OpenAPI, so a spec-driven client will not anticipate it.

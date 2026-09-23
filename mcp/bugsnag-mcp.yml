@@ -1,0 +1,155 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://www.npmjs.com/package/@smartbear/mcp (v0.41.0, published 2026-09-17) ,
+  https://github.com/SmartBear/smartbear-mcp ,
+  https://developer.smartbear.com/smartbear-mcp/docs/bugsnag-integration ,
+  live probe of https://bugsnag.mcp.smartbear.com/mcp on 2026-09-17
+name: BugSnag MCP (SmartBear MCP Server)
+status: published
+vendor: SmartBear Software
+description: >-
+  SmartBear publishes a first-party Model Context Protocol server for BugSnag.
+  It is available two ways: a hosted remote server an MCP client can POST to
+  directly over OAuth, and a local stdio server distributed on npm as part of
+  the multi-product @smartbear/mcp package. The BugSnag toolset covers error
+  triage, event inspection, release/build lookup, and performance (span, trace
+  and network-grouping) analysis.
+deployment:
+  mode: both
+  endpoint: https://bugsnag.mcp.smartbear.com/mcp
+  install: npx -y @smartbear/mcp@latest
+  package: https://www.npmjs.com/package/@smartbear/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    Remote endpoint probed 2026-09-17. An unauthenticated MCP initialize returns
+    HTTP 401 with
+    `WWW-Authenticate: OAuth resource_metadata="http://bugsnag.mcp.smartbear.com/.well-known/oauth-protected-resource"`,
+    and that RFC 9728 document resolves to the authorization server
+    https://oauth.bugsnag.com. The local package also accepts a
+    BUGSNAG_AUTH_TOKEN personal access token instead of the OAuth flow.
+endpoints:
+  - name: BugSnag remote MCP server
+    url: https://bugsnag.mcp.smartbear.com/mcp
+    transport: streamable-http
+    probed: '2026-09-17'
+    http_status: 401
+    auth: OAuth 2.1 (authorization code + PKCE S256, dynamic client registration)
+  - name: Sibling SmartBear remote servers (not BugSnag)
+    urls:
+      - https://swagger.mcp.smartbear.com/mcp
+      - https://zephyr.mcp.smartbear.com/mcp
+    note: Recorded for context only; these serve other SmartBear products.
+authentication:
+  remote:
+    scheme: oauth2
+    authorization_server: https://oauth.bugsnag.com
+    protected_resource_metadata: https://bugsnag.mcp.smartbear.com/.well-known/oauth-protected-resource
+    scopes_supported:
+      - api
+      - openid
+      - profile
+    code_challenge_methods_supported:
+      - S256
+    dynamic_client_registration: true
+  local:
+    scheme: header/env
+    variables:
+      - name: BUGSNAG_AUTH_TOKEN
+        required: true
+        description: BugSnag personal auth token; required for all BugSnag tools.
+      - name: BUGSNAG_PROJECT_API_KEY
+        required: false
+        description: >-
+          Scopes every tool call to a single project and pre-caches that
+          project's custom event filters. When set, bugsnag_list_projects is
+          not exposed and projectId becomes optional elsewhere.
+      - name: BUGSNAG_ENDPOINT
+        required: false
+        description: Custom endpoint for on-premise BugSnag installations.
+    headers_accepted_remote:
+      - Bugsnag-Auth-Token
+      - Bugsnag-Project-Api-Key
+      - Bugsnag-Endpoint
+tools_source: >-
+  https://developer.smartbear.com/smartbear-mcp/docs/bugsnag-integration and the
+  server-definitions snapshot in SmartBear/smartbear-mcp. The live tools/list is
+  auth-gated (401), so tool NAMES and DESCRIPTIONS below are provider-published
+  and exact; full inputSchema per tool requires authenticated introspection.
+tools:
+  - name: bugsnag_list_projects
+    toolset: Projects
+    summary: List the projects in your organization; optionally locate a project by its API key.
+  - name: bugsnag_get_current_project
+    toolset: Projects
+    summary: Retrieve the project tools operate on by default.
+  - name: bugsnag_list_project_event_filters
+    toolset: Projects
+    summary: List the event filters available for a project, for use in error/event tools.
+  - name: bugsnag_list_project_errors
+    toolset: Errors
+    summary: List open errors in a project with basic detail, taking an optional filter set.
+  - name: bugsnag_get_error
+    toolset: Errors
+    summary: >-
+      Full detail for one error — aggregated stats, latest event (stacktrace,
+      user, device), pivot summaries, and a dashboard link.
+  - name: bugsnag_update_error
+    toolset: Errors
+    summary: >-
+      Set error status (open, fixed, ignored, snoozed, discarded, undiscarded),
+      override severity, and link/unlink issues.
+    write: true
+  - name: bugsnag_get_events_on_an_error
+    toolset: Events
+    summary: List events (occurrences) for an error with complete per-event detail.
+  - name: bugsnag_get_event
+    toolset: Events
+    summary: Retrieve one event by ID, including thread traces trimmed from get_error.
+  - name: bugsnag_get_event_details_from_dashboard_url
+    toolset: Events
+    summary: Resolve a pasted BugSnag dashboard URL into the underlying event detail.
+  - name: bugsnag_list_releases
+    toolset: Releases
+    summary: List releases for a release stage (default production) with stability scores.
+  - name: bugsnag_get_release
+    toolset: Releases
+    summary: Detail for one release, including source-control info and its builds.
+  - name: bugsnag_get_build
+    toolset: Releases
+    summary: Detail for one build, including source-control information and metadata.
+  - name: bugsnag_list_span_groups
+    toolset: Performance
+    summary: >-
+      List span groups, sortable by duration percentiles (p50/p75/p90/p95/p99),
+      CPU, memory, frame rates and HTTP error rates.
+  - name: bugsnag_get_span_group
+    toolset: Performance
+    summary: Performance metrics, timeline, distribution and targets for one span group.
+  - name: bugsnag_list_spans
+    toolset: Performance
+    summary: Individual span instances in a span group, each carrying a trace ID.
+  - name: bugsnag_get_trace
+    toolset: Performance
+    summary: All spans in a trace — the full execution path of a request/transaction.
+  - name: bugsnag_list_trace_fields
+    toolset: Performance
+    summary: Custom attributes/fields available for filtering performance data.
+  - name: bugsnag_get_network_endpoint_groupings
+    toolset: Performance
+    summary: Current URL-pattern rules used to consolidate network spans.
+  - name: bugsnag_set_network_endpoint_groupings
+    toolset: Performance
+    summary: >-
+      Configure URL patterns (OpenAPI path templating, wildcard domains) that
+      control how network spans are grouped.
+    write: true
+resources:
+  - uri_template: bugsnag://event/{id}
+    name: bugsnag_event
+    summary: An occurrence of an error.
+counts:
+  tools: 19
+  resources: 1
+  write_tools: 2

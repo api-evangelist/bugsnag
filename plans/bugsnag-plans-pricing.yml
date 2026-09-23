@@ -4,17 +4,28 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Bugsnag
 providerId: bugsnag
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-04'
+# 2026-09-17: re-verified against the live pricing page. The four tiers (Free /
+# Select / Preferred / Enterprise), the Free allowance (7.5K events + 1M spans,
+# 1 user) and the tier feature splits below all match what
+# https://www.bugsnag.com/pricing/ served on 2026-09-17, so method is upgraded
+# from generated to searched. Per-tier PRICES are not restated: Select and
+# Preferred are configurator-driven (pick an event tier and a span pack, billed
+# monthly or yearly) and the page renders "STARTING AT $0/month" until a
+# selection is made, so no fixed list price is published for them.
+method: searched
+generated: '2026-09-17'
+source: https://www.bugsnag.com/pricing/
+docs: https://www.bugsnag.com/pricing/
+pricing_model: configurator
+modified: '2026-09-17'
 reconciled: true
 tags:
   - Error Monitoring
   - APM
 description: Bugsnag (SmartBear) pricing across Free / Select / Preferred / Enterprise.
 sources:
-  - https://bugsnag.com/pricing/
+  - https://www.bugsnag.com/pricing/
+  - https://smartbear.com/insight-hub/pricing/
 plans:
   - id: bugsnag-free
     name: Free

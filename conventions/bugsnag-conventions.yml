@@ -1,0 +1,201 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.smartbear.com/bugsnag/docs/data-access-pagination ,
+  https://developer.smartbear.com/bugsnag/docs/data-access-rate-limiting ,
+  https://developer.smartbear.com/bugsnag/docs/data-access-versioning ,
+  https://developer.smartbear.com/bugsnag/docs/data-access-authentication ,
+  openapi/bugsnag-data-access-api-openapi.json
+description: >-
+  Cross-cutting runtime semantics for the BugSnag APIs, read from the SmartBear
+  developer portal's Data Access API guides and the published OpenAPI. Covers
+  the Data Access API unless a section says otherwise; the ingest surfaces
+  (notify/sessions/build/otlp/upload) are fire-and-forget POST endpoints with
+  much thinner semantics.
+auth_style:
+  data_access: Authorization header, 'token <PERSONAL_AUTH_TOKEN>'
+  ingest: Bugsnag-Api-Key header (or api_key query parameter) per project
+  mcp: OAuth 2.1 authorization code + PKCE against https://oauth.bugsnag.com
+  see: authentication/bugsnag-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key header, no idempotency_key field and no request-replay
+    language appears anywhere in the 363KB Data Access API spec (0 matches for
+    /idempoten/i), nor on the portal's Data Access guides. The ingest specs
+    declare no replay-protection parameter either.
+  consequence: >-
+    A retried POST (create project, invite collaborator, create saved search,
+    create comment) can duplicate. An agent must read-before-write or accept
+    duplicates; there is no server-side replay guard to lean on.
+  ingest_note: >-
+    Deduplication on the ingest path is a different mechanism and not
+    idempotency: BugSnag groups events into errors server-side by stack
+    signature, so a re-sent event still increments the occurrence count.
+pagination:
+  style: link-header
+  request_params:
+    - name: per_page
+      in: query
+      description: >-
+        Results per page. The maximum for certain resources is lower and is
+        stated in the API reference for that endpoint; a per_page above an
+        endpoint's maximum returns only up to the maximum.
+    - name: offset
+      in: query
+    - name: sort
+      in: query
+    - name: direction
+      in: query
+  response_headers:
+    - name: Link
+      description: >-
+        RFC 5988 pagination links. The URL is inside angled brackets and the
+        link type is in the rel field.
+    - name: X-Total-Count
+      description: Total count of results, on most multi-item responses.
+  rule: >-
+    Verbatim from the docs — "It is important to follow these Link header values
+    instead of constructing your own URLs since the pagination method can differ
+    between resources." Cursor-style and offset-style pagination coexist behind
+    one header contract.
+filtering:
+  style: bracketed filter parameters
+  discovery_operation: listProjectEventFields
+  mcp_equivalent: bugsnag_list_project_event_filters
+  description: >-
+    Error and event queries take a filters object keyed on event fields, with a
+    type (eq, ne, …) and a value per clause. The available fields are
+    per-project and must be discovered at runtime rather than hardcoded.
+  time_filters: >-
+    Accept extended ISO 8601 UTC (2018-05-20T00:00:00Z) or relative shorthand
+    (7d, 24h).
+versioning:
+  scheme: major-version header
+  current: '2'
+  header: X-Version
+  query_alternative: true
+  policy: >-
+    "This documentation describes version 2 of the Data Access API. Version 1 of
+    the API has been decommissioned." The docs recommend always passing an
+    explicit version header because the default version changes as old versions
+    are disabled.
+  see: lifecycle/bugsnag-lifecycle.yml
+rate_limits:
+  window: 1 minute
+  exhaustion_status: 429
+  response_headers:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - Retry-After
+  see: rate-limits/bugsnag-rate-limits.yml
+errors:
+  envelope: JSON object with an errors array
+  rfc9457: false
+  content_type: application/json
+  status_codes:
+    - 400
+    - 401
+    - 403
+    - 404
+    - 409
+    - 422
+    - 429
+  see: errors/bugsnag-problem-types.yml
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id / correlation header is documented or declared in the spec.
+    An agent debugging a failed call has no server-side handle to quote to
+    support.
+field_expansion:
+  supported: false
+  note: >-
+    No expand/fields/include parameter. Composite views (error + latest event +
+    pivots) are assembled client-side, which is exactly what the MCP
+    bugsnag_get_error tool does.
+metadata:
+  custom_fields: >-
+    Arbitrary customer metadata rides on events (metaData) and is queryable via
+    project event fields; there is no generic key/value metadata block on
+    Data Access resources.
+reversibility:
+  grade: documented
+  applicable: true
+  summary: >-
+    BugSnag publishes real reversal paths for its two highest-consequence write
+    classes — error status changes and event-data deletion — but states a window
+    for neither, so this grades `documented` rather than `verified`. An invented
+    window would be worse than the gap.
+  surfaces:
+    - write: Change an error's status
+      operations:
+        - updateErrorOnProject
+        - bulkUpdateErrors
+      reversal: Set the status back, including the explicit undiscard operation
+      reversal_operations:
+        - updateErrorOnProject
+      window: null
+      window_stated: false
+      note: >-
+        The MCP tool bugsnag_update_error exposes open / fixed / ignored /
+        snoozed / discarded / undiscarded, and `undiscarded` is a first-class
+        inverse of `discarded` — an unusually explicit undo. No time limit is
+        documented on reverting a status.
+    - write: Delete event data (privacy / data-subject deletion)
+      operations:
+        - createProjectEventDataDeletion
+        - organizationEventDataDeletions
+      reversal: none
+      confirmation_required: true
+      confirmation_operations:
+        - confirmProjectEventDataDeletion
+        - organizationEventDataDeletionsConfirm
+      window: null
+      window_stated: false
+      note: >-
+        Irreversible by design — it exists to satisfy erasure requests. BugSnag
+        mitigates with a two-phase create-then-confirm flow instead of a
+        reversal, which is the right shape but means an agent must treat the
+        confirm call as terminal.
+    - write: Delete an error, all errors in a project, or a project
+      operations:
+        - deleteErrorOnProject
+        - deleteAllErrorsInProject
+        - deleteProject
+      reversal: none
+      window: null
+      window_stated: false
+      note: >-
+        No restore, undelete or trash-retention path is documented. Notably the
+        MCP server exposes none of these operations as tools.
+    - write: Rotate a project API key or upload key
+      operations:
+        - regenerateProjectApiKey
+        - regenerateProjectUploadApiKey
+      reversal: none
+      window: null
+      window_stated: false
+      note: The previous key cannot be restored; deployed clients must be updated.
+    - write: Collaborator and team membership changes
+      operations:
+        - inviteOrganizationCollaborator
+        - deleteOrganizationCollaborator
+        - addOrganizationTeamMemberships
+        - deleteOrganizationTeamMemberships
+      reversal: Re-invite or re-add
+      reversal_operations:
+        - inviteOrganizationCollaborator
+        - addOrganizationTeamMemberships
+      window: null
+      window_stated: false
+      note: Effectively reversible by repeating the inverse operation, not by an undo.
+dry_run_mode:
+  supported: false
+  note: >-
+    No dry-run, preview or validate-only parameter is declared in the spec or
+    documented. An agent cannot rehearse a write.

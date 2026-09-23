@@ -1,0 +1,45 @@
+generated: '2026-09-17'
+method: probed
+source: https://oauth.bugsnag.com/.well-known/oauth-authorization-server
+docs: https://developer.smartbear.com/smartbear-mcp/docs/remote-mcp-servers
+description: >-
+  BugSnag's OAuth surface is the authorization server behind the remote MCP
+  server (bugsnag.mcp.smartbear.com). The REST Data Access API itself does not
+  use OAuth — it authenticates with a personal auth token (see
+  authentication/bugsnag-authentication.yml). Scopes below are read verbatim
+  from the RFC 8414 authorization-server metadata document, not inferred.
+authorization_server: https://oauth.bugsnag.com
+issuer: https://oauth.bugsnag.com
+endpoints:
+  authorization: https://oauth.bugsnag.com/authorize
+  token: https://oauth.bugsnag.com/token
+  registration: https://oauth.bugsnag.com/register
+  jwks: https://oauth.bugsnag.com/.well-known/jwks.json
+flows:
+  - authorization_code
+  - refresh_token
+pkce:
+  required_methods:
+    - S256
+dynamic_client_registration: true
+token_endpoint_auth_methods:
+  - client_secret_post
+  - none
+scopes:
+  - name: api
+    description: >-
+      Access to the BugSnag API on behalf of the authenticated user. Declared in
+      scopes_supported; the provider publishes no per-resource breakdown of what
+      it covers, so no finer decomposition is recorded here.
+  - name: openid
+    description: OpenID Connect sign-in scope, requesting an ID token.
+  - name: profile
+    description: Standard OIDC profile claims for the authenticated user.
+scope_count: 3
+notes:
+  - >-
+    scopes_supported is coarse — one `api` scope covers the whole surface. An
+    agent cannot request read-only access to BugSnag over OAuth today.
+  - >-
+    The authorization server advertises no /.well-known/openid-configuration
+    (404) despite supporting the openid scope.

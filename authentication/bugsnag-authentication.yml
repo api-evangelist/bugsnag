@@ -1,17 +1,115 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/bugsnag-data-access-openapi.yml
+generated: '2026-09-17'
+method: searched
+source: >-
+  https://developer.smartbear.com/bugsnag/docs/data-access-authentication ,
+  openapi/bugsnag-data-access-api-openapi.json (securitySchemes) ,
+  https://oauth.bugsnag.com/.well-known/oauth-authorization-server
+docs: https://developer.smartbear.com/bugsnag/docs/data-access-authentication
 summary:
   types:
-  - apiKey
+    - apiKey
+    - http
+    - oauth2
   api_key_in:
-  - header
+    - header
+description: >-
+  BugSnag has three distinct authentication models, one per surface class: a
+  personal auth token for the Data Access API, a project API key for the ingest
+  and upload endpoints, and OAuth 2.1 for the remote MCP server.
 schemes:
-- name: tokenAuth
-  type: apiKey
-  in: header
-  parameter: Authorization
-  description: Personal auth token sent as "token YOUR-AUTH-TOKEN". The token can be found in
-    the Bugsnag account settings under the API section.
-  sources:
-  - openapi/bugsnag-data-access-openapi.yml
+  - name: tokenAuth
+    surface: Data Access API (https://api.bugsnag.com)
+    type: apiKey
+    in: header
+    parameter: Authorization
+    format: 'token YOUR-AUTH-TOKEN'
+    description: >-
+      Personal Auth Token, the recommended and default method. Generated in the
+      dashboard's account settings. Verbatim from the spec: "Authorize using a
+      Personal Auth Token with the `token` prefix, e.g. \"token my_auth_token\"."
+    sources:
+      - openapi/bugsnag-data-access-api-openapi.json
+      - https://developer.smartbear.com/bugsnag/docs/data-access-authentication
+  - name: basicAuth
+    surface: Data Access API — on-premise installations only
+    type: http
+    scheme: basic
+    description: >-
+      On-premise installations may authenticate with dashboard user credentials
+      (the email address and password of the user) via HTTP Basic. The docs
+      state this is for on-premise only; SaaS callers use a personal auth token.
+    sources:
+      - https://developer.smartbear.com/bugsnag/docs/data-access-authentication
+  - name: projectApiKey
+    surface: >-
+      Error Reporting (notify.bugsnag.com), Session Tracking
+      (sessions.bugsnag.com), Build (build.bugsnag.com), Trace
+      (otlp.bugsnag.com) and Upload (upload.bugsnag.com) APIs
+    type: apiKey
+    in: header-or-query-or-body
+    carriers:
+      - parameter: Bugsnag-Api-Key
+        in: header
+        required: true
+        surfaces:
+          - 'POST https://notify.bugsnag.com/ (Error Reporting)'
+          - 'POST https://otlp.bugsnag.com/traces/v1 (Trace)'
+        note: >-
+          Optional (required:false in the spec) on
+          'POST https://sessions.bugsnag.com/'.
+      - parameter: api_key
+        in: query
+        required: true
+        surfaces:
+          - 'POST https://notify.bugsnag.com/minidump'
+          - 'POST https://upload.bugsnag.com/breakpad-symbol'
+        note: >-
+          The remaining Upload API endpoints take the key in the multipart form
+          body rather than as a declared parameter.
+    description: >-
+      Per-project API key identifying which BugSnag project an event, session,
+      build, span or symbol file belongs to. It is an ingest identifier, not a
+      user credential — it is shipped inside client applications. None of the
+      ingest specs declare a securitySchemes block; the key travels as an
+      explicit parameter instead. Rotatable via the Data Access API
+      (regenerateProjectApiKey, regenerateProjectUploadApiKey).
+    sources:
+      - openapi/bugsnag-error-reporting-api-openapi.json
+      - openapi/bugsnag-upload-api-openapi.json
+      - openapi/bugsnag-trace-api-openapi.json
+      - openapi/bugsnag-session-tracking-api-openapi.json
+  - name: oauth2
+    surface: BugSnag remote MCP server (https://bugsnag.mcp.smartbear.com/mcp)
+    type: oauth2
+    flows:
+      authorizationCode:
+        authorizationUrl: https://oauth.bugsnag.com/authorize
+        tokenUrl: https://oauth.bugsnag.com/token
+        scopes:
+          api: Access the BugSnag API on behalf of the user
+          openid: OIDC sign-in
+          profile: OIDC profile claims
+    pkce: S256
+    dynamic_client_registration: https://oauth.bugsnag.com/register
+    description: >-
+      Browser-based OAuth login for the hosted MCP server, added in May 2026 per
+      the BugSnag changelog ("Self Hosted MCP Server OAuth 2.0 support — securely
+      connect to BugSnag via browser-based login instead of manual API tokens").
+      The server also accepts a Bugsnag-Auth-Token header as an alternative.
+    sources:
+      - https://oauth.bugsnag.com/.well-known/oauth-authorization-server
+      - https://bugsnag.mcp.smartbear.com/.well-known/oauth-protected-resource
+      - https://docs.bugsnag.com/whats-new/
+token_management:
+  rotation:
+    - operationId: revokeOrganizationAuthToken
+      path: DELETE /organizations/{id}/auth_token
+    - operationId: revokeOrganizationApiKey
+      path: DELETE /organizations/{id}/api_key
+    - operationId: regenerateProjectApiKey
+      path: DELETE /projects/{project_id}/api_key
+    - operationId: regenerateProjectUploadApiKey
+      path: DELETE /projects/{project_id}/upload_api_key
+  note: >-
+    Both organization-level and project-level credentials can be revoked or
+    regenerated programmatically — unusual, and a genuine agent-safety feature.

@@ -1,0 +1,218 @@
+generated: '2026-09-17'
+method: searched
+source: >-
+  npm registry.npmjs.org, pypi.org, rubygems.org, repo.packagist.org,
+  search.maven.org, api.nuget.org, proxy.golang.org, pub.dev, crates.io,
+  and the BugSnag GitHub organization (https://github.com/bugsnag)
+description: >-
+  First-party BugSnag (SmartBear) client libraries. BugSnag ships notifier SDKs
+  across 50+ platforms; the entries below are the canonical registry packages,
+  each with the latest published version and its release date read from the
+  registry's own metadata endpoint on 2026-09-17.
+packages:
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/js"
+    url: https://www.npmjs.com/package/@bugsnag/js
+    install: npm install @bugsnag/js
+    official: true
+    version: 8.10.0
+    published: '2026-07-10'
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/node"
+    url: https://www.npmjs.com/package/@bugsnag/node
+    install: npm install @bugsnag/node
+    official: true
+    version: 8.10.0
+    published: '2026-07-10'
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/browser"
+    url: https://www.npmjs.com/package/@bugsnag/browser
+    install: npm install @bugsnag/browser
+    official: true
+    version: 8.10.0
+    published: '2026-07-10'
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/react-native"
+    url: https://www.npmjs.com/package/@bugsnag/react-native
+    install: npm install @bugsnag/react-native
+    official: true
+    version: 8.10.0
+    published: '2026-07-10'
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/source-maps"
+    url: https://www.npmjs.com/package/@bugsnag/source-maps
+    install: npm install @bugsnag/source-maps
+    official: true
+    version: 2.3.3
+    published: '2024-05-02'
+    note: >-
+      Source-map upload library. Superseded in practice by the BugSnag CLI
+      (@bugsnag/cli), which is where active release work now happens.
+  - language: javascript
+    registry: npm
+    name: "@bugsnag/cli"
+    url: https://www.npmjs.com/package/@bugsnag/cli
+    install: npm install -g @bugsnag/cli
+    official: true
+    version: 3.10.6
+    published: '2026-09-07'
+    note: npm distribution of the Go BugSnag CLI (github.com/bugsnag/bugsnag-cli).
+  - language: javascript
+    registry: npm
+    name: "@smartbear/mcp"
+    url: https://www.npmjs.com/package/@smartbear/mcp
+    install: npx -y @smartbear/mcp@latest
+    official: true
+    version: 0.41.0
+    published: '2026-09-17'
+    note: >-
+      SmartBear MCP server. Bundles the BugSnag MCP toolset (19 tools) alongside
+      other SmartBear products; see mcp/bugsnag-mcp.yml.
+  - language: python
+    registry: pypi
+    name: bugsnag
+    url: https://pypi.org/project/bugsnag/
+    install: pip install bugsnag
+    official: true
+    version: 4.9.2
+    published: '2026-09-15'
+  - language: ruby
+    registry: rubygems
+    name: bugsnag
+    url: https://rubygems.org/gems/bugsnag
+    install: gem install bugsnag
+    official: true
+    version: 6.30.0
+    published: '2026-04-13'
+  - language: php
+    registry: packagist
+    name: bugsnag/bugsnag
+    url: https://packagist.org/packages/bugsnag/bugsnag
+    install: composer require bugsnag/bugsnag
+    official: true
+    version: v3.31.0
+    published: '2026-07-30'
+  - language: go
+    registry: go-modules
+    name: github.com/bugsnag/bugsnag-go
+    url: https://pkg.go.dev/github.com/bugsnag/bugsnag-go
+    install: go get github.com/bugsnag/bugsnag-go
+    official: true
+    version: v2.6.4+incompatible
+    published: '2026-04-14'
+  - language: dotnet
+    registry: nuget
+    name: Bugsnag
+    url: https://www.nuget.org/packages/Bugsnag/
+    install: dotnet add package Bugsnag
+    official: true
+    version: 4.1.1
+    published: '2026-04-21'
+  - language: java
+    registry: maven-central
+    name: com.bugsnag:bugsnag
+    url: https://central.sonatype.com/artifact/com.bugsnag/bugsnag
+    install: implementation 'com.bugsnag:bugsnag:3.7.2'
+    official: true
+    version: 3.7.2
+    published: '2024-08-29'
+    note: >-
+      Server-side Java notifier. Last published 2024-08-29 — materially older
+      than the Android and JavaScript notifiers, which ship monthly.
+  - language: java
+    registry: maven-central
+    name: com.bugsnag:bugsnag-spring
+    url: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-spring
+    install: implementation 'com.bugsnag:bugsnag-spring:3.7.2'
+    official: true
+    version: 3.7.2
+    published: '2024-08-29'
+  - language: kotlin
+    registry: maven-central
+    name: com.bugsnag:bugsnag-android
+    url: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android
+    install: implementation 'com.bugsnag:bugsnag-android:6.13.0'
+    official: true
+    version: 6.13.0
+    published: '2025-04-15'
+  - language: kotlin
+    registry: maven-central
+    name: com.bugsnag:bugsnag-android-performance
+    url: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android-performance
+    install: implementation 'com.bugsnag:bugsnag-android-performance:1.12.0'
+    official: true
+    version: 1.12.0
+    published: '2025-03-12'
+  - language: kotlin
+    registry: maven-central
+    name: com.bugsnag:bugsnag-android-gradle-plugin
+    url: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android-gradle-plugin
+    install: id 'com.bugsnag.android.gradle' version '8.2.0'
+    official: true
+    version: 8.2.0
+    published: '2025-01-23'
+  - language: dart
+    registry: pub.dev
+    name: bugsnag_flutter
+    url: https://pub.dev/packages/bugsnag_flutter
+    install: flutter pub add bugsnag_flutter
+    official: true
+    version: 4.2.1
+    published: '2026-04-29'
+  - language: objective-c
+    registry: cocoapods
+    name: Bugsnag
+    url: https://github.com/bugsnag/bugsnag-cocoa
+    install: pod 'Bugsnag'
+    official: true
+    version: null
+    published: null
+    note: >-
+      Apple (iOS/macOS/tvOS) notifier. Distributed via CocoaPods, Swift Package
+      Manager and Carthage from github.com/bugsnag/bugsnag-cocoa; CocoaPods has
+      no unauthenticated per-pod metadata endpoint equivalent to the other
+      registries, so version/published are recorded as null rather than guessed.
+      The repository was last pushed 2026-09-17.
+  - language: csharp
+    registry: github
+    name: bugsnag-unity
+    url: https://github.com/bugsnag/bugsnag-unity
+    install: Unity package from GitHub releases
+    official: true
+    version: null
+    published: null
+    note: >-
+      Unity notifier is distributed as a .unitypackage from GitHub releases,
+      not a package registry; version is recorded as null because there is no
+      registry metadata endpoint to read. Repository last pushed 2026-08-24.
+  - language: rust
+    registry: crates.io
+    name: bugsnag
+    url: https://crates.io/crates/bugsnag
+    install: cargo add bugsnag
+    official: false
+    version: null
+    published: '2018-01-08'
+    note: >-
+      Community crate, last updated 2018-01-08. Not listed as a BugSnag-supported
+      platform and not published from the bugsnag GitHub organization, so
+      official is false.
+counts:
+  total: 21
+  official: 20
+  registries:
+    - npm
+    - pypi
+    - rubygems
+    - packagist
+    - go-modules
+    - nuget
+    - maven-central
+    - pub.dev
+    - cocoapods
+    - crates.io

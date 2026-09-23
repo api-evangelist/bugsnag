@@ -1,0 +1,253 @@
+generated: '2026-09-17'
+method: derived
+source: >-
+  mcp/bugsnag-mcp.yml (tool names and summaries published by SmartBear at
+  developer.smartbear.com/smartbear-mcp/docs/bugsnag-integration) bound against
+  openapi/bugsnag-data-access-api-openapi.json (BugSnag Data Access API v2,
+  SwaggerHub smartbear-public, 141 operations)
+description: >-
+  Binds each BugSnag MCP tool to the Data Access API operation(s) that back it,
+  so an agent that cannot reach the auth-gated MCP server can still see what the
+  tool does and call the same capability over REST. The live tools/list is
+  OAuth-gated (401), so bindings are mapped by published name and semantics
+  against real operationIds grepped from the spec — confidence is recorded per
+  row and never inflated.
+surfaces:
+  openapi:
+    file: openapi/bugsnag-data-access-api-openapi.json
+    server: https://api.bugsnag.com
+    operations: 141
+    gated: false
+  mcp:
+    url: https://bugsnag.mcp.smartbear.com/mcp
+    package: "@smartbear/mcp"
+    tools: 19
+    gated: true
+    note: tools/list returns 401 without OAuth; schemas require authenticated introspection.
+  graphql:
+    present: false
+crosswalk:
+  - tool: bugsnag_list_projects
+    category: Projects
+    rest:
+      - getOrganizationProjects
+      - listUserOrganizations
+    binding: composite
+    confidence: high
+    note: >-
+      Lists projects for the caller's organization; listUserOrganizations
+      resolves the organization_id the project listing requires.
+  - tool: bugsnag_get_current_project
+    category: Projects
+    rest:
+      - getProject
+    binding: direct
+    confidence: medium
+    note: >-
+      "Current project" is MCP session state set from BUGSNAG_PROJECT_API_KEY or
+      a prior projectId; the underlying fetch is GET /projects/{project_id}.
+  - tool: bugsnag_list_project_event_filters
+    category: Projects
+    rest:
+      - listProjectEventFields
+    binding: direct
+    confidence: high
+  - tool: bugsnag_list_project_errors
+    category: Errors
+    rest:
+      - listProjectErrors
+    binding: direct
+    confidence: high
+  - tool: bugsnag_get_error
+    category: Errors
+    rest:
+      - viewErrorOnProject
+      - viewLatestEventOnError
+      - listPivotsOnAnError
+      - getPivotValuesOnAnError
+    binding: composite
+    confidence: high
+    note: >-
+      The tool's documented response (error_details + latest_event + pivots +
+      dashboard url) is the union of these four operations.
+  - tool: bugsnag_update_error
+    category: Errors
+    rest:
+      - updateErrorOnProject
+    binding: direct
+    confidence: high
+    write: true
+  - tool: bugsnag_get_events_on_an_error
+    category: Events
+    rest:
+      - listEventsOnError
+    binding: direct
+    confidence: high
+  - tool: bugsnag_get_event
+    category: Events
+    rest:
+      - viewEventById
+    binding: direct
+    confidence: high
+  - tool: bugsnag_get_event_details_from_dashboard_url
+    category: Events
+    rest:
+      - viewEventById
+    binding: composite
+    confidence: medium
+    note: >-
+      MCP-side convenience: parses project slug and event_id out of an
+      app.bugsnag.com dashboard URL, then calls viewEventById. The URL parsing
+      has no REST equivalent.
+  - tool: bugsnag_list_releases
+    category: Releases
+    rest:
+      - listProjectReleaseGroups
+    binding: direct
+    confidence: medium
+    note: >-
+      Naming differs between surfaces. What the MCP server calls a "release"
+      (stability score, target, made up of builds) is a release_group in the
+      Data Access API; listProjectReleases returns the individual builds inside
+      one. Mapped on that reading of the two schemas, not on a name match.
+  - tool: bugsnag_get_release
+    category: Releases
+    rest:
+      - getReleaseGroup
+      - listReleaseGroupReleases
+    binding: composite
+    confidence: medium
+    note: Same naming caveat as bugsnag_list_releases; returns the builds summary.
+  - tool: bugsnag_get_build
+    category: Releases
+    rest:
+      - getProjectReleaseById
+    binding: direct
+    confidence: medium
+    note: A "build" in MCP terms is a release record in the Data Access API.
+  - tool: bugsnag_list_span_groups
+    category: Performance
+    rest:
+      - listProjectSpanGroups
+      - listProjectSpanGroupSummaries
+      - listProjectStarredSpanGroups
+    binding: composite
+    confidence: high
+  - tool: bugsnag_get_span_group
+    category: Performance
+    rest:
+      - getProjectSpanGroup
+      - getProjectSpanGroupTimeline
+      - getProjectSpanGroupDistribution
+      - listProjectSpanGroupPerformanceTargets
+    binding: composite
+    confidence: high
+    note: Percentile stats, timeline, distribution and registered targets are four operations.
+  - tool: bugsnag_list_spans
+    category: Performance
+    rest:
+      - listSpansBySpanGroupId
+      - getSpansByCategoryAndName
+    binding: composite
+    confidence: high
+  - tool: bugsnag_get_trace
+    category: Performance
+    rest:
+      - listSpansByTraceId
+      - listOrganizationSpans
+    binding: composite
+    confidence: high
+  - tool: bugsnag_list_trace_fields
+    category: Performance
+    rest:
+      - listProjectTraceFields
+    binding: direct
+    confidence: high
+  - tool: bugsnag_get_network_endpoint_groupings
+    category: Performance
+    rest:
+      - getProjectNetworkGroupingRuleset
+    binding: direct
+    confidence: high
+  - tool: bugsnag_set_network_endpoint_groupings
+    category: Performance
+    rest:
+      - updateProjectNetworkGroupingRuleset
+    binding: direct
+    confidence: high
+    write: true
+mcp_only:
+  - tool: bugsnag_event
+    reason: >-
+      An MCP resource (bugsnag://event/{id}), not a tool. It is a resource-URI
+      projection of viewEventById rather than an operation of its own.
+  - tool: bugsnag_get_event_details_from_dashboard_url
+    reason: >-
+      The dashboard-URL parsing step exists only in the MCP server; REST callers
+      must extract project slug and event_id themselves.
+rest_only:
+  - area: Organization and team administration
+    operations: 41
+    example_operations:
+      - createOrganization
+      - inviteOrganizationCollaborator
+      - bulkInviteOrganizationCollaborators
+      - createOrganizationTeam
+      - updateOrganizationTeamProjectAccesses
+      - revokeOrganizationAuthToken
+    note: No MCP tool exposes collaborator, team or organization administration.
+  - area: SCIM 2.0 user and group provisioning
+    operations: 11
+    example_operations:
+      - listScimUsers
+      - createScimUser
+    note: >-
+      The /organizations/{organization_id}/scim/v2/* surface has no MCP
+      equivalent. Operation names are illustrative of the SCIM tag; see the spec.
+  - area: Integrations
+    operations: 10
+    example_operations:
+      - projectConfiguredIntegrations
+      - listOrganizationIntegrationConnections
+  - area: Project lifecycle and key management
+    example_operations:
+      - createOrganizationProject
+      - updateProject
+      - deleteProject
+      - regenerateProjectApiKey
+      - regenerateProjectUploadApiKey
+    note: >-
+      The MCP server deliberately exposes no destructive project operations —
+      no delete, no key rotation.
+  - area: Data-subject and privacy operations
+    example_operations:
+      - createProjectEventDataRequest
+      - createProjectEventDataDeletion
+      - confirmProjectEventDataDeletion
+      - organizationEventDataDeletions
+  - area: Feature flags and experiments
+    operations: 9
+    example_operations:
+      - listProjectFeatureFlags
+      - getProjectFeatureFlagErrorOverview
+      - getProjectFeatureFlagVariants
+  - area: Saved searches, trends and stability
+    example_operations:
+      - createSavedSearch
+      - getBucketedAndUnbucketedTrendsOnProject
+      - getProjectStabilityTrend
+  - area: Error and event ingest / symbol upload
+    note: >-
+      The Error Reporting, Session Tracking, Build, Trace and Upload APIs are
+      separate hosts with their own specs and have no MCP tools at all — those
+      are build-time and runtime surfaces, covered by the BugSnag CLI.
+coverage:
+  mcp_tools: 19
+  mcp_tools_bound: 19
+  rest_operations_total: 141
+  rest_operations_bound: 27
+  rest_only_estimate: 114
+  binding_confidence:
+    high: 13
+    medium: 6
+    low: 0

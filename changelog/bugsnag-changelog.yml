@@ -1,0 +1,82 @@
+generated: '2026-09-17'
+method: searched
+source: https://docs.bugsnag.com/whats-new/
+docs: https://docs.bugsnag.com/whats-new/
+description: >-
+  BugSnag publishes a dated "What's new" changelog on its product docs site,
+  organised by month and archived by year, split into Features, Improvements
+  and Bug Fixes. It covers the product and the notifier SDKs; it is not an API
+  changelog and does not record contract changes to the Data Access API.
+scheme: monthly, by calendar year
+current_version: Data Access API v2
+archives:
+  - label: 2026 Release Notes
+    url: https://docs.bugsnag.com/whats-new/
+  - label: 2025 Release Notes
+    url: https://docs.bugsnag.com/whats-new/
+entries:
+  - period: '2026-08'
+    breaking: false
+    features:
+      - >-
+        Remote SDK Source-Side Discard Enforcement — active dashboard discard
+        rules sync directly to upgraded Android and iOS SDKs, cutting network
+        bandwidth and processing overhead, with full backward compatibility and
+        fail-open delivery if remote config sync is unavailable.
+    fixes:
+      - Normalize --project-root paths with trailing slashes during symbol file upload.
+  - period: '2026-07'
+    breaking: false
+    features:
+      - >-
+        Custom session windows via the SDK API, with aggregated CPU and memory
+        metrics (mean/min/max) per window. Session span groups appear under a new
+        Sessions tab in Performance.
+  - period: '2026-06'
+    breaking: false
+    features:
+      - Compare two span instances from the same span group side by side.
+    improvements:
+      - BugSnag CLI now correctly preserves the specified project root path during uploads.
+      - Vue Router v5 support in the JS performance SDK.
+    fixes:
+      - Improved security for Cocoa SDK binaries.
+  - period: '2026-05'
+    breaking: false
+    features:
+      - Pre-main aggregate view for iOS App Starts.
+      - >-
+        Self-hosted MCP server OAuth 2.0 support — connect to BugSnag via
+        browser-based login instead of manual API tokens.
+      - System Metrics Flutter support (CPU, memory, rendering).
+  - period: '2026-04'
+    breaking: false
+    features:
+      - '"Does not equal" operator for release in the shared Release filter.'
+      - >-
+        Correlated Events — see related BugSnag events sharing the same user,
+        device, session or trace from the event view.
+      - CPU, memory and rendering metrics from Flutter apps on Android and iOS.
+      - Self-hosted MCP server OAuth authentication as an alternative to API tokens.
+    improvements:
+      - HTTP span attribute names aligned to the latest OpenTelemetry semantic conventions in the Flutter Performance SDK.
+      - Rails performance improvement via monotonic_subscribe.
+      - isStarted flag to check Bugsnag initialization status in the Flutter SDK.
+      - Go SDK supports custom error names and messages in Notify.
+    fixes:
+      - Fixed incorrect app version reporting for Unreal apps on macOS.
+  - period: '2026-03'
+    breaking: false
+    features:
+      - Short-lived token support in the Linear plugin.
+      - 'New error class: HTTP Errors.'
+      - App Hang detection on Android.
+      - Errors-introduced filter now matches by release stage.
+      - Reporting errors with HTTP requests in bugsnag-android v6.23.0 and Cocoa.
+api_changelog:
+  published: false
+  note: >-
+    No separate API changelog. Data Access API contract changes are visible only
+    as new SwaggerHub versions under smartbear-public; the portal records a
+    content-updated timestamp per docs page (the Data Access guides were last
+    updated 2026-08-25).
