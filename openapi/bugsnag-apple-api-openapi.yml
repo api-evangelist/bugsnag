@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: BugSnag - Upload Apple API
+  description: Upload symbol and mapping files to show full stacktraces in your BugSnag dashboard.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: For organizations with projects on app.bugsnag.com
+  url: https://upload.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://upload.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-upload-api/1
+tags:
+- name: Apple
+  description: Debug symbol (.dSYM) files for release builds
+paths:
+  /dsym:
+    post:
+      summary: Apple debug symbols (dSYMs)
+      description: Upload dSYM files to show human-readable function names, file paths, and line numbers in your stacktraces on iOS, macOS and other Apple platforms.
+      operationId: uploadDsym
+      tags:
+      - Apple
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - apiKey
+              - dsym
+              properties:
+                dsym:
+                  type: string
+                  format: file
+                  description: 'The dSYM to upload as a [form-data](https://en.wikipedia.org/wiki/MIME#Form-Data) file upload. Can be either:
+
+                    A single dSYM binary file (within a `.dSYM` directory, the binary is located in `Contents/Resources/DWARF` and generally has the same base name as the .dSYM file itself); or
+
+                    an archive (`.zip`) containing multiple `.dSYM` directories (as downloaded from App Store Connect).
+
+                    '
+                apiKey:
+                  type: string
+                  description: The API key for the application's project in BugSnag.
+                overwrite:
+                  type: boolean
+                  description: 'Whether to ignore and overwrite existing uploads with same identifier, rather than failing if a matching file exists. (Default: `true`)'
+                  default: true
+                projectRoot:
+                  type: string
+                  description: The root path of the project on the filesystem where the application was built. This is used to strip part of the path from the beginning of source file names in your dashboard.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '400':
+          description: A required parameter is missing or the file format is invalid
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid dsym
+        '401':
+          description: Invalid or missing API key
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                Invalid API key:
+                  value: invalid apiKey
+                Missing API key:
+                  value: missing apiKey

@@ -1,0 +1,102 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: BugSnag - Upload Nintendo API
+  description: Upload symbol and mapping files to show full stacktraces in your BugSnag dashboard.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: For organizations with projects on app.bugsnag.com
+  url: https://upload.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://upload.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-upload-api/1
+tags:
+- name: Nintendo
+  description: Symbol files for Nintendo Switch
+paths:
+  /nintendo-switch-symbol:
+    post:
+      summary: Nintendo Switch symbol files
+      description: You will need to upload the generated symbol file for your Nintendo Switch game to see the source file, line number and method in stacktraces on your dashboard.
+      operationId: uploadNintendoSwitchSymbol
+      tags:
+      - Nintendo
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - symbolFile
+              - apiKey
+              properties:
+                symbolFile:
+                  type: string
+                  format: file
+                  description: The Nintendo Switch symbol file as a [form-data](https://en.wikipedia.org/wiki/MIME#Form-Data) file upload.
+                apiKey:
+                  type: string
+                  description: Your BugSnag integration API key for this application.
+                appVersion:
+                  type: string
+                  description: The version of the application.
+                moduleName:
+                  type: string
+                  description: The name of the module/application/binary that the symbols relate to.
+                overwrite:
+                  type: boolean
+                  description: 'Whether to ignore and overwrite existing uploads with same identifier, rather than failing if a matching file exists. (Default: `true`)'
+                  default: true
+                projectRoot:
+                  type: string
+                  description: The root path of the project on the filesystem where the application was built. This is used to strip part of the path from the beginning of source file names in your dashboard.
+      responses:
+        '202':
+          description: Accepted
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Accepted
+        '400':
+          description: A required parameter is missing or the file format is invalid
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                A required parameter is missing:
+                  value: 'missing required param: apiKey'
+                A required file is missing:
+                  value: 'missing required file: symbolFile'
+                Unable to read ELF magic number from Shared Object file:
+                  value: invalid symbol file uploaded - missing ELF magic number
+                Unable to read build ID from Shared Object file:
+                  value: invalid symbol file uploaded - missing buildID
+                Unable to read Shared Object file:
+                  value: invalid file format
+        '401':
+          description: Invalid API key
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: invalid apiKey
+        '409':
+          description: Duplicate file already exists with the same identifier (use `overwrite` to replace)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: duplicate symbol file
+        '422':
+          description: Nothing to upload (e.g. empty file or not uploaded correctly)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: received empty file

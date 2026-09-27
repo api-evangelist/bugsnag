@@ -1,0 +1,126 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: BugSnag - Upload Minidumps API
+  description: Upload symbol and mapping files to show full stacktraces in your BugSnag dashboard.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: For organizations with projects on app.bugsnag.com
+  url: https://upload.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://upload.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-upload-api/1
+tags:
+- name: Minidumps
+  description: Breakpad symbol files for Minidumps
+paths:
+  /breakpad-symbol:
+    post:
+      summary: Breakpad symbol files
+      description: 'Upload Breakpad symbol files to allow symbolicate stacktraces within minidump files (generated when using Electron, Breakpad or Crashpad) to show human-readable stacktraces in your dashboard.
+
+        If your application uses native libraries (aside from Electron and its helper libraries), you will need to generate and upload symbol files for each library and platform supported to see full stacktraces for native crashes.'
+      operationId: uploadBreakpadSymbol
+      tags:
+      - Minidumps
+      parameters:
+      - in: query
+        name: api_key
+        required: true
+        schema:
+          type: string
+        description: Your BugSnag integration API key for this application.
+      - in: query
+        name: overwrite
+        required: false
+        schema:
+          type: boolean
+        description: 'Whether to ignore and overwrite existing uploads with same identifier, rather than failing if a matching file exists. (Default: `true`)'
+      - in: query
+        name: project_root
+        required: false
+        schema:
+          type: string
+        description: The root path of the project on the filesystem where the application was built.
+      requestBody:
+        required: true
+        description: 'The API is compatible with Breakpad''s `symupload` tool. Only the `api_key` in the query string and `symbol_file` form field are required to match the Breakpad Symbol file to a minidump.
+
+          '
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - symbol_file
+              properties:
+                symbol_file:
+                  type: string
+                  format: file
+                  description: The Breakpad symbol file to upload as a [form-data](https://en.wikipedia.org/wiki/MIME#Form-Data) file upload.
+                code_file:
+                  type: string
+                  description: The basename of the module.
+                cpu:
+                  type: string
+                  description: The CPU that the module was built for.
+                debug_file:
+                  type: string
+                  description: The basename of the debug file.
+                debug_identifier:
+                  type: string
+                  description: The debug file's identifier.
+                os:
+                  type: string
+                  description: The operating system that the module was built for.
+                product:
+                  type: string
+                  description: The product name.
+                version:
+                  type: string
+                  description: The version of the module.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '400':
+          description: A required parameter is missing
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: missing api_key
+        '401':
+          description: Invalid API key
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: invalid api_key
+        '409':
+          description: Duplicate file already exists with the same identifier (use `overwrite` to replace)
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                A duplicate file exists:
+                  value: duplicate Breakpad symbols file
+                A duplicate file exists for the provided debug identifier:
+                  value: 'duplicate Breakpad symbols file for debug_identifier: <id>'
+                A duplicate file exists for the provided debug file:
+                  value: 'duplicate Breakpad symbols file for debug_file: <file>'
+        '422':
+          description: Nothing to upload (e.g. empty file or not uploaded correctly)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: received empty file

@@ -1,0 +1,1175 @@
+openapi: 3.2.0
+info:
+  version: '2'
+  contact:
+    name: BugSnag Support
+    email: bugsnag-support@smartbear.com
+  title: BugSnag - Data Access Integrations API
+  description: Allows you to access information about your BugSnag errors, projects, organization and more to build custom integrations using your data.
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+- description: For organizations with projects on app.bugsnag.com
+  url: https://api.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://api.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
+security:
+- tokenAuth: []
+tags:
+- name: Integrations
+paths:
+  /integrations:
+    get:
+      tags:
+      - Integrations
+      summary: List the supported Integrations
+      operationId: getIntegrations
+      description: Get information about all the integrations supported and how they can be configured. This includes details of the fields needed to set them up.
+      responses:
+        '200':
+          description: List of supported integrations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Integration'
+  /integrations/test:
+    post:
+      tags:
+      - Integrations
+      summary: Test an Integration
+      operationId: integrationsTest
+      description: Test an integration using the configuration parameters provided without saving it as a configured integration. For `issue-tracker` integrations this will created a test issue. For `team-notification`, `data-forwarding` and `on-call` notifications it will send a test alert/message. Use the Configured Integrations test endpoint for integrations which are already configured.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The key of the integration service to test. The supported keys can be obtained from [/integrations](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api#/Integrations/getIntegrations)
+                  example: jira
+                configuration:
+                  $ref: '#/components/schemas/SampleIntegrationConfiguration'
+                  description: The configuration fields and their values to test the integration with. The required fields for each integration service can be obtained from [/integrations](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api#/Integrations/getIntegrations).
+              required:
+              - key
+              - configuration
+      responses:
+        '204':
+          description: The integration was successfully tested.
+        '400':
+          description: The test of the integration failed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Invalid username or password
+  /configured_integrations/{id}:
+    get:
+      tags:
+      - Integrations
+      summary: Get a Configured Integration
+      operationId: configuredIntegrations
+      description: Get the full description of a configured integration.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 625ab9337c1074f6fd004761
+      responses:
+        '200':
+          description: Configured integration details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguredIntegration'
+        '404':
+          description: The configured integration could not be found. Check the supplied id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Integration not found
+    patch:
+      tags:
+      - Integrations
+      summary: Update a Configured Integration
+      operationId: configuredIntegrationsUpdate
+      description: Update the configuration for an integration on a project.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfiguredIntegrationUpdateRequest'
+      responses:
+        '200':
+          description: Integration updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguredIntegration'
+        '400':
+          description: The integration could not be updated. Check the errors supplied in the response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Invalid password
+        '403':
+          $ref: '#/components/responses/insufficient_project_role'
+        '404':
+          description: Configured integration could not be found. Check the supplied id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Integration not found
+    delete:
+      tags:
+      - Integrations
+      summary: Delete a Configured Integration
+      operationId: configuredIntegrationsDelete
+      description: Delete the configuration for an integration.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      responses:
+        '204':
+          description: The configured integration was successfully deleted.
+        '403':
+          $ref: '#/components/responses/insufficient_project_role'
+        '404':
+          description: Configured integration could not be found. Check the supplied id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Integration not found
+  /configured_integrations/{id}/trigger_configs/{trigger_config_key}:
+    patch:
+      tags:
+      - Integrations
+      summary: Update a Configured Integration's Trigger Config
+      operationId: updateConfiguredIntegrationsTriggerConfig
+      description: Set a condition for automatic integration behavior.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      - name: trigger_config_key
+        in: path
+        required: true
+        schema:
+          type: string
+        example: project_spiking_config
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriggerConfig'
+      responses:
+        '200':
+          description: Trigger config updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerConfig'
+        '400':
+          description: The request was bad. Check the errors supplied in the response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - active must be one of true or false
+        '403':
+          description: '- The account does not have the notifications advanced filtering feature enabled
+
+            - Attempted to update a trigger config that requires a feature the account does not have.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Advanced filtering is not enabled for this account
+                - Account requires the approaching-rate-limit-notifications feature
+        '404':
+          description: '- Configured integration or saved search could not be found. Check the supplied id.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Configured integration not found
+                - Saved Search not found
+  /configured_integrations/{id}/test:
+    post:
+      tags:
+      - Integrations
+      summary: Test a Configured Integration
+      operationId: configuredIntegrationTest
+      description: Test a configured integration. For issue-tracker integrations this will create a test issue. For team-notification, data-forwarding and on-call notifications it will send a test alert/message. To test an integration without saving the configuration first, use /integrations/test.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SampleIntegrationConfigurationRequest'
+      responses:
+        '204':
+          description: The integration was successfully tested.
+        '400':
+          description: The integration was not successfully tested. Check the errors supplied in the response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Invalid password
+        '403':
+          $ref: '#/components/responses/insufficient_project_role'
+  /projects/{project_id}/configured_integrations:
+    post:
+      tags:
+      - Integrations
+      summary: Configure an Integration
+      operationId: projectConfiguredIntegrations
+      description: Configure a new integration for a project. Only one issue-tracker-type integration is allowed on a project, unless your plan supports multiple issue trackers.
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfiguredIntegrationCreateRequest'
+      responses:
+        '200':
+          description: Integration configured successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfiguredIntegration'
+        '400':
+          description: The integration could not be created. Check the errors supplied in the response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Invalid password
+        '403':
+          $ref: '#/components/responses/insufficient_project_role'
+  /projects/{project_id}/configured_integration_summaries:
+    get:
+      tags:
+      - Integrations
+      summary: List Summaries of the Configured Integrations for a Project
+      operationId: projectConfiguredIntegrationSummaries
+      description: List summaries of all the configured integrations on a project. Summaries are lightweight descriptions of a configured integration. For a full description, use the Get a Configured Integration endpoint.
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000001
+      - name: per_page
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: page_token
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+        example: issue-tracker
+      responses:
+        '200':
+          description: List of configured integration summaries.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConfiguredIntegrationSummary'
+        '404':
+          description: The project could not be found. Check the supplied project_id.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Project not found
+  /organizations/{organization_id}/integration_connections:
+    get:
+      tags:
+      - Integrations
+      summary: List the Integration Connections for an Organization
+      operationId: listOrganizationIntegrationConnections
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization the integration connections belongs to.
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - jira
+        description: The external software to communicate with. Currently this can only be 'jira' or nil.
+      responses:
+        '200':
+          description: A list of integration connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntegrationConnectionManualApiView'
+        '404':
+          description: The organization could not be found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                example:
+                  errors:
+                  - Organization not found
+components:
+  schemas:
+    ManualConfigurationResponse:
+      type: object
+      properties:
+        manual:
+          type: object
+          description: A manual configuration.
+        host:
+          type: string
+          example: https://host.example.com
+          description: The Jira host (Used as the base for API calls)
+        username:
+          type: string
+          example: sampleUser
+          description: (manual configuration only) The username of the Jira user to make API calls as
+        ignore_tls_validation:
+          type:
+          - boolean
+          - 'null'
+          description: (manual configuration only) Whether to ignore TLS validation when making API calls
+        authentication_type:
+          $ref: '#/components/schemas/ManualConfigurationResponseAuthenticationType'
+          description: (manual configuration only) The authentication type used on this connection
+    ConfiguredIntegrationCreateRequest:
+      type: object
+      properties:
+        integration_key:
+          type: string
+          example: jira
+          description: Key to identify the integration service.
+        configuration:
+          $ref: '#/components/schemas/SampleIntegrationConfiguration'
+          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
+        disable_release_stages:
+          type: array
+          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+
+            '
+          items:
+            type: string
+        disable_severities:
+          type: array
+          description: The severities that this notification should not be triggered for.
+          items:
+            type: string
+            enum:
+            - error
+            - warning
+            - info
+        disable_unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: The kinds of exceptions that this notification should not be triggered for.
+        issue_automation:
+          $ref: '#/components/schemas/IssueAutomationSettings'
+          description: Automation settings (applicable for `issue-tracker` integrations only).
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+        integration_connection_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: The id of the integration connection to base this configured integration off of.
+      required:
+      - integration_key
+      - configuration
+    SampleIntegrationConfiguration:
+      type: object
+      properties:
+        user_name:
+          type: string
+          example: a_user
+        project_id:
+          type: string
+          example: '1234'
+        password:
+          type: string
+          example: so_secure
+    SampleIntegrationConfigurationRequest:
+      type: object
+      properties:
+        component:
+          type: string
+          example: Ticket, Action
+          description: Comma separated list of components to create the issue in
+        customFields:
+          type: string
+          example: '{"customfield_10024": {"value": "Engineering"}}'
+          description: Additional JSON-encoded Jira fields
+        host:
+          type: string
+          example: https://example.atlassian.net
+          description: URL of your Jira instance
+        ignore_tls_validation:
+          type: boolean
+          example: false
+          description: Whether to ignore TLS validation when making API calls
+        issueType:
+          type: string
+          example: Task
+          description: The type of issue to be created
+        password:
+          type: string
+          example: e112Fq0cc5
+          description: API token generated for your Jira account (use your password for Jira Server)
+        project_key:
+          type: string
+          example: jira
+          description: The project key for the Jira project
+        user_name:
+          type: string
+          example: example@example.com
+          description: Your Jira email
+    BasicFilter:
+      type: object
+      properties:
+        error_statuses:
+          type: array
+          example:
+          - open
+          items:
+            $ref: '#/components/schemas/BasicFilterErrorStatus'
+          description: the error statuses to include
+        release_stages:
+          type: array
+          items:
+            type: string
+          example:
+          - production
+          - staging
+          description: the release stages to include
+        severities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SeverityOptions'
+          description: the severities to include
+        unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: unhandled states to include
+    SeverityOptions:
+      type: string
+      enum:
+      - info
+      - warning
+      - error
+      description: '- info - can be used in manual Bugsnag.notify calls
+
+        - warning - the default severity when Bugsnag.notify is called manually
+
+        - error - the default severity for uncaught exceptions and crashes
+
+        '
+    IntegrationAutomationItem:
+      type: object
+      properties:
+        configurable:
+          type: boolean
+          description: True if this automation has configuration options.
+        options:
+          type: array
+          items:
+            type: string
+          description: Possible values for the state that may be selected.
+        default_option:
+          type: boolean
+          description: Default state for the item (only applicable if `multiple_states` is false)
+        default_options:
+          type: array
+          items:
+            type: string
+          description: Default set of states for the item (only applicable if `multiple_states` is true)
+        multiple_states:
+          type: boolean
+          description: True if multiple states can be selected for this automation.
+    NotificationSetting:
+      type: object
+      properties:
+        saved_search_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: must be from the same project as the notification, and have a `type` of `error`
+        basic_filter:
+          $ref: '#/components/schemas/BasicFilter'
+        include_all_states:
+          type: boolean
+          example: true
+          description: for `exception_config` and `project_spiking_config` are all states included, or just open
+        release_stages:
+          type: array
+          items:
+            type: string
+            example: production
+          description: the release stages to include (only for `new_release_config` trigger config)
+        threshold:
+          type: number
+          example: 19
+          description: for `error_event_frequency_config`, the threshold to alert above
+        condition:
+          type: string
+          enum:
+          - always
+          - when_degraded
+          description: for `weekly_performance_summary_email_config` and `daily_performance_summary_email_config`.
+        period:
+          type: string
+          example: 1m
+          description: 'for ''error_event_frequency_config`, the period for which the threshold applies The supported string format is a whole number followed by either: - "m" which represents minutes - "h" which represents hours - "d" which represents days
+
+            E.g. "2h" is a period of 2 hours.
+
+            The minimum supported periods are: - "1m" - "1h" - "1d"
+
+            The maximum supported period is 7 days, or: - "10080m" - "168h" - "7d"
+
+            '
+    IssueAutomationSetting:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: True if this automation is active (enabled).
+          example: true
+        state:
+          type: string
+          description: The state that the issue should be transitioned to when the automation is triggered (required for `error_fixed` and `error_reopened`).
+          example: fixed
+        states:
+          type: array
+          items:
+            type: string
+          description: The states that when an issue is transitioned to should cause the Bugsnag issue to change status correspondingly (required for `issue_resolved` and `issue_unresolved`).
+    IntegrationAutomation:
+      type: object
+      properties:
+        automation_style:
+          $ref: '#/components/schemas/IntegrationAutomationStyle'
+          description: The style of this automation. Most integrations have a single 'default' style but some can have multiple.
+        error_new:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when a new error is received by Bugsnag.
+        error_fixed:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an error is marked as fixed in Bugsnag.
+        error_reopened:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an error is reopened in Bugsnag.
+        issue_resolved:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an issue is resolved in a configured issue tracker.
+        issue_unresolved:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an issue is unresolved in a configured issue tracker.
+    IntegrationConnectionManualApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+          description: The ID of the integration connection
+        organization_id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+          description: The ID of the organization that the integration connection belongs to
+        external_identifier:
+          type: string
+          example: j1l443
+          description: An identifier to communicate with external service
+        type:
+          type: string
+          example: jira
+          description: The external software to communicate with. Currently this can only be 'jira'
+        configuration_type:
+          type: string
+          example: manual
+          description: The type of configuration. Can be manual or app, but only manual can be updated through the Bugsnag API
+        configuration:
+          $ref: '#/components/schemas/JiraConnectionTypeResponse'
+          description: The configuration of the integration connection
+    IntegrationFieldCondition:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+          - authenticationType
+          description: The field that needs to be compared.
+          example: authenticationType
+        value:
+          type: string
+          description: The value the compared field needs to be set to.
+          example: IAM Role
+    UnhandledOptions:
+      type: string
+      enum:
+      - unhandled
+      - handled
+      description: '- unhandled - Unhandled exceptions.
+
+        - handled - Handled exceptions.
+
+        '
+    IntegrationActions:
+      type: object
+      properties:
+        create:
+          type: string
+          description: Description of creating an entity in the integrated service (e.g. an issue tracker ticket).
+          example: Create a Trello card
+        view:
+          type: string
+          description: Optional description of viewing an entity in the integrated service.
+          example: View in Trello
+        object:
+          type: string
+          description: Optional the name of a single entity in the integrated service.
+          example: Trello Card
+        new:
+          type: string
+          description: Optional description of adding an entity to the service to receive data (e.g. a stream, a queue, a webhook url).
+          example: Add Amazon SQS queue
+    Integration:
+      type: object
+      properties:
+        key:
+          type: string
+          description: The key to uniquely identify the integration service.
+          example: jira
+        name:
+          type: string
+          description: The name of the integration service.
+          example: Jira
+        url:
+          type: string
+          description: The URL of the integration service.
+          example: https://www.atlassian.com/software/jira
+        type:
+          type: string
+          enum:
+          - issue-tracker
+          - team-notification
+          - on-call
+          - data-forwarding
+          description: 'The type of the integration service.
+
+            - `issue-tracker` - An issue tracker integration. Used for creating and linking issues to Bugsnag errors.
+
+            - `team-notification` - A team communication tool integration. Used for alerting engineering teams when errors are reported to Bugsnag.
+
+            - `on-call` - An on call integration. Used for alerting ops teams when errors are reported to Bugsnag.
+
+            - `data-forwarding` - A data forwarding integration. Used for forwarding detailed error data when errors are reported to Bugsnag.
+
+            '
+          example: issue-tracker
+        two_way_sync:
+          type: boolean
+          description: Whether the integration supports two-way sync.
+          example: true
+        description:
+          type: string
+          description: A brief explanation of what the integration does.
+        actions:
+          $ref: '#/components/schemas/IntegrationActions'
+          description: Descriptions of the various actions supported by the integration.
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationField'
+          description: The fields required to configure the integration.
+        icon_url:
+          type: string
+          description: A URL containing an icon representing the service.
+        created_entity_name:
+          type: string
+          description: A noun representing the entity that this integration can create (for issue-tracker type integrations only).
+        issue_automation_options:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationAutomation'
+          description: Automation settings (for `issue-tracker` integrations only).
+    IssueAutomationSettings:
+      type: object
+      properties:
+        automation_style_type:
+          type: string
+          description: The identifier for the style type of the automation settings. For most integrations there is only one called 'default'.
+        error_fixed:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an error is marked as fixed in Bugsnag.
+        error_reopened:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an error is reopened in Bugsnag.
+        issue_resolved:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an issue is transitioned to resolved in the issue tracker.
+        issue_unresolved:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an issue is transitioned to unresolved in the issue tracker.
+    ConfiguredIntegrationUpdateRequest:
+      type: object
+      properties:
+        configuration:
+          $ref: '#/components/schemas/SampleIntegrationConfiguration'
+          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
+        disable_release_stages:
+          type: array
+          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+
+            '
+          items:
+            type: string
+        disable_severities:
+          type: array
+          description: The severities that this notification should not be triggered for.
+          items:
+            type: string
+            enum:
+            - error
+            - warning
+            - info
+        disable_unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: The kinds of exceptions that this notification should not be triggered for.
+        issue_automation:
+          $ref: '#/components/schemas/IssueAutomationSettings'
+          description: Automation settings (applicable for `issue-tracker` integrations only).
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+        integration_connection_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: The id of the integration connection to base this configured integration off of.
+      required:
+      - configuration
+    IntegrationField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The unique name of the field.
+          example: password
+        label:
+          type: string
+          description: The human readable name of the field.
+          example: JIRA Password
+        description:
+          type: string
+          description: The human readable description of the field.
+          example: Your JIRA password
+        link:
+          type: string
+          description: A URL that helps with finding the value associated with the field.
+        optional:
+          type: boolean
+          description: True if the field is optional for an integration (defaults to false).
+        default_value:
+          type: string
+          description: The default value of the field if the field is optional.
+        allowed_values:
+          type: array
+          items:
+            type: string
+          description: An array of values that are permitted for the field (required when the `type` is `select` only).
+        type:
+          type: string
+          enum:
+          - password
+          - select
+          - boolean
+          - toggle
+          description: 'The input type of the field (defaults to text input if not provided).
+
+            - password - A string value but a dummy value will be returned after it is initially saved. Intended for sensitive information.
+
+            - select - An option to select one of the `allowed_values`.
+
+            - boolean - A boolean value either ''true'' or ''false''.
+
+            - toggle - An option to toggle between one of the `allowed_values`
+
+            '
+          example: password
+        value:
+          type: string
+          description: The value of the field (not present when retrieving general information about fields for an integration).
+        pattern:
+          type: string
+          description: The regular expression pattern which values are required to match if supplied.
+        deprecated:
+          type: boolean
+          description: True if the field is deprecated and should not be used.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationFieldCondition'
+          description: An array of conditions that must be met for the field to be submitted.
+    ConfiguredIntegrationSummary:
+      type: object
+      properties:
+        notification_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: ID of the base configured integration
+        description:
+          type: string
+          example: Create and sync Jira ticket
+          description: Description of the configured integration
+        project_identifier:
+          type:
+          - string
+          - 'null'
+          example: PROJ
+          description: 'If the notification is an issue tracker, this is a human-readable project identifier associated with the issue tracker. If there is no human-readable project identifier (e.g. the service uses an API key only) then this will be null.
+
+            '
+        integration_key:
+          type: string
+          example: jira
+          description: Key to identify the integration service
+        category:
+          type: string
+          example: issue-tracker
+          description: Category of configured integration
+        enabled_trigger_count:
+          type: number
+          example: 5
+          description: Number of triggers enabled
+        status:
+          type: string
+          enum:
+          - enabled
+          - disabled
+          - failing
+          - failed
+          description: 'The status of the configured integration. * enabled - The integration is enabled. * disabled - The integration is disabled. No notifications will be sent. * failing - The integration is failing. If it continues to fail over a period of time it will become failed. * failed - The integration is failed. No notifications will be sent. An integration can be enabled again by performing a successful [/configured_integrations/test](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api/Integrations/configuredIntegrationTest).
+
+            '
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+    IntegrationAutomationStyle:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A type of the integration automation (unique within an integration).
+          example: default
+        description:
+          type: string
+          description: A description of the automation style.
+    ManualConfigurationResponseAuthenticationType:
+      type: string
+      enum:
+      - basic
+      - bearer
+    BasicFilterErrorStatus:
+      type: string
+      enum:
+      - open
+      - fixed
+      - snoozed
+      - ignored
+    JiraConnectionTypeResponse:
+      type: object
+      properties:
+        jira:
+          $ref: '#/components/schemas/ManualConfigurationResponse'
+          description: A jira type configuration. Currently we only allow jira types.
+    TriggerConfig:
+      type: object
+      properties:
+        active:
+          type: boolean
+          example: true
+        settings:
+          type: array
+          description: settings for the trigger
+          items:
+            $ref: '#/components/schemas/NotificationSetting'
+      required:
+      - active
+    ConfiguredIntegration:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: ID of the configured integration
+        integration_key:
+          type: string
+          example: jira
+          description: Key to identify the integration service.
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+          description: ID of the project
+        configuration:
+          $ref: '#/components/schemas/SampleIntegrationConfiguration'
+          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
+        description:
+          type: string
+          example: Create and sync Jira ticket
+          description: Description of the configured integration
+        disable_release_stages:
+          type: array
+          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+
+            '
+          items:
+            type: string
+        disable_severities:
+          type: array
+          description: The severities that this notification should not be triggered for.
+          items:
+            type: string
+            enum:
+            - error
+            - warning
+            - info
+        disable_unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: The kinds of exceptions that this notification should not be triggered for.
+        issue_automation:
+          $ref: '#/components/schemas/IssueAutomationSettings'
+          description: Automation settings (applicable for `issue-tracker` integrations only).
+        last_failure_message:
+          type: string
+          example: Integration not found
+          description: The error message from the most recent failure of the integration.
+        total_rate_limits:
+          type: number
+          example: 4
+          description: The total number of times the integration has failed due to a rate limit from the integration.
+        last_successful_usage_at:
+          type: string
+          example: '2017-03-02T05:55:55.555Z'
+          description: The ISO8601 timestamp of the last time the integration was successfully used.
+        status:
+          type: string
+          enum:
+          - enabled
+          - disabled
+          - failing
+          - failed
+          description: 'The status of the configured integration. * enabled - The integration is enabled. * disabled - The integration is disabled. No notifications will be sent. * failing - The integration is failing. If it continues to fail over a period of time it will become failed. * failed - The integration is failed. No notifications will be sent. An integration can be enabled again by performing a successful [/configured_integrations/test](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api/Integrations/configuredIntegrationTest).
+
+            '
+        additional_setup_required:
+          type:
+          - string
+          - 'null'
+          enum:
+          - webhook
+          description: 'This will be set if an integration could not be fully configured automatically and requires additional setup by the user. * webhook - A two-way integration requires a webhook in the target system to be created manually. Currently only set for Jira.
+
+            '
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+        integration_connection_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: ID of an associated integration connection.
+      required:
+      - configuration
+  responses:
+    insufficient_project_role:
+      description: The user should be an Organization Administrator or Project Owner to perform this action
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 40000
+              errors:
+                type: array
+                items:
+                  type: string
+            example:
+              code: 40000
+              errors:
+              - Insufficient Project Role for performing requested action
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authorize using a Personal Auth Token with the `token` prefix, e.g. "token my_auth_token".

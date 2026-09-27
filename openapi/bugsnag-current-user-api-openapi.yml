@@ -1,21 +1,329 @@
 openapi: 3.2.0
 info:
-  title: Bugsnag Data Access Current User API
-  description: The Bugsnag Data Access API provides programmatic access to information about your organization, projects, errors, events, and more. It allows developers to build custom integrations and dashboards using their Bugsnag data. The REST API uses JSON and requires authentication via a personal auth token sent in the Authorization header. It supports querying error trends, project configurations, collaborators, and release information.
-  version: '2.0'
+  version: '2'
   contact:
-    name: Bugsnag Support
-    url: https://docs.bugsnag.com/api/data-access/
-  termsOfService: https://smartbear.com/terms-of-use/
+    name: BugSnag Support
+    email: bugsnag-support@smartbear.com
+  title: BugSnag - Data Access Current User API
+  description: Allows you to access information about your BugSnag errors, projects, organization and more to build custom integrations using your data.
 servers:
-- url: https://api.bugsnag.com
-  description: Bugsnag Production API Server
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+- description: For organizations with projects on app.bugsnag.com
+  url: https://api.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://api.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
 security:
 - tokenAuth: []
 tags:
 - name: Current User
-  description: Access information about the currently authenticated user.
+  description: These endpoints are designed to act on the settings of the currently authenticated user. This User will be referred to as the Current User throughout this documentation.
 paths:
+  /projects/{project_id}/saved_searches:
+    get:
+      summary: List Saved Searches on a Project
+      operationId: listProjectSavedSearches
+      description: Returns the saved searches for a given project sorted by name in lexicographic order.
+      tags:
+      - Current User
+      parameters:
+      - name: project_id
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 515fb9337c1074f6fd000003
+      - name: shared
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Limit Saved Searches returned to only those with this `shared` property
+        example: 'true'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SavedSearch'
+        '403':
+          description: The organization does not have the performance-comparisons feature enabled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Organization requires the performance-comparisons feature
+  /saved_searches:
+    post:
+      summary: Create a Saved Search
+      operationId: createSavedSearch
+      tags:
+      - Current User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedSearchCreateRequest'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSearch'
+        '403':
+          description: The organization does not have the performance-comparisons feature enabled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Organization requires the performance-comparisons feature
+  /saved_searches/{id}:
+    get:
+      summary: Get a Saved Search
+      operationId: getSavedSearchById
+      tags:
+      - Current User
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the saved search
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSearch'
+        '400':
+          description: The supplied ID was malformed.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Bad request
+        '403':
+          description: The organization does not have the relevant feature.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                insufficientOrganizationFeature:
+                  value:
+                    errors:
+                    - Account requires the performance-comparisons feature
+        '404':
+          description: The saved search was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Saved Search not found
+    patch:
+      summary: Update a Saved Search
+      operationId: updateSavedSearchById
+      tags:
+      - Current User
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the saved search
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SavedSearchUpdateRequest'
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSearch'
+        '403':
+          description: The organization does not have the relevant feature.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                insufficientOrganizationFeature:
+                  value:
+                    errors:
+                    - Account requires the performance-comparisons feature
+        '404':
+          description: The saved search was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Saved Search not found
+    delete:
+      summary: Delete a Saved Search
+      operationId: deleteSavedSearchById
+      tags:
+      - Current User
+      parameters:
+      - name: id
+        in: path
+        description: The ID of the saved search
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: The organization does not have the relevant feature.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                insufficientOrganizationFeature:
+                  value:
+                    errors:
+                    - Account requires the performance-comparisons feature
+        '404':
+          description: The saved search was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Saved Search not found
+  /saved_searches/{id}/usage_summary:
+    get:
+      summary: Get the Usage Summary for a Saved Search
+      operationId: getSavedSearchUsageSummary
+      description: Returns a short usage summary for a saved search.
+      tags:
+      - Current User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the saved search to get a summary for
+        example: 515fb9337c1074f6fd000003
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SavedSearchUsageSummary'
+        '400':
+          description: The request was bad. This is returned when supplied malformed ids.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Bad request
+        '403':
+          description: The organization does not have the performance-comparisons feature enabled.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Organization requires the performance-comparisons feature
+        '404':
+          description: The saved search was not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: string
+              example:
+                errors:
+                - Saved Search not found
   /user:
     get:
       operationId: getCurrentUser
@@ -38,6 +346,816 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    SavedSearch:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+        user_id:
+          type: string
+          example: 515fb9337c1074f6fd000002
+          description: ID of user who created the saved search
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project this saved search is for
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          description: whether this saved search is shared among collaborators
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+        updated_by_id:
+          type: string
+          example: 515fb9337c1074f6fd000010
+          description: ID of user who last updated this saved search
+        created_at:
+          type: string
+          example: '2018-06-11T10:43:55Z'
+          description: time this saved search was created
+        updated_at:
+          type: string
+          example: '2018-06-12T11:50:00Z'
+          description: time this saved search was last updated
+        has_assigned_to_me:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with `assigned_to` set to `me`
+        has_assigned_to:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with `assigned_to` set to anything other than `me`
+        has_created_issue_filter:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with any criteria related to created issues
+        has_status_filter:
+          type: boolean
+          example: true
+          description: indicates if the saved search contains an explicit error status filter
+        new_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors less than 24hrs old
+        open_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include open errors
+        for_review_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include open errors that are unassigned and have no linked issue
+        snoozed_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are snoozed
+        fixed_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are fixed
+        ignored_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are ignored
+      required:
+      - id
+      - user_id
+      - project_id
+      - name
+      - filters
+      - sort
+      - shared
+      - project_default
+      - updated_by_id
+      - created_at
+      - updated_at
+      - has_assigned_to_me
+      - has_assigned_to
+      - has_created_issue_filter
+      - has_status_filter
+      - new_error_inclusion
+      - open_error_inclusion
+      - for_review_error_inclusion
+      - snoozed_error_inclusion
+      - fixed_error_inclusion
+      - ignored_error_inclusion
+    SearchSort:
+      type: string
+      enum:
+      - first_seen
+      - users
+      - events
+      - last_seen
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
+    SavedSearchCreateRequest:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project this saved search is for
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          example: false
+          description: whether this saved search is shared among collaborators
+          default: false
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+      required:
+      - project_id
+      - name
+      - filters
+      - project_default
+    SavedSearchUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          example: false
+          description: whether this saved search is shared among collaborators
+          default: false
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
+    ErrorStatusType:
+      type: string
+      enum:
+      - all
+      - some
+      - none
+    SavedSearchUsageSummary:
+      type: object
+      properties:
+        project_notifications_count:
+          type: number
+          description: the number of project notifications using this saved search
+        current_user_using_for_email_notification:
+          type: boolean
+          description: whether the current user is using this saved search for email notifications
+        collaborator_email_notifications_count:
+          type: number
+          description: the number of other users using this saved search for email notifications
+        performance_monitor_count:
+          type: number
+          description: the number of performance monitors using this saved search
+      required:
+      - project_notifications_count
+      - current_user_using_for_email_notification
+      - collaborator_email_notifications_count
+      - performance_monitor_count
+    Filters:
+      type: object
+      properties:
+        user.id:
+          type: array
+          description: An array of user ids. Matches Errors affecting any of these users. This refers to user ids in the context of your application. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: User ID
+                example: 515fb9337c1074f6fd000002
+            required:
+            - type
+            - value
+        user.email:
+          type: array
+          description: An array of email addresses. Matches Errors that have affected users with email addresses matching any of the provided emails. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: User email
+                example: john.doe@example.com
+            required:
+            - type
+            - value
+        user.name:
+          type: array
+          description: An array of user names. Matches Errors that have affected users with names matching any of the provided names. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: User name
+                example: John Doe
+            required:
+            - type
+            - value
+        error.id:
+          type: array
+          description: An array of error ids. Matches errors with IDs matching any of the given error IDs. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Error ID
+                example: 337515fb9c1074f6fd000001
+            required:
+            - type
+            - value
+        error.status:
+          type: array
+          description: An array of error statuses. Matches Errors that have any of the given statuses. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                $ref: '#/components/schemas/ErrorStatus'
+                description: Error status
+            required:
+            - type
+            - value
+        error.assigned_to:
+          type: array
+          description: 'An array of collaborator identifiers. Matches Errors that have been assigned to any of the given collaborators. Exact match only.
+
+
+            Values can be `me` (for errors assigned to the current user), `anyone` (for errors assigned to anyone), a collaborator ID, or an email address.
+
+            '
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Collaborator ID
+                example: 515fb9337c1074f6fd000002
+            required:
+            - type
+            - value
+        error.has_issue:
+          type: boolean
+          description: If set to true, matches Errors that have had an issue created for them. If set to false, matches Errors that have not had an issue created for them.
+        app.release_stage:
+          type: array
+          description: An array of release stages. Matches Errors that have occurred in any of the given release stages. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Release stage
+                example: production
+            required:
+            - type
+            - value
+        app.context:
+          type: array
+          description: An array of application contexts. This refers to the action that was happening when the event occurred. Matches Errors that occurred in any of the given contexts. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Application context
+                example: users#show
+            required:
+            - type
+            - value
+        app.type:
+          type: array
+          description: An array of application types. Matches Errors that occurred in any of the given application types. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Application type
+                example: sidekiq
+            required:
+            - type
+            - value
+        version.introduced_in:
+          type: array
+          description: An array of application versions. Matches Errors that occurred for the first time in any of the given versions. Supports the `?` and `*` wildcards.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Application version
+                example: 1.?.1
+            required:
+            - type
+            - value
+        version.seen_in:
+          type: array
+          description: An array of application versions. Matches Errors that occurred in any of the given versions. Supports the `?` and `*` wildcards.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Application version
+                example: 2.*
+            required:
+            - type
+            - value
+        version_code.introduced_in:
+          type: array
+          description: An array of version codes. Matches Errors that occurred for the first time in a version of the application identified by any of the given versions codes. The value of an Error's versionCode depends on the corresponding Project's type. In Android apps this will match the versionCode setting. In iOS apps, versionCode is taken from the Build Number setting. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Version code
+                example: '123'
+            required:
+            - type
+            - value
+        version_code.seen_in:
+          type: array
+          description: An array of version codes. Matches Errors that occurred in a version of the application identified by any of the given versions codes. The value of an Error's versionCode depends on the corresponding Project's type. In Android apps this will match the versionCode setting. In iOS apps, versionCode is taken from the Build Number setting. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Version code
+                example: '123'
+            required:
+            - type
+            - value
+        release.introduced_in:
+          type: array
+          description: An array of Release `build_label`s, `app_version`s, `app_version_code`s, or `app_bundle_version`s. Matches Errors that occurred for the first time in any of the given Releases. Supports the `?` and `*` wildcards.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Release identifier
+                example: '123'
+            required:
+            - type
+            - value
+        release.seen_in:
+          type: array
+          description: An array of Release `build_label`s, `app_version`s, `app_version_code`s, or `app_bundle_version`s. Matches Errors that occurred in any of the given Releases. Supports the `?` and `*` wildcards.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Release identifier
+                example: '123'
+            required:
+            - type
+            - value
+        feature_flag.seen_in:
+          type: array
+          description: An array of feature flag and variant names. When type is `eq`, matches errors that have been seen with these feature flags (any variant), or the specific variant if specified. When type is `ne`, matches errors that have not been seen with these feature flags or variants. The feature flag name should be specified in the `value` field, and the variant name (optional) should be specified in the `child_value` field.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Feature flag name
+                example: button color
+              child_value:
+                type: string
+                description: Feature flag variant
+                example: blue
+            required:
+            - type
+            - value
+        feature_flag.exclusive_to:
+          type: array
+          description: An array of feature flag and variant names. When type is `eq`, matches errors that have only been seen with one of these feature flags (any variant), or one of the specific variants if specified. When type is `ne`, matches errors that have been seen with these feature flags or variants but are NOT exclusive to them (i.e., they have also been seen with other feature flags or variants). The feature flag name should be specified in the `value` field, and the variant name (optional) should be specified in the `child_value` field.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Feature flag name
+                example: button color
+              child_value:
+                type: string
+                description: Feature flag variant
+                example: blue
+            required:
+            - type
+            - value
+        event.class:
+          type: array
+          description: An array of classes. Matches Errors with any of the given classes. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Event class
+                example: NoMethodError
+            required:
+            - type
+            - value
+        event.message:
+          type: array
+          description: An array of messages. Matches Errors with any of the given messages. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Event message
+                example: redis
+            required:
+            - type
+            - value
+        event.file:
+          type: array
+          description: An array of file paths. Matches Errors with any of the given files in their stack traces'. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: File path
+                example: app/controllers/users_controller.rb
+            required:
+            - type
+            - value
+        event.method:
+          type: array
+          description: An array of method names. Matches Errors with any of the given methods in their stack traces'. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Method name
+                example: process_payment
+            required:
+            - type
+            - value
+        event.severity:
+          type: array
+          description: An array of severities. Matches Errors with any of the given severities. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                $ref: '#/components/schemas/SeverityOptions'
+                description: Error severity
+            required:
+            - type
+            - value
+        event.since:
+          type: array
+          description: An array containing a single timestamp. Matches Errors with events occurring after the given time. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Timestamp
+                example: '2017-04-18T22:12:00.000Z'
+            required:
+            - type
+            - value
+        event.before:
+          type: array
+          description: An array containing a single timestamp. Matches Errors with events occurring before the given time. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Timestamp
+                example: '2017-04-18T22:12:00.000Z'
+            required:
+            - type
+            - value
+        browser.name:
+          type: array
+          description: An array containing web browser names. Matches Errors with events originating from any of the given web browsers. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                enum:
+                - Chrome
+                - Firefox
+                - Safari
+                - Opera
+                description: Browser name
+            required:
+            - type
+            - value
+        browser.version:
+          type: array
+          description: An array containing web browser versions. Matches Errors with events originating from any browser with the given version. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Browser version
+                example: '70.0'
+            required:
+            - type
+            - value
+        os.name:
+          type: array
+          description: An array containing operating system names. Matches Errors with events originating from devices running any of the given operating systems. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Operating system name
+                example: Android
+            required:
+            - type
+            - value
+        os.version:
+          type: array
+          description: An array containing operating system versions. Matches Errors with events originating from devices running any of the given operating system versions. Supports the `?` and `*` wildcards.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Operating system version
+                example: 1.2.3
+            required:
+            - type
+            - value
+        device.hostname:
+          type: array
+          description: An array containing hostnames. Matches Errors with events occurring on any hosts with one of the given hostnames. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Device hostname
+                example: staging1
+            required:
+            - type
+            - value
+        device.manufacturer:
+          type: array
+          description: An array containing device manufacturer names. Matches Errors with events occurring on any devices made by the given manufacturers. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Device manufacturer
+                example: Google
+            required:
+            - type
+            - value
+        device.model:
+          type: array
+          description: An array containing device model names. Matches Errors with events occurring on any of the given device models. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Device model
+                example: Pixel 3
+            required:
+            - type
+            - value
+        request.url:
+          type: array
+          description: An array of URLs. Matches Errors with events associated with requests to any of the given URLs. Supports substring matches.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Request URL
+                example: https://api.example.com/users
+            required:
+            - type
+            - value
+        request.ip:
+          type: array
+          description: An array of IP addresses. Matches Errors with events affecting any of the given IPs. Exact match only.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: IP address
+                example: 192.168.5.6
+            required:
+            - type
+            - value
+        device.jailbroken:
+          type: array
+          description: An array containing a boolean. If `true`, matches Errors with events occurring on jailbroken devices.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Jailbroken status
+                example: 'true'
+            required:
+            - type
+            - value
+        app.in_foreground:
+          type: array
+          description: An array containing a boolean. If `true`, matches Errors with events occurring when the application was in the foreground.
+          items:
+            type: object
+            properties:
+              type:
+                $ref: '#/components/schemas/FilterMatchType'
+                description: The match type
+              value:
+                type: string
+                description: Foreground status
+                example: 'true'
+            required:
+            - type
+            - value
+    SeverityOptions:
+      type: string
+      enum:
+      - info
+      - warning
+      - error
+      description: '- info - can be used in manual Bugsnag.notify calls
+
+        - warning - the default severity when Bugsnag.notify is called manually
+
+        - error - the default severity for uncaught exceptions and crashes
+
+        '
     User:
       type: object
       description: Represents an authenticated Bugsnag user account.
@@ -74,7 +1192,4 @@ components:
       type: apiKey
       in: header
       name: Authorization
-      description: Personal auth token sent as "token YOUR-AUTH-TOKEN". The token can be found in the Bugsnag account settings under the API section.
-externalDocs:
-  description: Bugsnag Data Access API Documentation
-  url: https://docs.bugsnag.com/api/data-access/
+      description: Authorize using a Personal Auth Token with the `token` prefix, e.g. "token my_auth_token".

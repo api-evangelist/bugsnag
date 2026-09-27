@@ -1,0 +1,1102 @@
+openapi: 3.2.0
+info:
+  version: '2'
+  contact:
+    name: BugSnag Support
+    email: bugsnag-support@smartbear.com
+  title: BugSnag - Data Access SCIM API
+  description: Allows you to access information about your BugSnag errors, projects, organization and more to build custom integrations using your data.
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+- description: For organizations with projects on app.bugsnag.com
+  url: https://api.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://api.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
+security:
+- tokenAuth: []
+tags:
+- name: SCIM
+paths:
+  /organizations/{organization_id}/scim/v2/Users:
+    get:
+      tags:
+      - SCIM
+      summary: List Collaborators on an Organization
+      operationId: listScimCollaborators
+      description: 'Return the list of users for the organization.
+
+
+        The request may be filtered by `userName` equality by passing a filter of the form `userName eq "james@example.com"`. No other filtering is supported.
+
+
+        Results will be paginated. Further pages may be requested by setting `startIndex` and `itemsPerPage`.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: filter
+        in: query
+        required: false
+        schema:
+          type: string
+        description: filter the results by userName
+        example: userName eq "james@example.com"
+      - name: startIndex
+        in: query
+        required: true
+        schema:
+          type: number
+        description: the pagination offset, 1-indexed, defaults to 1
+        example: 15
+      - name: itemsPerPage
+        in: query
+        required: true
+        schema:
+          type: number
+        description: the number of results returned in this response, defaults to 30, maximum of 100
+        example: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimUserListResponse'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    post:
+      tags:
+      - SCIM
+      summary: Create a Collaborator
+      operationId: createScimCollaborator
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+  /organizations/{organization_id}/scim/v2/Users/{id}:
+    get:
+      tags:
+      - SCIM
+      summary: Show a Collaborator on an Organization
+      operationId: getScimCollaborator
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the collaborator
+        example: 515fb9337c1074f6fd000001
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    put:
+      tags:
+      - SCIM
+      summary: Update a Collaborator
+      operationId: updateScimCollaborator
+      description: 'Update the basic details of a collaborator. This includes the email address and name of the collaborator.
+
+
+        Optionally, a collaborator can be added or removed from the organization.
+
+        - If the `active` flag is set to `false` for an existing collaborator then they are removed from the organization.
+
+        - If the `active` flag is set to `true` for a user who is not currently a collaborator, but for whom the ID is known, then they are added to the organization.
+
+
+        This approach is used by Okta and OneLogin to remove and re-add users to a Bugsnag organization without removing them entirely from their records.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of your organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the collaborator
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScimUser'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '400':
+          description: 'The values supplied are invalid
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+                  scimType:
+                    type: string
+              example:
+                detail: Operation failed since record has become invalid
+                status: '400'
+                scimType: invalidValue
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    patch:
+      tags:
+      - SCIM
+      summary: Add or Remove Previously Added Collaborators
+      operationId: patchScimCollaborator
+      description: 'As with the update method above, the `active` flag for a previously added collaborator can be set to remove or re-add them to an organization.
+
+
+        Setting the `active` flag is the only operation we support for this method.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of your organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the collaborator
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Operations:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/ScimPatchOp'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '400':
+          description: 'The values supplied are invalid
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+                  scimType:
+                    type: string
+              example:
+                detail: Operation failed since record has become invalid
+                status: '400'
+                scimType: invalidValue
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    delete:
+      tags:
+      - SCIM
+      summary: Remove a Collaborator
+      operationId: deleteScimCollaborator
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of your organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the collaborator to update
+        example: 590270d39ef172ad693e05b1
+      responses:
+        '204':
+          description: Collaborator successfully removed.
+        '400':
+          description: The values supplied are invalid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+                  scimType:
+                    type: string
+              example:
+                detail: Failed to delete the resource with id `515fb9337c1074f6fd000001`
+                status: '400'
+                scimType: invalidValue
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+  /organizations/{organization_id}/scim/v2/Groups:
+    get:
+      tags:
+      - SCIM
+      summary: List Groups on an Organization
+      operationId: listScimGroups
+      description: 'Return the list of groups for an organization.
+
+
+        The request may be filtered by `displayName` equality by passing a filter of the form `displayName eq "Development Group"`. No other filtering is supported.
+
+
+        Results will be paginated. Further pages may be requested by setting `startIndex` and `itemsPerPage`.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: filter
+        in: query
+        required: false
+        schema:
+          type: string
+        description: filter the results by userName
+        example: userName eq "james@example.com"
+      - name: startIndex
+        in: query
+        required: true
+        schema:
+          type: number
+        description: the pagination offset, 1-indexed, defaults to 1
+        example: 15
+      - name: itemsPerPage
+        in: query
+        required: true
+        schema:
+          type: number
+        description: the number of results returned in this response, defaults to 30, maximum of 100
+        example: 10
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimGroupListResponse'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    post:
+      tags:
+      - SCIM
+      summary: Create Group on an Organization
+      operationId: createScimGroup
+      description: 'This endpoint is used to add a group to your BugSnag organization.
+
+
+        Collaborators are not added when creating a group, so these must be added using the Update Group on an
+
+        Organization endpoint after a group is created.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScimGroupCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimGroup'
+        '400':
+          description: The displayName is too long
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: displayName is too long
+                status: '400'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+        '409':
+          description: A group with this name already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+                example:
+                  detail: Duplicate resource already exists
+                  status: '409'
+  /organizations/{organization_id}/scim/v2/Groups/{id}:
+    get:
+      tags:
+      - SCIM
+      summary: Show Group on an Organization
+      operationId: getScimGroup
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: the ID of the Group
+        example: 515fb9337c1074f6fd000001
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScimGroup'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    patch:
+      tags:
+      - SCIM
+      summary: Update Group on an Organization
+      operationId: updateScimGroup
+      description: 'The `value` attribute can use different formatting depending on the context. When updating a groups collaborators
+
+        with the `add` or `remove` operations use an array of objects, where each objects `value` is an ID for a collaborator in the org:
+
+
+        ```
+
+        "value": [
+
+        {
+
+        "value": "515fb9337c1074f6fd000001"
+
+        },
+
+        {
+
+        "value": "515fb9337c1074f6fd000002"
+
+        }
+
+        ]
+
+        ```
+
+
+        When updating group details (i.e. the display name) with the `replace` operation use an object with the `displayName` attribute:
+
+
+        ```
+
+        "value": {
+
+        "displayName": "Testing Group"
+
+        }
+
+        ```
+
+
+        For more details see the full SCIM standard as defined in RFC7644.'
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the group
+        example: 515fb9337c1074f6fd000002
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScimGroupOperations'
+      responses:
+        '204':
+          description: OK
+        '400':
+          description: '- No operations present
+
+            - Bad request
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  details:
+                    type: string
+                  status:
+                    type: string
+              example:
+                value:
+                - No operations present
+                - Bad request
+                status: '400'
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+    delete:
+      tags:
+      - SCIM
+      summary: Delete Group on an Organization
+      operationId: deleteScimGroup
+      parameters:
+      - name: organization_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the organization
+        example: 515fb9337c1074f6fd000001
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ID of the group
+      responses:
+        '204':
+          description: OK
+        '401':
+          description: 'You do not have permission to view this data. Either an auth token was not
+
+            provided, or you do not have permission to perform this operation.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: Invalid credentials
+                status: '401'
+        '403':
+          description: 'SCIM is not enabled for this organization. Contact support@bugsnag.com for access.
+
+            '
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                  status:
+                    type: string
+              example:
+                detail: SCIM not enabled
+                status: '403'
+        '404':
+          description: The group cannot be found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  details:
+                    type: string
+                  status:
+                    type: string
+              example:
+                details: Resource not found
+                status: '404'
+components:
+  schemas:
+    ScimGroupListResponse:
+      type: object
+      properties:
+        total_results:
+          type: number
+          example: 10
+          description: the total number of groups matching the query
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroup'
+          description: the SCIM groups of the organization
+      required:
+      - total_results
+      - Resources
+    ScimGroupOperationsMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: the id of a BugSnag collaborators in the org
+      required:
+      - value
+    ScimGroupOperations:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - replace
+          - remove
+        path:
+          type: string
+          example: members
+          description: the target to update. Optional for `add` or `replace` operations and required for `remove` operations.
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupOperationsMember'
+          description: if updating the group's name, provide an object with a `displayName` attribute instead
+      required:
+      - op
+      - value
+    ScimGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        displayName:
+          type: string
+          example: Development Group
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupMember'
+          description: the collaborators in a group
+      required:
+      - id
+      - displayName
+      - members
+    ScimPatchOp:
+      type: object
+      properties:
+        op:
+          type: string
+          example: replace
+          description: the operation to perform on the field, only `replace` is supported
+        path:
+          type: string
+          example: active
+          description: the field to update, only `active` is supported
+        value:
+          type: boolean
+          example: true
+          description: the value to set
+      required:
+      - op
+      - path
+      - value
+    ScimUser:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        userName:
+          type: string
+          example: james.smith@example.com
+        name:
+          $ref: '#/components/schemas/ScimName'
+        emails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimEmail'
+        active:
+          type: boolean
+          description: Whether the user is part of the organization.
+      required:
+      - id
+      - userName
+      - name
+      - emails
+    ScimGroupCreateRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+          example: Development Group
+      required:
+      - displayName
+    ScimName:
+      type: object
+      properties:
+        formatted:
+          type: string
+          example: James Smith
+        givenName:
+          type: string
+          example: James
+        familyName:
+          type: string
+          example: Smith
+      required:
+      - givenName
+      - familyName
+    ScimEmail:
+      type: object
+      properties:
+        value:
+          type: string
+          example: james@example.com
+      required:
+      - value
+    ScimUserListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ScimListPaginationOptions'
+      - type: object
+        properties:
+          totalResults:
+            type: number
+            example: 150
+            description: the total number of users matching the query
+          Resources:
+            type: array
+            items:
+              $ref: '#/components/schemas/ScimUser'
+            description: the users of the organisation
+        required:
+        - totalResults
+        - Resources
+    ScimListPaginationOptions:
+      type: object
+      properties:
+        startIndex:
+          type: number
+          example: 15
+          description: the pagination offset, 1-indexed, defaults to 1
+        itemsPerPage:
+          type: number
+          example: 10
+          description: the number of results returned in this response
+      required:
+      - startIndex
+      - itemsPerPage
+    ScimGroupMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        display:
+          type: string
+          example: james@example.com
+      required:
+      - value
+      - display
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Authorize using a Personal Auth Token with the `token` prefix, e.g. "token my_auth_token".

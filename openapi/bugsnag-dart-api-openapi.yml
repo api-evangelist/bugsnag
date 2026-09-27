@@ -1,0 +1,108 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: BugSnag - Upload Dart API
+  description: Upload symbol and mapping files to show full stacktraces in your BugSnag dashboard.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: For organizations with projects on app.bugsnag.com
+  url: https://upload.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://upload.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-upload-api/1
+tags:
+- name: Dart
+  description: Symbol files for split debug Dart builds
+paths:
+  /dart-symbol:
+    post:
+      summary: Dart symbol files
+      description: If you build your Flutter application with debug symbols stripped (`--strip-debug-info`) you will need to upload the generated symbol files to see the source file, line number and method in stacktraces on your dashboard.
+      operationId: uploadDartSymbol
+      tags:
+      - Dart
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - symbolFile
+              - apiKey
+              - buildId
+              properties:
+                symbolFile:
+                  type: string
+                  format: file
+                  description: The Dart symbol file as a [form-data](https://en.wikipedia.org/wiki/MIME#Form-Data) file upload.
+                apiKey:
+                  type: string
+                  description: The API key for the application's project in BugSnag.
+                buildId:
+                  type: string
+                  description: The unique ID of the build of the binary that the symbol file applies to.
+                appBundleVersion:
+                  type: string
+                  description: The bundle version (`CFBundleVersion`) of this build of the application (iOS only).
+                appVersion:
+                  type: string
+                  description: The version of the application.
+                appVersionCode:
+                  type: string
+                  description: The version code of this build of the application (Android only).
+                overwrite:
+                  type: boolean
+                  description: 'Whether to ignore and overwrite existing uploads with same identifier, rather than failing if a matching file exists. (Default: `true`)'
+                  default: true
+                platform:
+                  type: string
+                  enum:
+                  - android
+                  - ios
+                  description: The application platform, either `android` or `ios`.
+      responses:
+        '202':
+          description: Accepted
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Accepted
+        '400':
+          description: A required parameter is missing, the file format is not ELF or the file has an invalid build ID.
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                A required parameter is missing:
+                  value: missing required param
+                The file format is not ELF:
+                  value: invalid file format
+                File has an invalid build ID:
+                  value: invalid buildId
+        '401':
+          description: Invalid API key
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: invalid apiKey
+        '409':
+          description: Duplicate file already exists with the same identifier (use `overwrite` to replace)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: duplicate symbols file
+        '422':
+          description: Nothing to upload (e.g. empty file or not uploaded correctly)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: received empty file

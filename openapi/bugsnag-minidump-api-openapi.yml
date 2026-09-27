@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  title: BugSnag - Error Reporting Minidump API
+  version: '1'
+  description: Report an error or exception in your web, mobile or desktop applications.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-error-reporting-api/1
+- description: For organizations with projects on app.bugsnag.com
+  url: https://notify.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://notify.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-error-reporting-api/1
+tags:
+- name: Minidump
+  description: 'Upload minidump files and optional associated event data.
+
+
+    The minidump file must be included in the request as the `upload_file_minidump` request part. Include the `event` part to associate additional information with the minidump.'
+paths:
+  /minidump:
+    post:
+      responses:
+        '202':
+          description: The payload was accepted and will be processed asynchronously. This doesn't imply that your payload was valid, just that it was enqueued to be processed.
+          headers:
+            Bugsnag-Event-ID:
+              description: The ID assigned to the associated event.
+              schema:
+                type: string
+          content:
+            text/plain:
+              example: Accepted
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              examples:
+                Missing API Key:
+                  value: missing api_key
+                Missing upload file minidump:
+                  value: missing upload_file_minidump
+        '401':
+          description: Invalid API Key
+          content:
+            text/plain:
+              example: invalid api_key
+        '422':
+          description: Received Empty File
+          content:
+            text/plain:
+              example: received empty file
+      summary: Upload minidumps
+      operationId: uploadMinidumps
+      tags:
+      - Minidump
+      parameters:
+      - name: api_key
+        in: query
+        description: The API key of the BugSnag project that the minidump applies to.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - upload_file_minidump
+              properties:
+                upload_file_minidump:
+                  type: string
+                  description: Binary stream of a minidump file.
+                event:
+                  type: string
+                  description: JSON string representing additional information about the minidump event. Mirrors the format of the Notify endpoint.
+            example: ???

@@ -80,13 +80,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
     PerPage:
       name: per_page
       in: query
@@ -101,6 +94,13 @@ components:
       in: path
       required: true
       description: The unique identifier of the pivot dimension.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
       schema:
         type: string
   schemas:
@@ -121,15 +121,6 @@ components:
           type: string
           format: uri
           description: The API URL to list values for this pivot.
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
     PivotValue:
       type: object
       description: Represents a specific value within a pivot dimension.
@@ -147,6 +138,15 @@ components:
           type: number
           format: float
           description: The proportion of events with this pivot value.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
   securitySchemes:
     tokenAuth:
       type: apiKey

@@ -82,30 +82,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    ReleaseId:
-      name: release_id
-      in: path
-      required: true
-      description: The unique identifier of the release.
-      schema:
-        type: string
   schemas:
     Release:
       type: object
@@ -174,6 +150,30 @@ components:
           items:
             type: string
           description: List of error messages.
+  parameters:
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+    ReleaseId:
+      name: release_id
+      in: path
+      required: true
+      description: The unique identifier of the release.
+      schema:
+        type: string
   securitySchemes:
     tokenAuth:
       type: apiKey

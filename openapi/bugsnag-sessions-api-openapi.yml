@@ -51,25 +51,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    ApplicationInfo:
-      type: object
-      description: Information about the application reporting sessions.
-      properties:
-        version:
-          type: string
-          description: The application version string.
-        releaseStage:
-          type: string
-          description: The release stage of the application (e.g., production, staging).
-        type:
-          type: string
-          description: The type of application.
-        versionCode:
-          type: integer
-          description: The numeric version code, for Android applications.
-        bundleVersion:
-          type: string
-          description: The bundle version, for iOS applications.
     Notifier:
       type: object
       description: Information about the notifier library reporting sessions.
@@ -114,6 +95,25 @@ components:
           additionalProperties:
             type: string
           description: Runtime version information (e.g., node version, CLR version).
+    ApplicationInfo:
+      type: object
+      description: Information about the application reporting sessions.
+      properties:
+        version:
+          type: string
+          description: The application version string.
+        releaseStage:
+          type: string
+          description: The release stage of the application (e.g., production, staging).
+        type:
+          type: string
+          description: The type of application.
+        versionCode:
+          type: integer
+          description: The numeric version code, for Android applications.
+        bundleVersion:
+          type: string
+          description: The bundle version, for iOS applications.
     SessionPayload:
       type: object
       description: The top-level session tracking payload. Contains the notifier information, application and device context, and a batch of session counts.
@@ -135,6 +135,15 @@ components:
           minItems: 1
           items:
             $ref: '#/components/schemas/SessionCount'
+    ErrorResponse:
+      type: object
+      description: An error response from the session tracking endpoint.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages describing the problem.
     SessionCount:
       type: object
       description: Represents a batch of sessions that started at the same time. Used for efficient batching of session data.
@@ -164,15 +173,6 @@ components:
               type: string
               format: email
               description: The user's email address.
-    ErrorResponse:
-      type: object
-      description: An error response from the session tracking endpoint.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages describing the problem.
 externalDocs:
   description: Bugsnag Session Tracking API Documentation
   url: https://docs.bugsnag.com/api/sessions/

@@ -1,0 +1,103 @@
+openapi: 3.2.0
+info:
+  version: '1'
+  title: BugSnag - Upload Linux API
+  description: Upload symbol and mapping files to show full stacktraces in your BugSnag dashboard.
+  contact:
+    name: BugSnag Support
+    email: support@bugsnag.com
+servers:
+- description: For organizations with projects on app.bugsnag.com
+  url: https://upload.bugsnag.com
+- description: For organizations with projects on app.bugsnag.smartbear.com
+  url: https://upload.bugsnag.smartbear.com
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-upload-api/1
+tags:
+- name: Linux
+  description: Symbol files for shared object (.so) files
+paths:
+  /linux:
+    post:
+      summary: Linux shared object files
+      description: 'Built shared object files will usually have symbol names removed.
+
+        In order to replace the obfuscated data with a human-readable stacktrace, a shared object (`.so`) file containing those symbols is required.'
+      operationId: uploadLinux
+      tags:
+      - Linux
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - soFile
+              - apiKey
+              properties:
+                soFile:
+                  type: string
+                  format: file
+                  description: The shared object (`.so`) file containing symbols as a [form-data](https://en.wikipedia.org/wiki/MIME#Form-Data) file upload.
+                apiKey:
+                  type: string
+                  description: The API key for the application's project in BugSnag.
+                appId:
+                  type: string
+                  description: A unique application ID of the application.
+                overwrite:
+                  type: boolean
+                  description: 'Whether to ignore and overwrite existing uploads with same identifier, rather than failing if a matching file exists. (Default: `true`)'
+                  default: true
+                projectRoot:
+                  type: string
+                  description: The root path of the project on the filesystem where the application was built. This is used to strip part of the path from the beginning of source file names in your dashboard.
+                sharedObjectName:
+                  type: string
+                  description: The name of the shared object that the symbols are for.
+                versionName:
+                  type: string
+                  description: The version of the application.
+      responses:
+        '202':
+          description: Accepted
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Accepted
+        '400':
+          description: A required parameter is missing or the file format is invalid
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                A required parameter is missing:
+                  value: 'missing required param: apiKey'
+                A required file is missing:
+                  value: 'missing required file: soFile'
+                Unable to read Shared Object file:
+                  value: invalid file format
+        '401':
+          description: Invalid API key
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: invalid apiKey
+        '409':
+          description: Duplicate file already exists with the same identifier (use `overwrite` to replace)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: duplicate symbol file
+        '422':
+          description: Nothing to upload (e.g. empty file or not uploaded correctly)
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: received empty file

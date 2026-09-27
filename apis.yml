@@ -44,9 +44,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-builds-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-build-api v1)
-    url: openapi/bugsnag-build-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -63,9 +60,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-collaborators-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -81,9 +75,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-comments-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -100,9 +91,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-errors-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -119,9 +107,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-eventfields-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -139,9 +124,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-events-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -160,9 +142,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-organizations-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -179,9 +158,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-pivots-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -200,9 +176,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-projects-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -219,9 +192,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-releases-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -238,9 +208,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-sessions-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-session-tracking-api v1)
-    url: openapi/bugsnag-session-tracking-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -257,9 +224,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-stability-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -276,9 +240,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-traces-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-trace-api v1)
-    url: openapi/bugsnag-trace-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -295,9 +256,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-trends-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
@@ -312,52 +270,213 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/bugsnag-current-user-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-data-access-api v2)
-    url: openapi/bugsnag-data-access-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/data-access
   - type: APIReference
     url: https://developer.smartbear.com/bugsnag
-- aid: bugsnag:bugsnag-error-reporting-api
-  name: BugSnag Error Reporting API
+- aid: bugsnag:bugsnag-android-api
+  name: Bugsnag Android API
   description: >-
-    Ingest endpoint for error and crash reports. Notifier SDKs POST an event payload to
-    notify.bugsnag.com identified by a per-project API key; a companion /minidump endpoint accepts
-    native crash minidumps. This is the highest-volume BugSnag surface and the one every SDK wraps.
-  humanURL: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
-  baseURL: https://notify.bugsnag.com
+    ProGuard/DexGuard/R8 mappings for obfuscated Java/Kotlin and NDK symbol files for shared object (.so)
+    files
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
   tags:
-  - Error Reporting
-  - Notify
+  - Android
   properties:
   - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-error-reporting-api v1)
-    url: openapi/bugsnag-error-reporting-api-openapi.json
+    url: openapi/bugsnag-android-api-openapi.yml
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
   - type: APIReference
     url: https://developer.smartbear.com/bugsnag
-- aid: bugsnag:bugsnag-upload-api
-  name: BugSnag Upload API
-  description: >-
-    Upload the symbol and mapping files that make stacktraces readable — Apple dSYMs, Android
-    ProGuard and NDK symbols, JavaScript and React Native source maps, Dart, Linux, Breakpad,
-    Nintendo Switch and Unity IL2CPP line mappings. Ten endpoints on upload.bugsnag.com, normally
-    driven from CI by the BugSnag CLI.
-  humanURL: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
-  baseURL: https://upload.bugsnag.com
-  tags:
-  - Symbol Upload
-  - Source Maps
-  properties:
-  - type: OpenAPI
-    name: OpenAPI (provider-published, SwaggerHub smartbear-public/bugsnag-upload-api v1)
-    url: openapi/bugsnag-upload-api-openapi.json
   - type: Documentation
     url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-apple-api
+  name: Bugsnag Apple API
+  description: Debug symbol (.dSYM) files for release builds
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Apple
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-apple-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
   - type: APIReference
     url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-dart-api
+  name: Bugsnag Dart API
+  description: Symbol files for split debug Dart builds
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Dart
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-dart-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-integrations-api
+  name: Bugsnag Integrations API
+  description: The Integrations API from Bugsnag — 8 operation(s) for integrations.
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-integrations-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-javascript-api
+  name: Bugsnag JavaScript API
+  description: Source maps for minified JavaScript
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - JavaScript
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-javascript-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-linux-api
+  name: Bugsnag Linux API
+  description: Symbol files for shared object (.so) files
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Linux
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-linux-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-minidump-api
+  name: Bugsnag Minidump API
+  description: >-
+    Upload minidump files and optional associated event data.
+
+
+    The minidump file must be included in the request as the `upload_file_minidump` request part. Include
+    the `event` part to associate additional information with the minidump.
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Minidump
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-minidump-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-minidumps-api
+  name: Bugsnag Minidumps API
+  description: Breakpad symbol files for Minidumps
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Minidumps
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-minidumps-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-nintendo-api
+  name: Bugsnag Nintendo API
+  description: Symbol files for Nintendo Switch
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Nintendo
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-nintendo-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-scim-api
+  name: Bugsnag SCIM API
+  description: The SCIM API from Bugsnag — 4 operation(s) for scim.
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-scim-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
+  - type: CLI
+    url: cli/bugsnag-cli.yml
+- aid: bugsnag:bugsnag-unity-api
+  name: Bugsnag Unity API
+  description: IL2CPP mapping files for Unity
+  humanURL: https://developer.smartbear.com/bugsnag/docs/data-access
+  baseURL: https://build.bugsnag.com
+  tags:
+  - Unity
+  properties:
+  - type: OpenAPI
+    url: openapi/bugsnag-unity-api-openapi.yml
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions
+  - type: APIReference
+    url: https://developer.smartbear.com/bugsnag
+  - type: Documentation
+    url: https://developer.smartbear.com/bugsnag/docs/uploading-symbols-and-mappings
   - type: CLI
     url: cli/bugsnag-cli.yml
 common:

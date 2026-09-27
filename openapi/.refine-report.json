@@ -4,7 +4,11 @@
     "_original/bugsnag-build-openapi.yml",
     "_original/bugsnag-data-access-openapi.yml",
     "_original/bugsnag-session-tracking-openapi.yml",
-    "_original/bugsnag-trace-openapi.yml"
+    "_original/bugsnag-trace-openapi.yml",
+    "bugsnag-data-access-api-openapi.json",
+    "bugsnag-error-reporting-api-openapi.json",
+    "bugsnag-trace-api-openapi.json",
+    "bugsnag-upload-api-openapi.json"
   ],
   "outputs": [
     "bugsnag-builds-api-openapi.yml",
@@ -21,13 +25,30 @@
     "bugsnag-stability-api-openapi.yml",
     "bugsnag-trends-api-openapi.yml",
     "bugsnag-sessions-api-openapi.yml",
-    "bugsnag-traces-api-openapi.yml"
+    "bugsnag-traces-api-openapi.yml",
+    "bugsnag-current-user-api-openapi.yml",
+    "bugsnag-integrations-api-openapi.yml",
+    "bugsnag-scim-api-openapi.yml",
+    "bugsnag-minidump-api-openapi.yml",
+    "bugsnag-android-api-openapi.yml",
+    "bugsnag-apple-api-openapi.yml",
+    "bugsnag-dart-api-openapi.yml",
+    "bugsnag-javascript-api-openapi.yml",
+    "bugsnag-linux-api-openapi.yml",
+    "bugsnag-minidumps-api-openapi.yml",
+    "bugsnag-nintendo-api-openapi.yml",
+    "bugsnag-unity-api-openapi.yml"
   ],
   "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
+    "deleted 6 superseded output(s) from the previous generation"
   ],
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "bugsnag-data-access-api-openapi.json: previously refined output kept for 119 operation(s) no archived document covers (e.g. /comments/{comment_id} delete, /comments/{comment_id} patch, /configured_integrations/{id} delete); its other 22 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "bugsnag-error-reporting-api-openapi.json: previously refined output kept for 1 operation(s) no archived document covers (e.g. /minidump post); its other 1 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "bugsnag-trace-api-openapi.json: previously refined output kept for 1 operation(s) no archived document covers (e.g. /traces/v1 post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "bugsnag-upload-api-openapi.json: previously refined output kept for 10 operation(s) no archived document covers (e.g. /breakpad-symbol post, /dart-symbol post, /dsym post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
   "notes": [
     "1 archived document(s) dropped as subsets of other archived documents",
     "sourced from openapi/_original/ (4 archived document(s)); previously refined output at the top level was skipped rather than re-split",
@@ -35,11 +56,20 @@
     "bugsnag-data-access-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "bugsnag-session-tracking-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "bugsnag-trace-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "superseded outputs removed: bugsnag-current-user-api-openapi.yml",
-    "apis.yml register: written (+1 apis, 15 total)"
+    "bugsnag-data-access-api-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bugsnag-error-reporting-api-openapi.json: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bugsnag-trace-api-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "bugsnag-upload-api-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Errors' spans 2 source specs (bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json): per-path servers applied",
+    "tag 'Organizations' spans 2 source specs (bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json): per-path servers applied",
+    "tag 'Projects' spans 2 source specs (bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json): per-path servers applied",
+    "tag 'Traces' spans 2 source specs (bugsnag-trace-openapi.yml, bugsnag-trace-api-openapi.json): per-path servers applied",
+    "superseded outputs removed: bugsnag-build-api-openapi.json, bugsnag-data-access-api-openapi.json, bugsnag-error-reporting-api-openapi.json, bugsnag-session-tracking-api-openapi.json, bugsnag-trace-api-openapi.json \u2026",
+    "apis.yml register: written (+12 apis, 27 total)"
   ],
   "skipped": [
     "_original/bugsnag-error-reporting-openapi.yml: archived document superseded by a larger archived document",
+    "bugsnag-build-api-openapi.json: previously refined output, superseded by openapi/_original/",
     "bugsnag-builds-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-collaborators-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -51,6 +81,7 @@
     "bugsnag-pivots-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-releases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bugsnag-session-tracking-api-openapi.json: previously refined output, superseded by openapi/_original/",
     "bugsnag-sessions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-stability-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "bugsnag-traces-api-openapi.yml: previously refined output, superseded by openapi/_original/",
