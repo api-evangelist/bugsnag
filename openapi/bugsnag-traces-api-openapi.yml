@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Bugsnag Traces API
   version: '1.0'
-  description: 'Operations tagged Traces across 2 of this provider''s published API definitions: bugsnag-trace-openapi.yml, bugsnag-trace-api-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Traces across 2 of this provider''s published API definitions: bugsnag-trace-openapi.yml, bugsnag-traces-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://otlp.bugsnag.com:4318
   description: Bugsnag OTLP HTTP Endpoint. The project API key should be prepended as a subdomain (e.g., {apiKey}.otlp.bugsnag.com:4318).
@@ -51,6 +51,13 @@ paths:
     - url: https://otlp.bugsnag.com:4318
       description: Bugsnag OTLP HTTP Endpoint. The project API key should be prepended as a subdomain (e.g., {apiKey}.otlp.bugsnag.com:4318).
   /traces/v1:
+    servers:
+    - description: For organizations with projects on app.bugsnag.com
+      url: https://otlp.bugsnag.com
+    - description: For organizations with projects on app.bugsnag.smartbear.com
+      url: https://otlp.bugsnag.smartbear.com
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-trace-api/1
     post:
       tags:
       - Traces
@@ -277,33 +284,40 @@ paths:
               $ref: '#/components/schemas/Payload'
       operationId: postTracesV1
       x-operation-id-source: derived
-    servers:
-    - description: For organizations with projects on app.bugsnag.com
-      url: https://otlp.bugsnag.com
-    - description: For organizations with projects on app.bugsnag.smartbear.com
-      url: https://otlp.bugsnag.smartbear.com
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-trace-api/1
 components:
   schemas:
-    ResourceSpans:
+    KeyValue:
       type: object
-      description: A collection of spans produced by a single instrumented resource.
+      description: A key-value pair used for attributes in the OpenTelemetry data model.
       properties:
-        resource:
+        key:
+          type: string
+          description: The attribute key.
+        value:
           type: object
-          description: The resource producing the spans, typically identifying the service name and version.
+          description: The attribute value, which can be a string, integer, double, boolean, or array.
           properties:
-            attributes:
-              type: array
-              description: Key-value attributes describing the resource.
-              items:
-                $ref: '#/components/schemas/KeyValue'
-        scopeSpans:
+            stringValue:
+              type: string
+              description: A string value.
+            intValue:
+              type: string
+              description: An integer value, encoded as a string.
+            doubleValue:
+              type: number
+              description: A double-precision floating point value.
+            boolValue:
+              type: boolean
+              description: A boolean value.
+    ExportTraceServiceRequest:
+      type: object
+      description: The OTLP ExportTraceServiceRequest containing resource spans. This follows the OpenTelemetry protocol specification.
+      properties:
+        resourceSpans:
           type: array
-          description: A collection of spans grouped by instrumentation scope.
+          description: A collection of spans from a single resource (service).
           items:
-            $ref: '#/components/schemas/ScopeSpans'
+            $ref: '#/components/schemas/ResourceSpans'
     Span:
       type: object
       description: Represents a single operation within a trace. Spans have a name, start and end time, and attributes describing the operation.
@@ -372,29 +386,6 @@ components:
                 description: Key-value attributes for the event.
                 items:
                   $ref: '#/components/schemas/KeyValue'
-    KeyValue:
-      type: object
-      description: A key-value pair used for attributes in the OpenTelemetry data model.
-      properties:
-        key:
-          type: string
-          description: The attribute key.
-        value:
-          type: object
-          description: The attribute value, which can be a string, integer, double, boolean, or array.
-          properties:
-            stringValue:
-              type: string
-              description: A string value.
-            intValue:
-              type: string
-              description: An integer value, encoded as a string.
-            doubleValue:
-              type: number
-              description: A double-precision floating point value.
-            boolValue:
-              type: boolean
-              description: A boolean value.
     ExportTraceServiceResponse:
       type: object
       description: The response to an OTLP trace export request.
@@ -409,15 +400,6 @@ components:
             errorMessage:
               type: string
               description: An error message if some spans were rejected.
-    ExportTraceServiceRequest:
-      type: object
-      description: The OTLP ExportTraceServiceRequest containing resource spans. This follows the OpenTelemetry protocol specification.
-      properties:
-        resourceSpans:
-          type: array
-          description: A collection of spans from a single resource (service).
-          items:
-            $ref: '#/components/schemas/ResourceSpans'
     ScopeSpans:
       type: object
       description: A collection of spans from a single instrumentation scope (library or component).
@@ -437,6 +419,72 @@ components:
           description: The individual spans within this scope.
           items:
             $ref: '#/components/schemas/Span'
+    ResourceSpans:
+      type: object
+      description: A collection of spans produced by a single instrumented resource.
+      properties:
+        resource:
+          type: object
+          description: The resource producing the spans, typically identifying the service name and version.
+          properties:
+            attributes:
+              type: array
+              description: Key-value attributes describing the resource.
+              items:
+                $ref: '#/components/schemas/KeyValue'
+        scopeSpans:
+          type: array
+          description: A collection of spans grouped by instrumentation scope.
+          items:
+            $ref: '#/components/schemas/ScopeSpans'
+    SuccessResponseBody:
+      type: object
+      description: ExportTraceServiceResponse See [here](https://opentelemetry.io/docs/specs/otlp/) for more information
+      properties:
+        partial_success:
+          type: object
+          description: ExportTracePartialSuccess optionally used to convey warnings/suggestions to senders even when the request was fully accepted.
+          properties:
+            rejected_spans:
+              type: integer
+              description: The number of spans that were rejected, field holding a `0` value indicates that the request was fully accepted.
+            error_message:
+              type: string
+              description: A developer-facing human-readable message in English. It should be used either to explain why the server rejected parts of the data during a partial success or to convey warnings/suggestions during a full success
+    Resource:
+      type: object
+      required:
+      - attributes
+      properties:
+        attributes:
+          description: "An array of attributes for this resource, as key-value pairs\n  ```\n  {\n    \"key\": \"deployment.environment\",\n    \"value\": {\n        \"stringValue\": \"development\"\n    }\n  },\n  {\n      \"key\": \"device.id\",\n      \"value\": {\n          \"stringValue\": \"cl7fvqte300003b68a6m9ria1e\"\n      }\n  },\n  {\n      \"key\": \"device.manufacturer\",\n      \"value\": {\n          \"stringValue\": \"xiaomi\"\n      }\n  },\n  {\n      \"key\": \"device.model.identifier\",\n      \"value\": {\n          \"stringValue\": \"m2101k9g\"\n      }\n  },\n  {\n      \"key\": \"host.arch\",\n      \"value\": {\n          \"stringValue\": \"arm64\"\n      }\n  },\n  {\n      \"key\": \"os.name\",\n      \"value\": {\n          \"stringValue\": \"Android\"\n      }\n  },\n  {\n      \"key\": \"os.version\",\n      \"value\": {\n          \"stringValue\": \"13\"\n      }\n  },\n  {\n      \"key\": \"bugsnag.app.platform\",\n      \"value\": {\n          \"stringValue\": \"android\"\n      }\n  },\n  {\n      \"key\": \"browser.user_agent\",\n      \"value\": {\n          \"stringValue\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36\"\n      }\n  },\n  {\n      \"key\": \"browser.platform\",\n      \"value\": {\n          \"stringValue\": \"android\"\n      }\n  },\n  {\n      \"key\": \"browser.mobile\",\n      \"value\": {\n          \"boolValue\": true\n      }\n  },\n  {\n      \"key\": \"bugsnag.app.version_code\",\n      \"value\": {\n          \"stringValue\": \"1234\"\n      }\n  },\n  {\n      \"key\": \"telemetry.sdk.name\",\n      \"value\": {\n          \"stringValue\": \"bugsnag.performance.browser\"\n      }\n  },\n  {\n      \"key\": \"telemetry.sdk.version\",\n      \"value\": {\n          \"stringValue\": \"0.3.0\"\n      }\n  },\n  {\n      \"key\": \"service.version\",\n      \"value\": {\n          \"stringValue\": \"1.0.0\"\n      }\n  }\n  ```\n"
+          type: array
+          items:
+            type: object
+            required:
+            - key
+            - value
+            properties:
+              key:
+                type: string
+              value:
+                type: object
+                description: One of these options must be present
+                properties:
+                  stringValue:
+                    type: string
+                  boolValue:
+                    type: boolean
+    Payload:
+      type: object
+      required:
+      - resourceSpans
+      properties:
+        resourceSpans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceSpan'
+          description: An array of trace reports that will be sent to BugSnag. Should contain at least 1 report.
     Span_2:
       type: object
       required:
@@ -501,53 +549,6 @@ components:
         parentSpanId:
           type: string
           description: The ID of the parent for this span. If this is the root span, parentSpanId should be `null`.
-    ErrorResponseBody:
-      type: object
-      description: Status.WithDetails see[here](https://pkg.go.dev/google.golang.org/grpc/status#Status.WithDetails) for more information
-      required:
-      - code
-      - message
-      properties:
-        code:
-          type: integer
-          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]
-        message:
-          type: string
-          description: A developer-facing error message, which should be in English.
-    Resource:
-      type: object
-      required:
-      - attributes
-      properties:
-        attributes:
-          description: "An array of attributes for this resource, as key-value pairs\n  ```\n  {\n    \"key\": \"deployment.environment\",\n    \"value\": {\n        \"stringValue\": \"development\"\n    }\n  },\n  {\n      \"key\": \"device.id\",\n      \"value\": {\n          \"stringValue\": \"cl7fvqte300003b68a6m9ria1e\"\n      }\n  },\n  {\n      \"key\": \"device.manufacturer\",\n      \"value\": {\n          \"stringValue\": \"xiaomi\"\n      }\n  },\n  {\n      \"key\": \"device.model.identifier\",\n      \"value\": {\n          \"stringValue\": \"m2101k9g\"\n      }\n  },\n  {\n      \"key\": \"host.arch\",\n      \"value\": {\n          \"stringValue\": \"arm64\"\n      }\n  },\n  {\n      \"key\": \"os.name\",\n      \"value\": {\n          \"stringValue\": \"Android\"\n      }\n  },\n  {\n      \"key\": \"os.version\",\n      \"value\": {\n          \"stringValue\": \"13\"\n      }\n  },\n  {\n      \"key\": \"bugsnag.app.platform\",\n      \"value\": {\n          \"stringValue\": \"android\"\n      }\n  },\n  {\n      \"key\": \"browser.user_agent\",\n      \"value\": {\n          \"stringValue\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36\"\n      }\n  },\n  {\n      \"key\": \"browser.platform\",\n      \"value\": {\n          \"stringValue\": \"android\"\n      }\n  },\n  {\n      \"key\": \"browser.mobile\",\n      \"value\": {\n          \"boolValue\": true\n      }\n  },\n  {\n      \"key\": \"bugsnag.app.version_code\",\n      \"value\": {\n          \"stringValue\": \"1234\"\n      }\n  },\n  {\n      \"key\": \"telemetry.sdk.name\",\n      \"value\": {\n          \"stringValue\": \"bugsnag.performance.browser\"\n      }\n  },\n  {\n      \"key\": \"telemetry.sdk.version\",\n      \"value\": {\n          \"stringValue\": \"0.3.0\"\n      }\n  },\n  {\n      \"key\": \"service.version\",\n      \"value\": {\n          \"stringValue\": \"1.0.0\"\n      }\n  }\n  ```\n"
-          type: array
-          items:
-            type: object
-            required:
-            - key
-            - value
-            properties:
-              key:
-                type: string
-              value:
-                type: object
-                description: One of these options must be present
-                properties:
-                  stringValue:
-                    type: string
-                  boolValue:
-                    type: boolean
-    Payload:
-      type: object
-      required:
-      - resourceSpans
-      properties:
-        resourceSpans:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceSpan'
-          description: An array of trace reports that will be sent to BugSnag. Should contain at least 1 report.
     ResourceSpan:
       type: object
       required:
@@ -564,23 +565,22 @@ components:
           items:
             $ref: '#/components/schemas/Span_2'
           description: Describes a unit of work or operation. A trace can be made up of multiple spans
-    SuccessResponseBody:
+    ErrorResponseBody:
       type: object
-      description: ExportTraceServiceResponse See [here](https://opentelemetry.io/docs/specs/otlp/) for more information
+      description: Status.WithDetails see[here](https://pkg.go.dev/google.golang.org/grpc/status#Status.WithDetails) for more information
+      required:
+      - code
+      - message
       properties:
-        partial_success:
-          type: object
-          description: ExportTracePartialSuccess optionally used to convey warnings/suggestions to senders even when the request was fully accepted.
-          properties:
-            rejected_spans:
-              type: integer
-              description: The number of spans that were rejected, field holding a `0` value indicates that the request was fully accepted.
-            error_message:
-              type: string
-              description: A developer-facing human-readable message in English. It should be used either to explain why the server rejected parts of the data during a partial success or to convey warnings/suggestions during a full success
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English.
 externalDocs:
   description: Bugsnag Performance Trace Documentation
   url: https://docs.bugsnag.com/performance/sending-traces/
 x-refined-from:
 - bugsnag-trace-openapi.yml
-- bugsnag-trace-api-openapi.json
+- bugsnag-traces-api-openapi.yml

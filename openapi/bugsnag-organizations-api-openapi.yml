@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Bugsnag Organizations API
   version: '1.0'
-  description: 'Operations tagged Organizations across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Organizations across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-organizations-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bugsnag.com
   description: Bugsnag Production API Server
@@ -77,6 +77,15 @@ paths:
     - url: https://api.bugsnag.com
       description: Bugsnag Production API Server
   /organizations:
+    servers:
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+    - description: For organizations with projects on app.bugsnag.com
+      url: https://api.bugsnag.com
+    - description: For organizations with projects on app.bugsnag.smartbear.com
+      url: https://api.bugsnag.smartbear.com
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
     post:
       tags:
       - Organizations
@@ -118,6 +127,7 @@ paths:
                   errors:
                   - Cannot create upstream billing organization
                   - SAML users cannot create organization
+  /organizations/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -127,7 +137,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{id}:
     get:
       tags:
       - Organizations
@@ -233,6 +242,7 @@ paths:
           $ref: '#/components/responses/insufficient_organization_role'
         '404':
           $ref: '#/components/responses/organization_not_found'
+  /organizations/{id}/api_key:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -242,7 +252,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{id}/api_key:
     delete:
       tags:
       - Organizations
@@ -267,6 +276,7 @@ paths:
           $ref: '#/components/responses/insufficient_organization_role'
         '404':
           $ref: '#/components/responses/organization_not_found'
+  /organizations/{id}/auth_token:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -276,7 +286,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{id}/auth_token:
     delete:
       tags:
       - Organizations
@@ -302,6 +311,7 @@ paths:
           $ref: '#/components/responses/insufficient_organization_role'
         '404':
           $ref: '#/components/responses/organization_not_found'
+  /organizations/{organization_id}/collaborators/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -311,7 +321,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{id}:
     get:
       tags:
       - Organizations
@@ -537,6 +546,7 @@ paths:
                   errors:
                   - Organization not found
                   - User not found
+  /organizations/{organization_id}/collaborators/bulk_invite:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -546,7 +556,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/bulk_invite:
     post:
       tags:
       - Organizations
@@ -652,6 +661,7 @@ paths:
                 example:
                   errors:
                   - Organization not found
+  /projects/{project_id}/collaborators:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -661,7 +671,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/collaborators:
     get:
       tags:
       - Organizations
@@ -714,6 +723,7 @@ paths:
                 example:
                   errors:
                   - Project not found
+  /projects/{project_id}/collaborators/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -723,7 +733,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/collaborators/{id}:
     get:
       tags:
       - Organizations
@@ -765,6 +774,7 @@ paths:
                   errors:
                   - Project not found
                   - User not found
+  /organizations/{organization_id}/collaborators/project_access_counts:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -774,7 +784,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/project_access_counts:
     get:
       tags:
       - Organizations
@@ -833,6 +842,7 @@ paths:
                   errors:
                   - Organization Administrator role required
                   - Collaborator not found
+  /organizations/{organization_id}/collaborators/{collaborator_id}/projects:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -842,7 +852,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{collaborator_id}/projects:
     get:
       tags:
       - Organizations
@@ -940,6 +949,7 @@ paths:
                   errors:
                   - Organization not found
                   - User not found
+  /organizations/{organization_id}/collaborators/{collaborator_id}/project_accesses:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -949,7 +959,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{collaborator_id}/project_accesses:
     get:
       tags:
       - Organizations
@@ -1000,6 +1009,7 @@ paths:
                   errors:
                   - Organization not found
                   - User not found
+  /organizations/{organization_id}/collaborators/{collaborator_id}/project_accesses/{project_id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1009,7 +1019,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{collaborator_id}/project_accesses/{project_id}:
     get:
       tags:
       - Organizations
@@ -1056,6 +1065,7 @@ paths:
                 example:
                   errors:
                   - Project not found
+  /organizations/{organization_id}/collaborators/{id}/team_memberships:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1065,7 +1075,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{id}/team_memberships:
     post:
       tags:
       - Organizations
@@ -1180,6 +1189,7 @@ paths:
                 errors:
                 - Collaborator not found
                 - Team not found
+  /organizations/{organization_id}/teams:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1189,7 +1199,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams:
     get:
       tags:
       - Organizations
@@ -1313,6 +1322,7 @@ paths:
               example:
                 errors:
                 - Team not found
+  /organizations/{organization_id}/teams/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1322,7 +1332,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}:
     get:
       tags:
       - Organizations
@@ -1506,6 +1515,7 @@ paths:
                 errors:
                 - Organization not found
                 - Team not found
+  /organizations/{organization_id}/teams/{id}/suggested_collaborators:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1515,7 +1525,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}/suggested_collaborators:
     get:
       tags:
       - Organizations
@@ -1585,6 +1594,7 @@ paths:
                 errors:
                 - Organization not found
                 - Team not found
+  /organizations/{organization_id}/collaborators/{id}/teams:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1594,7 +1604,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{id}/teams:
     get:
       tags:
       - Organizations
@@ -1658,6 +1667,7 @@ paths:
                 errors:
                 - Organization not found
                 - User not found
+  /organizations/{organization_id}/collaborators/{id}/suggested_teams:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1667,7 +1677,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/collaborators/{id}/suggested_teams:
     get:
       tags:
       - Organizations
@@ -1737,6 +1746,7 @@ paths:
                 errors:
                 - Organization not found
                 - User not found
+  /organizations/{organization_id}/teams/{id}/collaborators:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1746,7 +1756,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}/collaborators:
     get:
       tags:
       - Organizations
@@ -1810,6 +1819,7 @@ paths:
                 errors:
                 - Organization not found
                 - Team not found
+  /organizations/{organization_id}/teams/{id}/team_memberships:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1819,7 +1829,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}/team_memberships:
     post:
       tags:
       - Organizations
@@ -1942,6 +1951,7 @@ paths:
                 - Organization not found
                 - Team not found
                 - User not found
+  /organizations/{organization_id}/teams/{id}/project_accesses:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1951,7 +1961,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}/project_accesses:
     get:
       tags:
       - Organizations
@@ -2157,6 +2166,7 @@ paths:
                 - Organization not found
                 - Team not found
                 - Project not found
+  /organizations/{organization_id}/teams/{id}/suggested_projects:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2166,7 +2176,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/teams/{id}/suggested_projects:
     get:
       tags:
       - Organizations
@@ -2251,6 +2260,7 @@ paths:
                 errors:
                 - Organization not found
                 - Team not found
+  /organizations/{organization_id}/event_data_requests:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2260,7 +2270,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/event_data_requests:
     post:
       tags:
       - Organizations
@@ -2306,6 +2315,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataRequestApiView'
+  /organizations/{organization_id}/event_data_requests/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2315,7 +2325,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/event_data_requests/{id}:
     get:
       tags:
       - Organizations
@@ -2343,6 +2352,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataRequestApiView'
+  /organizations/{organization_id}/event_data_deletions:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2352,7 +2362,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/event_data_deletions:
     post:
       tags:
       - Organizations
@@ -2397,6 +2406,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /organizations/{organization_id}/event_data_deletions/{id}/confirm:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2406,7 +2416,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/event_data_deletions/{id}/confirm:
     post:
       tags:
       - Organizations
@@ -2434,6 +2443,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /organizations/{organization_id}/event_data_deletions/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2443,7 +2453,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/event_data_deletions/{id}:
     get:
       tags:
       - Organizations
@@ -2471,6 +2480,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /organizations/{organization_id}/traces/{trace_id}/spans:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2480,7 +2490,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /organizations/{organization_id}/traces/{trace_id}/spans:
     get:
       tags:
       - Organizations
@@ -2541,16 +2550,24 @@ paths:
                   $ref: '#/components/schemas/Span'
         '404':
           $ref: '#/components/responses/organization_not_found'
-    servers:
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
-    - description: For organizations with projects on app.bugsnag.com
-      url: https://api.bugsnag.com
-    - description: For organizations with projects on app.bugsnag.smartbear.com
-      url: https://api.bugsnag.smartbear.com
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
 components:
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
   schemas:
     User:
       type: object
@@ -2613,308 +2630,17 @@ components:
           type: string
           format: date-time
           description: The date and time the organization was last updated.
-    OrganizationBase:
+    TeamMembershipsAddUsersRequest:
       type: object
-      required:
-      - name
-      - auto_upgrade
       properties:
-        name:
-          type: string
-          example: Acme Co.
-        billing_emails:
+        collaborator_ids:
           type: array
           items:
             type: string
-          example:
-          - emily@example.com
-        auto_upgrade:
+          description: Collaborators to add to the team.
+        add_all_collaborators:
           type: boolean
-          description: whether we should upgrade your plan in response to the organization reaching its plan limit of events. If this value is `false` your events will be throttled when you reach your plan limit.
-          example: true
-    CreateTeamMembershipRequest:
-      type: object
-      properties:
-        team_ids:
-          type: array
-          items:
-            type: string
-          description: IDs of the teams to assign the collaborator to. This variable is optional, but required if add_all_teams is false
-        add_all_teams:
-          type: boolean
-          description: Whether to assign the collaborator to all teams in the organization
-    ProjectCollaboratorAccessSummaryApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 611a24ff5d0d567c3cdee720
-          description: The ID of the collaborator.
-        name:
-          type: string
-          example: Joe Bloggs
-          description: The name of the collaborator.
-        email:
-          type: string
-          example: joe@example.com
-          description: The collaborator's email.
-        project_role:
-          type: string
-          example: project_owner
-          description: The role the collaborator has on the project.
-        account_admin:
-          type: boolean
-          example: true
-          description: Indicates if the collaborator is an administrator for the organization.
-    SpanSystemMetricsMemoryStatistics:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
-          type: number
-          example: 10000
-          description: The mean value of the measurements (in bytes)
-    ProjectAccessSummary:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 611a24ff5d0d567c3cdee710
-          description: The ID of the project.
-        name:
-          type: string
-          example: Website Project
-          description: The name of the project.
-        type:
-          type: string
-          example: rails
-          description: The type of the project.
-        slug:
-          type: string
-          example: website
-          description: The project's slug.
-      required:
-      - id
-      - name
-      - type
-      - slug
-    FilterGroupJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filters within a group.
-
-        - and (default) - All conditions must be satisfied
-
-        - or - At least one condition must be satisfied
-
-        '
-    SpanHttpStatistics:
-      type: object
-      required:
-      - response_code
-      properties:
-        response_code:
-          type: number
-          example: 200
-          description: The response status code for the Span
-    SpanMetadata:
-      type: object
-      required:
-      - key
-      - value
-      - level
-      properties:
-        key:
-          type: string
-          example: device.id
-          description: The key of the metadata
-        value:
-          type: string
-          example: '1234'
-          description: The value of the metadata. May be a string or an integer.
-        level:
-          $ref: '#/components/schemas/SpanMetadataLevel'
-          description: The location of the metadata attribute within the Trace payload
-    SpanSystemMetricsMemory:
-      type: object
-      required:
-      - device
-      properties:
-        device:
-          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
-          description: Details of the device memory measured at intervals across the Span's lifetime
-        android_runtime:
-          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
-          description: Details of the Android Runtime memory measured at intervals across the Span's lifetime
-    ProjectBase:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Project
-        global_grouping:
-          type: array
-          description: 'A list of error classes. Events with these classes will be grouped by their
-
-            class, regardless of the location that they occur in the Project''s source
-
-            code. Altering a Project''s `global_grouping` will not cause existing errors
-
-            to be regrouped.
-
-
-            Note: In the UI this is referred to as grouping by error class.
-
-
-            Example:
-
-
-            ```
-
-            ["foo", "bar"]
-
-            ```
-
-            '
-          items:
-            example:
-            - Redis::CannotConnectError
-            - Mongo::Error:SocketError
-        location_grouping:
-          type: array
-          description: 'A list of error classes. Events with these classes will be grouped by their
-
-            `context`. Altering a Project''s `location_grouping` will not cause existing errors
-
-            to be regrouped.
-
-
-            Note: In the UI this is referred to as grouping by error context.
-
-            '
-          items:
-            example:
-            - Timeout::Error
-        discarded_app_versions:
-          type: array
-          description: 'A list of app versions whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-app-version) if received for the Project. Supports [regular expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions) and [semver ranges](https://github.com/npm/node-semver#ranges). Errors matching these versions won''t be processed by Bugsnag, and you won''t receive notifications about them.
-
-            '
-          items:
-            example:
-            - alpha
-            - < 2.2.2
-            - 3.0.0
-        discarded_errors:
-          type: array
-          description: 'A list of Error classes whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-error-class) if received for the Project. Errors with these classes won''t be processed by Bugsnag, and you won''t receive notifications about them.
-
-            '
-          items:
-            example:
-            - Example::Error
-        url_whitelist:
-          type: array
-          description: 'When configured, the script source of each error''s innermost stack trace''s top frame is checked. If the script was not served from a matching domain the error will not be processed by BugSnag and will be discarded.
-
-
-            Provide a list of newline separated domain names. To match example.com and its subdomains specify *.example.com.
-
-
-            Relevant to JavaScript Projects only.
-
-            '
-          items:
-            example:
-            - example.com
-        ignore_old_browsers:
-          type: boolean
-          example: true
-          description: 'Whether the Events in the Project will be ignored if they originate from
-
-            old web browsers.
-
-
-            Relevant to JavaScript Projects only.
-
-            '
-        ignored_browser_versions:
-          type: object
-          description: 'Relevant to JavaScript Projects only.
-
-
-            A mapping a of browser name to browser version. If set, Events in the
-
-            Project will be ignored if they originate from a browser specified here
-
-            whose version is earlier than the given version.
-
-
-            Keys must be one of the following strings: chrome, ie, firefox, safari, android, uc, opera, opera_mini, samsung, blackberry, sogou, other.
-
-
-            Values must be a number indicating which which version to ignore up to (but not including), or one of the strings: `ignore_all`, `ignore_none`
-
-
-            Example:
-
-
-            ```
-
-            {
-
-            "chrome": "ignore_none",
-
-            "safari": 6,
-
-            "other": "ignore_all"
-
-            }
-
-            ```
-
-            '
-        resolve_on_deploy:
-          type: boolean
-          example: true
-          description: 'If true, every error in the Project will be marked as ''fixed'' after using the Deploy Tracking API to notify Bugsnag of a new production deploy.
-
-
-            Applies to non-JavaScript Projects only.
-
-            '
-    TeamSuggestionApiView:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: 515fb9337c1074f6fd000002
-        project_name:
-          type: string
-          example: iOS App
-        is_member:
-          type: boolean
-          example: true
-          description: Is the collaborator already a member?
-      required:
-      - project_id
-      - project_name
-      - is_member
-    FilterGroupsJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filter groups.
-
-        - and - All conditions must be satisfied
-
-        - or (default) - At least one condition must be satisfied
-
-        '
+          description: Add all organization collaborators to the team. This should not be set if `collaborator_ids` is specified.
     SuggestedTeamCollaboratorApiView:
       type: object
       properties:
@@ -2939,50 +2665,608 @@ components:
       - name
       - email
       - has_access
+    ProjectType:
+      type: string
+      enum:
+      - android
+      - angular
+      - asgi
+      - aspnet
+      - aspnet_core
+      - backbone
+      - bottle
+      - cocos2dx
+      - connect
+      - django
+      - dotnet
+      - dotnet_desktop
+      - dotnet_mvc
+      - electron
+      - ember
+      - eventmachine
+      - expo
+      - express
+      - flask
+      - flutter
+      - gin
+      - go
+      - go_net_http
+      - heroku
+      - ios
+      - java
+      - java_desktop
+      - js
+      - vega
+      - koa
+      - laravel
+      - lumen
+      - magento
+      - martini
+      - minidump
+      - ndk
+      - negroni
+      - nintendo_switch
+      - node
+      - osx
+      - other_desktop
+      - other_mobile
+      - other_tv
+      - php
+      - python
+      - rack
+      - rails
+      - react
+      - reactnative
+      - restify
+      - revel
+      - ruby
+      - silex
+      - sinatra
+      - spring
+      - symfony
+      - tornado
+      - tvos
+      - unity
+      - unrealengine
+      - vue
+      - watchos
+      - webapi
+      - wordpress
+      - wpf
+      - wsgi
+      - other
+      description: used for Projects that use a framework other than those listed above
+    ProjectAccessCountsApiView:
+      type: object
+      properties:
+        collaborator_id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+        project_count:
+          type: number
+          example: 10
+          description: The number of projects the user has access to.
+        is_admin:
+          type: boolean
+          example: true
+          description: Whether the collaborator is an admin on the account.
+      required:
+      - collaborator_id
+      - project_count
+      - is_admin
+    CollaboratorProjectAccessApiView:
+      type: object
+      properties:
+        project_summary:
+          $ref: '#/components/schemas/ProjectAccessSummary'
+          description: Details of the project.
+        team_count:
+          type: number
+          example: 5
+          description: The number of teams the collaborator belongs to that have access to the project.
+        is_admin:
+          type: boolean
+          example: true
+          description: Indicates if the collaborator is an administrator for the organization.
+        project_role:
+          type: string
+          example: project_owner
+          description: The overall role that the Collaborator has on the Project (based on the individual and Team roles). This will be the most permissive of the individual and Team roles. One of "project_owner", "project_member".
+        individual_project_role:
+          type: string
+          example: project_owner
+          description: The role that the Collaborator has on the Project as an individual (ignoring any Team access). One of "project_owner", "project_member".
+        team_project_role:
+          type: string
+          example: project_member
+          description: The role that the Collaborator has on the Project from the Teams that they belong to. If the Collaborator belongs to multiple Teams this will be the most permissive role. One of "project_owner", "project_member"
+      required:
+      - is_admin
+    AdvancedFiltersFilterGroup:
+      type: object
+      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
+      properties:
+        join:
+          $ref: '#/components/schemas/FilterGroupJoinOperator'
+          description: The operator to use when joining filters within this group
+        AdditionalProperties:
+          $ref: '#/components/schemas/Filters'
+    ProjectAccessSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 611a24ff5d0d567c3cdee710
+          description: The ID of the project.
+        name:
+          type: string
+          example: Website Project
+          description: The name of the project.
+        type:
+          type: string
+          example: rails
+          description: The type of the project.
+        slug:
+          type: string
+          example: website
+          description: The project's slug.
+      required:
+      - id
+      - name
+      - type
+      - slug
+    StabilityTarget:
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          type: number
+          example: 0.99
+          description: The target value of the proportion of unhandled_sessions/total_sessions.
+        updated_at:
+          type:
+          - string
+          - 'null'
+          example: '2017-03-02T05:55:55.555Z'
+          description: (Updated automatically) The time the target was last updated.
+        updated_by_id:
+          type:
+          - string
+          - 'null'
+          example: 515fb9337c1074f6fd000001
+          description: (Updated automatically) The id of the collaborator that last updated the value.
+    FilterGroupsJoinOperator:
+      type: string
+      enum:
+      - and
+      - or
+      description: 'The join operator to apply between filter groups.
+
+        - and - All conditions must be satisfied
+
+        - or (default) - At least one condition must be satisfied
+
+        '
+    Span:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the span
+        parent_span_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the parent span if applicable
+        trace_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the trace
+        category:
+          type: string
+          example: app_start
+          description: The category of the span
+        name:
+          type: string
+          example: My Span
+          description: The name of the span
+        display_name:
+          type: string
+          example: App Start - My Span
+          description: The name of the span for display purposes
+        duration:
+          type: number
+          example: 1000
+          description: The duration of the span in milliseconds
+        timestamp:
+          type: string
+          example: '2023-04-11T13:14:25.123Z'
+          description: The timestamp we've attributed to the Span
+        time_adjustment_type:
+          type: string
+          enum:
+          - adjusted
+          - device
+          - received
+          - unadjusted
+          example: adjusted
+          description: How the time was adjusted
+        start_time:
+          type: string
+          example: '2023-04-11T13:14:25.123Z'
+          description: The time the span started
+        is_first_class:
+          type: boolean
+          example: true
+          description: Whether the span is first class or just a sub-span
+        build_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the build that this span is associated with
+        project_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the project that this span is associated with
+        span_group_id:
+          type: string
+          example: 1.app_start.My Span
+          description: The id of the span group if applicable
+        virtual_span_group_id:
+          type: string
+          example: 1.page_load./my/route
+          description: The raw id of the page load span group if applicable
+        statistics:
+          $ref: '#/components/schemas/SpanStatistics'
+          description: Any additional statistics for the span
+        metadata:
+          $ref: '#/components/schemas/SpanMetadata'
+          description: Additional metadata for the span
+      required:
+      - id
+      - trace_id
+      - category
+      - name
+      - display_name
+      - duration
+      - timestamp
+      - time_adjustment_type
+      - start_time
+      - is_first_class
+    EventDataRequestApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5bf49d97468ce913212ae486
+          description: ID of the event data request
+        url:
+          type: string
+          description: URL for downloading the report of the requested event data. This may be a signed URL that is accessible for short amount of time.<br><br>This field is not present for on-premise installations. You can check event data requests in on-premise through the Minio UI by port forwarding it using `kubectl -n bugsnag port-forward svc/minio 9000:9000` and opening the Minio UI at http://localhost:9000. The access key and secret key can be retrieved via `kubectl -n bugsnag get secret minio -o jsonpath='{.data.accesskey}' | base64 -d; echo` and `kubectl -n bugsnag get secret minio -o jsonpath='{.data.secretkey}' | base64 -d; echo` respectively. Single node installations should omit `-n bugsnag` from commands.
+        status:
+          $ref: '#/components/schemas/EventDataRequestStatus'
+          example: ACCEPTED
+          description: status of the request
+        total:
+          type: number
+          example: 10
+          description: the total number of events that are expected to be returned; this field will be null if the status is `PREPARING`
+        report_type:
+          $ref: '#/components/schemas/EventDataRequestReportType'
+          description: the type of report to return; this is blank if all event fields were requested
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: The filters used to determine which events will be included in the report. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups:
+          items:
+            $ref: '#/components/schemas/FilterGroup'
+          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups_join:
+          type: string
+          enum:
+          - AND
+          - OR
+          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        created_at:
+          type: string
+          example: '2018-11-21T01:31:25.000Z'
+          description: when the request was created
+        completed_at:
+          type: string
+          example: '2018-11-21T01:35:00.000Z'
+          description: when the request was completed
+        expires_at:
+          type: string
+          example: '2018-11-28T01:35:00.000Z'
+          description: when the request expires (and any stored data is removed)
+      required:
+      - id
+      - status
+      - filters
+      - created_at
+    EventDataRequestReportType:
+      type: string
+      enum:
+      - gdpr
+      description: only include event fields that pertain to the user such as event.user, event.device, and event.request; you may need to remove/redact some fields before giving this data to your users that request it
+    SpanSystemMetricsMemoryStatistics:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          type: number
+          example: 10000
+          description: The mean value of the measurements (in bytes)
     SpanCategoryStatistics:
       type: object
       properties:
         full_page_load:
           $ref: '#/components/schemas/SpanCategoryStatisticsFullPageLoad'
-    SpanCategoryStatisticsFullPageLoad:
+    EventDataRequestStatus:
+      type: string
+      enum:
+      - PREPARING
+      - AWAITING_CONFIRMATION
+      - ACCEPTED
+      - IN_PROGRESS
+      - COMPLETED
+      - EXPIRED
+    ProjectApiView:
+      allOf:
+      - $ref: '#/components/schemas/ProjectBase'
+      - type: object
+        properties:
+          id:
+            type: string
+            example: 515fb9337c1074f6fd000003
+          organization_id:
+            type: string
+            example: 515fb9337c1074f6fd000007
+          type:
+            $ref: '#/components/schemas/ProjectType'
+          performance_display_type:
+            $ref: '#/components/schemas/PerformanceDisplayType'
+          slug:
+            type: string
+            example: example-project
+            description: 'unique, human-readable identifier that can be used in place of `id` in URLs
+
+              '
+          api_key:
+            type: string
+            example: deadbeef1234deadbeef1234deadbeef
+            description: 'the notifier API key used to configure the [notifier
+
+              library](https://docs.bugsnag.com/platforms/) being used to report errors in
+
+              the project
+
+              '
+          upload_api_key:
+            type:
+            - string
+            - 'null'
+            example: cafe1234cafe1234cafe1234cafe1234
+            description: 'the upload API key used to authenticate file upload requests (source maps, proguard files, etc.).
+
+              If null, the project does not have a separate upload API key configured.
+
+              '
+          must_use_upload_api_key:
+            type: boolean
+            example: false
+            description: 'whether upload requests must use the upload_api_key for authentication.
+
+              If true, the regular api_key will not be accepted for upload endpoints.
+
+              '
+          is_full_view:
+            type: boolean
+            example: true
+            description: 'Always true for this endpoint. Used to differentiate between terse and complete project
+
+              representations.
+
+              '
+          release_stages:
+            type: array
+            items:
+              example:
+              - staging
+              - production
+            description: 'The release stages for which this project has received events.
+
+              This will be an array of strings whose values will depend on your Project.
+
+              '
+          language:
+            type: string
+            example: ruby
+            description: 'The Project''s programming language as derived from the framework represented in the `type` field
+
+              '
+          created_at:
+            type: string
+            example: '2017-03-02T05:55:55.555Z'
+            description: 'The time of the Project''s creation.
+
+              '
+          updated_at:
+            type: string
+            example: '2017-03-03T05:55:55.555Z'
+            description: 'The time the Project was last modified.
+
+              '
+          url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003
+            description: 'The API URL for the Project.
+
+              '
+          html_url:
+            type: string
+            example: https://app.bugsnag.com/example-account/example-project
+            description: 'The dashboard URL for the project.
+
+              '
+          errors_url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/errors
+            description: 'The API URL for the Project''s Errors.
+
+              '
+          events_url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/events
+            description: 'The API URL for the Project''s Events.
+
+              '
+          open_error_count:
+            type: number
+            example: 10
+            description: 'The number of open errors the Project has. Considers all events currently stored
+
+              for the Project.
+
+              '
+          for_review_error_count:
+            type: number
+            example: 5
+            description: 'The number of errors for review the Project has. Considers all events currently stored
+
+              for the Project.
+
+              '
+          collaborators_count:
+            type: number
+            example: 15
+            description: 'The number of collaborators with access to the Project.
+
+              '
+          teams_count:
+            type: number
+            example: 5
+            description: 'The number of teams with access to the Project.
+
+              '
+          custom_event_fields_used:
+            type: number
+            example: 5
+            description: 'The count of how many [Custom Filters](https://docs.bugsnag.com/product/custom-filters/) have been created for the Project.
+
+              '
+          ecmascript_parse_version:
+            type: object
+            description: 'The details of the ECMAScript version used to parse JavaScript events. Only present for Browser JavaScript Projects.
+
+              '
+          stability_target_type:
+            type: string
+            example: session
+            description: 'Whether the project should use stability targets based on sessions or users. Values are `user` or `session`.
+
+              '
+          target_stability:
+            $ref: '#/components/schemas/StabilityTarget'
+            description: 'The stability level the Project''s collaborators aim to maintain.
+
+              '
+          critical_stability:
+            $ref: '#/components/schemas/StabilityTarget'
+            description: 'The minimum stability acceptable to the Project collaborators.
+
+              '
+    SpanHttpStatistics:
+      type: object
+      required:
+      - response_code
+      properties:
+        response_code:
+          type: number
+          example: 200
+          description: The response status code for the Span
+    TeamSuggestionApiView:
       type: object
       properties:
-        largest_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The largest contentful paint time in milliseconds
-        first_input_delay:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The first input delay time in milliseconds
-        first_input_delay_ended_at:
-          type:
-          - string
-          - 'null'
-          example: '2023-04-11T13:14:25.123Z'
-          description: The time the first input delay ended
-        cumulative_layout_shift:
-          type:
-          - number
-          - 'null'
-          example: 0.2
-          description: Measure of how often visible elements move unexpectedly
-        time_to_first_byte:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The time to first byte in milliseconds
-        first_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The first contentful paint time in milliseconds
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000002
+        project_name:
+          type: string
+          example: iOS App
+        is_member:
+          type: boolean
+          example: true
+          description: Is the collaborator already a member?
+      required:
+      - project_id
+      - project_name
+      - is_member
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
+    SpanSystemMetricsCpu:
+      type: object
+      required:
+      - total
+      - main_thread
+      properties:
+        total:
+          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
+          description: Details of the total CPU usage measured at intervals across the Span's lifetime
+        main_thread:
+          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
+          description: Details of the main thread CPU usage measured at intervals across the Span's lifetime
+    OrganizationUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationBase'
+      - type: object
+        properties:
+          invoice_address:
+            type: string
+            description: Additional information to print on your invoice
+            example: Vendor ID number 4567
+          invoice_info:
+            type: string
+            description: Deprecated field. Use `invoice_address`
+            example: Vendor ID number 4567
+    TeamProjectAccessesProjectRoles:
+      type: object
+      properties:
+        515fb9337c1074f6fd000002:
+          $ref: '#/components/schemas/ProjectRole'
+          example: project_member
+      description: A map of project IDs to the roles to be assigned to them. Must be `project_owner` unless the organization has access to the `enterprise-roles` feature. Cannot be supplied if `add_all_projects` is `true`.
+      required:
+      - 515fb9337c1074f6fd000002
+    CreateTeamMembershipRequest:
+      type: object
+      properties:
+        team_ids:
+          type: array
+          items:
+            type: string
+          description: IDs of the teams to assign the collaborator to. This variable is optional, but required if add_all_teams is false
+        add_all_teams:
+          type: boolean
+          description: Whether to assign the collaborator to all teams in the organization
     Filters:
       type: object
       properties:
@@ -3564,37 +3848,82 @@ components:
             required:
             - type
             - value
-    TeamProjectSuggestionApiView:
+    OrganizationApiView:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationBase'
+      - type: object
+        required:
+        - id
+        - slug
+        - created_at
+        - updated_at
+        - managed_by_platform_services
+        properties:
+          id:
+            type: string
+            example: 515fb9337c1074f6fd000007
+          slug:
+            type: string
+            example: acme-co
+          api_key:
+            type: string
+            description: The notifier API used to send traces to this organization.
+            example: ac21b75c8b74c472cbdb74d6fcd475660d
+          creator:
+            type: object
+            properties:
+              email:
+                type: string
+                example: emily@example.com
+              id:
+                type: string
+                example: 58c9b9b09ef17217f1fb8b30
+              name:
+                type: string
+                example: James Smith
+          collaborators_url:
+            type: string
+            description: API URL for the Organization's Collaborators.
+            example: https://api.bugsnag.com/organizations/515fb9337c1074f6fd000007/collaborators
+          projects_url:
+            type: string
+            description: API URL for the Organization's Projects.
+            example: https://api.bugsnag.com/organizations/515fb9337c1074f6fd000007/projects
+          created_at:
+            type: string
+            format: date-time
+            example: '2017-04-24T22:17:13.000Z'
+          updated_at:
+            type: string
+            format: date-time
+            example: '2017-04-24T22:17:13.000Z'
+          upgrade_url:
+            type: string
+            example: http://app.bugsnag.com/settings/acme-co/plans-billing/select-plan
+          managed_by_platform_services:
+            type: boolean
+            description: Whether the organization is managed by SmartBear Platform Services.
+            example: false
+    TeamApiView:
       type: object
       properties:
-        project_id:
+        id:
           type: string
-          example: 515fb9337c1074f6fd000002
-        project_name:
+          example: 515fb9337c1074f6fd000007
+        name:
           type: string
-          example: iOS App
-        type:
-          type: string
-          example: ios
-          description: The project type
-        has_access:
-          type: boolean
-          example: true
-          description: Does the team already have access?
-      required:
-      - project_id
-      - project_name
-      - type
-      - has_access
-    SpanSystemMetricsCpuStatistics:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
+          example: acme-co
+        collaborator_count:
           type: number
-          example: 0.5
-          description: The mean value of the measurements (as a percentage)
+          example: 21
+        project_count:
+          type: number
+          example: 4
+      required:
+      - id
+      - name
+      - collaborator_count
+      - project_count
     SeverityOptions:
       type: string
       enum:
@@ -3608,147 +3937,176 @@ components:
         - error - the default severity for uncaught exceptions and crashes
 
         '
-    TeamProjectAccessesProjectRoles:
-      type: object
-      properties:
-        515fb9337c1074f6fd000002:
-          $ref: '#/components/schemas/ProjectRole'
-          example: project_member
-      description: A map of project IDs to the roles to be assigned to them. Must be `project_owner` unless the organization has access to the `enterprise-roles` feature. Cannot be supplied if `add_all_projects` is `true`.
-      required:
-      - 515fb9337c1074f6fd000002
-    SpanSystemMetricsCpu:
-      type: object
-      required:
-      - total
-      - main_thread
-      properties:
-        total:
-          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
-          description: Details of the total CPU usage measured at intervals across the Span's lifetime
-        main_thread:
-          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
-          description: Details of the main thread CPU usage measured at intervals across the Span's lifetime
-    Span:
+    ProjectCollaboratorAccessSummaryApiView:
       type: object
       properties:
         id:
           type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the span
-        parent_span_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the parent span if applicable
-        trace_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the trace
-        category:
-          type: string
-          example: app_start
-          description: The category of the span
+          example: 611a24ff5d0d567c3cdee720
+          description: The ID of the collaborator.
         name:
           type: string
-          example: My Span
-          description: The name of the span
-        display_name:
+          example: Joe Bloggs
+          description: The name of the collaborator.
+        email:
           type: string
-          example: App Start - My Span
-          description: The name of the span for display purposes
-        duration:
-          type: number
-          example: 1000
-          description: The duration of the span in milliseconds
-        timestamp:
+          example: joe@example.com
+          description: The collaborator's email.
+        project_role:
           type: string
-          example: '2023-04-11T13:14:25.123Z'
-          description: The timestamp we've attributed to the Span
-        time_adjustment_type:
-          type: string
-          enum:
-          - adjusted
-          - device
-          - received
-          - unadjusted
-          example: adjusted
-          description: How the time was adjusted
-        start_time:
-          type: string
-          example: '2023-04-11T13:14:25.123Z'
-          description: The time the span started
-        is_first_class:
+          example: project_owner
+          description: The role the collaborator has on the project.
+        account_admin:
           type: boolean
           example: true
-          description: Whether the span is first class or just a sub-span
-        build_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the build that this span is associated with
-        project_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the project that this span is associated with
-        span_group_id:
-          type: string
-          example: 1.app_start.My Span
-          description: The id of the span group if applicable
-        virtual_span_group_id:
-          type: string
-          example: 1.page_load./my/route
-          description: The raw id of the page load span group if applicable
-        statistics:
-          $ref: '#/components/schemas/SpanStatistics'
-          description: Any additional statistics for the span
-        metadata:
-          $ref: '#/components/schemas/SpanMetadata'
-          description: Additional metadata for the span
-      required:
-      - id
-      - trace_id
-      - category
-      - name
-      - display_name
-      - duration
-      - timestamp
-      - time_adjustment_type
-      - start_time
-      - is_first_class
-    ProjectRoles:
-      type: object
-      properties:
-        515fb9337c1074f6fd000001:
-          type: string
-          example: project_member
-      required:
-      - 515fb9337c1074f6fd000001
-    AdvancedFiltersFilterGroups:
-      type: object
-      description: "A map of filter groups, where each group is keyed with a unique identifier for the group e.g:\n```\n{\n \"0\": { ... },\n \"1\": { ... }\n}\n```\nSee the [Advanced Filters documentation](https://developer.smartbear.com/bugsnag/docs/data-access-filtering#advanced-filters) for more details.\n"
-      additionalProperties:
-        $ref: '#/components/schemas/AdvancedFiltersFilterGroup'
-    OrganizationUpdateRequest:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationBase'
-      - type: object
-        properties:
-          invoice_address:
-            type: string
-            description: Additional information to print on your invoice
-            example: Vendor ID number 4567
-          invoice_info:
-            type: string
-            description: Deprecated field. Use `invoice_address`
-            example: Vendor ID number 4567
-    EventDataRequestStatus:
+          description: Indicates if the collaborator is an administrator for the organization.
+    PerformanceDisplayType:
       type: string
       enum:
-      - PREPARING
-      - AWAITING_CONFIRMATION
-      - ACCEPTED
-      - IN_PROGRESS
-      - COMPLETED
-      - EXPIRED
+      - js
+      - mobile
+      - server
+      - webserver_backend
+      - webserver_frontend
+      - webserver_mixed
+      - unsupported
+    ProjectBase:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Project
+        global_grouping:
+          type: array
+          description: 'A list of error classes. Events with these classes will be grouped by their
+
+            class, regardless of the location that they occur in the Project''s source
+
+            code. Altering a Project''s `global_grouping` will not cause existing errors
+
+            to be regrouped.
+
+
+            Note: In the UI this is referred to as grouping by error class.
+
+
+            Example:
+
+
+            ```
+
+            ["foo", "bar"]
+
+            ```
+
+            '
+          items:
+            example:
+            - Redis::CannotConnectError
+            - Mongo::Error:SocketError
+        location_grouping:
+          type: array
+          description: 'A list of error classes. Events with these classes will be grouped by their
+
+            `context`. Altering a Project''s `location_grouping` will not cause existing errors
+
+            to be regrouped.
+
+
+            Note: In the UI this is referred to as grouping by error context.
+
+            '
+          items:
+            example:
+            - Timeout::Error
+        discarded_app_versions:
+          type: array
+          description: 'A list of app versions whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-app-version) if received for the Project. Supports [regular expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions) and [semver ranges](https://github.com/npm/node-semver#ranges). Errors matching these versions won''t be processed by Bugsnag, and you won''t receive notifications about them.
+
+            '
+          items:
+            example:
+            - alpha
+            - < 2.2.2
+            - 3.0.0
+        discarded_errors:
+          type: array
+          description: 'A list of Error classes whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-error-class) if received for the Project. Errors with these classes won''t be processed by Bugsnag, and you won''t receive notifications about them.
+
+            '
+          items:
+            example:
+            - Example::Error
+        url_whitelist:
+          type: array
+          description: 'When configured, the script source of each error''s innermost stack trace''s top frame is checked. If the script was not served from a matching domain the error will not be processed by BugSnag and will be discarded.
+
+
+            Provide a list of newline separated domain names. To match example.com and its subdomains specify *.example.com.
+
+
+            Relevant to JavaScript Projects only.
+
+            '
+          items:
+            example:
+            - example.com
+        ignore_old_browsers:
+          type: boolean
+          example: true
+          description: 'Whether the Events in the Project will be ignored if they originate from
+
+            old web browsers.
+
+
+            Relevant to JavaScript Projects only.
+
+            '
+        ignored_browser_versions:
+          type: object
+          description: 'Relevant to JavaScript Projects only.
+
+
+            A mapping a of browser name to browser version. If set, Events in the
+
+            Project will be ignored if they originate from a browser specified here
+
+            whose version is earlier than the given version.
+
+
+            Keys must be one of the following strings: chrome, ie, firefox, safari, android, uc, opera, opera_mini, samsung, blackberry, sogou, other.
+
+
+            Values must be a number indicating which which version to ignore up to (but not including), or one of the strings: `ignore_all`, `ignore_none`
+
+
+            Example:
+
+
+            ```
+
+            {
+
+            "chrome": "ignore_none",
+
+            "safari": 6,
+
+            "other": "ignore_all"
+
+            }
+
+            ```
+
+            '
+        resolve_on_deploy:
+          type: boolean
+          example: true
+          description: 'If true, every error in the Project will be marked as ''fixed'' after using the Deploy Tracking API to notify Bugsnag of a new production deploy.
+
+
+            Applies to non-JavaScript Projects only.
+
+            '
     TeamCreateRequest:
       type: object
       properties:
@@ -3756,272 +4114,150 @@ components:
           type: string
       required:
       - name
-    ProjectApiView:
-      allOf:
-      - $ref: '#/components/schemas/ProjectBase'
-      - type: object
-        properties:
-          id:
-            type: string
-            example: 515fb9337c1074f6fd000003
-          organization_id:
-            type: string
-            example: 515fb9337c1074f6fd000007
-          type:
-            $ref: '#/components/schemas/ProjectType'
-          performance_display_type:
-            $ref: '#/components/schemas/PerformanceDisplayType'
-          slug:
-            type: string
-            example: example-project
-            description: 'unique, human-readable identifier that can be used in place of `id` in URLs
-
-              '
-          api_key:
-            type: string
-            example: deadbeef1234deadbeef1234deadbeef
-            description: 'the notifier API key used to configure the [notifier
-
-              library](https://docs.bugsnag.com/platforms/) being used to report errors in
-
-              the project
-
-              '
-          upload_api_key:
-            type:
-            - string
-            - 'null'
-            example: cafe1234cafe1234cafe1234cafe1234
-            description: 'the upload API key used to authenticate file upload requests (source maps, proguard files, etc.).
-
-              If null, the project does not have a separate upload API key configured.
-
-              '
-          must_use_upload_api_key:
-            type: boolean
-            example: false
-            description: 'whether upload requests must use the upload_api_key for authentication.
-
-              If true, the regular api_key will not be accepted for upload endpoints.
-
-              '
-          is_full_view:
-            type: boolean
-            example: true
-            description: 'Always true for this endpoint. Used to differentiate between terse and complete project
-
-              representations.
-
-              '
-          release_stages:
-            type: array
-            items:
-              example:
-              - staging
-              - production
-            description: 'The release stages for which this project has received events.
-
-              This will be an array of strings whose values will depend on your Project.
-
-              '
-          language:
-            type: string
-            example: ruby
-            description: 'The Project''s programming language as derived from the framework represented in the `type` field
-
-              '
-          created_at:
-            type: string
-            example: '2017-03-02T05:55:55.555Z'
-            description: 'The time of the Project''s creation.
-
-              '
-          updated_at:
-            type: string
-            example: '2017-03-03T05:55:55.555Z'
-            description: 'The time the Project was last modified.
-
-              '
-          url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003
-            description: 'The API URL for the Project.
-
-              '
-          html_url:
-            type: string
-            example: https://app.bugsnag.com/example-account/example-project
-            description: 'The dashboard URL for the project.
-
-              '
-          errors_url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/errors
-            description: 'The API URL for the Project''s Errors.
-
-              '
-          events_url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/events
-            description: 'The API URL for the Project''s Events.
-
-              '
-          open_error_count:
-            type: number
-            example: 10
-            description: 'The number of open errors the Project has. Considers all events currently stored
-
-              for the Project.
-
-              '
-          for_review_error_count:
-            type: number
-            example: 5
-            description: 'The number of errors for review the Project has. Considers all events currently stored
-
-              for the Project.
-
-              '
-          collaborators_count:
-            type: number
-            example: 15
-            description: 'The number of collaborators with access to the Project.
-
-              '
-          teams_count:
-            type: number
-            example: 5
-            description: 'The number of teams with access to the Project.
-
-              '
-          custom_event_fields_used:
-            type: number
-            example: 5
-            description: 'The count of how many [Custom Filters](https://docs.bugsnag.com/product/custom-filters/) have been created for the Project.
-
-              '
-          ecmascript_parse_version:
-            type: object
-            description: 'The details of the ECMAScript version used to parse JavaScript events. Only present for Browser JavaScript Projects.
-
-              '
-          stability_target_type:
-            type: string
-            example: session
-            description: 'Whether the project should use stability targets based on sessions or users. Values are `user` or `session`.
-
-              '
-          target_stability:
-            $ref: '#/components/schemas/StabilityTarget'
-            description: 'The stability level the Project''s collaborators aim to maintain.
-
-              '
-          critical_stability:
-            $ref: '#/components/schemas/StabilityTarget'
-            description: 'The minimum stability acceptable to the Project collaborators.
-
-              '
-    AdvancedFiltersFilterGroup:
+    SpanSystemMetricsCpuStatistics:
       type: object
-      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
+      required:
+      - mean
       properties:
-        join:
-          $ref: '#/components/schemas/FilterGroupJoinOperator'
-          description: The operator to use when joining filters within this group
-        AdditionalProperties:
-          $ref: '#/components/schemas/Filters'
+        mean:
+          type: number
+          example: 0.5
+          description: The mean value of the measurements (as a percentage)
+    TeamProjectAccessesUpdate:
+      type: object
+      properties:
+        add_all_projects:
+          type: boolean
+          example: true
+          description: Whether to add all remaining projects to the team. If `true`, `project_role` must also be supplied. User making the request must be an organization administrator if using `true`.
+        project_role:
+          $ref: '#/components/schemas/ProjectRole'
+          example: project_member
+          description: The role to give team members on the remaining projects being added.
+        project_roles:
+          $ref: '#/components/schemas/TeamProjectAccessesProjectRoles'
+          description: A hash of project IDs and roles to add to the team. User making the request must be `project_owner` for all projects on the request, or an organization administrator.
+    SpanSystemMetrics:
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/SpanSystemMetricsCpu'
+          description: Details about the CPU usage of the Span
+        memory:
+          $ref: '#/components/schemas/SpanSystemMetricsMemory'
+          description: Details about the device memory of the Span
+    SpanCategoryStatisticsFullPageLoad:
+      type: object
+      properties:
+        largest_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The largest contentful paint time in milliseconds
+        first_input_delay:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The first input delay time in milliseconds
+        first_input_delay_ended_at:
+          type:
+          - string
+          - 'null'
+          example: '2023-04-11T13:14:25.123Z'
+          description: The time the first input delay ended
+        cumulative_layout_shift:
+          type:
+          - number
+          - 'null'
+          example: 0.2
+          description: Measure of how often visible elements move unexpectedly
+        time_to_first_byte:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The time to first byte in milliseconds
+        first_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The first contentful paint time in milliseconds
+    SpanMetadata:
+      type: object
+      required:
+      - key
+      - value
+      - level
+      properties:
+        key:
+          type: string
+          example: device.id
+          description: The key of the metadata
+        value:
+          type: string
+          example: '1234'
+          description: The value of the metadata. May be a string or an integer.
+        level:
+          $ref: '#/components/schemas/SpanMetadataLevel'
+          description: The location of the metadata attribute within the Trace payload
+    SpanRenderingStatisticsFrameRate:
+      type: object
+      required:
+      - fps_mean
+      - fps_minimum
+      - fps_maximum
+      properties:
+        fps_mean:
+          type: number
+          example: 55
+          description: The average FPS for a Span
+        fps_minimum:
+          type: number
+          example: 5
+          description: The lowest seen FPS for a Span
+        fps_maximum:
+          type: number
+          example: 60
+          description: The highest seen FPS for a Span
+    TeamUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+    AdvancedFiltersFilterGroups:
+      type: object
+      description: "A map of filter groups, where each group is keyed with a unique identifier for the group e.g:\n```\n{\n \"0\": { ... },\n \"1\": { ... }\n}\n```\nSee the [Advanced Filters documentation](https://developer.smartbear.com/bugsnag/docs/data-access-filtering#advanced-filters) for more details.\n"
+      additionalProperties:
+        $ref: '#/components/schemas/AdvancedFiltersFilterGroup'
     ProjectRole:
       type: string
       enum:
       - project_owner
       - project_member
-    CollaboratorProjectAccessApiView:
+    OrganizationBase:
       type: object
-      properties:
-        project_summary:
-          $ref: '#/components/schemas/ProjectAccessSummary'
-          description: Details of the project.
-        team_count:
-          type: number
-          example: 5
-          description: The number of teams the collaborator belongs to that have access to the project.
-        is_admin:
-          type: boolean
-          example: true
-          description: Indicates if the collaborator is an administrator for the organization.
-        project_role:
-          type: string
-          example: project_owner
-          description: The overall role that the Collaborator has on the Project (based on the individual and Team roles). This will be the most permissive of the individual and Team roles. One of "project_owner", "project_member".
-        individual_project_role:
-          type: string
-          example: project_owner
-          description: The role that the Collaborator has on the Project as an individual (ignoring any Team access). One of "project_owner", "project_member".
-        team_project_role:
-          type: string
-          example: project_member
-          description: The role that the Collaborator has on the Project from the Teams that they belong to. If the Collaborator belongs to multiple Teams this will be the most permissive role. One of "project_owner", "project_member"
       required:
-      - is_admin
-    ProjectAccessCountsApiView:
-      type: object
+      - name
+      - auto_upgrade
       properties:
-        collaborator_id:
+        name:
           type: string
-          example: 515fb9337c1074f6fd000001
-        project_count:
-          type: number
-          example: 10
-          description: The number of projects the user has access to.
-        is_admin:
-          type: boolean
-          example: true
-          description: Whether the collaborator is an admin on the account.
-      required:
-      - collaborator_id
-      - project_count
-      - is_admin
-    EventDataDeletionApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5bf4b8aed1befa02a523f526
-          description: ID of the event deletion request
-        status:
-          $ref: '#/components/schemas/EventDataRequestStatus'
-          example: IN_PROGRESS
-          description: status of the request
-        total:
-          type: number
-          example: 12
-          description: the total number of events that are expected to be deleted; this field will be null if the status is `PREPARING`
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: The filters used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups:
+          example: Acme Co.
+        billing_emails:
+          type: array
           items:
-            $ref: '#/components/schemas/FilterGroup'
-          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups_join:
-          type: string
-          enum:
-          - AND
-          - OR
-          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        created_at:
-          type: string
-          example: '2018-11-21T01:31:25.000Z'
-          description: when the request was created
-        completed_at:
-          type: string
-          example: '2018-11-21T01:35:00.000Z'
-          description: when the request was completed
-      required:
-      - id
-      - status
-      - filters
-      - created_at
+            type: string
+          example:
+          - emily@example.com
+        auto_upgrade:
+          type: boolean
+          description: whether we should upgrade your plan in response to the organization reaching its plan limit of events. If this value is `false` your events will be throttled when you reach your plan limit.
+          example: true
     TeamProjectAccessApiView:
       type: object
       properties:
@@ -4034,6 +4270,34 @@ components:
       required:
       - project_summary
       - project_role
+    FilterGroup:
+      type: object
+      description: A group of filters that are joined together using the specified join operator.
+      properties:
+        join:
+          $ref: '#/components/schemas/FilterGroupJoinOperator'
+          description: The operator to use when joining filters within this group
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters in this group. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+      required:
+      - join
+      - filters
+    ProjectAccessApiView:
+      type: object
+      properties:
+        team:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamProjectAccessSummaryApiView'
+          description: Details of the teams with access to this project.
+        collaborators:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectCollaboratorAccessSummaryApiView'
+          description: Details of the collaborators with access to this project.
     CollaboratorApiView:
       type: object
       properties:
@@ -4125,76 +4389,32 @@ components:
           $ref: '#/components/schemas/SpanRenderingStatistics'
         http_statistics:
           $ref: '#/components/schemas/SpanHttpStatistics'
-    FilterMatchType:
-      type: string
-      enum:
-      - eq
-      - ne
-      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
-
-        - ne - Filter for items that don''t match the value
-
-        '
-    PerformanceDisplayType:
-      type: string
-      enum:
-      - js
-      - mobile
-      - server
-      - webserver_backend
-      - webserver_frontend
-      - webserver_mixed
-      - unsupported
-    SpanMetadataLevel:
-      type: string
-      enum:
-      - unspecified
-      - resource
-      - span
-    TeamApiView:
+    ProjectRoles:
       type: object
       properties:
-        id:
+        515fb9337c1074f6fd000001:
           type: string
-          example: 515fb9337c1074f6fd000007
-        name:
-          type: string
-          example: acme-co
-        collaborator_count:
-          type: number
-          example: 21
-        project_count:
-          type: number
-          example: 4
+          example: project_member
       required:
-      - id
-      - name
-      - collaborator_count
-      - project_count
-    EventDataRequestApiView:
+      - 515fb9337c1074f6fd000001
+    EventDataDeletionApiView:
       type: object
       properties:
         id:
           type: string
-          example: 5bf49d97468ce913212ae486
-          description: ID of the event data request
-        url:
-          type: string
-          description: URL for downloading the report of the requested event data. This may be a signed URL that is accessible for short amount of time.<br><br>This field is not present for on-premise installations. You can check event data requests in on-premise through the Minio UI by port forwarding it using `kubectl -n bugsnag port-forward svc/minio 9000:9000` and opening the Minio UI at http://localhost:9000. The access key and secret key can be retrieved via `kubectl -n bugsnag get secret minio -o jsonpath='{.data.accesskey}' | base64 -d; echo` and `kubectl -n bugsnag get secret minio -o jsonpath='{.data.secretkey}' | base64 -d; echo` respectively. Single node installations should omit `-n bugsnag` from commands.
+          example: 5bf4b8aed1befa02a523f526
+          description: ID of the event deletion request
         status:
           $ref: '#/components/schemas/EventDataRequestStatus'
-          example: ACCEPTED
+          example: IN_PROGRESS
           description: status of the request
         total:
           type: number
-          example: 10
-          description: the total number of events that are expected to be returned; this field will be null if the status is `PREPARING`
-        report_type:
-          $ref: '#/components/schemas/EventDataRequestReportType'
-          description: the type of report to return; this is blank if all event fields were requested
+          example: 12
+          description: the total number of events that are expected to be deleted; this field will be null if the status is `PREPARING`
         filters:
           $ref: '#/components/schemas/Filters'
-          description: The filters used to determine which events will be included in the report. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+          description: The filters used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
         filter_groups:
           items:
             $ref: '#/components/schemas/FilterGroup'
@@ -4213,39 +4433,11 @@ components:
           type: string
           example: '2018-11-21T01:35:00.000Z'
           description: when the request was completed
-        expires_at:
-          type: string
-          example: '2018-11-28T01:35:00.000Z'
-          description: when the request expires (and any stored data is removed)
       required:
       - id
       - status
       - filters
       - created_at
-    ProjectAccessApiView:
-      type: object
-      properties:
-        team:
-          type: array
-          items:
-            $ref: '#/components/schemas/TeamProjectAccessSummaryApiView'
-          description: Details of the teams with access to this project.
-        collaborators:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProjectCollaboratorAccessSummaryApiView'
-          description: Details of the collaborators with access to this project.
-    TeamMembershipsAddUsersRequest:
-      type: object
-      properties:
-        collaborator_ids:
-          type: array
-          items:
-            type: string
-          description: Collaborators to add to the team.
-        add_all_collaborators:
-          type: boolean
-          description: Add all organization collaborators to the team. This should not be set if `collaborator_ids` is specified.
     TeamProjectAccessSummaryApiView:
       type: object
       properties:
@@ -4265,255 +4457,63 @@ components:
           type: number
           example: 20
           description: The number of collaborators in the team.
-    ErrorStatus:
-      type: string
-      enum:
-      - open
-      - in progress
-      - for_review
-      - fixed
-      - snoozed
-      - ignored
-    OrganizationApiView:
-      allOf:
-      - $ref: '#/components/schemas/OrganizationBase'
-      - type: object
-        required:
-        - id
-        - slug
-        - created_at
-        - updated_at
-        - managed_by_platform_services
-        properties:
-          id:
-            type: string
-            example: 515fb9337c1074f6fd000007
-          slug:
-            type: string
-            example: acme-co
-          api_key:
-            type: string
-            description: The notifier API used to send traces to this organization.
-            example: ac21b75c8b74c472cbdb74d6fcd475660d
-          creator:
-            type: object
-            properties:
-              email:
-                type: string
-                example: emily@example.com
-              id:
-                type: string
-                example: 58c9b9b09ef17217f1fb8b30
-              name:
-                type: string
-                example: James Smith
-          collaborators_url:
-            type: string
-            description: API URL for the Organization's Collaborators.
-            example: https://api.bugsnag.com/organizations/515fb9337c1074f6fd000007/collaborators
-          projects_url:
-            type: string
-            description: API URL for the Organization's Projects.
-            example: https://api.bugsnag.com/organizations/515fb9337c1074f6fd000007/projects
-          created_at:
-            type: string
-            format: date-time
-            example: '2017-04-24T22:17:13.000Z'
-          updated_at:
-            type: string
-            format: date-time
-            example: '2017-04-24T22:17:13.000Z'
-          upgrade_url:
-            type: string
-            example: http://app.bugsnag.com/settings/acme-co/plans-billing/select-plan
-          managed_by_platform_services:
-            type: boolean
-            description: Whether the organization is managed by SmartBear Platform Services.
-            example: false
-    FilterGroup:
-      type: object
-      description: A group of filters that are joined together using the specified join operator.
-      properties:
-        join:
-          $ref: '#/components/schemas/FilterGroupJoinOperator'
-          description: The operator to use when joining filters within this group
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: 'The filters in this group. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-
-            '
-      required:
-      - join
-      - filters
-    TeamUpdateRequest:
-      type: object
-      properties:
-        name:
-          type: string
-      required:
-      - name
-    SpanRenderingStatisticsFrameRate:
-      type: object
-      required:
-      - fps_mean
-      - fps_minimum
-      - fps_maximum
-      properties:
-        fps_mean:
-          type: number
-          example: 55
-          description: The average FPS for a Span
-        fps_minimum:
-          type: number
-          example: 5
-          description: The lowest seen FPS for a Span
-        fps_maximum:
-          type: number
-          example: 60
-          description: The highest seen FPS for a Span
-    SpanSystemMetrics:
-      type: object
-      properties:
-        cpu:
-          $ref: '#/components/schemas/SpanSystemMetricsCpu'
-          description: Details about the CPU usage of the Span
-        memory:
-          $ref: '#/components/schemas/SpanSystemMetricsMemory'
-          description: Details about the device memory of the Span
-    StabilityTarget:
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: number
-          example: 0.99
-          description: The target value of the proportion of unhandled_sessions/total_sessions.
-        updated_at:
-          type:
-          - string
-          - 'null'
-          example: '2017-03-02T05:55:55.555Z'
-          description: (Updated automatically) The time the target was last updated.
-        updated_by_id:
-          type:
-          - string
-          - 'null'
-          example: 515fb9337c1074f6fd000001
-          description: (Updated automatically) The id of the collaborator that last updated the value.
-    ProjectType:
-      type: string
-      enum:
-      - android
-      - angular
-      - asgi
-      - aspnet
-      - aspnet_core
-      - backbone
-      - bottle
-      - cocos2dx
-      - connect
-      - django
-      - dotnet
-      - dotnet_desktop
-      - dotnet_mvc
-      - electron
-      - ember
-      - eventmachine
-      - expo
-      - express
-      - flask
-      - flutter
-      - gin
-      - go
-      - go_net_http
-      - heroku
-      - ios
-      - java
-      - java_desktop
-      - js
-      - vega
-      - koa
-      - laravel
-      - lumen
-      - magento
-      - martini
-      - minidump
-      - ndk
-      - negroni
-      - nintendo_switch
-      - node
-      - osx
-      - other_desktop
-      - other_mobile
-      - other_tv
-      - php
-      - python
-      - rack
-      - rails
-      - react
-      - reactnative
-      - restify
-      - revel
-      - ruby
-      - silex
-      - sinatra
-      - spring
-      - symfony
-      - tornado
-      - tvos
-      - unity
-      - unrealengine
-      - vue
-      - watchos
-      - webapi
-      - wordpress
-      - wpf
-      - wsgi
-      - other
-      description: used for Projects that use a framework other than those listed above
-    EventDataRequestReportType:
-      type: string
-      enum:
-      - gdpr
-      description: only include event fields that pertain to the user such as event.user, event.device, and event.request; you may need to remove/redact some fields before giving this data to your users that request it
-    TeamProjectAccessesUpdate:
-      type: object
-      properties:
-        add_all_projects:
-          type: boolean
-          example: true
-          description: Whether to add all remaining projects to the team. If `true`, `project_role` must also be supplied. User making the request must be an organization administrator if using `true`.
-        project_role:
-          $ref: '#/components/schemas/ProjectRole'
-          example: project_member
-          description: The role to give team members on the remaining projects being added.
-        project_roles:
-          $ref: '#/components/schemas/TeamProjectAccessesProjectRoles'
-          description: A hash of project IDs and roles to add to the team. User making the request must be `project_owner` for all projects on the request, or an organization administrator.
     SpanRenderingStatistics:
       type: object
       properties:
         frame_rate_statistics:
           $ref: '#/components/schemas/SpanRenderingStatisticsFrameRate'
           description: Statistics about frame rate measurements recorded while the Span was active
-  parameters:
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    OrganizationId:
-      name: organization_id
-      in: path
-      required: true
-      description: The unique identifier of the organization.
-      schema:
-        type: string
+    SpanMetadataLevel:
+      type: string
+      enum:
+      - unspecified
+      - resource
+      - span
+    TeamProjectSuggestionApiView:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000002
+        project_name:
+          type: string
+          example: iOS App
+        type:
+          type: string
+          example: ios
+          description: The project type
+        has_access:
+          type: boolean
+          example: true
+          description: Does the team already have access?
+      required:
+      - project_id
+      - project_name
+      - type
+      - has_access
+    FilterGroupJoinOperator:
+      type: string
+      enum:
+      - and
+      - or
+      description: 'The join operator to apply between filters within a group.
+
+        - and (default) - All conditions must be satisfied
+
+        - or - At least one condition must be satisfied
+
+        '
+    SpanSystemMetricsMemory:
+      type: object
+      required:
+      - device
+      properties:
+        device:
+          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
+          description: Details of the device memory measured at intervals across the Span's lifetime
+        android_runtime:
+          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
+          description: Details of the Android Runtime memory measured at intervals across the Span's lifetime
   responses:
     organization_not_found:
       description: Organization could not be found. Check the supplied `organization_id`.
@@ -4559,4 +4559,4 @@ externalDocs:
   url: https://docs.bugsnag.com/api/data-access/
 x-refined-from:
 - bugsnag-data-access-openapi.yml
-- bugsnag-data-access-api-openapi.json
+- bugsnag-organizations-api-openapi.yml

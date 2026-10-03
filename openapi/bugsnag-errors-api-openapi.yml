@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Bugsnag Errors API
   version: '1.0'
-  description: 'Operations tagged Errors across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Errors across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-errors-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bugsnag.com
   description: Bugsnag Production API Server
@@ -97,6 +97,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    servers:
+    - url: https://api.bugsnag.com
+      description: Bugsnag Production API Server
     patch:
       tags:
       - Errors
@@ -210,9 +213,6 @@ paths:
                 example:
                   errors:
                   - Project not found
-    servers:
-    - url: https://api.bugsnag.com
-      description: Bugsnag Production API Server
   /projects/{project_id}/errors/{error_id}:
     get:
       operationId: getError
@@ -304,6 +304,15 @@ paths:
     - url: https://api.bugsnag.com
       description: Bugsnag Production API Server
   /projects/{project_id}/events/{event_id}:
+    servers:
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+    - description: For organizations with projects on app.bugsnag.com
+      url: https://api.bugsnag.com
+    - description: For organizations with projects on app.bugsnag.smartbear.com
+      url: https://api.bugsnag.smartbear.com
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
     delete:
       tags:
       - Errors
@@ -339,6 +348,7 @@ paths:
                 example:
                   errors:
                   - Event not found
+  /errors/{error_id}/latest_event:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -348,7 +358,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /errors/{error_id}/latest_event:
     get:
       tags:
       - Errors
@@ -382,6 +391,7 @@ paths:
                 example:
                   errors:
                   - Error not found
+  /projects/{project_id}/events:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -391,7 +401,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/events:
     get:
       tags:
       - Errors
@@ -487,6 +496,7 @@ paths:
                 example:
                   errors:
                   - Error not found
+  /projects/{project_id}/errors/{error_id}/trends:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -496,7 +506,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/errors/{error_id}/trends:
     get:
       tags:
       - Errors
@@ -578,6 +587,7 @@ paths:
                 errors:
                 - Buckets count must be between 1 and 50
                 - Too many data points requested. Please use a narrower time range or lower resolution.
+  /projects/{project_id}/trends:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -587,7 +597,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/trends:
     get:
       tags:
       - Errors
@@ -663,6 +672,7 @@ paths:
                 errors:
                 - Buckets count must be between 1 and 50
                 - Too many data points requested. Please use a narrower time range or lower resolution.
+  /projects/{project_id}/errors/{error_id}/pivots:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -672,7 +682,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/errors/{error_id}/pivots:
     get:
       tags:
       - Errors
@@ -773,6 +782,7 @@ paths:
               example:
                 errors:
                 - Error not found
+  /projects/{project_id}/errors/{error_id}/pivots/{event_field_display_id}/values:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -782,7 +792,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/errors/{error_id}/pivots/{event_field_display_id}/values:
     get:
       tags:
       - Errors
@@ -897,6 +906,7 @@ paths:
                 errors:
                 - Unable to return complete results
                 code: 60000
+  /projects/{project_id}/pivots/{event_field_display_id}/values:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -906,7 +916,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/pivots/{event_field_display_id}/values:
     get:
       tags:
       - Errors
@@ -1014,6 +1023,7 @@ paths:
                 errors:
                 - Unable to return complete results
                 code: 60000
+  /comments/{comment_id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1023,7 +1033,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /comments/{comment_id}:
     patch:
       tags:
       - Errors
@@ -1101,48 +1110,32 @@ paths:
               example:
                 errors:
                 - Only the comment owner or an Organization Administrator can delete a comment
-    servers:
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
-    - description: For organizations with projects on app.bugsnag.com
-      url: https://api.bugsnag.com
-    - description: For organizations with projects on app.bugsnag.smartbear.com
-      url: https://api.bugsnag.smartbear.com
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
 components:
+  parameters:
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
-    ErrorUpdate:
-      type: object
-      description: Request body for updating an error's status or severity.
-      properties:
-        status:
-          type: string
-          enum:
-          - open
-          - fixed
-          - snoozed
-          - ignored
-          description: The new status for the error.
-        severity:
-          type: string
-          enum:
-          - error
-          - warning
-          - info
-          description: The new severity level for the error.
-        assigned_collaborator_id:
-          type: string
-          description: The ID of the collaborator to assign to this error.
     ErrorItem:
       type: object
       description: Represents a grouped error in Bugsnag, which aggregates multiple individual events with the same error class and message.
@@ -1230,6 +1223,580 @@ components:
         assigned_collaborator_id:
           type: string
           description: The ID of the collaborator assigned to this error.
+    ErrorUpdate:
+      type: object
+      description: Request body for updating an error's status or severity.
+      properties:
+        status:
+          type: string
+          enum:
+          - open
+          - fixed
+          - snoozed
+          - ignored
+          description: The new status for the error.
+        severity:
+          type: string
+          enum:
+          - error
+          - warning
+          - info
+          description: The new severity level for the error.
+        assigned_collaborator_id:
+          type: string
+          description: The ID of the collaborator to assign to this error.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
+    _CoreFrameFields:
+      type: object
+      properties:
+        lineNumber:
+          type: number
+          description: The line of the file that this frame of the stack was in.
+          example: 1234
+        columnNumber:
+          type: string
+          description: The column of the file that this frame of the stack was in.
+        file:
+          type: string
+          description: The file that this stack frame was executing
+          example: controllers/users_controller.rb
+        inProject:
+          type: boolean
+          description: Indicates if this stack trace line is in the project's application code (true) or form a 3rd party library (false).
+          example: true
+        codeFile:
+          type: string
+          description: Path of the code file for the module referenced.
+          example: filename.xyz
+        addressOffset:
+          type: string
+          description: Offset of the frame's return address from the base of the line, function, or module in a minidump.
+          example: '0x5'
+        relativeAddress:
+          type: string
+          description: Offset of the frame's return address from the base of the line, function, or module.
+          example: '0x5'
+        frameAddress:
+          type: string
+          description: the frame's return address from the base of the line, function, or module in a minidump.
+          example: '0x5'
+        method:
+          type: string
+          description: The method that this particular stack frame is within.
+          example: set_user_id
+        type:
+          type: string
+          description: The type of the stackframe. This may be different for each stackframe, for example when the error occurs in native extension of a scripting language.
+          example: reactnativejs
+        source_control_link:
+          type: string
+          description: A link to the affected line of code in source control.
+        source_control_name:
+          type: string
+          description: The name of the source control service being used.
+          example: github
+        inlined:
+          type: boolean
+          description: Indicates if this is an inlined function
+          example: true
+        code:
+          type: object
+          description: The code in the file surrounding this line, with up to three lines on either side of the line that crashed.
+          example:
+            '1231': '  def a'
+            '1232': ''
+            '1233': '    if problem?'
+            '1234': '      raise ''something went wrong'''
+            '1235': '    end'
+            '1236': ''
+            '1237': '  end'
+    ElasticSearchEventApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 595301a6ae48dd0018aedd61
+        is_full_report:
+          type: boolean
+          example: false
+        url:
+          type: string
+          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10/events/515fb9337c1074f6fd000001
+        project_url:
+          type: string
+          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10
+        error_id:
+          type: string
+          description: The Error this Event is an occurrence of
+          example: 515fb9337c1074f6fd000001
+        received_at:
+          type: string
+          description: The time the [Error Reporting API](https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions/) was notified of this Event
+          example: '2017-04-19T09:16:50.000Z'
+        exceptions:
+          type: array
+          description: An array of exceptions that occurred during this event. Most of the time there will only be one exception, but some languages support "nested" or "caused by" exceptions. The first item in the array represents the outermost exception. Each subsequent item represents the exception that caused the preceding one.
+          items:
+            type: object
+        error_class:
+          type: string
+          example: NoMethodError
+        message:
+          type: string
+        severity:
+          $ref: '#/components/schemas/SeverityOptions'
+        unhandled:
+          type: boolean
+          description: Whether or not the event was from an unhandled exception
+          example: true
+        context:
+          type: string
+          description: This refers to the action that was happening when the event occurred.
+          example: users#show
+        app:
+          type: object
+          properties:
+            releaseStage:
+              type: string
+              description: release stage where this Event occurred
+              example: production
+            type:
+              type: string
+              description: The application type, such as a web framework or mobile platform, for example "rails" or "android".
+              example: rails
+    CommentApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        created_at:
+          type: string
+          example: '2017-03-02T05:55:55.555Z'
+          description: The time the Comment was created.
+        updated_at:
+          type: string
+          example: '2017-08-10T06:66:66.666Z'
+          description: The time the Comment was updated.
+        message:
+          type: string
+          description: the comment body itself
+        url:
+          type: string
+          example: https://api.bugsnag.com/comments/515fb9337c1074f6fd000007
+          description: a permalink to the Comment.
+        collaborator:
+          $ref: '#/components/schemas/User'
+          description: the Collaborator who made the comment
+      required:
+      - id
+    EventApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 595301a6ae48dd0018aedd61
+        url:
+          type: string
+          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c/events/515fb9337c1074f6fd000765
+          description: The URL for the event
+        project_url:
+          type: string
+          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10
+        is_full_report:
+          type: boolean
+          example: false
+        error_id:
+          type: string
+          description: The Error this Event is an occurrence of
+          example: 515fb9337c1074f6fd000001
+        received_at:
+          type: string
+          description: The time the [Error Reporting API](https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions/) was notified of this Event
+          example: '2017-04-19T09:16:50.000Z'
+        exceptions:
+          type: array
+          description: An array of exceptions that occurred during this event. Most of the time there will only be one exception, but some languages support "nested" or "caused by" exceptions. The first item in the array represents the outermost exception. Each subsequent item represents the exception that caused the preceding one.
+          items:
+            $ref: '#/components/schemas/_EventException'
+        threads:
+          type: array
+          description: An array of the threads running when this event was reported.
+          items:
+            $ref: '#/components/schemas/_EventThread'
+        metaData:
+          type: object
+          description: Custom metadata passed with the event manually or via the notifier library. The API preserves the original casing and key format as received.
+        request:
+          $ref: '#/components/schemas/_EventRequest'
+        app:
+          $ref: '#/components/schemas/_EventApp'
+          description: Information about the application that reported the event.
+        device:
+          $ref: '#/components/schemas/_EventDevice'
+          description: Information about the device the error occurred on.
+        user:
+          $ref: '#/components/schemas/_EventUser'
+          description: Information about the user that reported the event. This field can be sent in with extra metadata, and thus may return keys alongside those documented here.
+        breadcrumbs:
+          type: array
+          description: An array of user- and system-initiated events which led up to an error, providing additional context. This list is sequential and ordered newest to oldest.
+          items:
+            $ref: '#/components/schemas/_Breadcrumb'
+        context:
+          type: string
+          description: This refers to the action that was happening when the event occurred.
+          example: users#show
+        severity:
+          $ref: '#/components/schemas/SeverityOptions'
+        unhandled:
+          type: boolean
+          description: Whether or not the event was from an unhandled exception.
+          example: true
+        missing_dsym:
+          type: boolean
+          description: Whether or not there's a missing dSYM (only included in response if event includes a dsym_uuid).
+        correlation:
+          $ref: '#/components/schemas/_EventCorrelation'
+          description: Information about the trace and span linked to the event.
+        feature_flags:
+          type: array
+          items:
+            $ref: '#/components/schemas/_FeatureFlagSummary'
+          description: Feature flags and variants that were active when the event occurred.
+    Trend1:
+      type: object
+      properties:
+        from:
+          type: string
+          example: '2017-04-03T22:43:49Z'
+        to:
+          type: string
+          example: '2017-04-04T10:43:49Z'
+        events_count:
+          type: number
+          example: 0
+      required:
+      - from
+      - to
+      - events_count
+    AdvancedFiltersFilterGroup:
+      type: object
+      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
+      properties:
+        join:
+          $ref: '#/components/schemas/FilterGroupJoinOperator'
+          description: The operator to use when joining filters within this group
+        AdditionalProperties:
+          $ref: '#/components/schemas/Filters'
+    ErrorUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/ErrorBase'
+      - type: object
+        properties:
+          operation:
+            type: string
+            enum:
+            - override_severity
+            - assign
+            - create_issue
+            - link_issue
+            - unlink_issue
+            - open
+            - snooze
+            - fix
+            - ignore
+            - delete
+            - discard
+            - undiscard
+            description: "The type of update operation to perform. The can be used to change the Error's workflow state (e.g. marking the Error as `fixed`). It must be one of the following: * `override_severity`\n  Set the Error's severity to the newly supplied `severity` parameter.\n* `assign`\n  Assign the Error to the Collaborator specified by the `assigned_collaborator_id` parameter. The error will be unassigned if `assigned_collaborator_id` is blank, the identified Collaborator has not accepted their invitation, or they do not have access to the Error's Project.\n* `create_issue`\n  Create an issue for the Error. If the `issue_title` parameter is set, the new issue will be created with this title.\n* `link_issue`\n  Link the Error to an existing issue. The url should be provided in the `issue_url` parameter. `verify_issue_url` can be set to control whether Bugsnag should attempt to verify the issue URL with any configured issue tracker integration. This is the default behavior if `verify_issue_url` is not supplied.\n* `unlink_issue`\n  Remove the link between the Error and its current linked issue. \n* `open`\n  Set the Error's status to open.\n* `snooze`\n  Snooze the error per the `reopen_rules` parameter.\n* `fix`\n  Set the Error's status to fixed.\n* `ignore`\n  Ignore the Error. Errors that are ignored and can only be reopened manually. Events are collected, but no notifications are sent.\n* `delete`\n  Delete the Error. The Error and all related Events will be removed from Bugsnag. If the error occurs again, it will appear as a new Error with status `Open`.\n* `discard`\n  Discard future Events for this Error. The Error and all existing Events will remain in Bugsnag, but future occurrences of the Error will not be stored by Bugsnag or count toward Event usage limits.\n* `undiscard`\n  Undiscard the Error. Future Events will be stored for this Error. This undoes the `discard` option.\n"
+          assigned_collaborator_id:
+            type: string
+            example: 515fb9337c1074f6fd000002
+            description: "The Collaborator to assign to the Error. Errors may be assigned only to users who have accepted their Bugsnag invitation and have access to the project. \n"
+          assigned_team_id:
+            type: string
+            example: 515fb9337c1074f6fd000003
+            description: The Team to assign to the Error. Mutually exclusive with `assigned_collaborator_id`.
+          issue_url:
+            type: string
+            description: "Specifies the HTTP link to an external issue when adding or updating a link. \n"
+          verify_issue_url:
+            type: boolean
+            description: 'Setting `false` will prevent Bugsnag from attempting to verify the `issue_url` with the configured issue tracker when linking an issue. Defaults to `true` if the parameter is not supplied. If no configured issue tracker the parameter is ignored.
+
+              '
+          issue_title:
+            type: string
+            description: If the Error has a `created_issue`, the `issue_title` request field can be set to update the issue's title.
+          notification_id:
+            type: string
+            example: 337515fb9c1074f6fd000001
+            description: "ID of the issue tracker to use for `create_issue` and `link_issue` operations. The most recent issue tracker is used if the parameter is omitted, and no issue tracker is used even if `notification_id` is set for `link_issue` operations if `verify_issue_url` is `false`. \n"
+          reopen_rules:
+            $ref: '#/components/schemas/ErrorUpdateReopenRules'
+            description: Snooze rules for automatically reopening the Error
+          severity:
+            $ref: '#/components/schemas/SeverityOptions'
+            description: The Error's new severity. This will be reflected in the Error's `overridden_severity` property. This is only applicable if the `override_severity` option is provided.
+        required:
+        - operation
+    ErrorUpdateReopenRules:
+      type: object
+      properties:
+        reopen_if:
+          type: string
+          enum:
+          - occurs_after
+          - n_occurrences_in_m_hours
+          - n_additional_occurrences
+          - n_additional_users
+          description: 'Must be one of the following:
+
+            - `occurs_after` - Indicates that the error should be reopened if there are any occurrences after the specified time period. In this case, the `seconds` field must also be provided.
+
+            - `n_occurrences_in_m_hours` - Indicates that the Error should be reopened after n occurrences over some period of hours. In this case, the `occurrences` and `hours` fields will both be present.
+
+            - `n_additional_occurrences` - Indicates that the Error should be reopened after n more occurrences. In this case, the `additional_occurrences` field indicates the number of additional occurrences that were allowed before reopening. Cannot be set if more than 10,000 existing users are already affected by an error.
+
+            - `n_additional_users` - Reopen the error after `n` more users are affected. In this case, the `additional_users` field must be provided.
+
+            '
+        additional_users:
+          type: number
+          description: for `n_additional_users` reopen rules, the number of additional users to be affected by an Error before the Error is automatically reopened. Value cannot exceed 100,000.
+        seconds:
+          type: number
+          minimum: 1
+          description: for `occurs_after` reopen rules, the number of seconds that the Error should be snoozed for. Minimum 1 second.
+        occurrences:
+          type: number
+          description: for `n_occurrences_in_m_hours` reopen rules, the number of occurrences to allow in the number of hours indicated by the `hours` field, before the Error is automatically reopened.
+        hours:
+          type: number
+          description: for `n_occurrences_in_m_hours` reopen rules, the number of hours.
+        additional_occurrences:
+          type: number
+          description: for `n_additional_occurrences` reopen rules, the number of additional occurrences allowed before reopening.
+      required:
+      - reopen_if
+    _EventException:
+      type: object
+      properties:
+        errorClass:
+          type: string
+          example: NoMethodError
+        message:
+          type: string
+          example: undefined method `foo` for nil:NilClass
+        type:
+          type: string
+          description: The type of the exception. `null` if not recorded.
+          example: browserjs
+        stacktrace:
+          type: array
+          description: An array of stack trace objects. Each object represents one line in the exception's stack trace. Bugsnag uses this information to help with error grouping, as well as displaying it to the user.
+          items:
+            $ref: '#/components/schemas/_EventExceptionStacktrace'
+        registers:
+          type: array
+          description: An array of register details for minidump stackframes.
+          items:
+            $ref: '#/components/schemas/_EventExceptionRegister'
+    FilterGroupsJoinOperator:
+      type: string
+      enum:
+      - and
+      - or
+      description: 'The join operator to apply between filter groups.
+
+        - and - All conditions must be satisfied
+
+        - or (default) - At least one condition must be satisfied
+
+        '
+    _EventDevice:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for the device.
+          example: fd124e87760c4281aef
+        hostname:
+          type: string
+          description: The hostname of the server running your code, if applicable.
+          example: web1.internal
+        manufacturer:
+          type: string
+          description: The manufacturer of the device.
+          example: LGE
+        model:
+          type: string
+          description: The model of the device.
+          example: Nexus 6P
+        modelNumber:
+          type: string
+          description: The model number of the device.
+          example: '600'
+        osName:
+          type: string
+          description: The device's operating system name.
+          example: android
+        osVersion:
+          type: string
+          description: The device's operating system version.
+          example: 8.0.1
+        freeMemory:
+          type: number
+          description: The number of bytes unused in the device's RAM.
+          example: 183879616
+        totalMemory:
+          type: number
+          description: The number of total bytes in the device's RAM.
+          example: 201326592
+        freeDisk:
+          type: number
+          description: The number of unused bytes on the drive running the application.
+          example: 13478064128
+        browserName:
+          type: string
+          description: If a web application, the web browser used by the device.
+          example: Chrome
+        browserVersion:
+          type: string
+          description: If a web application, the version of the browser used by the device.
+          example: 61.0.3163.100
+        jailbroken:
+          type: boolean
+          description: Whether or not the device has been modified to give users root access.
+          example: false
+        orientation:
+          type: string
+          description: The orientation of the device at the time of the error.
+          example: portrait
+        locale:
+          type: string
+          description: The locale of the device
+        charging:
+          type: boolean
+          description: Whether the device was charging
+        batteryLevel:
+          type: number
+          description: The battery level of the device as a decimal
+        time:
+          type: string
+          format: date-time
+          description: The time at which the error occurred, in [ISO 8601 format](https://tools.ietf.org/html/rfc3339#section-5.8).
+          example: '2018-08-07T10:16:34.564Z'
+        timezone:
+          type: string
+          description: The timezone in which the error occurred
+        cpuAbi:
+          type: array
+          items:
+            type: string
+          description: The [ABIs](https://developer.android.com/ndk/guides/abis) supported by the device (Android only).
+          example:
+          - x86_64
+        runtimeVersions:
+          type: object
+          description: Hash of the versions of the relevant runtimes, languages and/or frameworks for the platform.
+        macCatalystIosVersion:
+          type: string
+          description: The Mac Catalyst version (iOS only).
+          example: '13.5'
+    Trend2:
+      type: object
+      properties:
+        from:
+          type: string
+          example: '2017-04-04T10:43:49Z'
+        to:
+          type: string
+          example: '2017-04-04T22:43:49Z'
+        events_count:
+          type: number
+          example: 1
+      required:
+      - from
+      - to
+      - events_count
+    PivotValueApiView:
+      type: object
+      required:
+      - event_field_value
+      properties:
+        event_field_value:
+          type: string
+          description: One of the values for this event field. For example, for the release stage event field, the values will be the stage names; for versions they will be the version number; for users they will be the user IDs, and so on.
+          example: production
+        events:
+          type: number
+          description: The number of Events matching the given Filters that affected this particular value of the pivot. For example, how many events occurred in the production release stage.
+          example: 23
+        proportion:
+          type: number
+          description: the proportion of the total Events matching the Filters represented by this value.
+          example: 0.9981631153563556
+        first_seen:
+          type: string
+          description: the first Event occurrence with this particular value and matching the Filters (including time filters)
+          example: '2017-04-14T03:04:49+00:00'
+        last_seen:
+          type: string
+          description: the last Event occurrence with this particular value and matching the Filters (including time filters)
+          example: '2017-04-21T02:50:35+00:00'
+        fields:
+          type: array
+          description: some pivot values will include additional event field values. for example, in the case of a pivot value describing how many events affected a particular user, fields will contain the values of the `user.name` and `user.email` event fields, to provide more details about the user.
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                example: user.name
+              name:
+                type: string
+                example: User Name
+    _EventExceptionRegister:
+      type: object
+      properties:
+        frame_index:
+          type: number
+          description: The index of the frame in the stacktrace that the registers apply to
+          example: 1
+        register_values:
+          type: array
+          description: Details of a register
+          items:
+            $ref: '#/components/schemas/_EventExceptionRegisterValue'
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
     PivotApiView:
       type: object
       required:
@@ -1277,55 +1844,68 @@ components:
           - 'null'
           description: The average value for the given Event Field. Applicable to some Event Fields. This will be null if there is no average value (if there are no values to be averaged).
           example: 1000
-    _Breadcrumb:
+    _EventExceptionStacktrace:
       type: object
-      required:
-      - name
-      - type
-      - timestamp
       properties:
-        name:
+        line_number:
+          type: number
+          description: The line of the file that this frame of the stack was in.
+          example: 1234
+        column_number:
           type: string
-          description: A short summary describing the event, such as the user action taken or a new application state.
-          example: Open menu
-        type:
+          description: The column of the file that this frame of the stack was in.
+        file:
           type: string
-          enum:
-          - navigation
-          - request
-          - process
-          - log
-          - user
-          - state
-          - error
-          - manual
-          description: 'A category which describes the breadcrumb, from the list of allowed values.
-
-            - `navigation` - Changing screens or content being displayed, with a defined destination and optionally a previous location.
-
-            - `request` - Sending and receiving requests and responses.
-
-            - `process` - Performing an intensive task or query.
-
-            - `log` - Messages and severity sent to a logging platform.
-
-            - `user` - Actions performed by the user, like text input, button presses, or confirming/cancelling an alert dialog.
-
-            - `state` - Changing the overall state of an app, such as closing, pausing, or being moved to the background, as well as device state changes like memory or battery warnings and network connectivity changes.
-
-            - `error` - An error which was reported to Bugsnag encountered in the same session.
-
-            - `manual` - User-defined, manually added breadcrumbs.
-
-            '
-        timestamp:
+          description: The file that this stack frame was executing
+          example: controllers/users_controller.rb
+        in_project:
+          type: boolean
+          description: Indicates if this stack trace line is in the project's application code (true) or form a 3rd party library (false).
+          example: true
+        code_file:
           type: string
-          format: date-time
-          description: The time at which the event occurred, in [ISO 8601 format](https://tools.ietf.org/html/rfc3339#section-5.8).
-          example: '2016-07-19T12:17:27.000Z'
-        metaData:
+          description: Path of the code file for the module referenced.
+          example: filename.xyz
+        address_offset:
+          type: string
+          description: Offset of the frame's return address from the base of the line, function, or module in a minidump.
+          example: '0x5'
+        macho_uuid:
+          type: string
+        relative_address:
+          type: string
+          description: Offset of the frame's return address from the base of the line, function, or module.
+          example: '0x5'
+        frame_address:
+          type: string
+          description: The frame's return address from the base of the line, function, or module in a minidump.
+          example: '0x5'
+        method:
+          type: string
+          description: The method that this particular stack frame is within.
+          example: set_user_id
+        source_control_link:
+          type: string
+          description: A link to the affected line of code in source control.
+        source_control_name:
+          type: string
+          description: The name of the source control service being used.
+          example: github
+        inlined:
+          type: boolean
+          description: Indicates if this is an inlined function
+          example: true
+        code:
           type: object
-          description: An object containing extra information about a breadcrumb
+          description: The code in the file surrounding this line, with up to three lines on either side of the line that crashed.
+          example:
+            '1231': '  def a'
+            '1232': ''
+            '1233': '    if problem?'
+            '1234': '      raise ''something went wrong'''
+            '1235': '    end'
+            '1236': ''
+            '1237': '  end'
     _EventApp:
       type: object
       properties:
@@ -1411,186 +1991,34 @@ components:
           type: boolean
           description: Whether or not the application was running through Rosetta (iOS only).
           example: true
-    ErrorUpdateReopenRules:
+    _EventThread:
       type: object
       properties:
-        reopen_if:
+        id:
+          type: number
+          description: The id of the thread in the application.
+          example: 1
+        name:
           type: string
-          enum:
-          - occurs_after
-          - n_occurrences_in_m_hours
-          - n_additional_occurrences
-          - n_additional_users
-          description: 'Must be one of the following:
-
-            - `occurs_after` - Indicates that the error should be reopened if there are any occurrences after the specified time period. In this case, the `seconds` field must also be provided.
-
-            - `n_occurrences_in_m_hours` - Indicates that the Error should be reopened after n occurrences over some period of hours. In this case, the `occurrences` and `hours` fields will both be present.
-
-            - `n_additional_occurrences` - Indicates that the Error should be reopened after n more occurrences. In this case, the `additional_occurrences` field indicates the number of additional occurrences that were allowed before reopening. Cannot be set if more than 10,000 existing users are already affected by an error.
-
-            - `n_additional_users` - Reopen the error after `n` more users are affected. In this case, the `additional_users` field must be provided.
-
-            '
-        additional_users:
-          type: number
-          description: for `n_additional_users` reopen rules, the number of additional users to be affected by an Error before the Error is automatically reopened. Value cannot exceed 100,000.
-        seconds:
-          type: number
-          minimum: 1
-          description: for `occurs_after` reopen rules, the number of seconds that the Error should be snoozed for. Minimum 1 second.
-        occurrences:
-          type: number
-          description: for `n_occurrences_in_m_hours` reopen rules, the number of occurrences to allow in the number of hours indicated by the `hours` field, before the Error is automatically reopened.
-        hours:
-          type: number
-          description: for `n_occurrences_in_m_hours` reopen rules, the number of hours.
-        additional_occurrences:
-          type: number
-          description: for `n_additional_occurrences` reopen rules, the number of additional occurrences allowed before reopening.
-      required:
-      - reopen_if
-    _EventException:
-      type: object
-      properties:
-        errorClass:
-          type: string
-          example: NoMethodError
-        message:
-          type: string
-          example: undefined method `foo` for nil:NilClass
+          description: A human readable name for the thread.
+          example: main
         type:
           type: string
-          description: The type of the exception. `null` if not recorded.
-          example: browserjs
+          description: The type of the thread
+          example: ruby
         stacktrace:
           type: array
           description: An array of stack trace objects. Each object represents one line in the exception's stack trace. Bugsnag uses this information to help with error grouping, as well as displaying it to the user.
           items:
-            $ref: '#/components/schemas/_EventExceptionStacktrace'
-        registers:
-          type: array
-          description: An array of register details for minidump stackframes.
-          items:
-            $ref: '#/components/schemas/_EventExceptionRegister'
-    FilterGroupJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filters within a group.
-
-        - and (default) - All conditions must be satisfied
-
-        - or - At least one condition must be satisfied
-
-        '
-    Trend2:
-      type: object
-      properties:
-        from:
+            $ref: '#/components/schemas/_CoreFrameFields'
+        error_reporting_thread:
+          type: boolean
+          description: Indicates if this is the thread from which the error was reported.
+          example: true
+        state:
           type: string
-          example: '2017-04-04T10:43:49Z'
-        to:
-          type: string
-          example: '2017-04-04T22:43:49Z'
-        events_count:
-          type: number
-          example: 1
-      required:
-      - from
-      - to
-      - events_count
-    FilterGroupsJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filter groups.
-
-        - and - All conditions must be satisfied
-
-        - or (default) - At least one condition must be satisfied
-
-        '
-    ErrorUpdateRequest:
-      allOf:
-      - $ref: '#/components/schemas/ErrorBase'
-      - type: object
-        properties:
-          operation:
-            type: string
-            enum:
-            - override_severity
-            - assign
-            - create_issue
-            - link_issue
-            - unlink_issue
-            - open
-            - snooze
-            - fix
-            - ignore
-            - delete
-            - discard
-            - undiscard
-            description: "The type of update operation to perform. The can be used to change the Error's workflow state (e.g. marking the Error as `fixed`). It must be one of the following: * `override_severity`\n  Set the Error's severity to the newly supplied `severity` parameter.\n* `assign`\n  Assign the Error to the Collaborator specified by the `assigned_collaborator_id` parameter. The error will be unassigned if `assigned_collaborator_id` is blank, the identified Collaborator has not accepted their invitation, or they do not have access to the Error's Project.\n* `create_issue`\n  Create an issue for the Error. If the `issue_title` parameter is set, the new issue will be created with this title.\n* `link_issue`\n  Link the Error to an existing issue. The url should be provided in the `issue_url` parameter. `verify_issue_url` can be set to control whether Bugsnag should attempt to verify the issue URL with any configured issue tracker integration. This is the default behavior if `verify_issue_url` is not supplied.\n* `unlink_issue`\n  Remove the link between the Error and its current linked issue. \n* `open`\n  Set the Error's status to open.\n* `snooze`\n  Snooze the error per the `reopen_rules` parameter.\n* `fix`\n  Set the Error's status to fixed.\n* `ignore`\n  Ignore the Error. Errors that are ignored and can only be reopened manually. Events are collected, but no notifications are sent.\n* `delete`\n  Delete the Error. The Error and all related Events will be removed from Bugsnag. If the error occurs again, it will appear as a new Error with status `Open`.\n* `discard`\n  Discard future Events for this Error. The Error and all existing Events will remain in Bugsnag, but future occurrences of the Error will not be stored by Bugsnag or count toward Event usage limits.\n* `undiscard`\n  Undiscard the Error. Future Events will be stored for this Error. This undoes the `discard` option.\n"
-          assigned_collaborator_id:
-            type: string
-            example: 515fb9337c1074f6fd000002
-            description: "The Collaborator to assign to the Error. Errors may be assigned only to users who have accepted their Bugsnag invitation and have access to the project. \n"
-          assigned_team_id:
-            type: string
-            example: 515fb9337c1074f6fd000003
-            description: The Team to assign to the Error. Mutually exclusive with `assigned_collaborator_id`.
-          issue_url:
-            type: string
-            description: "Specifies the HTTP link to an external issue when adding or updating a link. \n"
-          verify_issue_url:
-            type: boolean
-            description: 'Setting `false` will prevent Bugsnag from attempting to verify the `issue_url` with the configured issue tracker when linking an issue. Defaults to `true` if the parameter is not supplied. If no configured issue tracker the parameter is ignored.
-
-              '
-          issue_title:
-            type: string
-            description: If the Error has a `created_issue`, the `issue_title` request field can be set to update the issue's title.
-          notification_id:
-            type: string
-            example: 337515fb9c1074f6fd000001
-            description: "ID of the issue tracker to use for `create_issue` and `link_issue` operations. The most recent issue tracker is used if the parameter is omitted, and no issue tracker is used even if `notification_id` is set for `link_issue` operations if `verify_issue_url` is `false`. \n"
-          reopen_rules:
-            $ref: '#/components/schemas/ErrorUpdateReopenRules'
-            description: Snooze rules for automatically reopening the Error
-          severity:
-            $ref: '#/components/schemas/SeverityOptions'
-            description: The Error's new severity. This will be reflected in the Error's `overridden_severity` property. This is only applicable if the `override_severity` option is provided.
-        required:
-        - operation
-    CommentApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 515fb9337c1074f6fd000007
-        created_at:
-          type: string
-          example: '2017-03-02T05:55:55.555Z'
-          description: The time the Comment was created.
-        updated_at:
-          type: string
-          example: '2017-08-10T06:66:66.666Z'
-          description: The time the Comment was updated.
-        message:
-          type: string
-          description: the comment body itself
-        url:
-          type: string
-          example: https://api.bugsnag.com/comments/515fb9337c1074f6fd000007
-          description: a permalink to the Comment.
-        collaborator:
-          $ref: '#/components/schemas/User'
-          description: the Collaborator who made the comment
-      required:
-      - id
+          description: The state of the thread
+          example: TH_STATE_RUNNING
     Filters:
       type: object
       properties:
@@ -2172,6 +2600,103 @@ components:
             required:
             - type
             - value
+    ErrorReopenRules:
+      type: object
+      properties:
+        reopen_if:
+          type: string
+          enum:
+          - n_additional_occurrences
+          - n_occurrences_in_m_hours
+          - occurs_after
+          - n_additional_users
+          description: 'Must be one of the following:
+
+            - `n_additional_occurrences` - Indicates that the Error should be reopened after n more occurrences. In this case, the `occurrence_threshold` field indicates the number of total occurrences at which the Error should be reopened, and the `additional_occurrences` field indicates the number of additional occurrences that were allowed before reopening.
+
+            - `n_occurrences_in_m_hours` - Indicates that the Error should be reopened after n occurrences over some configurable number of hours. In this case, the `occurrences` and `hours` fields will both be present.
+
+            - `occurs_after` - Indicates that the error should be reopened if there are any occurrences after the specified time period. The `seconds` field contains the number of seconds that the Error has been snoozed for. In this case, the `seconds` and `reopen_after` fields will both be present.
+
+            - `n_additional_users` - Reopen the error after `n` more users are affected. In this case, the `additional_users` field must be provided.
+
+            '
+        additional_users:
+          type: number
+          description: for `n_additional_users` reopen rules, the number of additional users to be affected by an Error before the Error is automatically reopened. Value cannot exceed 100,000.
+        reopen_after:
+          type: string
+          description: for `occurs_after` reopen rules, this field indicates the time after which the Error should be reopened if there is an additional occurrence.
+        seconds:
+          type: number
+          description: for `occurs_after` reopen rules, the number of seconds that the Error was set to snooze for.
+        occurrences:
+          type: number
+          description: for `n_occurrences_in_m_hours` reopen rules, the number of occurrences to allow in the number of hours indicated by the `hours` field, before the Error is automatically reopened.
+        hours:
+          type: number
+          description: for `n_occurrences_in_m_hours` reopen rules, the number of hours.
+        occurrence_threshold:
+          type: number
+          description: for `n_additional_occurrences` reopen rules, the number of total occurrences at which the Error should be reopened.
+        additional_occurrences:
+          type: number
+          description: for `n_additional_occurrences` reopen rules, the number of additional occurrences allowed before reopening.
+      required:
+      - reopen_if
+    _EventCorrelation:
+      type: object
+      properties:
+        traceId:
+          type: string
+          description: The ID of the OTel trace during which this event occurred
+          example: 6368f07a518fa064ce036bdb
+        spanId:
+          type: string
+          description: The ID of the OTel span during which this event occurred
+          example: 6368f07a518fa064ce036bdb
+    ErrorCreatedIssue:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The immutable issue id.
+          example: '1246284'
+        key:
+          type: string
+          description: The issue key (if applicable). For example, in the case of a Jira story, this will be the mutable key (e.g. ENG-10)
+          example: ENG-10
+        number:
+          type: number
+          description: The issue number (if applicable). For example, in the case of a github issue with the url `https://github.com/foo/bar/issues/123` this field will be set to `123`.
+          example: 123
+        type:
+          type: string
+          description: An identifier for the 3rd party service
+          example: jira
+        url:
+          type: string
+          description: The url to the issue on the 3rd party service
+          example: https://example.atlassian.net/browse/ENG-10
+      required:
+      - id
+      - type
+      - url
+    _EventUser:
+      type: object
+      properties:
+        id:
+          type: string
+          description: A unique identifier for a user affected by this event. This could be any distinct identifier that makes sense for your application/platform.
+          example: '19'
+        name:
+          type: string
+          description: The user's name, or a string you use to identify them.
+          example: Robert Hawkins
+        email:
+          type: string
+          description: The user's email address.
+          example: bob@example.com
     SeverityOptions:
       type: string
       enum:
@@ -2185,210 +2710,36 @@ components:
         - error - the default severity for uncaught exceptions and crashes
 
         '
-    _EventExceptionStacktrace:
-      type: object
-      properties:
-        line_number:
-          type: number
-          description: The line of the file that this frame of the stack was in.
-          example: 1234
-        column_number:
-          type: string
-          description: The column of the file that this frame of the stack was in.
-        file:
-          type: string
-          description: The file that this stack frame was executing
-          example: controllers/users_controller.rb
-        in_project:
-          type: boolean
-          description: Indicates if this stack trace line is in the project's application code (true) or form a 3rd party library (false).
-          example: true
-        code_file:
-          type: string
-          description: Path of the code file for the module referenced.
-          example: filename.xyz
-        address_offset:
-          type: string
-          description: Offset of the frame's return address from the base of the line, function, or module in a minidump.
-          example: '0x5'
-        macho_uuid:
-          type: string
-        relative_address:
-          type: string
-          description: Offset of the frame's return address from the base of the line, function, or module.
-          example: '0x5'
-        frame_address:
-          type: string
-          description: The frame's return address from the base of the line, function, or module in a minidump.
-          example: '0x5'
-        method:
-          type: string
-          description: The method that this particular stack frame is within.
-          example: set_user_id
-        source_control_link:
-          type: string
-          description: A link to the affected line of code in source control.
-        source_control_name:
-          type: string
-          description: The name of the source control service being used.
-          example: github
-        inlined:
-          type: boolean
-          description: Indicates if this is an inlined function
-          example: true
-        code:
-          type: object
-          description: The code in the file surrounding this line, with up to three lines on either side of the line that crashed.
-          example:
-            '1231': '  def a'
-            '1232': ''
-            '1233': '    if problem?'
-            '1234': '      raise ''something went wrong'''
-            '1235': '    end'
-            '1236': ''
-            '1237': '  end'
     AdvancedFiltersFilterGroups:
       type: object
       description: "A map of filter groups, where each group is keyed with a unique identifier for the group e.g:\n```\n{\n \"0\": { ... },\n \"1\": { ... }\n}\n```\nSee the [Advanced Filters documentation](https://developer.smartbear.com/bugsnag/docs/data-access-filtering#advanced-filters) for more details.\n"
       additionalProperties:
         $ref: '#/components/schemas/AdvancedFiltersFilterGroup'
+    _FeatureFlagSummary:
+      type: object
+      properties:
+        feature_flag_name:
+          type: string
+          description: The name of the feature_flag.
+          example: share_ios_photo_sharing_button
+        feature_flag_id:
+          type: string
+          description: The ID of the feature_flag.
+          example: 5f688f55d1befa016c94de00
+        variant_name:
+          type: string
+          description: The name of the variant if present.
+          example: blue_button
+        variant_id:
+          type: string
+          description: The ID of the variant if present.
+          example: 173c8f55d1befa016c94df1c
     ErrorBase:
       type: object
       properties:
         severity:
           $ref: '#/components/schemas/SeverityOptions'
           description: The severity of the Error
-    AdvancedFiltersFilterGroup:
-      type: object
-      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
-      properties:
-        join:
-          $ref: '#/components/schemas/FilterGroupJoinOperator'
-          description: The operator to use when joining filters within this group
-        AdditionalProperties:
-          $ref: '#/components/schemas/Filters'
-    _EventExceptionRegisterValue:
-      type: object
-      properties:
-        register_name:
-          type: string
-          description: The name of the register
-          example: reg
-        register_value:
-          type: string
-          description: The value of the register
-          example: '0x1012d41a40dd145f'
-    PivotValueApiView:
-      type: object
-      required:
-      - event_field_value
-      properties:
-        event_field_value:
-          type: string
-          description: One of the values for this event field. For example, for the release stage event field, the values will be the stage names; for versions they will be the version number; for users they will be the user IDs, and so on.
-          example: production
-        events:
-          type: number
-          description: The number of Events matching the given Filters that affected this particular value of the pivot. For example, how many events occurred in the production release stage.
-          example: 23
-        proportion:
-          type: number
-          description: the proportion of the total Events matching the Filters represented by this value.
-          example: 0.9981631153563556
-        first_seen:
-          type: string
-          description: the first Event occurrence with this particular value and matching the Filters (including time filters)
-          example: '2017-04-14T03:04:49+00:00'
-        last_seen:
-          type: string
-          description: the last Event occurrence with this particular value and matching the Filters (including time filters)
-          example: '2017-04-21T02:50:35+00:00'
-        fields:
-          type: array
-          description: some pivot values will include additional event field values. for example, in the case of a pivot value describing how many events affected a particular user, fields will contain the values of the `user.name` and `user.email` event fields, to provide more details about the user.
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                example: user.name
-              name:
-                type: string
-                example: User Name
-    EventApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 595301a6ae48dd0018aedd61
-        url:
-          type: string
-          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c/events/515fb9337c1074f6fd000765
-          description: The URL for the event
-        project_url:
-          type: string
-          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10
-        is_full_report:
-          type: boolean
-          example: false
-        error_id:
-          type: string
-          description: The Error this Event is an occurrence of
-          example: 515fb9337c1074f6fd000001
-        received_at:
-          type: string
-          description: The time the [Error Reporting API](https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions/) was notified of this Event
-          example: '2017-04-19T09:16:50.000Z'
-        exceptions:
-          type: array
-          description: An array of exceptions that occurred during this event. Most of the time there will only be one exception, but some languages support "nested" or "caused by" exceptions. The first item in the array represents the outermost exception. Each subsequent item represents the exception that caused the preceding one.
-          items:
-            $ref: '#/components/schemas/_EventException'
-        threads:
-          type: array
-          description: An array of the threads running when this event was reported.
-          items:
-            $ref: '#/components/schemas/_EventThread'
-        metaData:
-          type: object
-          description: Custom metadata passed with the event manually or via the notifier library. The API preserves the original casing and key format as received.
-        request:
-          $ref: '#/components/schemas/_EventRequest'
-        app:
-          $ref: '#/components/schemas/_EventApp'
-          description: Information about the application that reported the event.
-        device:
-          $ref: '#/components/schemas/_EventDevice'
-          description: Information about the device the error occurred on.
-        user:
-          $ref: '#/components/schemas/_EventUser'
-          description: Information about the user that reported the event. This field can be sent in with extra metadata, and thus may return keys alongside those documented here.
-        breadcrumbs:
-          type: array
-          description: An array of user- and system-initiated events which led up to an error, providing additional context. This list is sequential and ordered newest to oldest.
-          items:
-            $ref: '#/components/schemas/_Breadcrumb'
-        context:
-          type: string
-          description: This refers to the action that was happening when the event occurred.
-          example: users#show
-        severity:
-          $ref: '#/components/schemas/SeverityOptions'
-        unhandled:
-          type: boolean
-          description: Whether or not the event was from an unhandled exception.
-          example: true
-        missing_dsym:
-          type: boolean
-          description: Whether or not there's a missing dSYM (only included in response if event includes a dsym_uuid).
-        correlation:
-          $ref: '#/components/schemas/_EventCorrelation'
-          description: Information about the trace and span linked to the event.
-        feature_flags:
-          type: array
-          items:
-            $ref: '#/components/schemas/_FeatureFlagSummary'
-          description: Feature flags and variants that were active when the event occurred.
     User:
       type: object
       properties:
@@ -2445,115 +2796,6 @@ components:
       - heroku
       - created_at
       - managed_by_smartbear_id
-    _CoreFrameFields:
-      type: object
-      properties:
-        lineNumber:
-          type: number
-          description: The line of the file that this frame of the stack was in.
-          example: 1234
-        columnNumber:
-          type: string
-          description: The column of the file that this frame of the stack was in.
-        file:
-          type: string
-          description: The file that this stack frame was executing
-          example: controllers/users_controller.rb
-        inProject:
-          type: boolean
-          description: Indicates if this stack trace line is in the project's application code (true) or form a 3rd party library (false).
-          example: true
-        codeFile:
-          type: string
-          description: Path of the code file for the module referenced.
-          example: filename.xyz
-        addressOffset:
-          type: string
-          description: Offset of the frame's return address from the base of the line, function, or module in a minidump.
-          example: '0x5'
-        relativeAddress:
-          type: string
-          description: Offset of the frame's return address from the base of the line, function, or module.
-          example: '0x5'
-        frameAddress:
-          type: string
-          description: the frame's return address from the base of the line, function, or module in a minidump.
-          example: '0x5'
-        method:
-          type: string
-          description: The method that this particular stack frame is within.
-          example: set_user_id
-        type:
-          type: string
-          description: The type of the stackframe. This may be different for each stackframe, for example when the error occurs in native extension of a scripting language.
-          example: reactnativejs
-        source_control_link:
-          type: string
-          description: A link to the affected line of code in source control.
-        source_control_name:
-          type: string
-          description: The name of the source control service being used.
-          example: github
-        inlined:
-          type: boolean
-          description: Indicates if this is an inlined function
-          example: true
-        code:
-          type: object
-          description: The code in the file surrounding this line, with up to three lines on either side of the line that crashed.
-          example:
-            '1231': '  def a'
-            '1232': ''
-            '1233': '    if problem?'
-            '1234': '      raise ''something went wrong'''
-            '1235': '    end'
-            '1236': ''
-            '1237': '  end'
-    _FeatureFlagSummary:
-      type: object
-      properties:
-        feature_flag_name:
-          type: string
-          description: The name of the feature_flag.
-          example: share_ios_photo_sharing_button
-        feature_flag_id:
-          type: string
-          description: The ID of the feature_flag.
-          example: 5f688f55d1befa016c94de00
-        variant_name:
-          type: string
-          description: The name of the variant if present.
-          example: blue_button
-        variant_id:
-          type: string
-          description: The ID of the variant if present.
-          example: 173c8f55d1befa016c94df1c
-    Trend1:
-      type: object
-      properties:
-        from:
-          type: string
-          example: '2017-04-03T22:43:49Z'
-        to:
-          type: string
-          example: '2017-04-04T10:43:49Z'
-        events_count:
-          type: number
-          example: 0
-      required:
-      - from
-      - to
-      - events_count
-    FilterMatchType:
-      type: string
-      enum:
-      - eq
-      - ne
-      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
-
-        - ne - Filter for items that don''t match the value
-
-        '
     _EventRequest:
       type: object
       properties:
@@ -2579,320 +2821,78 @@ components:
         params:
           type: object
           description: Hash of parameter sent with the request
-    ErrorStatus:
+    FilterGroupJoinOperator:
       type: string
       enum:
-      - open
-      - in progress
-      - for_review
-      - fixed
-      - snoozed
-      - ignored
-    _EventThread:
+      - and
+      - or
+      description: 'The join operator to apply between filters within a group.
+
+        - and (default) - All conditions must be satisfied
+
+        - or - At least one condition must be satisfied
+
+        '
+    _Breadcrumb:
       type: object
+      required:
+      - name
+      - type
+      - timestamp
       properties:
-        id:
-          type: number
-          description: The id of the thread in the application.
-          example: 1
         name:
           type: string
-          description: A human readable name for the thread.
-          example: main
+          description: A short summary describing the event, such as the user action taken or a new application state.
+          example: Open menu
         type:
-          type: string
-          description: The type of the thread
-          example: ruby
-        stacktrace:
-          type: array
-          description: An array of stack trace objects. Each object represents one line in the exception's stack trace. Bugsnag uses this information to help with error grouping, as well as displaying it to the user.
-          items:
-            $ref: '#/components/schemas/_CoreFrameFields'
-        error_reporting_thread:
-          type: boolean
-          description: Indicates if this is the thread from which the error was reported.
-          example: true
-        state:
-          type: string
-          description: The state of the thread
-          example: TH_STATE_RUNNING
-    ErrorReopenRules:
-      type: object
-      properties:
-        reopen_if:
           type: string
           enum:
-          - n_additional_occurrences
-          - n_occurrences_in_m_hours
-          - occurs_after
-          - n_additional_users
-          description: 'Must be one of the following:
+          - navigation
+          - request
+          - process
+          - log
+          - user
+          - state
+          - error
+          - manual
+          description: 'A category which describes the breadcrumb, from the list of allowed values.
 
-            - `n_additional_occurrences` - Indicates that the Error should be reopened after n more occurrences. In this case, the `occurrence_threshold` field indicates the number of total occurrences at which the Error should be reopened, and the `additional_occurrences` field indicates the number of additional occurrences that were allowed before reopening.
+            - `navigation` - Changing screens or content being displayed, with a defined destination and optionally a previous location.
 
-            - `n_occurrences_in_m_hours` - Indicates that the Error should be reopened after n occurrences over some configurable number of hours. In this case, the `occurrences` and `hours` fields will both be present.
+            - `request` - Sending and receiving requests and responses.
 
-            - `occurs_after` - Indicates that the error should be reopened if there are any occurrences after the specified time period. The `seconds` field contains the number of seconds that the Error has been snoozed for. In this case, the `seconds` and `reopen_after` fields will both be present.
+            - `process` - Performing an intensive task or query.
 
-            - `n_additional_users` - Reopen the error after `n` more users are affected. In this case, the `additional_users` field must be provided.
+            - `log` - Messages and severity sent to a logging platform.
+
+            - `user` - Actions performed by the user, like text input, button presses, or confirming/cancelling an alert dialog.
+
+            - `state` - Changing the overall state of an app, such as closing, pausing, or being moved to the background, as well as device state changes like memory or battery warnings and network connectivity changes.
+
+            - `error` - An error which was reported to Bugsnag encountered in the same session.
+
+            - `manual` - User-defined, manually added breadcrumbs.
 
             '
-        additional_users:
-          type: number
-          description: for `n_additional_users` reopen rules, the number of additional users to be affected by an Error before the Error is automatically reopened. Value cannot exceed 100,000.
-        reopen_after:
-          type: string
-          description: for `occurs_after` reopen rules, this field indicates the time after which the Error should be reopened if there is an additional occurrence.
-        seconds:
-          type: number
-          description: for `occurs_after` reopen rules, the number of seconds that the Error was set to snooze for.
-        occurrences:
-          type: number
-          description: for `n_occurrences_in_m_hours` reopen rules, the number of occurrences to allow in the number of hours indicated by the `hours` field, before the Error is automatically reopened.
-        hours:
-          type: number
-          description: for `n_occurrences_in_m_hours` reopen rules, the number of hours.
-        occurrence_threshold:
-          type: number
-          description: for `n_additional_occurrences` reopen rules, the number of total occurrences at which the Error should be reopened.
-        additional_occurrences:
-          type: number
-          description: for `n_additional_occurrences` reopen rules, the number of additional occurrences allowed before reopening.
-      required:
-      - reopen_if
-    _EventCorrelation:
-      type: object
-      properties:
-        traceId:
-          type: string
-          description: The ID of the OTel trace during which this event occurred
-          example: 6368f07a518fa064ce036bdb
-        spanId:
-          type: string
-          description: The ID of the OTel span during which this event occurred
-          example: 6368f07a518fa064ce036bdb
-    _EventDevice:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for the device.
-          example: fd124e87760c4281aef
-        hostname:
-          type: string
-          description: The hostname of the server running your code, if applicable.
-          example: web1.internal
-        manufacturer:
-          type: string
-          description: The manufacturer of the device.
-          example: LGE
-        model:
-          type: string
-          description: The model of the device.
-          example: Nexus 6P
-        modelNumber:
-          type: string
-          description: The model number of the device.
-          example: '600'
-        osName:
-          type: string
-          description: The device's operating system name.
-          example: android
-        osVersion:
-          type: string
-          description: The device's operating system version.
-          example: 8.0.1
-        freeMemory:
-          type: number
-          description: The number of bytes unused in the device's RAM.
-          example: 183879616
-        totalMemory:
-          type: number
-          description: The number of total bytes in the device's RAM.
-          example: 201326592
-        freeDisk:
-          type: number
-          description: The number of unused bytes on the drive running the application.
-          example: 13478064128
-        browserName:
-          type: string
-          description: If a web application, the web browser used by the device.
-          example: Chrome
-        browserVersion:
-          type: string
-          description: If a web application, the version of the browser used by the device.
-          example: 61.0.3163.100
-        jailbroken:
-          type: boolean
-          description: Whether or not the device has been modified to give users root access.
-          example: false
-        orientation:
-          type: string
-          description: The orientation of the device at the time of the error.
-          example: portrait
-        locale:
-          type: string
-          description: The locale of the device
-        charging:
-          type: boolean
-          description: Whether the device was charging
-        batteryLevel:
-          type: number
-          description: The battery level of the device as a decimal
-        time:
+        timestamp:
           type: string
           format: date-time
-          description: The time at which the error occurred, in [ISO 8601 format](https://tools.ietf.org/html/rfc3339#section-5.8).
-          example: '2018-08-07T10:16:34.564Z'
-        timezone:
-          type: string
-          description: The timezone in which the error occurred
-        cpuAbi:
-          type: array
-          items:
-            type: string
-          description: The [ABIs](https://developer.android.com/ndk/guides/abis) supported by the device (Android only).
-          example:
-          - x86_64
-        runtimeVersions:
+          description: The time at which the event occurred, in [ISO 8601 format](https://tools.ietf.org/html/rfc3339#section-5.8).
+          example: '2016-07-19T12:17:27.000Z'
+        metaData:
           type: object
-          description: Hash of the versions of the relevant runtimes, languages and/or frameworks for the platform.
-        macCatalystIosVersion:
-          type: string
-          description: The Mac Catalyst version (iOS only).
-          example: '13.5'
-    ErrorCreatedIssue:
+          description: An object containing extra information about a breadcrumb
+    _EventExceptionRegisterValue:
       type: object
       properties:
-        id:
+        register_name:
           type: string
-          description: The immutable issue id.
-          example: '1246284'
-        key:
+          description: The name of the register
+          example: reg
+        register_value:
           type: string
-          description: The issue key (if applicable). For example, in the case of a Jira story, this will be the mutable key (e.g. ENG-10)
-          example: ENG-10
-        number:
-          type: number
-          description: The issue number (if applicable). For example, in the case of a github issue with the url `https://github.com/foo/bar/issues/123` this field will be set to `123`.
-          example: 123
-        type:
-          type: string
-          description: An identifier for the 3rd party service
-          example: jira
-        url:
-          type: string
-          description: The url to the issue on the 3rd party service
-          example: https://example.atlassian.net/browse/ENG-10
-      required:
-      - id
-      - type
-      - url
-    _EventExceptionRegister:
-      type: object
-      properties:
-        frame_index:
-          type: number
-          description: The index of the frame in the stacktrace that the registers apply to
-          example: 1
-        register_values:
-          type: array
-          description: Details of a register
-          items:
-            $ref: '#/components/schemas/_EventExceptionRegisterValue'
-    _EventUser:
-      type: object
-      properties:
-        id:
-          type: string
-          description: A unique identifier for a user affected by this event. This could be any distinct identifier that makes sense for your application/platform.
-          example: '19'
-        name:
-          type: string
-          description: The user's name, or a string you use to identify them.
-          example: Robert Hawkins
-        email:
-          type: string
-          description: The user's email address.
-          example: bob@example.com
-    ElasticSearchEventApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 595301a6ae48dd0018aedd61
-        is_full_report:
-          type: boolean
-          example: false
-        url:
-          type: string
-          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10/events/515fb9337c1074f6fd000001
-        project_url:
-          type: string
-          example: https://api.bugsnag.com/projects/74f6fd000001515fb9337c10
-        error_id:
-          type: string
-          description: The Error this Event is an occurrence of
-          example: 515fb9337c1074f6fd000001
-        received_at:
-          type: string
-          description: The time the [Error Reporting API](https://developer.smartbear.com/bugsnag/docs/reporting-events-and-sessions/) was notified of this Event
-          example: '2017-04-19T09:16:50.000Z'
-        exceptions:
-          type: array
-          description: An array of exceptions that occurred during this event. Most of the time there will only be one exception, but some languages support "nested" or "caused by" exceptions. The first item in the array represents the outermost exception. Each subsequent item represents the exception that caused the preceding one.
-          items:
-            type: object
-        error_class:
-          type: string
-          example: NoMethodError
-        message:
-          type: string
-        severity:
-          $ref: '#/components/schemas/SeverityOptions'
-        unhandled:
-          type: boolean
-          description: Whether or not the event was from an unhandled exception
-          example: true
-        context:
-          type: string
-          description: This refers to the action that was happening when the event occurred.
-          example: users#show
-        app:
-          type: object
-          properties:
-            releaseStage:
-              type: string
-              description: release stage where this Event occurred
-              example: production
-            type:
-              type: string
-              description: The application type, such as a web framework or mobile platform, for example "rails" or "android".
-              example: rails
-  parameters:
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
+          description: The value of the register
+          example: '0x1012d41a40dd145f'
   securitySchemes:
     tokenAuth:
       type: apiKey
@@ -2904,4 +2904,4 @@ externalDocs:
   url: https://docs.bugsnag.com/api/data-access/
 x-refined-from:
 - bugsnag-data-access-openapi.yml
-- bugsnag-data-access-api-openapi.json
+- bugsnag-errors-api-openapi.yml

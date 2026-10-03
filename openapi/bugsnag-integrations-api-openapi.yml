@@ -464,87 +464,107 @@ paths:
                   - Organization not found
 components:
   schemas:
-    ManualConfigurationResponse:
+    ConfiguredIntegrationSummary:
       type: object
       properties:
-        manual:
-          type: object
-          description: A manual configuration.
-        host:
+        notification_id:
           type: string
-          example: https://host.example.com
-          description: The Jira host (Used as the base for API calls)
-        username:
+          example: 515fb9337c1074f6fd000007
+          description: ID of the base configured integration
+        description:
           type: string
-          example: sampleUser
-          description: (manual configuration only) The username of the Jira user to make API calls as
-        ignore_tls_validation:
+          example: Create and sync Jira ticket
+          description: Description of the configured integration
+        project_identifier:
           type:
-          - boolean
+          - string
           - 'null'
-          description: (manual configuration only) Whether to ignore TLS validation when making API calls
-        authentication_type:
-          $ref: '#/components/schemas/ManualConfigurationResponseAuthenticationType'
-          description: (manual configuration only) The authentication type used on this connection
-    ConfiguredIntegrationCreateRequest:
-      type: object
-      properties:
+          example: PROJ
+          description: 'If the notification is an issue tracker, this is a human-readable project identifier associated with the issue tracker. If there is no human-readable project identifier (e.g. the service uses an API key only) then this will be null.
+
+            '
         integration_key:
           type: string
           example: jira
-          description: Key to identify the integration service.
-        configuration:
-          $ref: '#/components/schemas/SampleIntegrationConfiguration'
-          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
-        disable_release_stages:
-          type: array
-          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+          description: Key to identify the integration service
+        category:
+          type: string
+          example: issue-tracker
+          description: Category of configured integration
+        enabled_trigger_count:
+          type: number
+          example: 5
+          description: Number of triggers enabled
+        status:
+          type: string
+          enum:
+          - enabled
+          - disabled
+          - failing
+          - failed
+          description: 'The status of the configured integration. * enabled - The integration is enabled. * disabled - The integration is disabled. No notifications will be sent. * failing - The integration is failing. If it continues to fail over a period of time it will become failed. * failed - The integration is failed. No notifications will be sent. An integration can be enabled again by performing a successful [/configured_integrations/test](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api/Integrations/configuredIntegrationTest).
 
             '
-          items:
-            type: string
-        disable_severities:
-          type: array
-          description: The severities that this notification should not be triggered for.
-          items:
-            type: string
-            enum:
-            - error
-            - warning
-            - info
-        disable_unhandled_states:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnhandledOptions'
-          description: The kinds of exceptions that this notification should not be triggered for.
-        issue_automation:
-          $ref: '#/components/schemas/IssueAutomationSettings'
-          description: Automation settings (applicable for `issue-tracker` integrations only).
         label:
           type:
           - string
           - 'null'
           example: My Issue Tracker
           description: A label for use in identifying the issue tracker.
-        integration_connection_id:
-          type: string
-          example: 515fb9337c1074f6fd000007
-          description: The id of the integration connection to base this configured integration off of.
-      required:
-      - integration_key
-      - configuration
-    SampleIntegrationConfiguration:
+    TriggerConfig:
       type: object
       properties:
-        user_name:
+        active:
+          type: boolean
+          example: true
+        settings:
+          type: array
+          description: settings for the trigger
+          items:
+            $ref: '#/components/schemas/NotificationSetting'
+      required:
+      - active
+    BasicFilter:
+      type: object
+      properties:
+        error_statuses:
+          type: array
+          example:
+          - open
+          items:
+            $ref: '#/components/schemas/BasicFilterErrorStatus'
+          description: the error statuses to include
+        release_stages:
+          type: array
+          items:
+            type: string
+          example:
+          - production
+          - staging
+          description: the release stages to include
+        severities:
+          type: array
+          items:
+            $ref: '#/components/schemas/SeverityOptions'
+          description: the severities to include
+        unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: unhandled states to include
+    IntegrationFieldCondition:
+      type: object
+      properties:
+        field:
           type: string
-          example: a_user
-        project_id:
+          enum:
+          - authenticationType
+          description: The field that needs to be compared.
+          example: authenticationType
+        value:
           type: string
-          example: '1234'
-        password:
-          type: string
-          example: so_secure
+          description: The value the compared field needs to be set to.
+          example: IAM Role
     SampleIntegrationConfigurationRequest:
       type: object
       properties:
@@ -580,69 +600,50 @@ components:
           type: string
           example: example@example.com
           description: Your Jira email
-    BasicFilter:
+    IntegrationActions:
       type: object
       properties:
-        error_statuses:
-          type: array
-          example:
-          - open
-          items:
-            $ref: '#/components/schemas/BasicFilterErrorStatus'
-          description: the error statuses to include
-        release_stages:
-          type: array
-          items:
-            type: string
-          example:
-          - production
-          - staging
-          description: the release stages to include
-        severities:
-          type: array
-          items:
-            $ref: '#/components/schemas/SeverityOptions'
-          description: the severities to include
-        unhandled_states:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnhandledOptions'
-          description: unhandled states to include
-    SeverityOptions:
+        create:
+          type: string
+          description: Description of creating an entity in the integrated service (e.g. an issue tracker ticket).
+          example: Create a Trello card
+        view:
+          type: string
+          description: Optional description of viewing an entity in the integrated service.
+          example: View in Trello
+        object:
+          type: string
+          description: Optional the name of a single entity in the integrated service.
+          example: Trello Card
+        new:
+          type: string
+          description: Optional description of adding an entity to the service to receive data (e.g. a stream, a queue, a webhook url).
+          example: Add Amazon SQS queue
+    BasicFilterErrorStatus:
       type: string
       enum:
-      - info
-      - warning
-      - error
-      description: '- info - can be used in manual Bugsnag.notify calls
-
-        - warning - the default severity when Bugsnag.notify is called manually
-
-        - error - the default severity for uncaught exceptions and crashes
-
-        '
-    IntegrationAutomationItem:
+      - open
+      - fixed
+      - snoozed
+      - ignored
+    IssueAutomationSettings:
       type: object
       properties:
-        configurable:
-          type: boolean
-          description: True if this automation has configuration options.
-        options:
-          type: array
-          items:
-            type: string
-          description: Possible values for the state that may be selected.
-        default_option:
-          type: boolean
-          description: Default state for the item (only applicable if `multiple_states` is false)
-        default_options:
-          type: array
-          items:
-            type: string
-          description: Default set of states for the item (only applicable if `multiple_states` is true)
-        multiple_states:
-          type: boolean
-          description: True if multiple states can be selected for this automation.
+        automation_style_type:
+          type: string
+          description: The identifier for the style type of the automation settings. For most integrations there is only one called 'default'.
+        error_fixed:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an error is marked as fixed in Bugsnag.
+        error_reopened:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an error is reopened in Bugsnag.
+        issue_resolved:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an issue is transitioned to resolved in the issue tracker.
+        issue_unresolved:
+          $ref: '#/components/schemas/IssueAutomationSetting'
+          description: Automation settings for when an issue is transitioned to unresolved in the issue tracker.
     NotificationSetting:
       type: object
       properties:
@@ -684,43 +685,6 @@ components:
             The maximum supported period is 7 days, or: - "10080m" - "168h" - "7d"
 
             '
-    IssueAutomationSetting:
-      type: object
-      properties:
-        active:
-          type: boolean
-          description: True if this automation is active (enabled).
-          example: true
-        state:
-          type: string
-          description: The state that the issue should be transitioned to when the automation is triggered (required for `error_fixed` and `error_reopened`).
-          example: fixed
-        states:
-          type: array
-          items:
-            type: string
-          description: The states that when an issue is transitioned to should cause the Bugsnag issue to change status correspondingly (required for `issue_resolved` and `issue_unresolved`).
-    IntegrationAutomation:
-      type: object
-      properties:
-        automation_style:
-          $ref: '#/components/schemas/IntegrationAutomationStyle'
-          description: The style of this automation. Most integrations have a single 'default' style but some can have multiple.
-        error_new:
-          $ref: '#/components/schemas/IntegrationAutomationItem'
-          description: Options for automations when a new error is received by Bugsnag.
-        error_fixed:
-          $ref: '#/components/schemas/IntegrationAutomationItem'
-          description: Options for automations when an error is marked as fixed in Bugsnag.
-        error_reopened:
-          $ref: '#/components/schemas/IntegrationAutomationItem'
-          description: Options for automations when an error is reopened in Bugsnag.
-        issue_resolved:
-          $ref: '#/components/schemas/IntegrationAutomationItem'
-          description: Options for automations when an issue is resolved in a configured issue tracker.
-        issue_unresolved:
-          $ref: '#/components/schemas/IntegrationAutomationItem'
-          description: Options for automations when an issue is unresolved in a configured issue tracker.
     IntegrationConnectionManualApiView:
       type: object
       properties:
@@ -747,48 +711,6 @@ components:
         configuration:
           $ref: '#/components/schemas/JiraConnectionTypeResponse'
           description: The configuration of the integration connection
-    IntegrationFieldCondition:
-      type: object
-      properties:
-        field:
-          type: string
-          enum:
-          - authenticationType
-          description: The field that needs to be compared.
-          example: authenticationType
-        value:
-          type: string
-          description: The value the compared field needs to be set to.
-          example: IAM Role
-    UnhandledOptions:
-      type: string
-      enum:
-      - unhandled
-      - handled
-      description: '- unhandled - Unhandled exceptions.
-
-        - handled - Handled exceptions.
-
-        '
-    IntegrationActions:
-      type: object
-      properties:
-        create:
-          type: string
-          description: Description of creating an entity in the integrated service (e.g. an issue tracker ticket).
-          example: Create a Trello card
-        view:
-          type: string
-          description: Optional description of viewing an entity in the integrated service.
-          example: View in Trello
-        object:
-          type: string
-          description: Optional the name of a single entity in the integrated service.
-          example: Trello Card
-        new:
-          type: string
-          description: Optional description of adding an entity to the service to receive data (e.g. a stream, a queue, a webhook url).
-          example: Add Amazon SQS queue
     Integration:
       type: object
       properties:
@@ -849,216 +771,28 @@ components:
           items:
             $ref: '#/components/schemas/IntegrationAutomation'
           description: Automation settings (for `issue-tracker` integrations only).
-    IssueAutomationSettings:
+    IntegrationAutomationItem:
       type: object
       properties:
-        automation_style_type:
-          type: string
-          description: The identifier for the style type of the automation settings. For most integrations there is only one called 'default'.
-        error_fixed:
-          $ref: '#/components/schemas/IssueAutomationSetting'
-          description: Automation settings for when an error is marked as fixed in Bugsnag.
-        error_reopened:
-          $ref: '#/components/schemas/IssueAutomationSetting'
-          description: Automation settings for when an error is reopened in Bugsnag.
-        issue_resolved:
-          $ref: '#/components/schemas/IssueAutomationSetting'
-          description: Automation settings for when an issue is transitioned to resolved in the issue tracker.
-        issue_unresolved:
-          $ref: '#/components/schemas/IssueAutomationSetting'
-          description: Automation settings for when an issue is transitioned to unresolved in the issue tracker.
-    ConfiguredIntegrationUpdateRequest:
-      type: object
-      properties:
-        configuration:
-          $ref: '#/components/schemas/SampleIntegrationConfiguration'
-          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
-        disable_release_stages:
-          type: array
-          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
-
-            '
-          items:
-            type: string
-        disable_severities:
-          type: array
-          description: The severities that this notification should not be triggered for.
-          items:
-            type: string
-            enum:
-            - error
-            - warning
-            - info
-        disable_unhandled_states:
-          type: array
-          items:
-            $ref: '#/components/schemas/UnhandledOptions'
-          description: The kinds of exceptions that this notification should not be triggered for.
-        issue_automation:
-          $ref: '#/components/schemas/IssueAutomationSettings'
-          description: Automation settings (applicable for `issue-tracker` integrations only).
-        label:
-          type:
-          - string
-          - 'null'
-          example: My Issue Tracker
-          description: A label for use in identifying the issue tracker.
-        integration_connection_id:
-          type: string
-          example: 515fb9337c1074f6fd000007
-          description: The id of the integration connection to base this configured integration off of.
-      required:
-      - configuration
-    IntegrationField:
-      type: object
-      properties:
-        name:
-          type: string
-          description: The unique name of the field.
-          example: password
-        label:
-          type: string
-          description: The human readable name of the field.
-          example: JIRA Password
-        description:
-          type: string
-          description: The human readable description of the field.
-          example: Your JIRA password
-        link:
-          type: string
-          description: A URL that helps with finding the value associated with the field.
-        optional:
+        configurable:
           type: boolean
-          description: True if the field is optional for an integration (defaults to false).
-        default_value:
-          type: string
-          description: The default value of the field if the field is optional.
-        allowed_values:
+          description: True if this automation has configuration options.
+        options:
           type: array
           items:
             type: string
-          description: An array of values that are permitted for the field (required when the `type` is `select` only).
-        type:
-          type: string
-          enum:
-          - password
-          - select
-          - boolean
-          - toggle
-          description: 'The input type of the field (defaults to text input if not provided).
-
-            - password - A string value but a dummy value will be returned after it is initially saved. Intended for sensitive information.
-
-            - select - An option to select one of the `allowed_values`.
-
-            - boolean - A boolean value either ''true'' or ''false''.
-
-            - toggle - An option to toggle between one of the `allowed_values`
-
-            '
-          example: password
-        value:
-          type: string
-          description: The value of the field (not present when retrieving general information about fields for an integration).
-        pattern:
-          type: string
-          description: The regular expression pattern which values are required to match if supplied.
-        deprecated:
+          description: Possible values for the state that may be selected.
+        default_option:
           type: boolean
-          description: True if the field is deprecated and should not be used.
-        conditions:
+          description: Default state for the item (only applicable if `multiple_states` is false)
+        default_options:
           type: array
           items:
-            $ref: '#/components/schemas/IntegrationFieldCondition'
-          description: An array of conditions that must be met for the field to be submitted.
-    ConfiguredIntegrationSummary:
-      type: object
-      properties:
-        notification_id:
-          type: string
-          example: 515fb9337c1074f6fd000007
-          description: ID of the base configured integration
-        description:
-          type: string
-          example: Create and sync Jira ticket
-          description: Description of the configured integration
-        project_identifier:
-          type:
-          - string
-          - 'null'
-          example: PROJ
-          description: 'If the notification is an issue tracker, this is a human-readable project identifier associated with the issue tracker. If there is no human-readable project identifier (e.g. the service uses an API key only) then this will be null.
-
-            '
-        integration_key:
-          type: string
-          example: jira
-          description: Key to identify the integration service
-        category:
-          type: string
-          example: issue-tracker
-          description: Category of configured integration
-        enabled_trigger_count:
-          type: number
-          example: 5
-          description: Number of triggers enabled
-        status:
-          type: string
-          enum:
-          - enabled
-          - disabled
-          - failing
-          - failed
-          description: 'The status of the configured integration. * enabled - The integration is enabled. * disabled - The integration is disabled. No notifications will be sent. * failing - The integration is failing. If it continues to fail over a period of time it will become failed. * failed - The integration is failed. No notifications will be sent. An integration can be enabled again by performing a successful [/configured_integrations/test](https://developer.smartbear.com/bugsnag/docs/bugsnag-data-access-api/Integrations/configuredIntegrationTest).
-
-            '
-        label:
-          type:
-          - string
-          - 'null'
-          example: My Issue Tracker
-          description: A label for use in identifying the issue tracker.
-    IntegrationAutomationStyle:
-      type: object
-      properties:
-        type:
-          type: string
-          description: A type of the integration automation (unique within an integration).
-          example: default
-        description:
-          type: string
-          description: A description of the automation style.
-    ManualConfigurationResponseAuthenticationType:
-      type: string
-      enum:
-      - basic
-      - bearer
-    BasicFilterErrorStatus:
-      type: string
-      enum:
-      - open
-      - fixed
-      - snoozed
-      - ignored
-    JiraConnectionTypeResponse:
-      type: object
-      properties:
-        jira:
-          $ref: '#/components/schemas/ManualConfigurationResponse'
-          description: A jira type configuration. Currently we only allow jira types.
-    TriggerConfig:
-      type: object
-      properties:
-        active:
+            type: string
+          description: Default set of states for the item (only applicable if `multiple_states` is true)
+        multiple_states:
           type: boolean
-          example: true
-        settings:
-          type: array
-          description: settings for the trigger
-          items:
-            $ref: '#/components/schemas/NotificationSetting'
-      required:
-      - active
+          description: True if multiple states can be selected for this automation.
     ConfiguredIntegration:
       type: object
       properties:
@@ -1148,6 +882,272 @@ components:
           description: ID of an associated integration connection.
       required:
       - configuration
+    ConfiguredIntegrationCreateRequest:
+      type: object
+      properties:
+        integration_key:
+          type: string
+          example: jira
+          description: Key to identify the integration service.
+        configuration:
+          $ref: '#/components/schemas/SampleIntegrationConfiguration'
+          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
+        disable_release_stages:
+          type: array
+          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+
+            '
+          items:
+            type: string
+        disable_severities:
+          type: array
+          description: The severities that this notification should not be triggered for.
+          items:
+            type: string
+            enum:
+            - error
+            - warning
+            - info
+        disable_unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: The kinds of exceptions that this notification should not be triggered for.
+        issue_automation:
+          $ref: '#/components/schemas/IssueAutomationSettings'
+          description: Automation settings (applicable for `issue-tracker` integrations only).
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+        integration_connection_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: The id of the integration connection to base this configured integration off of.
+      required:
+      - integration_key
+      - configuration
+    UnhandledOptions:
+      type: string
+      enum:
+      - unhandled
+      - handled
+      description: '- unhandled - Unhandled exceptions.
+
+        - handled - Handled exceptions.
+
+        '
+    JiraConnectionTypeResponse:
+      type: object
+      properties:
+        jira:
+          $ref: '#/components/schemas/ManualConfigurationResponse'
+          description: A jira type configuration. Currently we only allow jira types.
+    SeverityOptions:
+      type: string
+      enum:
+      - info
+      - warning
+      - error
+      description: '- info - can be used in manual Bugsnag.notify calls
+
+        - warning - the default severity when Bugsnag.notify is called manually
+
+        - error - the default severity for uncaught exceptions and crashes
+
+        '
+    SampleIntegrationConfiguration:
+      type: object
+      properties:
+        user_name:
+          type: string
+          example: a_user
+        project_id:
+          type: string
+          example: '1234'
+        password:
+          type: string
+          example: so_secure
+    IssueAutomationSetting:
+      type: object
+      properties:
+        active:
+          type: boolean
+          description: True if this automation is active (enabled).
+          example: true
+        state:
+          type: string
+          description: The state that the issue should be transitioned to when the automation is triggered (required for `error_fixed` and `error_reopened`).
+          example: fixed
+        states:
+          type: array
+          items:
+            type: string
+          description: The states that when an issue is transitioned to should cause the Bugsnag issue to change status correspondingly (required for `issue_resolved` and `issue_unresolved`).
+    IntegrationAutomation:
+      type: object
+      properties:
+        automation_style:
+          $ref: '#/components/schemas/IntegrationAutomationStyle'
+          description: The style of this automation. Most integrations have a single 'default' style but some can have multiple.
+        error_new:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when a new error is received by Bugsnag.
+        error_fixed:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an error is marked as fixed in Bugsnag.
+        error_reopened:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an error is reopened in Bugsnag.
+        issue_resolved:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an issue is resolved in a configured issue tracker.
+        issue_unresolved:
+          $ref: '#/components/schemas/IntegrationAutomationItem'
+          description: Options for automations when an issue is unresolved in a configured issue tracker.
+    ConfiguredIntegrationUpdateRequest:
+      type: object
+      properties:
+        configuration:
+          $ref: '#/components/schemas/SampleIntegrationConfiguration'
+          description: A map of the configuration parameters required for the integration. The fields vary depending on the integration being configured.
+        disable_release_stages:
+          type: array
+          description: 'The release stages that this notification should not be triggered for. Example: { "disable_release_stages": ["development", "staging"] }
+
+            '
+          items:
+            type: string
+        disable_severities:
+          type: array
+          description: The severities that this notification should not be triggered for.
+          items:
+            type: string
+            enum:
+            - error
+            - warning
+            - info
+        disable_unhandled_states:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnhandledOptions'
+          description: The kinds of exceptions that this notification should not be triggered for.
+        issue_automation:
+          $ref: '#/components/schemas/IssueAutomationSettings'
+          description: Automation settings (applicable for `issue-tracker` integrations only).
+        label:
+          type:
+          - string
+          - 'null'
+          example: My Issue Tracker
+          description: A label for use in identifying the issue tracker.
+        integration_connection_id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: The id of the integration connection to base this configured integration off of.
+      required:
+      - configuration
+    ManualConfigurationResponse:
+      type: object
+      properties:
+        manual:
+          type: object
+          description: A manual configuration.
+        host:
+          type: string
+          example: https://host.example.com
+          description: The Jira host (Used as the base for API calls)
+        username:
+          type: string
+          example: sampleUser
+          description: (manual configuration only) The username of the Jira user to make API calls as
+        ignore_tls_validation:
+          type:
+          - boolean
+          - 'null'
+          description: (manual configuration only) Whether to ignore TLS validation when making API calls
+        authentication_type:
+          $ref: '#/components/schemas/ManualConfigurationResponseAuthenticationType'
+          description: (manual configuration only) The authentication type used on this connection
+    ManualConfigurationResponseAuthenticationType:
+      type: string
+      enum:
+      - basic
+      - bearer
+    IntegrationAutomationStyle:
+      type: object
+      properties:
+        type:
+          type: string
+          description: A type of the integration automation (unique within an integration).
+          example: default
+        description:
+          type: string
+          description: A description of the automation style.
+    IntegrationField:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The unique name of the field.
+          example: password
+        label:
+          type: string
+          description: The human readable name of the field.
+          example: JIRA Password
+        description:
+          type: string
+          description: The human readable description of the field.
+          example: Your JIRA password
+        link:
+          type: string
+          description: A URL that helps with finding the value associated with the field.
+        optional:
+          type: boolean
+          description: True if the field is optional for an integration (defaults to false).
+        default_value:
+          type: string
+          description: The default value of the field if the field is optional.
+        allowed_values:
+          type: array
+          items:
+            type: string
+          description: An array of values that are permitted for the field (required when the `type` is `select` only).
+        type:
+          type: string
+          enum:
+          - password
+          - select
+          - boolean
+          - toggle
+          description: 'The input type of the field (defaults to text input if not provided).
+
+            - password - A string value but a dummy value will be returned after it is initially saved. Intended for sensitive information.
+
+            - select - An option to select one of the `allowed_values`.
+
+            - boolean - A boolean value either ''true'' or ''false''.
+
+            - toggle - An option to toggle between one of the `allowed_values`
+
+            '
+          example: password
+        value:
+          type: string
+          description: The value of the field (not present when retrieving general information about fields for an integration).
+        pattern:
+          type: string
+          description: The regular expression pattern which values are required to match if supplied.
+        deprecated:
+          type: boolean
+          description: True if the field is deprecated and should not be used.
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationFieldCondition'
+          description: An array of conditions that must be met for the field to be submitted.
   responses:
     insufficient_project_role:
       description: The user should be an Organization Administrator or Project Owner to perform this action

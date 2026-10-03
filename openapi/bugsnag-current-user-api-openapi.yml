@@ -346,222 +346,6 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    SavedSearch:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 515fb9337c1074f6fd000001
-        user_id:
-          type: string
-          example: 515fb9337c1074f6fd000002
-          description: ID of user who created the saved search
-        project_id:
-          type: string
-          example: 515fb9337c1074f6fd000003
-          description: ID of project this saved search is for
-        name:
-          type: string
-          example: most events
-          description: name of the saved search
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: 'The filters used to determine which Errors will be returned by the
-
-            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-
-            '
-        sort:
-          $ref: '#/components/schemas/SearchSort'
-          description: the `error` property to sort results by
-        shared:
-          type: boolean
-          description: whether this saved search is shared among collaborators
-        project_default:
-          type: boolean
-          example: false
-          description: whether this saved search is the project default for the current user
-        updated_by_id:
-          type: string
-          example: 515fb9337c1074f6fd000010
-          description: ID of user who last updated this saved search
-        created_at:
-          type: string
-          example: '2018-06-11T10:43:55Z'
-          description: time this saved search was created
-        updated_at:
-          type: string
-          example: '2018-06-12T11:50:00Z'
-          description: time this saved search was last updated
-        has_assigned_to_me:
-          type: boolean
-          example: true
-          description: indicates if the saved search has a filter with `assigned_to` set to `me`
-        has_assigned_to:
-          type: boolean
-          example: true
-          description: indicates if the saved search has a filter with `assigned_to` set to anything other than `me`
-        has_created_issue_filter:
-          type: boolean
-          example: true
-          description: indicates if the saved search has a filter with any criteria related to created issues
-        has_status_filter:
-          type: boolean
-          example: true
-          description: indicates if the saved search contains an explicit error status filter
-        new_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include errors less than 24hrs old
-        open_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include open errors
-        for_review_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include open errors that are unassigned and have no linked issue
-        snoozed_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include errors that are snoozed
-        fixed_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include errors that are fixed
-        ignored_error_inclusion:
-          $ref: '#/components/schemas/ErrorStatusType'
-          description: indicates if the saved search may include errors that are ignored
-      required:
-      - id
-      - user_id
-      - project_id
-      - name
-      - filters
-      - sort
-      - shared
-      - project_default
-      - updated_by_id
-      - created_at
-      - updated_at
-      - has_assigned_to_me
-      - has_assigned_to
-      - has_created_issue_filter
-      - has_status_filter
-      - new_error_inclusion
-      - open_error_inclusion
-      - for_review_error_inclusion
-      - snoozed_error_inclusion
-      - fixed_error_inclusion
-      - ignored_error_inclusion
-    SearchSort:
-      type: string
-      enum:
-      - first_seen
-      - users
-      - events
-      - last_seen
-    ErrorStatus:
-      type: string
-      enum:
-      - open
-      - in progress
-      - for_review
-      - fixed
-      - snoozed
-      - ignored
-    SavedSearchCreateRequest:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: 515fb9337c1074f6fd000003
-          description: ID of project this saved search is for
-        name:
-          type: string
-          example: most events
-          description: name of the saved search
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: 'The filters used to determine which Errors will be returned by the
-
-            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-
-            '
-        sort:
-          $ref: '#/components/schemas/SearchSort'
-          description: the `error` property to sort results by
-        shared:
-          type: boolean
-          example: false
-          description: whether this saved search is shared among collaborators
-          default: false
-        project_default:
-          type: boolean
-          example: false
-          description: whether this saved search is the project default for the current user
-      required:
-      - project_id
-      - name
-      - filters
-      - project_default
-    SavedSearchUpdateRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          example: most events
-          description: name of the saved search
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: 'The filters used to determine which Errors will be returned by the
-
-            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-
-            '
-        sort:
-          $ref: '#/components/schemas/SearchSort'
-          description: the `error` property to sort results by
-        shared:
-          type: boolean
-          example: false
-          description: whether this saved search is shared among collaborators
-          default: false
-        project_default:
-          type: boolean
-          example: false
-          description: whether this saved search is the project default for the current user
-    FilterMatchType:
-      type: string
-      enum:
-      - eq
-      - ne
-      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
-
-        - ne - Filter for items that don''t match the value
-
-        '
-    ErrorStatusType:
-      type: string
-      enum:
-      - all
-      - some
-      - none
-    SavedSearchUsageSummary:
-      type: object
-      properties:
-        project_notifications_count:
-          type: number
-          description: the number of project notifications using this saved search
-        current_user_using_for_email_notification:
-          type: boolean
-          description: whether the current user is using this saved search for email notifications
-        collaborator_email_notifications_count:
-          type: number
-          description: the number of other users using this saved search for email notifications
-        performance_monitor_count:
-          type: number
-          description: the number of performance monitors using this saved search
-      required:
-      - project_notifications_count
-      - current_user_using_for_email_notification
-      - collaborator_email_notifications_count
-      - performance_monitor_count
     Filters:
       type: object
       properties:
@@ -1143,6 +927,87 @@ components:
             required:
             - type
             - value
+    SavedSearchCreateRequest:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project this saved search is for
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          example: false
+          description: whether this saved search is shared among collaborators
+          default: false
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+      required:
+      - project_id
+      - name
+      - filters
+      - project_default
+    SavedSearchUsageSummary:
+      type: object
+      properties:
+        project_notifications_count:
+          type: number
+          description: the number of project notifications using this saved search
+        current_user_using_for_email_notification:
+          type: boolean
+          description: whether the current user is using this saved search for email notifications
+        collaborator_email_notifications_count:
+          type: number
+          description: the number of other users using this saved search for email notifications
+        performance_monitor_count:
+          type: number
+          description: the number of performance monitors using this saved search
+      required:
+      - project_notifications_count
+      - current_user_using_for_email_notification
+      - collaborator_email_notifications_count
+      - performance_monitor_count
+    SavedSearchUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          example: false
+          description: whether this saved search is shared among collaborators
+          default: false
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
     SeverityOptions:
       type: string
       enum:
@@ -1156,6 +1021,141 @@ components:
         - error - the default severity for uncaught exceptions and crashes
 
         '
+    ErrorStatusType:
+      type: string
+      enum:
+      - all
+      - some
+      - none
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
+    SavedSearch:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000001
+        user_id:
+          type: string
+          example: 515fb9337c1074f6fd000002
+          description: ID of user who created the saved search
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project this saved search is for
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          description: whether this saved search is shared among collaborators
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+        updated_by_id:
+          type: string
+          example: 515fb9337c1074f6fd000010
+          description: ID of user who last updated this saved search
+        created_at:
+          type: string
+          example: '2018-06-11T10:43:55Z'
+          description: time this saved search was created
+        updated_at:
+          type: string
+          example: '2018-06-12T11:50:00Z'
+          description: time this saved search was last updated
+        has_assigned_to_me:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with `assigned_to` set to `me`
+        has_assigned_to:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with `assigned_to` set to anything other than `me`
+        has_created_issue_filter:
+          type: boolean
+          example: true
+          description: indicates if the saved search has a filter with any criteria related to created issues
+        has_status_filter:
+          type: boolean
+          example: true
+          description: indicates if the saved search contains an explicit error status filter
+        new_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors less than 24hrs old
+        open_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include open errors
+        for_review_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include open errors that are unassigned and have no linked issue
+        snoozed_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are snoozed
+        fixed_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are fixed
+        ignored_error_inclusion:
+          $ref: '#/components/schemas/ErrorStatusType'
+          description: indicates if the saved search may include errors that are ignored
+      required:
+      - id
+      - user_id
+      - project_id
+      - name
+      - filters
+      - sort
+      - shared
+      - project_default
+      - updated_by_id
+      - created_at
+      - updated_at
+      - has_assigned_to_me
+      - has_assigned_to
+      - has_created_issue_filter
+      - has_status_filter
+      - new_error_inclusion
+      - open_error_inclusion
+      - for_review_error_inclusion
+      - snoozed_error_inclusion
+      - fixed_error_inclusion
+      - ignored_error_inclusion
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
+    SearchSort:
+      type: string
+      enum:
+      - first_seen
+      - users
+      - events
+      - last_seen
     User:
       type: object
       description: Represents an authenticated Bugsnag user account.

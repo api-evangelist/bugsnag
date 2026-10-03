@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: Bugsnag Projects API
   version: '1.0'
-  description: 'Operations tagged Projects across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-data-access-api-openapi.json. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged Projects across 2 of this provider''s published API definitions: bugsnag-data-access-openapi.yml, bugsnag-projects-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.bugsnag.com
   description: Bugsnag Production API Server
@@ -220,6 +220,15 @@ paths:
     - url: https://api.bugsnag.com
       description: Bugsnag Production API Server
   /projects/{project_id}/upload_api_key:
+    servers:
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
+    - description: For organizations with projects on app.bugsnag.com
+      url: https://api.bugsnag.com
+    - description: For organizations with projects on app.bugsnag.smartbear.com
+      url: https://api.bugsnag.smartbear.com
+    - description: SwaggerHub API Auto Mocking
+      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
     delete:
       tags:
       - Projects
@@ -245,6 +254,7 @@ paths:
           $ref: '#/components/responses/insufficient_project_role'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/event_fields:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -254,7 +264,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_fields:
     post:
       tags:
       - Projects
@@ -311,6 +320,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/event_fields/{display_id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -320,7 +330,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_fields/{display_id}:
     patch:
       tags:
       - Projects
@@ -411,6 +420,7 @@ paths:
                 errors:
                 - Project not found
                 - Event field not found
+  /projects/{project_id}/release_groups:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -420,7 +430,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/release_groups:
     get:
       tags:
       - Projects
@@ -479,6 +488,7 @@ paths:
                   $ref: '#/components/schemas/ReleaseGroup'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /release_groups/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -488,7 +498,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /release_groups/{id}:
     get:
       tags:
       - Projects
@@ -568,6 +577,7 @@ paths:
                       type: string
                     example:
                     - Release group not found
+  /release_groups/{release_group_id}/releases:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -577,7 +587,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /release_groups/{release_group_id}/releases:
     get:
       tags:
       - Projects
@@ -626,6 +635,7 @@ paths:
                       type: string
                     example:
                     - Release group not found
+  /projects/{project_id}/event_data_requests:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -635,7 +645,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_data_requests:
     post:
       tags:
       - Projects
@@ -680,6 +689,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataRequestApiView'
+  /projects/{project_id}/event_data_requests/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -689,7 +699,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_data_requests/{id}:
     get:
       tags:
       - Projects
@@ -717,6 +726,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataRequestApiView'
+  /projects/{project_id}/event_data_deletions:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -726,7 +736,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_data_deletions:
     post:
       tags:
       - Projects
@@ -770,6 +779,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /projects/{project_id}/event_data_deletions/{id}/confirm:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -779,7 +789,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_data_deletions/{id}/confirm:
     post:
       tags:
       - Projects
@@ -807,6 +816,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /projects/{project_id}/event_data_deletions/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -816,7 +826,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/event_data_deletions/{id}:
     get:
       tags:
       - Projects
@@ -844,6 +853,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EventDataDeletionApiView'
+  /projects/{project_id}/feature_flags:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -853,7 +863,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags:
     get:
       tags:
       - Projects
@@ -966,6 +975,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/feature_flag_summaries:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -975,7 +985,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flag_summaries:
     get:
       tags:
       - Projects
@@ -1026,6 +1035,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/feature_flags/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1035,7 +1045,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags/{id}:
     get:
       tags:
       - Projects
@@ -1134,6 +1143,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/feature_flags/{id}/error_overview:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1143,7 +1153,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags/{id}/error_overview:
     get:
       tags:
       - Projects
@@ -1197,6 +1206,7 @@ paths:
                 errors:
                 - Project not found
                 - Feature flag not found
+  /projects/{project_id}/feature_flags/{id}/variants/error_overview:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1206,7 +1216,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags/{id}/variants/error_overview:
     get:
       tags:
       - Projects
@@ -1270,6 +1279,7 @@ paths:
                 errors:
                 - Project not found
                 - Feature flag not found
+  /projects/{project_id}/feature_flags/{id}/variants:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1279,7 +1289,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags/{id}/variants:
     get:
       tags:
       - Projects
@@ -1349,6 +1358,7 @@ paths:
                 errors:
                 - Project not found
                 - Feature flag not found
+  /projects/{project_id}/feature_flags/by_name/{name}/variants:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1358,7 +1368,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/feature_flags/by_name/{name}/variants:
     get:
       tags:
       - Projects
@@ -1428,6 +1437,7 @@ paths:
                 errors:
                 - Feature flag not found
                 - Project not found
+  /user/projects/{project_id}/starred_feature_flags:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1437,7 +1447,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /user/projects/{project_id}/starred_feature_flags:
     post:
       tags:
       - Projects
@@ -1481,6 +1490,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /user/projects/{project_id}/starred_feature_flags/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1490,7 +1500,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /user/projects/{project_id}/starred_feature_flags/{id}:
     delete:
       tags:
       - Projects
@@ -1528,6 +1537,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/error_assignment_rules:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1537,7 +1547,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/error_assignment_rules:
     put:
       tags:
       - Projects
@@ -1608,6 +1617,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/span_groups:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1617,7 +1627,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups:
     get:
       tags:
       - Projects
@@ -1732,6 +1741,7 @@ paths:
                     - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/span_groups/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1741,7 +1751,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups/{id}:
     get:
       tags:
       - Projects
@@ -1860,6 +1869,7 @@ paths:
                       type: string
                     example:
                     - Starred span groups limit reached
+  /projects/{project_id}/span_group_summaries:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1869,7 +1879,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_group_summaries:
     get:
       tags:
       - Projects
@@ -1929,6 +1938,7 @@ paths:
                     - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/span_groups/{id}/timeline:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -1938,7 +1948,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups/{id}/timeline:
     get:
       tags:
       - Projects
@@ -1996,6 +2005,7 @@ paths:
                     - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/span_groups/{id}/distribution:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2005,7 +2015,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups/{id}/distribution:
     get:
       tags:
       - Projects
@@ -2063,6 +2072,7 @@ paths:
                     - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/starred_span_groups:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2072,7 +2082,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/starred_span_groups:
     get:
       tags:
       - Projects
@@ -2129,6 +2138,7 @@ paths:
                   $ref: '#/components/schemas/SpanGroupDescription'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/span_groups/{id}/performance_targets:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2138,7 +2148,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups/{id}/performance_targets:
     get:
       tags:
       - Projects
@@ -2196,6 +2205,7 @@ paths:
                     - Insufficient project role
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/span_group_categories/{category}/span_groups/{name}/spans:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2205,7 +2215,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_group_categories/{category}/span_groups/{name}/spans:
     get:
       tags:
       - Projects
@@ -2260,6 +2269,7 @@ paths:
                     example:
                     - Category is not included in the list
                     - 'Invalid Filter: invalid filter key: <key>'
+  /projects/{project_id}/span_groups/{id}/spans:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2269,7 +2279,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/span_groups/{id}/spans:
     get:
       tags:
       - Projects
@@ -2365,6 +2374,7 @@ paths:
                     - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/traces/{trace_id}/spans:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2374,7 +2384,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/traces/{trace_id}/spans:
     get:
       tags:
       - Projects
@@ -2434,6 +2443,7 @@ paths:
                   $ref: '#/components/schemas/Span'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/page_load_span_groups:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2443,7 +2453,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/page_load_span_groups:
     get:
       tags:
       - Projects
@@ -2549,6 +2558,7 @@ paths:
                 - 'Invalid Filter: invalid filter key: <key>'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/page_load_span_groups/{id}:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2558,7 +2568,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/page_load_span_groups/{id}:
     get:
       tags:
       - Projects
@@ -2615,6 +2624,7 @@ paths:
                 - invalid span group id
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/trace_fields:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2624,7 +2634,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/trace_fields:
     get:
       tags:
       - Projects
@@ -2650,6 +2659,7 @@ paths:
                   $ref: '#/components/schemas/TraceField'
         '404':
           $ref: '#/components/responses/project_not_found'
+  /projects/{project_id}/network_endpoint_grouping:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2659,7 +2669,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/network_endpoint_grouping:
     get:
       tags:
       - Projects
@@ -2785,6 +2794,7 @@ paths:
               example:
                 errors:
                 - Project not found
+  /projects/{project_id}/performance_overview:
     servers:
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
@@ -2794,7 +2804,6 @@ paths:
       url: https://api.bugsnag.smartbear.com
     - description: SwaggerHub API Auto Mocking
       url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
-  /projects/{project_id}/performance_overview:
     get:
       tags:
       - Projects
@@ -2849,30 +2858,32 @@ paths:
                     - Organization must have the performance-scores feature enabled
         '404':
           $ref: '#/components/responses/project_not_found'
-    servers:
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear-public/bugsnag-data-access-api/2
-    - description: For organizations with projects on app.bugsnag.com
-      url: https://api.bugsnag.com
-    - description: For organizations with projects on app.bugsnag.smartbear.com
-      url: https://api.bugsnag.smartbear.com
-    - description: SwaggerHub API Auto Mocking
-      url: https://virtserver.swaggerhub.com/smartbear/bugsnag-data-access-api/2
 components:
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
   schemas:
-    ProjectCreate:
-      type: object
-      description: Request body for creating a new project.
-      required:
-      - name
-      - type
-      properties:
-        name:
-          type: string
-          description: The name of the project.
-        type:
-          type: string
-          description: The platform type of the project (e.g., rails, js, android).
     ProjectUpdate:
       type: object
       description: Request body for updating a project.
@@ -2900,6 +2911,19 @@ components:
           items:
             type: string
           description: Error classes that should be discarded.
+    ProjectCreate:
+      type: object
+      description: Request body for creating a new project.
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: The name of the project.
+        type:
+          type: string
+          description: The platform type of the project (e.g., rails, js, android).
     Project:
       type: object
       description: Represents a Bugsnag project, which corresponds to an individual application being monitored.
@@ -2995,913 +3019,6 @@ components:
           items:
             type: string
           description: List of error messages.
-    ErrorAssignmentRulesAssignee:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - user
-          - team
-          description: Whether the rule will assign to a team or a specific user.
-        id:
-          type: string
-          example: 6368efb0d1befa003d22c7f4
-          description: The ID of the User or Team being assigned the rule.
-      required:
-      - type
-      - id
-    SpanGroupCategoryStatistics:
-      type: object
-      properties:
-        full_page_load:
-          $ref: '#/components/schemas/SpanGroupCategoryStatisticsFullPageLoadStatistics'
-          description: Statistics for the full_page_load category
-    RenderingMetricsTotalFrames:
-      type: object
-      required:
-      - span_count
-      properties:
-        span_count:
-          type: number
-          example: 100
-          description: The number of Spans that tracked at least one frame
-    ReleaseRequestSource:
-      type: string
-      enum:
-      - unknown_source
-      - event
-      - session
-      - api
-      - deploy
-      - error
-      - error_incomplete_build
-      description: '- unknown_source - source is unknown
-
-        - event - originated from an event
-
-        - session - originated from a session
-
-        - api - obtained from an API request
-
-        - deploy - obtained from a deploy request
-
-        - error - obtained from an error (with complete information)
-
-        - error_incomplete_build - obtained from an error (but the build information is incomplete)
-
-        '
-    FilterGroupJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filters within a group.
-
-        - and (default) - All conditions must be satisfied
-
-        - or - At least one condition must be satisfied
-
-        '
-    FilterGroupsJoinOperator:
-      type: string
-      enum:
-      - and
-      - or
-      description: 'The join operator to apply between filter groups.
-
-        - and - All conditions must be satisfied
-
-        - or (default) - At least one condition must be satisfied
-
-        '
-    _FilterValue:
-      type: object
-      properties:
-        id:
-          type: string
-          example: new
-          description: The identifier to use when filtering by this value
-        name:
-          type: string
-          example: New
-          description: A human readable representation of this value
-    EventDataRequestStatus:
-      type: string
-      enum:
-      - PREPARING
-      - AWAITING_CONFIRMATION
-      - ACCEPTED
-      - IN_PROGRESS
-      - COMPLETED
-      - EXPIRED
-    AdvancedFiltersFilterGroup:
-      type: object
-      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
-      properties:
-        join:
-          $ref: '#/components/schemas/FilterGroupJoinOperator'
-          description: The operator to use when joining filters within this group
-        AdditionalProperties:
-          $ref: '#/components/schemas/Filters'
-    TraceFieldOptionValue:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          example: 2g
-          description: The identifier to use when filtering by this value.
-        name:
-          type: string
-          example: 2G
-          description: A human readable representation of this value.
-    EventField:
-      type: object
-      properties:
-        custom:
-          type: boolean
-          example: false
-          description: Whether the field is a custom event field created by your organization
-        display_id:
-          type: string
-          example: user.id
-          description: Identifier which is the key to use for filtering by this field
-        filter_options:
-          type: object
-          properties:
-            name:
-              type: string
-              example: User ID
-              description: Human readable display name for the filter
-            description:
-              type: string
-              example: user impacted by an event
-              description: Description of what the filter is
-            aliases:
-              type: array
-              items:
-                type: string
-              example:
-              - user
-              - uid
-              description: Other possible names that match this field when filtering
-            hint_text:
-              type: string
-              example: Exact match only
-              description: Hint text to clarify the use of the field for filtering
-            hint_url:
-              type: string
-              example: http://docs.bugsnag.com/product/filtering-dashboard#user-id
-              description: Link to Bugsnag documentation about this filter
-          required:
-          - name
-        values:
-          type: array
-          items:
-            $ref: '#/components/schemas/_FilterValue'
-          description: Possible values for this filter, only if this filter has a finite set of values
-        match_types:
-          type: array
-          items:
-            type: string
-            enum:
-            - eq
-            - ne
-          description: "The valid match types when filtering by this field\n  - eq - Results must equal the value\n  - ne - Results must not equal the value\n"
-        pivot_options:
-          $ref: '#/components/schemas/PivotOptions'
-        reindex_in_progress:
-          type: boolean
-          example: true
-          description: Whether a reindex of this field is currently in progress (applicable to custom fields only)
-        reindex_percentage:
-          type: number
-          example: 100
-          description: The percentage complete of the reindexing of this field (applicable to custom fields only)
-      required:
-      - filter_options
-      - pivot_options
-    SpanGroupTimelinePoint:
-      type: object
-      required:
-      - bucket_start
-      - bucket_end
-      properties:
-        bucket_start:
-          type: string
-          example: 2022-10-17 15:00:00 +0000
-          description: The timestamp (inclusive) representing the start point of the bucketed statistics.
-        bucket_end:
-          type: string
-          example: 2022-10-17 15:30:00 +0000
-          description: The timestamp (exclusive) representing the end point of the bucketed statistics.
-        statistics:
-          $ref: '#/components/schemas/SpanGroupStatistics'
-          description: Statistics for the time period.
-    EventDataRequestApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5bf49d97468ce913212ae486
-          description: ID of the event data request
-        url:
-          type: string
-          description: URL for downloading the report of the requested event data. This may be a signed URL that is accessible for short amount of time.<br><br>This field is not present for on-premise installations. You can check event data requests in on-premise through the Minio UI by port forwarding it using `kubectl -n bugsnag port-forward svc/minio 9000:9000` and opening the Minio UI at http://localhost:9000. The access key and secret key can be retrieved via `kubectl -n bugsnag get secret minio -o jsonpath='{.data.accesskey}' | base64 -d; echo` and `kubectl -n bugsnag get secret minio -o jsonpath='{.data.secretkey}' | base64 -d; echo` respectively. Single node installations should omit `-n bugsnag` from commands.
-        status:
-          $ref: '#/components/schemas/EventDataRequestStatus'
-          example: ACCEPTED
-          description: status of the request
-        total:
-          type: number
-          example: 10
-          description: the total number of events that are expected to be returned; this field will be null if the status is `PREPARING`
-        report_type:
-          $ref: '#/components/schemas/EventDataRequestReportType'
-          description: the type of report to return; this is blank if all event fields were requested
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: The filters used to determine which events will be included in the report. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups:
-          items:
-            $ref: '#/components/schemas/FilterGroup'
-          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups_join:
-          type: string
-          enum:
-          - AND
-          - OR
-          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        created_at:
-          type: string
-          example: '2018-11-21T01:31:25.000Z'
-          description: when the request was created
-        completed_at:
-          type: string
-          example: '2018-11-21T01:35:00.000Z'
-          description: when the request was completed
-        expires_at:
-          type: string
-          example: '2018-11-28T01:35:00.000Z'
-          description: when the request expires (and any stored data is removed)
-      required:
-      - id
-      - status
-      - filters
-      - created_at
-    SpanGroupStatistics:
-      type: object
-      required:
-      - duration_statistics
-      - total_spans
-      - last_seen
-      properties:
-        duration_statistics:
-          $ref: '#/components/schemas/SpanGroupDurationStatistics'
-          description: The aggregated statistics for the filtered Span durations.
-        total_spans:
-          type: number
-          example: 3264
-          description: The total number of Spans that were sampled in the bucketed time period.
-        estimated_spans:
-          type:
-          - number
-          - 'null'
-          example: 4321
-          description: The estimated total of Spans that were generated in the bucketed time period, before sampling was applied.
-        last_seen:
-          type: string
-          example: 2022-10-17 15:30:00 +0000
-          description: When the last filtered Span within this Span Group was seen.
-        category_statistics:
-          $ref: '#/components/schemas/SpanGroupCategoryStatistics'
-          description: Statistics that are specific to the Span Group's category. This is populated by only one property object based on the category type.
-        rendering_statistics:
-          $ref: '#/components/schemas/RenderingMetrics'
-          description: Statistics about rendering issues encountered while the Spans in the Span Group were active.
-        system_metrics_statistics:
-          $ref: '#/components/schemas/SystemMetrics'
-          description: Statistics about system measurements recorded while the Spans in the Span Group were active.
-        http_statistics:
-          $ref: '#/components/schemas/SpanGroupHttpStatistics'
-          description: Statistics about the HTTP call.
-    PerformanceTargetConfigurationThreshold:
-      type: object
-      required:
-      - duration
-      properties:
-        duration:
-          type: number
-          example: 1000
-          description: The duration threshold in milliseconds.
-    SpanGroupHttpResponseCodes:
-      type: object
-      required:
-      - total_spans
-      - codes_1xx
-      - codes_2xx
-      - codes_3xx
-      - codes_4xx
-      - codes_5xx
-      properties:
-        total_spans:
-          type: number
-          example: 1500
-          description: The total number of Spans which have a HTTP response code.
-        codes_1xx:
-          type: number
-          example: 100
-          description: The number of Spans with a 1xx response code.
-        codes_2xx:
-          type: number
-          example: 200
-          description: The number of Spans with a 2xx response code.
-        codes_3xx:
-          type: number
-          example: 300
-          description: The number of Spans with a 3xx response code.
-        codes_4xx:
-          type: number
-          example: 400
-          description: The number of Spans with a 4xx response code.
-        codes_5xx:
-          type: number
-          example: 500
-          description: The number of Spans with a 5xx response code.
-    ProjectNetworkGroupingRuleset:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the project this is for
-        endpoints:
-          type: array
-          items:
-            type: string
-          description: The URL patterns by which network spans are grouped.
-      required:
-      - project_id
-      - endpoints
-    RenderingMetrics:
-      type: object
-      properties:
-        slow_frames:
-          $ref: '#/components/schemas/RenderingMetricsSlowFrames'
-          description: Details about the slow frames (those that missed their render deadline)
-        frozen_frames:
-          $ref: '#/components/schemas/RenderingMetricsFrozenFrames'
-          description: Details about the frozen frames (those that took longer than 700ms to render)
-        total_frames:
-          $ref: '#/components/schemas/RenderingMetricsTotalFrames'
-          description: Details about the total number of frames
-        frame_rate_statistics:
-          $ref: '#/components/schemas/RenderingStatisticsFrameRateStatistics'
-          description: Statistics about FPS measurements recorded while the Spans in the Span Group were active
-    TraceFieldOptions:
-      type: object
-      required:
-      - name
-      - description
-      - match_types
-      - searchable
-      properties:
-        name:
-          type: string
-          example: Connection type
-          description: Human readable display name for the filter.
-        description:
-          type: string
-          example: model of the device the span was recorded on
-          description: Description of what the filter is.
-        values:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/TraceFieldOptionValue'
-          description: Possible values for this filter, only if this filter has a fixed set of values.
-        match_types:
-          type: array
-          items:
-            type: string
-            enum:
-            - eq
-            - ne
-            - lt
-            - gt
-            - empty
-          description: The match types that are supported by this filter.
-        searchable:
-          type: boolean
-          example: true
-          description: Whether the filter is searchable in the search bar suggestions.
-    SpanGroupCategory:
-      type: string
-      enum:
-      - app_start
-      - view_load
-      - page_load
-      - route_change
-      - full_page_load
-      - network
-      - custom
-      - navigation
-      - inbound_http
-      - outbound_http
-      - inbound_rpc
-      - outbound_rpc
-      - custom_server
-      - frozen_frame
-    FeatureFlag:
-      type: object
-      required:
-      - id
-      - name
-      - first_seen
-      - is_starred
-      - is_active
-      properties:
-        id:
-          type: string
-          description: The ID of the feature flag.
-          example: 515fb9337c1074f6fd000007
-        name:
-          type: string
-          description: The name of the feature flag.
-          example: share_ios_photo_sharing_button
-        first_seen:
-          type: string
-          description: The date and time that the feature flag was first seen in the requested release stage (regardless of retention).
-          example: '2021-06-01T13:00:00.000Z'
-        is_starred:
-          type: boolean
-          description: Whether the feature flag is starred for the current user.
-          example: true
-        is_active:
-          type: boolean
-          description: Whether the feature flag is one that has been seen in events in the requested release stage in the last 7 days.
-          example: true
-        variant_summary:
-          $ref: '#/components/schemas/FeatureFlagVariantSummary'
-          description: A summary of the variants for the feature flag, only present if requested.
-    RenderingStatisticsFrameRateStatistics:
-      type: object
-      required:
-      - span_count
-      - fps_mean
-      - fps_minimum
-      - fps_maximum
-      properties:
-        span_count:
-          type: number
-          example: 100
-          description: The number of Spans that reported rendering metrics of this type
-        fps_mean:
-          $ref: '#/components/schemas/FrameRateStatistics'
-          description: Details about the aggregated mean FPS for a Span Group
-        fps_minimum:
-          type: number
-          example: 5
-          description: The lowest seen FPS for a Span Group
-        fps_maximum:
-          type: number
-          example: 60
-          description: The highest seen FPS for a Span Group
-    PerformanceFilterValue:
-      type: object
-      required:
-      - value
-      - match_type
-      properties:
-        value:
-          type: string
-          example: 30d
-        match_type:
-          type: string
-          enum:
-          - eq
-          - ne
-          - lt
-          - gt
-          - empty
-          description: '- eq - Filter for items that match the value
-
-            - ne - Filter for items that don''t match the value
-
-            - lt - Filter for items that are less than the value
-
-            - gt - Filter for items that are greater than the value
-
-            - empty - Filter for items that are not populated or missing
-
-            '
-    ProjectBase:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Example Project
-        global_grouping:
-          type: array
-          description: 'A list of error classes. Events with these classes will be grouped by their
-
-            class, regardless of the location that they occur in the Project''s source
-
-            code. Altering a Project''s `global_grouping` will not cause existing errors
-
-            to be regrouped.
-
-
-            Note: In the UI this is referred to as grouping by error class.
-
-
-            Example:
-
-
-            ```
-
-            ["foo", "bar"]
-
-            ```
-
-            '
-          items:
-            example:
-            - Redis::CannotConnectError
-            - Mongo::Error:SocketError
-        location_grouping:
-          type: array
-          description: 'A list of error classes. Events with these classes will be grouped by their
-
-            `context`. Altering a Project''s `location_grouping` will not cause existing errors
-
-            to be regrouped.
-
-
-            Note: In the UI this is referred to as grouping by error context.
-
-            '
-          items:
-            example:
-            - Timeout::Error
-        discarded_app_versions:
-          type: array
-          description: 'A list of app versions whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-app-version) if received for the Project. Supports [regular expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions) and [semver ranges](https://github.com/npm/node-semver#ranges). Errors matching these versions won''t be processed by Bugsnag, and you won''t receive notifications about them.
-
-            '
-          items:
-            example:
-            - alpha
-            - < 2.2.2
-            - 3.0.0
-        discarded_errors:
-          type: array
-          description: 'A list of Error classes whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-error-class) if received for the Project. Errors with these classes won''t be processed by Bugsnag, and you won''t receive notifications about them.
-
-            '
-          items:
-            example:
-            - Example::Error
-        url_whitelist:
-          type: array
-          description: 'When configured, the script source of each error''s innermost stack trace''s top frame is checked. If the script was not served from a matching domain the error will not be processed by BugSnag and will be discarded.
-
-
-            Provide a list of newline separated domain names. To match example.com and its subdomains specify *.example.com.
-
-
-            Relevant to JavaScript Projects only.
-
-            '
-          items:
-            example:
-            - example.com
-        ignore_old_browsers:
-          type: boolean
-          example: true
-          description: 'Whether the Events in the Project will be ignored if they originate from
-
-            old web browsers.
-
-
-            Relevant to JavaScript Projects only.
-
-            '
-        ignored_browser_versions:
-          type: object
-          description: 'Relevant to JavaScript Projects only.
-
-
-            A mapping a of browser name to browser version. If set, Events in the
-
-            Project will be ignored if they originate from a browser specified here
-
-            whose version is earlier than the given version.
-
-
-            Keys must be one of the following strings: chrome, ie, firefox, safari, android, uc, opera, opera_mini, samsung, blackberry, sogou, other.
-
-
-            Values must be a number indicating which which version to ignore up to (but not including), or one of the strings: `ignore_all`, `ignore_none`
-
-
-            Example:
-
-
-            ```
-
-            {
-
-            "chrome": "ignore_none",
-
-            "safari": 6,
-
-            "other": "ignore_all"
-
-            }
-
-            ```
-
-            '
-        resolve_on_deploy:
-          type: boolean
-          example: true
-          description: 'If true, every error in the Project will be marked as ''fixed'' after using the Deploy Tracking API to notify Bugsnag of a new production deploy.
-
-
-            Applies to non-JavaScript Projects only.
-
-            '
-    SpanCategoryStatistics:
-      type: object
-      properties:
-        full_page_load:
-          $ref: '#/components/schemas/SpanCategoryStatisticsFullPageLoad'
-    SpanCategoryStatisticsFullPageLoad:
-      type: object
-      properties:
-        largest_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The largest contentful paint time in milliseconds
-        first_input_delay:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The first input delay time in milliseconds
-        first_input_delay_ended_at:
-          type:
-          - string
-          - 'null'
-          example: '2023-04-11T13:14:25.123Z'
-          description: The time the first input delay ended
-        cumulative_layout_shift:
-          type:
-          - number
-          - 'null'
-          example: 0.2
-          description: Measure of how often visible elements move unexpectedly
-        time_to_first_byte:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The time to first byte in milliseconds
-        first_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 1000
-          description: The first contentful paint time in milliseconds
-    SpanSystemMetricsCpuStatistics:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
-          type: number
-          example: 0.5
-          description: The mean value of the measurements (as a percentage)
-    AdvancedFiltersFilterGroups:
-      type: object
-      description: "A map of filter groups, where each group is keyed with a unique identifier for the group e.g:\n```\n{\n \"0\": { ... },\n \"1\": { ... }\n}\n```\nSee the [Advanced Filters documentation](https://developer.smartbear.com/bugsnag/docs/data-access-filtering#advanced-filters) for more details.\n"
-      additionalProperties:
-        $ref: '#/components/schemas/AdvancedFiltersFilterGroup'
-    ReleaseSourceControl:
-      type: object
-      properties:
-        service:
-          type: string
-          example: github
-          description: the source control provider/service
-        commit_url:
-          type: string
-          description: URL to the revision/commit corresponding to the release
-        revision:
-          type: string
-          description: identifier for the revision of the release
-        diff_url_to_previous:
-          type: string
-          description: URL to view the changes from the previous release
-    SystemMetricsMemoryAndroidRuntime:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
-          $ref: '#/components/schemas/SystemMetricsMemoryStatistics'
-          description: The aggregated mean value
-    ErrorAssignmentRulesReplaceRequest:
-      type: object
-      properties:
-        assignment_rules:
-          type: array
-          items:
-            $ref: '#/components/schemas/ErrorAssignmentRuleCreateRequest'
-    PageLoadSpanGroup:
-      type: object
-      required:
-      - id
-      - display_name
-      - full_page_load_span_group
-      - route_change_span_group
-      properties:
-        id:
-          type: string
-          example: 1.page_load.AppStart/Cold
-          description: The ID of the (virtual) Span Group.
-        display_name:
-          type: string
-          example: AppStart - Cold
-          description: The name of the (virtual) Span Group for display purposes.
-        is_starred:
-          type:
-          - boolean
-          - 'null'
-          example: false
-          description: Whether the requesting user has starred the (virtual) Span Group.
-        full_page_load_span_group:
-          $ref: '#/components/schemas/SpanGroup'
-          description: Span Group of full page load spans associated with this virtual Span Group.
-        route_change_span_group:
-          $ref: '#/components/schemas/SpanGroup'
-          description: Span Group of route change spans associated with this virtual Span Group.
-    PivotOptions:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Errors
-          description: Human readable display name of the pivot.
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/_FilterValue'
-          description: Additional fields that are displayed in the pivot tab, for example the users pivot displays user name and email in addition to ID.
-        summary:
-          type: boolean
-          example: false
-          description: Whether this field is displayed in the error summary section of the dashboard
-        values:
-          type: boolean
-          example: true
-          description: Whether this field is displayed as a pivot tab in the dashboard
-        cardinality:
-          type: boolean
-          example: true
-          description: Whether the unique values of this field are calculated
-        average:
-          type: boolean
-          example: false
-          description: Whether an average value of this field is calculated
-    SystemMetricsMemoryStatistics:
-      type: object
-      required:
-      - span_count
-      properties:
-        span_count:
-          type: number
-          example: 100
-          description: The number of Spans that reported memory system metrics of this type
-        p50:
-          type:
-          - number
-          - 'null'
-          example: 10000
-          description: The P50 memory usage (in bytes) - (Only present if span_count > 0)
-        p75:
-          type:
-          - number
-          - 'null'
-          example: 20000
-          description: The p75 memory usage (in bytes) - (Only present if span_count > 0)
-        p90:
-          type:
-          - number
-          - 'null'
-          example: 30000
-          description: The p90 memory usage (in bytes) - (Only present if span_count > 0)
-        p95:
-          type:
-          - number
-          - 'null'
-          example: 40000
-          description: The p95 memory usage (in bytes) - (Only present if span_count > 0)
-        p99:
-          type:
-          - number
-          - 'null'
-          example: 50000
-          description: The p99 memory usage (in bytes) - (Only present if span_count > 0)
-    PerformanceDisplayType:
-      type: string
-      enum:
-      - js
-      - mobile
-      - server
-      - webserver_backend
-      - webserver_frontend
-      - webserver_mixed
-      - unsupported
-    SpanGroupSummary:
-      type: object
-      required:
-      - id
-      - category
-      - name
-      - display_name
-      properties:
-        id:
-          type: string
-          example: 1.app_start.AppStart/Cold
-          description: The ID of the Span Group.
-        category:
-          $ref: '#/components/schemas/SpanGroupCategory'
-          example: app_start
-          description: The performance category of the Span Group.
-        name:
-          type: string
-          example: AppStart/Cold
-          description: The name of the Span Group.
-        display_name:
-          type: string
-          example: AppStart - Cold
-          description: The name of the Span Group for display purposes.
-    PerformanceTargetSpanGroupDetails:
-      type: object
-      required:
-      - category
-      properties:
-        category:
-          $ref: '#/components/schemas/SpanGroupCategory'
-          description: The category of the affected Span Group(s).
-        id:
-          type:
-          - string
-          - 'null'
-          example: 1.app_start.AppStart/Cold
-          description: The ID of the Span Group. Required when Performance Target type is span_group.
-        display_name:
-          type:
-          - string
-          - 'null'
-          example: AppStart - Cold
-          description: The name of the Span Group for display purposes. Required when Performance Target type is span_group.
-    FeatureFlagSummary:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: The ID of the feature flag.
-          example: 515fb9337c1074f6fd000007
-        name:
-          type: string
-          description: The name of the feature flag.
-          example: share_ios_photo_sharing_button
-    PerformanceFilter:
-      type: object
-      required:
-      - key
-      properties:
-        key:
-          type: string
-          example: event.since
-          description: Identifier that is used as the key when filtering by this field.
-        filter_values:
-          type: array
-          items:
-            $ref: '#/components/schemas/PerformanceFilterValue'
-          description: The values to filter by.
     ProjectType:
       type: string
       enum:
@@ -3973,955 +3090,78 @@ components:
       - wsgi
       - other
       description: used for Projects that use a framework other than those listed above
-    ReleaseApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5a8f7294d1befa07f361fcde
-          description: ID of the release
-        project_id:
-          type: string
-          example: 5a907f72d1befa043987dedf
-          description: ID of project this release belongs to
-        release_time:
-          type: string
-          example: '2018-02-21T21:30:16+00:00'
-          description: when the release happened (in ISO 8601 format)
-        release_source:
-          $ref: '#/components/schemas/ReleaseRequestSource'
-          description: what was responsible for creating the release
-        app_version:
-          type: string
-          example: 1.2.3
-          description: version name/number
-        app_version_code:
-          type: string
-          example: '1234'
-          description: version code of release (applicable to Android)
-        app_bundle_version:
-          type: string
-          example: 1.2.3
-          description: bundle version/build number of release (applicable to iOS/macOS/tvOS)
-        build_label:
-          type: string
-          example: 1.2.3
-          description: auto-generated descriptive label describing the build
-        builder_name:
-          type: string
-          example: Daniel Deployer
-          description: name of person or system that triggered the release/build
-        build_tool:
-          type: string
-          example: webpack-bugsnag-plugins
-          description: tool used to report this release
-        errors_introduced_count:
-          type: number
-          example: 2
-          description: number of errors introduced in this release
-        errors_seen_count:
-          type: number
-          example: 10
-          description: number of errors that happened in this release
-        sessions_count_in_last_24h:
-          type: number
-          example: 6500
-          description: number of sessions started for this release in the last 24 hours
-        total_sessions_count:
-          type: number
-          example: 3000
-          description: number of sessions that started in this release
-        unhandled_sessions_count:
-          type: number
-          example: 60
-          description: number of sessions in this release that have seen at least one unhandled event. Session Stability can be computed with (1 - (unhandled_sessions_count / total_sessions_count)) * 100
-        accumulative_daily_users_seen:
-          type: number
-          example: 5124
-          description: number of user with at least one session in this release group
-        accumulative_daily_users_with_unhandled:
-          type: number
-          example: 11
-          description: number of user sessions with at least one unhandled event. User Stability can be computed with (1 - (accumulative_daily_users_with_unhandled / accumulative_daily_users_seen)) * 100
-        metadata:
-          type: object
-          description: metadata about the release
-        release_stage:
-          type: object
-          properties:
-            name:
-              type: string
-              example: production
-              description: name of the release stage
-          description: information about this release's release stage
-        source_control:
-          $ref: '#/components/schemas/ReleaseSourceControl'
-          description: source control related information about the release
-        release_group_id:
-          type: string
-          example: 5cf9a562d1befa0021e6a600
-          description: ID of release group that this release belongs to
-    SpanRenderingStatistics:
-      type: object
-      properties:
-        frame_rate_statistics:
-          $ref: '#/components/schemas/SpanRenderingStatisticsFrameRate'
-          description: Statistics about frame rate measurements recorded while the Span was active
-    SpanSystemMetricsMemoryStatistics:
+    PerformanceTargetSpanGroupDetails:
       type: object
       required:
-      - mean
-      properties:
-        mean:
-          type: number
-          example: 10000
-          description: The mean value of the measurements (in bytes)
-    SpanHttpStatistics:
-      type: object
-      required:
-      - response_code
-      properties:
-        response_code:
-          type: number
-          example: 200
-          description: The response status code for the Span
-    SpanSystemMetricsMemory:
-      type: object
-      required:
-      - device
-      properties:
-        device:
-          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
-          description: Details of the device memory measured at intervals across the Span's lifetime
-        android_runtime:
-          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
-          description: Details of the Android Runtime memory measured at intervals across the Span's lifetime
-    PerformanceTarget:
-      type: object
-      required:
-      - id
-      - project_id
-      - type
-      - span_group
-      - config
-      properties:
-        id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the Performance Target.
-        project_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the Project that the Performance Target belongs to.
-        type:
-          $ref: '#/components/schemas/PerformanceTargetType'
-          description: The type of Performance Target.
-        span_group:
-          $ref: '#/components/schemas/PerformanceTargetSpanGroupDetails'
-          description: The details of the Span Group(s) that the Performance Target is for.
-        config:
-          $ref: '#/components/schemas/PerformanceTargetConfiguration'
-          description: The configuration details for the Performance Target.
-    SeverityOptions:
-      type: string
-      enum:
-      - info
-      - warning
-      - error
-      description: '- info - can be used in manual Bugsnag.notify calls
-
-        - warning - the default severity when Bugsnag.notify is called manually
-
-        - error - the default severity for uncaught exceptions and crashes
-
-        '
-    Span:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the span
-        parent_span_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the parent span if applicable
-        trace_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the trace
-        category:
-          type: string
-          example: app_start
-          description: The category of the span
-        name:
-          type: string
-          example: My Span
-          description: The name of the span
-        display_name:
-          type: string
-          example: App Start - My Span
-          description: The name of the span for display purposes
-        duration:
-          type: number
-          example: 1000
-          description: The duration of the span in milliseconds
-        timestamp:
-          type: string
-          example: '2023-04-11T13:14:25.123Z'
-          description: The timestamp we've attributed to the Span
-        time_adjustment_type:
-          type: string
-          enum:
-          - adjusted
-          - device
-          - received
-          - unadjusted
-          example: adjusted
-          description: How the time was adjusted
-        start_time:
-          type: string
-          example: '2023-04-11T13:14:25.123Z'
-          description: The time the span started
-        is_first_class:
-          type: boolean
-          example: true
-          description: Whether the span is first class or just a sub-span
-        build_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the build that this span is associated with
-        project_id:
-          type: string
-          example: 6368f07a518fa064ce036bdb
-          description: The ID of the project that this span is associated with
-        span_group_id:
-          type: string
-          example: 1.app_start.My Span
-          description: The id of the span group if applicable
-        virtual_span_group_id:
-          type: string
-          example: 1.page_load./my/route
-          description: The raw id of the page load span group if applicable
-        statistics:
-          $ref: '#/components/schemas/SpanStatistics'
-          description: Any additional statistics for the span
-        metadata:
-          $ref: '#/components/schemas/SpanMetadata'
-          description: Additional metadata for the span
-      required:
-      - id
-      - trace_id
       - category
-      - name
-      - display_name
-      - duration
-      - timestamp
-      - time_adjustment_type
-      - start_time
-      - is_first_class
-    ReleaseGroup:
-      type: object
       properties:
-        id:
-          type: string
-          example: 5cf9a562d1befa0021e6a600
-          description: ID of release group
-        project_id:
-          type: string
-          example: 515fb9337c1074f6fd000003
-          description: ID of project that this release group belongs to
-        release_stage_name:
-          type: string
-          example: production
-          description: name of the release stage for this release group
-        app_version:
-          type: string
-          example: 1.2.3
-          description: version string for this release group
-        first_released_at:
-          type: string
-          example: '2019-06-06T15:30:00.000Z'
-          description: when the first release of this release group was released
-        first_release_id:
-          type: string
-          example: 5a8f7294d1befa07f361fcde
-          description: ID of first release of this release group
-        releases_count:
-          type: number
-          example: 1
-          description: Number of releases that belong to this release group. This will be 1 for releases that don't use secondary versions.
-        has_secondary_versions:
-          type: boolean
-          example: false
-          description: Whether the releases in this release group use secondary versions (version code or bundle version). This is usually true for mobile projects and false for non-mobile projects.
-        build_tool:
-          type: string
-          example: webpack-bugsnag-plugins
-          description: tool used to report the first release of this release group
-        builder_name:
-          type: string
-          example: Daniel Deployer
-          description: name of person or system that triggered the first release/build of this release group
-        source_control:
-          $ref: '#/components/schemas/ReleaseGroupSourceControl'
-          description: source control related information about the first release of this release group
-        total_sessions_count:
-          type: number
-          example: 3409
-          description: total number of sessions seen for this release group. This field will be returned if the current Plan supports stability monitoring.
-        unhandled_sessions_count:
-          type: number
-          example: 6
-          description: number of sessions in this release group that had at least one unhandled event. Session Stability can be computed with (1 - (unhandled_sessions_count / total_sessions_count)) * 100. This field will be returned if the current Plan supports stability monitoring.
-        sessions_count_in_last_24h:
-          type: number
-          example: 498
-          description: number of sessions seen in the last 24 hours for this release group. This field will be returned if the current Plan supports stability monitoring.
-        accumulative_daily_users_seen:
-          type: number
-          example: 5124
-          description: number of user with at least one session in this release group. This field will be returned if the current Plan supports stability monitoring.
-        accumulative_daily_users_with_unhandled:
-          type: number
-          example: 11
-          description: number of user sessions with at least one unhandled event. User Stability can be computed with (1 - (accumulative_daily_users_with_unhandled / accumulative_daily_users_seen)) * 100. This field will be returned if the current Plan supports stability monitoring.
-        top_release_group:
-          type: boolean
-          example: true
-          description: whether this release group is a top release
-        visible:
-          type: boolean
-          example: true
-          description: whether this release group is visible
-      required:
-      - id
-      - project_id
-      - release_stage_name
-      - app_version
-      - first_released_at
-      - first_release_id
-      - releases_count
-      - has_secondary_versions
-      - total_sessions_count
-      - top_release_group
-      - visible
-    SystemMetrics:
-      type: object
-      properties:
-        cpu:
-          $ref: '#/components/schemas/SystemMetricsCpu'
-          description: Details about the CPU usage of the Spans
-        memory:
-          $ref: '#/components/schemas/SystemMetricsMemory'
-          description: Details about the memory usage of the Spans
-    ProjectApiView:
-      allOf:
-      - $ref: '#/components/schemas/ProjectBase'
-      - type: object
-        properties:
-          id:
-            type: string
-            example: 515fb9337c1074f6fd000003
-          organization_id:
-            type: string
-            example: 515fb9337c1074f6fd000007
-          type:
-            $ref: '#/components/schemas/ProjectType'
-          performance_display_type:
-            $ref: '#/components/schemas/PerformanceDisplayType'
-          slug:
-            type: string
-            example: example-project
-            description: 'unique, human-readable identifier that can be used in place of `id` in URLs
-
-              '
-          api_key:
-            type: string
-            example: deadbeef1234deadbeef1234deadbeef
-            description: 'the notifier API key used to configure the [notifier
-
-              library](https://docs.bugsnag.com/platforms/) being used to report errors in
-
-              the project
-
-              '
-          upload_api_key:
-            type:
-            - string
-            - 'null'
-            example: cafe1234cafe1234cafe1234cafe1234
-            description: 'the upload API key used to authenticate file upload requests (source maps, proguard files, etc.).
-
-              If null, the project does not have a separate upload API key configured.
-
-              '
-          must_use_upload_api_key:
-            type: boolean
-            example: false
-            description: 'whether upload requests must use the upload_api_key for authentication.
-
-              If true, the regular api_key will not be accepted for upload endpoints.
-
-              '
-          is_full_view:
-            type: boolean
-            example: true
-            description: 'Always true for this endpoint. Used to differentiate between terse and complete project
-
-              representations.
-
-              '
-          release_stages:
-            type: array
-            items:
-              example:
-              - staging
-              - production
-            description: 'The release stages for which this project has received events.
-
-              This will be an array of strings whose values will depend on your Project.
-
-              '
-          language:
-            type: string
-            example: ruby
-            description: 'The Project''s programming language as derived from the framework represented in the `type` field
-
-              '
-          created_at:
-            type: string
-            example: '2017-03-02T05:55:55.555Z'
-            description: 'The time of the Project''s creation.
-
-              '
-          updated_at:
-            type: string
-            example: '2017-03-03T05:55:55.555Z'
-            description: 'The time the Project was last modified.
-
-              '
-          url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003
-            description: 'The API URL for the Project.
-
-              '
-          html_url:
-            type: string
-            example: https://app.bugsnag.com/example-account/example-project
-            description: 'The dashboard URL for the project.
-
-              '
-          errors_url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/errors
-            description: 'The API URL for the Project''s Errors.
-
-              '
-          events_url:
-            type: string
-            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/events
-            description: 'The API URL for the Project''s Events.
-
-              '
-          open_error_count:
-            type: number
-            example: 10
-            description: 'The number of open errors the Project has. Considers all events currently stored
-
-              for the Project.
-
-              '
-          for_review_error_count:
-            type: number
-            example: 5
-            description: 'The number of errors for review the Project has. Considers all events currently stored
-
-              for the Project.
-
-              '
-          collaborators_count:
-            type: number
-            example: 15
-            description: 'The number of collaborators with access to the Project.
-
-              '
-          teams_count:
-            type: number
-            example: 5
-            description: 'The number of teams with access to the Project.
-
-              '
-          custom_event_fields_used:
-            type: number
-            example: 5
-            description: 'The count of how many [Custom Filters](https://docs.bugsnag.com/product/custom-filters/) have been created for the Project.
-
-              '
-          ecmascript_parse_version:
-            type: object
-            description: 'The details of the ECMAScript version used to parse JavaScript events. Only present for Browser JavaScript Projects.
-
-              '
-          stability_target_type:
-            type: string
-            example: session
-            description: 'Whether the project should use stability targets based on sessions or users. Values are `user` or `session`.
-
-              '
-          target_stability:
-            $ref: '#/components/schemas/StabilityTarget'
-            description: 'The stability level the Project''s collaborators aim to maintain.
-
-              '
-          critical_stability:
-            $ref: '#/components/schemas/StabilityTarget'
-            description: 'The minimum stability acceptable to the Project collaborators.
-
-              '
-    FeatureFlagVariant:
-      type: object
-      required:
-      - id
-      - name
-      properties:
-        id:
-          type: string
-          description: The ID of the variant.
-          example: 515fb9337c1074f6fd000007
-        name:
-          type: string
-          description: The name of the variant.
-          example: blue_button
-        first_seen:
-          type: string
-          description: The first the time variant was received regardless of retention. Only present if the `release_stage_name` parameter was provided and the Variant has been seen in that release stage.
-          example: '2017-04-21T02:50:35+00:00'
-    SpanGroupDistributionPoint:
-      type: object
-      required:
-      - bucket_min
-      - bucket_max
-      - total_spans
-      properties:
-        bucket_min:
-          type: number
-          example: 100
-          description: The minimum time (in milliseconds; inclusive) represented by this distribution point.
-        bucket_max:
-          type: number
-          example: 200
-          description: The maximum time (in milliseconds; exclusive) represented by this distribution point.
-        total_spans:
-          type: number
-          example: 1000
-          description: The number of spans represented by this distribution point.
-    FeatureFlagVariantErrorSummary:
-      type: object
-      required:
-      - variant_id
-      - errors_seen
-      - exclusive_errors
-      - last_seen
-      properties:
-        variant_id:
-          type: string
-          description: The ID for this variant.
-          example: 515fb9337c1074f6fd000007
-        errors_seen:
-          type: number
-          description: The number of errors seen for this variant.
-          example: 3
-        exclusive_errors:
-          type: number
-          description: The number of errors exclusively seen for this variant.
-          example: 2
-        last_seen:
-          type: string
-          description: The last time an error was received for this variant.
-          example: '2017-04-21T02:50:35+00:00'
-    EventDataDeletionApiView:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 5bf4b8aed1befa02a523f526
-          description: ID of the event deletion request
-        status:
-          $ref: '#/components/schemas/EventDataRequestStatus'
-          example: IN_PROGRESS
-          description: status of the request
-        total:
-          type: number
-          example: 12
-          description: the total number of events that are expected to be deleted; this field will be null if the status is `PREPARING`
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: The filters used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups:
-          items:
-            $ref: '#/components/schemas/FilterGroup'
-          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        filter_groups_join:
-          type: string
-          enum:
-          - AND
-          - OR
-          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-        created_at:
-          type: string
-          example: '2018-11-21T01:31:25.000Z'
-          description: when the request was created
-        completed_at:
-          type: string
-          example: '2018-11-21T01:35:00.000Z'
-          description: when the request was completed
-      required:
-      - id
-      - status
-      - filters
-      - created_at
-    ProjectPerformanceScoreOverview:
-      type: object
-      properties:
-        performance_score:
-          type: number
-          example: 0.95
-          description: The performance score for the project, between 0.0 and 1.0.
-        span_count:
-          type: number
-          example: 15000
-          description: The number of Spans that qualified towards the Performance Score.
-        performance_score_timeline:
-          type: array
-          items:
-            $ref: '#/components/schemas/PerformanceScoreTimelinePoint'
-          description: The performance score timeline points for the project.
-    SystemMetricsMemory:
-      type: object
-      required:
-      - device
-      properties:
-        device:
-          $ref: '#/components/schemas/SystemMetricsMemoryDevice'
-          description: Aggregated statistics for the device memory usage for the Spans in the Span Group
-        android_runtime:
-          $ref: '#/components/schemas/SystemMetricsMemoryAndroidRuntime'
-          description: Aggregated statistics for the Android Runtime memory usage for the Spans in the Span Group
-    FilterMatchType:
-      type: string
-      enum:
-      - eq
-      - ne
-      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
-
-        - ne - Filter for items that don''t match the value
-
-        '
-    PerformanceScoreTimelinePoint:
-      type: object
-      required:
-      - bucket_start
-      - bucket_end
-      properties:
-        bucket_start:
-          type: string
-          example: '2018-11-21T00:00:00.000Z'
-          description: Timestamp representing the start point of the bucketed performance score, inclusive.
-        bucket_end:
-          type: string
-          example: '2018-11-22T00:00:00.000Z'
-          description: Timestamp representing the end point of the bucketed performance score, exclusive.
-        performance_score:
-          type: number
-          example: 0.95
-          description: The performance score for the time period, between 0.0 and 1.0.
-        span_count:
-          type: number
-          example: 15000
-          description: The number of Spans that qualified towards the Performance Score in the bucket period
-    RenderingMetricsFrozenFrames:
-      type: object
-      required:
-      - span_count
-      properties:
-        span_count:
-          type: number
-          example: 25
-          description: The number of Spans that has at least one frozen frame
-    SpanGroupCategoryStatisticsFullPageLoadStatistics:
-      type: object
-      properties:
-        largest_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 100
-          description: P75 Time (integer, in ms) from a navigation event to the largest element on the page rendered
-        first_input_delay:
-          type:
-          - number
-          - 'null'
-          example: 200
-          description: P75 Time (integer, in ms) from a user interaction with the page (e.g. click) to the page becoming interactive
-        cumulative_layout_shift:
-          type:
-          - number
-          - 'null'
-          example: 0.1234
-          description: P75 Measure (float) of how often visible elements move unexpectedly
-        time_to_first_byte:
-          type:
-          - number
-          - 'null'
-          example: 300
-          description: P75 Time (integer, in ms) from a navigation event starting to the first byte arriving
-        first_contentful_paint:
-          type:
-          - number
-          - 'null'
-          example: 400
-          description: P75 Time (in ms) from a navigation event to the first element rendered
-    SpanGroupDescription:
-      type: object
-      required:
-      - id
-      - name
-      - display_name
-      properties:
-        id:
-          type: string
-          example: 1.app_start.AppStart/Cold
-          description: The ID of the Span Group.
-        name:
-          type: string
-          example: AppStart/Cold
-          description: The name of the Span Group being described.
-        display_name:
-          type: string
-          example: AppStart - Cold
-          description: The name of the Span Group for display purposes.
-    SystemMetricsCpuTotal:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
-          $ref: '#/components/schemas/SystemMetricsCpuStatistics'
-          description: The aggregated mean value
-    FrameRateStatistics:
-      type: object
-      required:
-      - p50
-      - p75
-      - p90
-      - p95
-      - p99
-      properties:
-        p50:
-          type: number
-          example: 10
-          description: The P50 of frames
-        p75:
-          type: number
-          example: 20
-          description: The P75 of frames
-        p90:
-          type: number
-          example: 30
-          description: The P90 of frames
-        p95:
-          type: number
-          example: 40
-          description: The P95 of frames
-        p99:
-          type: number
-          example: 50
-          description: The P99 of frames
-    StabilityTarget:
-      type: object
-      required:
-      - value
-      properties:
-        value:
-          type: number
-          example: 0.99
-          description: The target value of the proportion of unhandled_sessions/total_sessions.
-        updated_at:
-          type:
-          - string
-          - 'null'
-          example: '2017-03-02T05:55:55.555Z'
-          description: (Updated automatically) The time the target was last updated.
-        updated_by_id:
-          type:
-          - string
-          - 'null'
-          example: 515fb9337c1074f6fd000001
-          description: (Updated automatically) The id of the collaborator that last updated the value.
-    SystemMetricsMemoryDevice:
-      type: object
-      required:
-      - mean
-      properties:
-        mean:
-          $ref: '#/components/schemas/SystemMetricsMemoryStatistics'
-          description: The aggregated mean value
-    SpanGroupDurationStatistics:
-      type: object
-      required:
-      - p50
-      - p75
-      - p90
-      - p95
-      - p99
-      properties:
-        p50:
-          type: number
-          example: 1000
-          description: The P50 duration (in ms).
-        p75:
-          type: number
-          example: 1200
-          description: The P75 duration (in ms).
-        p90:
-          type: number
-          example: 1500
-          description: The P90 duration (in ms).
-        p95:
-          type: number
-          example: 1750
-          description: The P95 duration (in ms).
-        p99:
-          type: number
-          example: 2000
-          description: The P99 duration (in ms).
-    SystemMetricsCpuStatistics:
-      type: object
-      required:
-      - span_count
-      properties:
-        span_count:
-          type: number
-          example: 100
-          description: The number of Spans that reported CPU system metric
-        p50:
-          type:
-          - number
-          - 'null'
-          example: 0.1
-          description: The P50 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
-        p75:
-          type:
-          - number
-          - 'null'
-          example: 0.2
-          description: The p75 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
-        p90:
-          type:
-          - number
-          - 'null'
-          example: 0.3
-          description: The p90 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
-        p95:
-          type:
-          - number
-          - 'null'
-          example: 0.4
-          description: The p95 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
-        p99:
-          type:
-          - number
-          - 'null'
-          example: 0.5
-          description: The p99 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
-    SpanGroupHttpStatistics:
-      type: object
-      properties:
-        response_codes:
-          $ref: '#/components/schemas/SpanGroupHttpResponseCodes'
-          description: Counts of the number of Spans seen per response status code group
-    SpanGroup:
-      type: object
-      required:
-      - id
-      - category
-      - name
-      - display_name
-      properties:
-        id:
-          type: string
-          example: 1.app_start.AppStart/Cold
-          description: The ID of the Span Group.
         category:
           $ref: '#/components/schemas/SpanGroupCategory'
-          example: app_start
-          description: The performance category of the Span Group.
-        name:
-          type: string
-          example: AppStart/Cold
-          description: The name of the Span Group.
-        display_name:
-          type: string
-          example: AppStart - Cold
-          description: The name of the Span Group for display purposes.
-        is_starred:
+          description: The category of the affected Span Group(s).
+        id:
           type:
-          - boolean
+          - string
           - 'null'
-          example: false
-          description: Whether the requesting user has starred the Span Group.
-        statistics:
-          $ref: '#/components/schemas/SpanGroupStatistics'
-          description: Statistics of spans in the Span Group.
-        performance_target:
-          $ref: '#/components/schemas/PerformanceTarget'
-          description: The Performance Target for the Span Group.
-    SystemMetricsCpu:
+          example: 1.app_start.AppStart/Cold
+          description: The ID of the Span Group. Required when Performance Target type is span_group.
+        display_name:
+          type:
+          - string
+          - 'null'
+          example: AppStart - Cold
+          description: The name of the Span Group for display purposes. Required when Performance Target type is span_group.
+    SpanCategoryStatistics:
       type: object
-      required:
-      - total
-      - main_thread
       properties:
-        total:
-          $ref: '#/components/schemas/SystemMetricsCpuTotal'
-          description: Aggregated statistics for the total CPU usage for the Spans in the Span Group
-        main_thread:
-          $ref: '#/components/schemas/SystemMetricsCpuMainThread'
-          description: Aggregated statistics for the main thread CPU usage for the Spans in the Span Group
-    RenderingMetricsSlowFrames:
+        full_page_load:
+          $ref: '#/components/schemas/SpanCategoryStatisticsFullPageLoad'
+    ReleaseSourceControl:
       type: object
-      required:
-      - span_count
       properties:
-        span_count:
-          type: number
-          example: 10
-          description: The number of Spans that has at least one slow frame
-    PerformanceTargetType:
+        service:
+          type: string
+          example: github
+          description: the source control provider/service
+        commit_url:
+          type: string
+          description: URL to the revision/commit corresponding to the release
+        revision:
+          type: string
+          description: identifier for the revision of the release
+        diff_url_to_previous:
+          type: string
+          description: URL to view the changes from the previous release
+    SpanGroupCategoryStatistics:
+      type: object
+      properties:
+        full_page_load:
+          $ref: '#/components/schemas/SpanGroupCategoryStatisticsFullPageLoadStatistics'
+          description: Statistics for the full_page_load category
+    ReleaseRequestSource:
       type: string
       enum:
-      - category
-      - span_group
-    SpanMetadata:
-      type: object
-      required:
-      - key
-      - value
-      - level
-      properties:
-        key:
-          type: string
-          example: device.id
-          description: The key of the metadata
-        value:
-          type: string
-          example: '1234'
-          description: The value of the metadata. May be a string or an integer.
-        level:
-          $ref: '#/components/schemas/SpanMetadataLevel'
-          description: The location of the metadata attribute within the Trace payload
+      - unknown_source
+      - event
+      - session
+      - api
+      - deploy
+      - error
+      - error_incomplete_build
+      description: '- unknown_source - source is unknown
+
+        - event - originated from an event
+
+        - session - originated from a session
+
+        - api - obtained from an API request
+
+        - deploy - obtained from a deploy request
+
+        - error - obtained from an error (with complete information)
+
+        - error_incomplete_build - obtained from an error (but the build information is incomplete)
+
+        '
     Filters:
       type: object
       properties:
@@ -5503,6 +3743,780 @@ components:
             required:
             - type
             - value
+    PageLoadSpanGroup:
+      type: object
+      required:
+      - id
+      - display_name
+      - full_page_load_span_group
+      - route_change_span_group
+      properties:
+        id:
+          type: string
+          example: 1.page_load.AppStart/Cold
+          description: The ID of the (virtual) Span Group.
+        display_name:
+          type: string
+          example: AppStart - Cold
+          description: The name of the (virtual) Span Group for display purposes.
+        is_starred:
+          type:
+          - boolean
+          - 'null'
+          example: false
+          description: Whether the requesting user has starred the (virtual) Span Group.
+        full_page_load_span_group:
+          $ref: '#/components/schemas/SpanGroup'
+          description: Span Group of full page load spans associated with this virtual Span Group.
+        route_change_span_group:
+          $ref: '#/components/schemas/SpanGroup'
+          description: Span Group of route change spans associated with this virtual Span Group.
+    SeverityOptions:
+      type: string
+      enum:
+      - info
+      - warning
+      - error
+      description: '- info - can be used in manual Bugsnag.notify calls
+
+        - warning - the default severity when Bugsnag.notify is called manually
+
+        - error - the default severity for uncaught exceptions and crashes
+
+        '
+    PerformanceScoreTimelinePoint:
+      type: object
+      required:
+      - bucket_start
+      - bucket_end
+      properties:
+        bucket_start:
+          type: string
+          example: '2018-11-21T00:00:00.000Z'
+          description: Timestamp representing the start point of the bucketed performance score, inclusive.
+        bucket_end:
+          type: string
+          example: '2018-11-22T00:00:00.000Z'
+          description: Timestamp representing the end point of the bucketed performance score, exclusive.
+        performance_score:
+          type: number
+          example: 0.95
+          description: The performance score for the time period, between 0.0 and 1.0.
+        span_count:
+          type: number
+          example: 15000
+          description: The number of Spans that qualified towards the Performance Score in the bucket period
+    ProjectBase:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Example Project
+        global_grouping:
+          type: array
+          description: 'A list of error classes. Events with these classes will be grouped by their
+
+            class, regardless of the location that they occur in the Project''s source
+
+            code. Altering a Project''s `global_grouping` will not cause existing errors
+
+            to be regrouped.
+
+
+            Note: In the UI this is referred to as grouping by error class.
+
+
+            Example:
+
+
+            ```
+
+            ["foo", "bar"]
+
+            ```
+
+            '
+          items:
+            example:
+            - Redis::CannotConnectError
+            - Mongo::Error:SocketError
+        location_grouping:
+          type: array
+          description: 'A list of error classes. Events with these classes will be grouped by their
+
+            `context`. Altering a Project''s `location_grouping` will not cause existing errors
+
+            to be regrouped.
+
+
+            Note: In the UI this is referred to as grouping by error context.
+
+            '
+          items:
+            example:
+            - Timeout::Error
+        discarded_app_versions:
+          type: array
+          description: 'A list of app versions whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-app-version) if received for the Project. Supports [regular expressions](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Special_characters_meaning_in_regular_expressions) and [semver ranges](https://github.com/npm/node-semver#ranges). Errors matching these versions won''t be processed by Bugsnag, and you won''t receive notifications about them.
+
+            '
+          items:
+            example:
+            - alpha
+            - < 2.2.2
+            - 3.0.0
+        discarded_errors:
+          type: array
+          description: 'A list of Error classes whose events will be [discarded](https://docs.bugsnag.com/product/event-usage/#discard-by-error-class) if received for the Project. Errors with these classes won''t be processed by Bugsnag, and you won''t receive notifications about them.
+
+            '
+          items:
+            example:
+            - Example::Error
+        url_whitelist:
+          type: array
+          description: 'When configured, the script source of each error''s innermost stack trace''s top frame is checked. If the script was not served from a matching domain the error will not be processed by BugSnag and will be discarded.
+
+
+            Provide a list of newline separated domain names. To match example.com and its subdomains specify *.example.com.
+
+
+            Relevant to JavaScript Projects only.
+
+            '
+          items:
+            example:
+            - example.com
+        ignore_old_browsers:
+          type: boolean
+          example: true
+          description: 'Whether the Events in the Project will be ignored if they originate from
+
+            old web browsers.
+
+
+            Relevant to JavaScript Projects only.
+
+            '
+        ignored_browser_versions:
+          type: object
+          description: 'Relevant to JavaScript Projects only.
+
+
+            A mapping a of browser name to browser version. If set, Events in the
+
+            Project will be ignored if they originate from a browser specified here
+
+            whose version is earlier than the given version.
+
+
+            Keys must be one of the following strings: chrome, ie, firefox, safari, android, uc, opera, opera_mini, samsung, blackberry, sogou, other.
+
+
+            Values must be a number indicating which which version to ignore up to (but not including), or one of the strings: `ignore_all`, `ignore_none`
+
+
+            Example:
+
+
+            ```
+
+            {
+
+            "chrome": "ignore_none",
+
+            "safari": 6,
+
+            "other": "ignore_all"
+
+            }
+
+            ```
+
+            '
+        resolve_on_deploy:
+          type: boolean
+          example: true
+          description: 'If true, every error in the Project will be marked as ''fixed'' after using the Deploy Tracking API to notify Bugsnag of a new production deploy.
+
+
+            Applies to non-JavaScript Projects only.
+
+            '
+    ReleaseApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5a8f7294d1befa07f361fcde
+          description: ID of the release
+        project_id:
+          type: string
+          example: 5a907f72d1befa043987dedf
+          description: ID of project this release belongs to
+        release_time:
+          type: string
+          example: '2018-02-21T21:30:16+00:00'
+          description: when the release happened (in ISO 8601 format)
+        release_source:
+          $ref: '#/components/schemas/ReleaseRequestSource'
+          description: what was responsible for creating the release
+        app_version:
+          type: string
+          example: 1.2.3
+          description: version name/number
+        app_version_code:
+          type: string
+          example: '1234'
+          description: version code of release (applicable to Android)
+        app_bundle_version:
+          type: string
+          example: 1.2.3
+          description: bundle version/build number of release (applicable to iOS/macOS/tvOS)
+        build_label:
+          type: string
+          example: 1.2.3
+          description: auto-generated descriptive label describing the build
+        builder_name:
+          type: string
+          example: Daniel Deployer
+          description: name of person or system that triggered the release/build
+        build_tool:
+          type: string
+          example: webpack-bugsnag-plugins
+          description: tool used to report this release
+        errors_introduced_count:
+          type: number
+          example: 2
+          description: number of errors introduced in this release
+        errors_seen_count:
+          type: number
+          example: 10
+          description: number of errors that happened in this release
+        sessions_count_in_last_24h:
+          type: number
+          example: 6500
+          description: number of sessions started for this release in the last 24 hours
+        total_sessions_count:
+          type: number
+          example: 3000
+          description: number of sessions that started in this release
+        unhandled_sessions_count:
+          type: number
+          example: 60
+          description: number of sessions in this release that have seen at least one unhandled event. Session Stability can be computed with (1 - (unhandled_sessions_count / total_sessions_count)) * 100
+        accumulative_daily_users_seen:
+          type: number
+          example: 5124
+          description: number of user with at least one session in this release group
+        accumulative_daily_users_with_unhandled:
+          type: number
+          example: 11
+          description: number of user sessions with at least one unhandled event. User Stability can be computed with (1 - (accumulative_daily_users_with_unhandled / accumulative_daily_users_seen)) * 100
+        metadata:
+          type: object
+          description: metadata about the release
+        release_stage:
+          type: object
+          properties:
+            name:
+              type: string
+              example: production
+              description: name of the release stage
+          description: information about this release's release stage
+        source_control:
+          $ref: '#/components/schemas/ReleaseSourceControl'
+          description: source control related information about the release
+        release_group_id:
+          type: string
+          example: 5cf9a562d1befa0021e6a600
+          description: ID of release group that this release belongs to
+    SpanRenderingStatisticsFrameRate:
+      type: object
+      required:
+      - fps_mean
+      - fps_minimum
+      - fps_maximum
+      properties:
+        fps_mean:
+          type: number
+          example: 55
+          description: The average FPS for a Span
+        fps_minimum:
+          type: number
+          example: 5
+          description: The lowest seen FPS for a Span
+        fps_maximum:
+          type: number
+          example: 60
+          description: The highest seen FPS for a Span
+    AdvancedFiltersFilterGroups:
+      type: object
+      description: "A map of filter groups, where each group is keyed with a unique identifier for the group e.g:\n```\n{\n \"0\": { ... },\n \"1\": { ... }\n}\n```\nSee the [Advanced Filters documentation](https://developer.smartbear.com/bugsnag/docs/data-access-filtering#advanced-filters) for more details.\n"
+      additionalProperties:
+        $ref: '#/components/schemas/AdvancedFiltersFilterGroup'
+    SpanGroup:
+      type: object
+      required:
+      - id
+      - category
+      - name
+      - display_name
+      properties:
+        id:
+          type: string
+          example: 1.app_start.AppStart/Cold
+          description: The ID of the Span Group.
+        category:
+          $ref: '#/components/schemas/SpanGroupCategory'
+          example: app_start
+          description: The performance category of the Span Group.
+        name:
+          type: string
+          example: AppStart/Cold
+          description: The name of the Span Group.
+        display_name:
+          type: string
+          example: AppStart - Cold
+          description: The name of the Span Group for display purposes.
+        is_starred:
+          type:
+          - boolean
+          - 'null'
+          example: false
+          description: Whether the requesting user has starred the Span Group.
+        statistics:
+          $ref: '#/components/schemas/SpanGroupStatistics'
+          description: Statistics of spans in the Span Group.
+        performance_target:
+          $ref: '#/components/schemas/PerformanceTarget'
+          description: The Performance Target for the Span Group.
+    ProjectPerformanceScoreOverview:
+      type: object
+      properties:
+        performance_score:
+          type: number
+          example: 0.95
+          description: The performance score for the project, between 0.0 and 1.0.
+        span_count:
+          type: number
+          example: 15000
+          description: The number of Spans that qualified towards the Performance Score.
+        performance_score_timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/PerformanceScoreTimelinePoint'
+          description: The performance score timeline points for the project.
+    SpanGroupStatistics:
+      type: object
+      required:
+      - duration_statistics
+      - total_spans
+      - last_seen
+      properties:
+        duration_statistics:
+          $ref: '#/components/schemas/SpanGroupDurationStatistics'
+          description: The aggregated statistics for the filtered Span durations.
+        total_spans:
+          type: number
+          example: 3264
+          description: The total number of Spans that were sampled in the bucketed time period.
+        estimated_spans:
+          type:
+          - number
+          - 'null'
+          example: 4321
+          description: The estimated total of Spans that were generated in the bucketed time period, before sampling was applied.
+        last_seen:
+          type: string
+          example: 2022-10-17 15:30:00 +0000
+          description: When the last filtered Span within this Span Group was seen.
+        category_statistics:
+          $ref: '#/components/schemas/SpanGroupCategoryStatistics'
+          description: Statistics that are specific to the Span Group's category. This is populated by only one property object based on the category type.
+        rendering_statistics:
+          $ref: '#/components/schemas/RenderingMetrics'
+          description: Statistics about rendering issues encountered while the Spans in the Span Group were active.
+        system_metrics_statistics:
+          $ref: '#/components/schemas/SystemMetrics'
+          description: Statistics about system measurements recorded while the Spans in the Span Group were active.
+        http_statistics:
+          $ref: '#/components/schemas/SpanGroupHttpStatistics'
+          description: Statistics about the HTTP call.
+    SystemMetricsMemoryAndroidRuntime:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          $ref: '#/components/schemas/SystemMetricsMemoryStatistics'
+          description: The aggregated mean value
+    PivotOptions:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Errors
+          description: Human readable display name of the pivot.
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/_FilterValue'
+          description: Additional fields that are displayed in the pivot tab, for example the users pivot displays user name and email in addition to ID.
+        summary:
+          type: boolean
+          example: false
+          description: Whether this field is displayed in the error summary section of the dashboard
+        values:
+          type: boolean
+          example: true
+          description: Whether this field is displayed as a pivot tab in the dashboard
+        cardinality:
+          type: boolean
+          example: true
+          description: Whether the unique values of this field are calculated
+        average:
+          type: boolean
+          example: false
+          description: Whether an average value of this field is calculated
+    FeatureFlagVariantSummary:
+      type: object
+      required:
+      - variant_count
+      properties:
+        variant_count:
+          type: number
+          description: The number of variants that have been seen on this feature flag in the requested release stage.
+          example: 10
+        first_variant_name:
+          type: string
+          description: The name of the first variant (alphabetically) that has been seen on this feature flag in the requested release stage.
+          example: blue_button
+    PerformanceFilterValue:
+      type: object
+      required:
+      - value
+      - match_type
+      properties:
+        value:
+          type: string
+          example: 30d
+        match_type:
+          type: string
+          enum:
+          - eq
+          - ne
+          - lt
+          - gt
+          - empty
+          description: '- eq - Filter for items that match the value
+
+            - ne - Filter for items that don''t match the value
+
+            - lt - Filter for items that are less than the value
+
+            - gt - Filter for items that are greater than the value
+
+            - empty - Filter for items that are not populated or missing
+
+            '
+    PerformanceTargetConfiguration:
+      type: object
+      required:
+      - state
+      properties:
+        state:
+          type: string
+          enum:
+          - enabled
+          - disabled
+          description: The state of the Performance Target.
+        warning_performance:
+          $ref: '#/components/schemas/PerformanceTargetConfigurationThreshold'
+          description: The warning performance threshold for the Performance Target. Required when state is enabled.
+        critical_performance:
+          $ref: '#/components/schemas/PerformanceTargetConfigurationThreshold'
+          description: The critical performance threshold for the Performance Target. Requires the advanced performance targets feature.
+    FilterGroupJoinOperator:
+      type: string
+      enum:
+      - and
+      - or
+      description: 'The join operator to apply between filters within a group.
+
+        - and (default) - All conditions must be satisfied
+
+        - or - At least one condition must be satisfied
+
+        '
+    TraceFieldOptions:
+      type: object
+      required:
+      - name
+      - description
+      - match_types
+      - searchable
+      properties:
+        name:
+          type: string
+          example: Connection type
+          description: Human readable display name for the filter.
+        description:
+          type: string
+          example: model of the device the span was recorded on
+          description: Description of what the filter is.
+        values:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/TraceFieldOptionValue'
+          description: Possible values for this filter, only if this filter has a fixed set of values.
+        match_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - eq
+            - ne
+            - lt
+            - gt
+            - empty
+          description: The match types that are supported by this filter.
+        searchable:
+          type: boolean
+          example: true
+          description: Whether the filter is searchable in the search bar suggestions.
+    SystemMetricsMemoryStatistics:
+      type: object
+      required:
+      - span_count
+      properties:
+        span_count:
+          type: number
+          example: 100
+          description: The number of Spans that reported memory system metrics of this type
+        p50:
+          type:
+          - number
+          - 'null'
+          example: 10000
+          description: The P50 memory usage (in bytes) - (Only present if span_count > 0)
+        p75:
+          type:
+          - number
+          - 'null'
+          example: 20000
+          description: The p75 memory usage (in bytes) - (Only present if span_count > 0)
+        p90:
+          type:
+          - number
+          - 'null'
+          example: 30000
+          description: The p90 memory usage (in bytes) - (Only present if span_count > 0)
+        p95:
+          type:
+          - number
+          - 'null'
+          example: 40000
+          description: The p95 memory usage (in bytes) - (Only present if span_count > 0)
+        p99:
+          type:
+          - number
+          - 'null'
+          example: 50000
+          description: The p99 memory usage (in bytes) - (Only present if span_count > 0)
+    SystemMetricsMemoryDevice:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          $ref: '#/components/schemas/SystemMetricsMemoryStatistics'
+          description: The aggregated mean value
+    SpanGroupHttpResponseCodes:
+      type: object
+      required:
+      - total_spans
+      - codes_1xx
+      - codes_2xx
+      - codes_3xx
+      - codes_4xx
+      - codes_5xx
+      properties:
+        total_spans:
+          type: number
+          example: 1500
+          description: The total number of Spans which have a HTTP response code.
+        codes_1xx:
+          type: number
+          example: 100
+          description: The number of Spans with a 1xx response code.
+        codes_2xx:
+          type: number
+          example: 200
+          description: The number of Spans with a 2xx response code.
+        codes_3xx:
+          type: number
+          example: 300
+          description: The number of Spans with a 3xx response code.
+        codes_4xx:
+          type: number
+          example: 400
+          description: The number of Spans with a 4xx response code.
+        codes_5xx:
+          type: number
+          example: 500
+          description: The number of Spans with a 5xx response code.
+    StabilityTarget:
+      type: object
+      required:
+      - value
+      properties:
+        value:
+          type: number
+          example: 0.99
+          description: The target value of the proportion of unhandled_sessions/total_sessions.
+        updated_at:
+          type:
+          - string
+          - 'null'
+          example: '2017-03-02T05:55:55.555Z'
+          description: (Updated automatically) The time the target was last updated.
+        updated_by_id:
+          type:
+          - string
+          - 'null'
+          example: 515fb9337c1074f6fd000001
+          description: (Updated automatically) The id of the collaborator that last updated the value.
+    FeatureFlag:
+      type: object
+      required:
+      - id
+      - name
+      - first_seen
+      - is_starred
+      - is_active
+      properties:
+        id:
+          type: string
+          description: The ID of the feature flag.
+          example: 515fb9337c1074f6fd000007
+        name:
+          type: string
+          description: The name of the feature flag.
+          example: share_ios_photo_sharing_button
+        first_seen:
+          type: string
+          description: The date and time that the feature flag was first seen in the requested release stage (regardless of retention).
+          example: '2021-06-01T13:00:00.000Z'
+        is_starred:
+          type: boolean
+          description: Whether the feature flag is starred for the current user.
+          example: true
+        is_active:
+          type: boolean
+          description: Whether the feature flag is one that has been seen in events in the requested release stage in the last 7 days.
+          example: true
+        variant_summary:
+          $ref: '#/components/schemas/FeatureFlagVariantSummary'
+          description: A summary of the variants for the feature flag, only present if requested.
+    EventDataRequestStatus:
+      type: string
+      enum:
+      - PREPARING
+      - AWAITING_CONFIRMATION
+      - ACCEPTED
+      - IN_PROGRESS
+      - COMPLETED
+      - EXPIRED
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
+    PerformanceTarget:
+      type: object
+      required:
+      - id
+      - project_id
+      - type
+      - span_group
+      - config
+      properties:
+        id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the Performance Target.
+        project_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the Project that the Performance Target belongs to.
+        type:
+          $ref: '#/components/schemas/PerformanceTargetType'
+          description: The type of Performance Target.
+        span_group:
+          $ref: '#/components/schemas/PerformanceTargetSpanGroupDetails'
+          description: The details of the Span Group(s) that the Performance Target is for.
+        config:
+          $ref: '#/components/schemas/PerformanceTargetConfiguration'
+          description: The configuration details for the Performance Target.
+    _FilterValue:
+      type: object
+      properties:
+        id:
+          type: string
+          example: new
+          description: The identifier to use when filtering by this value
+        name:
+          type: string
+          example: New
+          description: A human readable representation of this value
+    RenderingMetricsSlowFrames:
+      type: object
+      required:
+      - span_count
+      properties:
+        span_count:
+          type: number
+          example: 10
+          description: The number of Spans that has at least one slow frame
+    ErrorAssignmentRuleCreateRequest:
+      type: object
+      properties:
+        assignee:
+          $ref: '#/components/schemas/ErrorAssignmentRulesAssignee'
+          description: The assignee Team or User details.
+        pattern:
+          $ref: '#/components/schemas/ErrorAssignmentRulePatternApiView'
+          description: The matching logic to apply to the rule scope.
+        comment:
+          type: string
+          example: Green team handles mailer errors
+          description: Freeform text about the rule.
+      required:
+      - assignee
+      - pattern
+    ErrorAssignmentRulesAssignee:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - user
+          - team
+          description: Whether the rule will assign to a team or a specific user.
+        id:
+          type: string
+          example: 6368efb0d1befa003d22c7f4
+          description: The ID of the User or Team being assigned the rule.
+      required:
+      - type
+      - id
     FeatureFlagErrorSummary:
       type: object
       required:
@@ -5522,39 +4536,256 @@ components:
           type: string
           description: The last time an error was received on this feature flag.
           example: '2017-04-21T02:50:35+00:00'
-    SpanSystemMetricsCpu:
-      type: object
-      required:
-      - total
-      - main_thread
-      properties:
-        total:
-          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
-          description: Details of the total CPU usage measured at intervals across the Span's lifetime
-        main_thread:
-          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
-          description: Details of the main thread CPU usage measured at intervals across the Span's lifetime
-    SystemMetricsCpuMainThread:
+    SpanSystemMetricsCpuStatistics:
       type: object
       required:
       - mean
       properties:
         mean:
-          $ref: '#/components/schemas/SystemMetricsCpuStatistics'
-          description: The aggregated mean value
-    FeatureFlagVariantSummary:
+          type: number
+          example: 0.5
+          description: The mean value of the measurements (as a percentage)
+    SpanGroupCategoryStatisticsFullPageLoadStatistics:
+      type: object
+      properties:
+        largest_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 100
+          description: P75 Time (integer, in ms) from a navigation event to the largest element on the page rendered
+        first_input_delay:
+          type:
+          - number
+          - 'null'
+          example: 200
+          description: P75 Time (integer, in ms) from a user interaction with the page (e.g. click) to the page becoming interactive
+        cumulative_layout_shift:
+          type:
+          - number
+          - 'null'
+          example: 0.1234
+          description: P75 Measure (float) of how often visible elements move unexpectedly
+        time_to_first_byte:
+          type:
+          - number
+          - 'null'
+          example: 300
+          description: P75 Time (integer, in ms) from a navigation event starting to the first byte arriving
+        first_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 400
+          description: P75 Time (in ms) from a navigation event to the first element rendered
+    SpanGroupCategory:
+      type: string
+      enum:
+      - app_start
+      - view_load
+      - page_load
+      - route_change
+      - full_page_load
+      - network
+      - custom
+      - navigation
+      - inbound_http
+      - outbound_http
+      - inbound_rpc
+      - outbound_rpc
+      - custom_server
+      - frozen_frame
+    EventDataDeletionApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5bf4b8aed1befa02a523f526
+          description: ID of the event deletion request
+        status:
+          $ref: '#/components/schemas/EventDataRequestStatus'
+          example: IN_PROGRESS
+          description: status of the request
+        total:
+          type: number
+          example: 12
+          description: the total number of events that are expected to be deleted; this field will be null if the status is `PREPARING`
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: The filters used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups:
+          items:
+            $ref: '#/components/schemas/FilterGroup'
+          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups_join:
+          type: string
+          enum:
+          - AND
+          - OR
+          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        created_at:
+          type: string
+          example: '2018-11-21T01:31:25.000Z'
+          description: when the request was created
+        completed_at:
+          type: string
+          example: '2018-11-21T01:35:00.000Z'
+          description: when the request was completed
+      required:
+      - id
+      - status
+      - filters
+      - created_at
+    SpanRenderingStatistics:
+      type: object
+      properties:
+        frame_rate_statistics:
+          $ref: '#/components/schemas/SpanRenderingStatisticsFrameRate'
+          description: Statistics about frame rate measurements recorded while the Span was active
+    SpanGroupDescription:
       type: object
       required:
-      - variant_count
+      - id
+      - name
+      - display_name
       properties:
-        variant_count:
-          type: number
-          description: The number of variants that have been seen on this feature flag in the requested release stage.
-          example: 10
-        first_variant_name:
+        id:
           type: string
-          description: The name of the first variant (alphabetically) that has been seen on this feature flag in the requested release stage.
-          example: blue_button
+          example: 1.app_start.AppStart/Cold
+          description: The ID of the Span Group.
+        name:
+          type: string
+          example: AppStart/Cold
+          description: The name of the Span Group being described.
+        display_name:
+          type: string
+          example: AppStart - Cold
+          description: The name of the Span Group for display purposes.
+    ReleaseGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5cf9a562d1befa0021e6a600
+          description: ID of release group
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project that this release group belongs to
+        release_stage_name:
+          type: string
+          example: production
+          description: name of the release stage for this release group
+        app_version:
+          type: string
+          example: 1.2.3
+          description: version string for this release group
+        first_released_at:
+          type: string
+          example: '2019-06-06T15:30:00.000Z'
+          description: when the first release of this release group was released
+        first_release_id:
+          type: string
+          example: 5a8f7294d1befa07f361fcde
+          description: ID of first release of this release group
+        releases_count:
+          type: number
+          example: 1
+          description: Number of releases that belong to this release group. This will be 1 for releases that don't use secondary versions.
+        has_secondary_versions:
+          type: boolean
+          example: false
+          description: Whether the releases in this release group use secondary versions (version code or bundle version). This is usually true for mobile projects and false for non-mobile projects.
+        build_tool:
+          type: string
+          example: webpack-bugsnag-plugins
+          description: tool used to report the first release of this release group
+        builder_name:
+          type: string
+          example: Daniel Deployer
+          description: name of person or system that triggered the first release/build of this release group
+        source_control:
+          $ref: '#/components/schemas/ReleaseGroupSourceControl'
+          description: source control related information about the first release of this release group
+        total_sessions_count:
+          type: number
+          example: 3409
+          description: total number of sessions seen for this release group. This field will be returned if the current Plan supports stability monitoring.
+        unhandled_sessions_count:
+          type: number
+          example: 6
+          description: number of sessions in this release group that had at least one unhandled event. Session Stability can be computed with (1 - (unhandled_sessions_count / total_sessions_count)) * 100. This field will be returned if the current Plan supports stability monitoring.
+        sessions_count_in_last_24h:
+          type: number
+          example: 498
+          description: number of sessions seen in the last 24 hours for this release group. This field will be returned if the current Plan supports stability monitoring.
+        accumulative_daily_users_seen:
+          type: number
+          example: 5124
+          description: number of user with at least one session in this release group. This field will be returned if the current Plan supports stability monitoring.
+        accumulative_daily_users_with_unhandled:
+          type: number
+          example: 11
+          description: number of user sessions with at least one unhandled event. User Stability can be computed with (1 - (accumulative_daily_users_with_unhandled / accumulative_daily_users_seen)) * 100. This field will be returned if the current Plan supports stability monitoring.
+        top_release_group:
+          type: boolean
+          example: true
+          description: whether this release group is a top release
+        visible:
+          type: boolean
+          example: true
+          description: whether this release group is visible
+      required:
+      - id
+      - project_id
+      - release_stage_name
+      - app_version
+      - first_released_at
+      - first_release_id
+      - releases_count
+      - has_secondary_versions
+      - total_sessions_count
+      - top_release_group
+      - visible
+    ErrorAssignmentRulesReplaceRequest:
+      type: object
+      properties:
+        assignment_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorAssignmentRuleCreateRequest'
+    SpanGroupTimelinePoint:
+      type: object
+      required:
+      - bucket_start
+      - bucket_end
+      properties:
+        bucket_start:
+          type: string
+          example: 2022-10-17 15:00:00 +0000
+          description: The timestamp (inclusive) representing the start point of the bucketed statistics.
+        bucket_end:
+          type: string
+          example: 2022-10-17 15:30:00 +0000
+          description: The timestamp (exclusive) representing the end point of the bucketed statistics.
+        statistics:
+          $ref: '#/components/schemas/SpanGroupStatistics'
+          description: Statistics for the time period.
+    ProjectNetworkGroupingRuleset:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the project this is for
+        endpoints:
+          type: array
+          items:
+            type: string
+          description: The URL patterns by which network spans are grouped.
+      required:
+      - project_id
+      - endpoints
     ReleaseGroupSourceControl:
       type: object
       properties:
@@ -5574,6 +4805,177 @@ components:
         previous_app_version:
           type: string
           description: Previous app version for the diff
+    RenderingMetrics:
+      type: object
+      properties:
+        slow_frames:
+          $ref: '#/components/schemas/RenderingMetricsSlowFrames'
+          description: Details about the slow frames (those that missed their render deadline)
+        frozen_frames:
+          $ref: '#/components/schemas/RenderingMetricsFrozenFrames'
+          description: Details about the frozen frames (those that took longer than 700ms to render)
+        total_frames:
+          $ref: '#/components/schemas/RenderingMetricsTotalFrames'
+          description: Details about the total number of frames
+        frame_rate_statistics:
+          $ref: '#/components/schemas/RenderingStatisticsFrameRateStatistics'
+          description: Statistics about FPS measurements recorded while the Spans in the Span Group were active
+    FilterGroupsJoinOperator:
+      type: string
+      enum:
+      - and
+      - or
+      description: 'The join operator to apply between filter groups.
+
+        - and - All conditions must be satisfied
+
+        - or (default) - At least one condition must be satisfied
+
+        '
+    SpanSystemMetricsMemoryStatistics:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          type: number
+          example: 10000
+          description: The mean value of the measurements (in bytes)
+    EventDataRequestReportType:
+      type: string
+      enum:
+      - gdpr
+      description: only include event fields that pertain to the user such as event.user, event.device, and event.request; you may need to remove/redact some fields before giving this data to your users that request it
+    EventDataRequestApiView:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 5bf49d97468ce913212ae486
+          description: ID of the event data request
+        url:
+          type: string
+          description: URL for downloading the report of the requested event data. This may be a signed URL that is accessible for short amount of time.<br><br>This field is not present for on-premise installations. You can check event data requests in on-premise through the Minio UI by port forwarding it using `kubectl -n bugsnag port-forward svc/minio 9000:9000` and opening the Minio UI at http://localhost:9000. The access key and secret key can be retrieved via `kubectl -n bugsnag get secret minio -o jsonpath='{.data.accesskey}' | base64 -d; echo` and `kubectl -n bugsnag get secret minio -o jsonpath='{.data.secretkey}' | base64 -d; echo` respectively. Single node installations should omit `-n bugsnag` from commands.
+        status:
+          $ref: '#/components/schemas/EventDataRequestStatus'
+          example: ACCEPTED
+          description: status of the request
+        total:
+          type: number
+          example: 10
+          description: the total number of events that are expected to be returned; this field will be null if the status is `PREPARING`
+        report_type:
+          $ref: '#/components/schemas/EventDataRequestReportType'
+          description: the type of report to return; this is blank if all event fields were requested
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: The filters used to determine which events will be included in the report. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups:
+          items:
+            $ref: '#/components/schemas/FilterGroup'
+          description: The filter groups used to determine which events to delete. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        filter_groups_join:
+          type: string
+          enum:
+          - AND
+          - OR
+          description: The logical operator used to join the filter groups. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+        created_at:
+          type: string
+          example: '2018-11-21T01:31:25.000Z'
+          description: when the request was created
+        completed_at:
+          type: string
+          example: '2018-11-21T01:35:00.000Z'
+          description: when the request was completed
+        expires_at:
+          type: string
+          example: '2018-11-28T01:35:00.000Z'
+          description: when the request expires (and any stored data is removed)
+      required:
+      - id
+      - status
+      - filters
+      - created_at
+    RenderingStatisticsFrameRateStatistics:
+      type: object
+      required:
+      - span_count
+      - fps_mean
+      - fps_minimum
+      - fps_maximum
+      properties:
+        span_count:
+          type: number
+          example: 100
+          description: The number of Spans that reported rendering metrics of this type
+        fps_mean:
+          $ref: '#/components/schemas/FrameRateStatistics'
+          description: Details about the aggregated mean FPS for a Span Group
+        fps_minimum:
+          type: number
+          example: 5
+          description: The lowest seen FPS for a Span Group
+        fps_maximum:
+          type: number
+          example: 60
+          description: The highest seen FPS for a Span Group
+    PerformanceFilter:
+      type: object
+      required:
+      - key
+      properties:
+        key:
+          type: string
+          example: event.since
+          description: Identifier that is used as the key when filtering by this field.
+        filter_values:
+          type: array
+          items:
+            $ref: '#/components/schemas/PerformanceFilterValue'
+          description: The values to filter by.
+    SpanSystemMetricsCpu:
+      type: object
+      required:
+      - total
+      - main_thread
+      properties:
+        total:
+          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
+          description: Details of the total CPU usage measured at intervals across the Span's lifetime
+        main_thread:
+          $ref: '#/components/schemas/SpanSystemMetricsCpuStatistics'
+          description: Details of the main thread CPU usage measured at intervals across the Span's lifetime
+    SpanGroupHttpStatistics:
+      type: object
+      properties:
+        response_codes:
+          $ref: '#/components/schemas/SpanGroupHttpResponseCodes'
+          description: Counts of the number of Spans seen per response status code group
+    FeatureFlagVariantErrorSummary:
+      type: object
+      required:
+      - variant_id
+      - errors_seen
+      - exclusive_errors
+      - last_seen
+      properties:
+        variant_id:
+          type: string
+          description: The ID for this variant.
+          example: 515fb9337c1074f6fd000007
+        errors_seen:
+          type: number
+          description: The number of errors seen for this variant.
+          example: 3
+        exclusive_errors:
+          type: number
+          description: The number of errors exclusively seen for this variant.
+          example: 2
+        last_seen:
+          type: string
+          description: The last time an error was received for this variant.
+          example: '2017-04-21T02:50:35+00:00'
     ErrorAssignmentRulePatternApiView:
       type: object
       properties:
@@ -5601,67 +5003,55 @@ components:
       required:
       - type
       - scope
-    EventFieldCreateRequest:
+    SystemMetricsCpuStatistics:
       type: object
-      properties:
-        path:
-          type: string
-          example: metaData.plan.tier
-          description: '[Path](https://docs.bugsnag.com/product/custom-filters/advanced-custom-filters/#custom-filter-path) to locate the relevant data inside an Event data structure'
-        reindex:
-          type: boolean
-          example: false
-          description: Whether to reindex historical events for this field
-        filter_options:
-          type: object
-          properties:
-            name:
-              type: string
-              example: plan tier
-              description: Human readable name for the filter
-        pivot_options:
-          $ref: '#/components/schemas/PivotOptions'
-          description: Configuration for how this field will appear in pivots and on the Error page
       required:
-      - path
-      - filter_options
-    ErrorAssignmentRuleCreateRequest:
-      type: object
+      - span_count
       properties:
-        assignee:
-          $ref: '#/components/schemas/ErrorAssignmentRulesAssignee'
-          description: The assignee Team or User details.
-        pattern:
-          $ref: '#/components/schemas/ErrorAssignmentRulePatternApiView'
-          description: The matching logic to apply to the rule scope.
-        comment:
-          type: string
-          example: Green team handles mailer errors
-          description: Freeform text about the rule.
-      required:
-      - assignee
-      - pattern
-    SpanStatistics:
-      type: object
-      properties:
-        category_statistics:
-          $ref: '#/components/schemas/SpanCategoryStatistics'
-        system_metric_statistics:
-          $ref: '#/components/schemas/SpanSystemMetrics'
-        rendering_statistics:
-          $ref: '#/components/schemas/SpanRenderingStatistics'
-        http_statistics:
-          $ref: '#/components/schemas/SpanHttpStatistics'
-    NetworkGroupingRulesetRequest:
-      type: object
-      properties:
-        endpoints:
-          type: array
-          items:
-            type: string
-          description: The URL patterns by which network spans are grouped.
-      required:
-      - endpoints
+        span_count:
+          type: number
+          example: 100
+          description: The number of Spans that reported CPU system metric
+        p50:
+          type:
+          - number
+          - 'null'
+          example: 0.1
+          description: The P50 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
+        p75:
+          type:
+          - number
+          - 'null'
+          example: 0.2
+          description: The p75 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
+        p90:
+          type:
+          - number
+          - 'null'
+          example: 0.3
+          description: The p90 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
+        p95:
+          type:
+          - number
+          - 'null'
+          example: 0.4
+          description: The p95 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
+        p99:
+          type:
+          - number
+          - 'null'
+          example: 0.5
+          description: The p99 CPU usage percentage between 0 and 100 - (Only present if span_count > 0)
+    PerformanceDisplayType:
+      type: string
+      enum:
+      - js
+      - mobile
+      - server
+      - webserver_backend
+      - webserver_frontend
+      - webserver_mixed
+      - unsupported
     TraceField:
       type: object
       required:
@@ -5702,21 +5092,51 @@ components:
           - string
           - boolean
           - number
-    SpanMetadataLevel:
-      type: string
-      enum:
-      - unspecified
-      - resource
-      - span
-    ErrorStatus:
-      type: string
-      enum:
-      - open
-      - in progress
-      - for_review
-      - fixed
-      - snoozed
-      - ignored
+    RenderingMetricsTotalFrames:
+      type: object
+      required:
+      - span_count
+      properties:
+        span_count:
+          type: number
+          example: 100
+          description: The number of Spans that tracked at least one frame
+    SystemMetricsCpu:
+      type: object
+      required:
+      - total
+      - main_thread
+      properties:
+        total:
+          $ref: '#/components/schemas/SystemMetricsCpuTotal'
+          description: Aggregated statistics for the total CPU usage for the Spans in the Span Group
+        main_thread:
+          $ref: '#/components/schemas/SystemMetricsCpuMainThread'
+          description: Aggregated statistics for the main thread CPU usage for the Spans in the Span Group
+    NetworkGroupingRulesetRequest:
+      type: object
+      properties:
+        endpoints:
+          type: array
+          items:
+            type: string
+          description: The URL patterns by which network spans are grouped.
+      required:
+      - endpoints
+    FeatureFlagSummary:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: The ID of the feature flag.
+          example: 515fb9337c1074f6fd000007
+        name:
+          type: string
+          description: The name of the feature flag.
+          example: share_ios_photo_sharing_button
     FilterGroup:
       type: object
       description: A group of filters that are joined together using the specified join operator.
@@ -5732,6 +5152,481 @@ components:
       required:
       - join
       - filters
+    SpanStatistics:
+      type: object
+      properties:
+        category_statistics:
+          $ref: '#/components/schemas/SpanCategoryStatistics'
+        system_metric_statistics:
+          $ref: '#/components/schemas/SpanSystemMetrics'
+        rendering_statistics:
+          $ref: '#/components/schemas/SpanRenderingStatistics'
+        http_statistics:
+          $ref: '#/components/schemas/SpanHttpStatistics'
+    RenderingMetricsFrozenFrames:
+      type: object
+      required:
+      - span_count
+      properties:
+        span_count:
+          type: number
+          example: 25
+          description: The number of Spans that has at least one frozen frame
+    SpanSystemMetricsMemory:
+      type: object
+      required:
+      - device
+      properties:
+        device:
+          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
+          description: Details of the device memory measured at intervals across the Span's lifetime
+        android_runtime:
+          $ref: '#/components/schemas/SpanSystemMetricsMemoryStatistics'
+          description: Details of the Android Runtime memory measured at intervals across the Span's lifetime
+    SpanGroupDistributionPoint:
+      type: object
+      required:
+      - bucket_min
+      - bucket_max
+      - total_spans
+      properties:
+        bucket_min:
+          type: number
+          example: 100
+          description: The minimum time (in milliseconds; inclusive) represented by this distribution point.
+        bucket_max:
+          type: number
+          example: 200
+          description: The maximum time (in milliseconds; exclusive) represented by this distribution point.
+        total_spans:
+          type: number
+          example: 1000
+          description: The number of spans represented by this distribution point.
+    AdvancedFiltersFilterGroup:
+      type: object
+      description: "A group with filters (Event Fields) joined by the specified join operator. Each Event Field is a key in the object, and\neach value is an array of hashes specifying the match type and value to filter by. E.g:\n```\n{\n  join: \"and\",\n  \"event.class\": {\n    type: \"eq\",\n    value: \"RuntimeError\"\n  },\n  \"app.release_stage\": {\n    type: \"eq\",\n    value: \"production\"\n  }\n}\n```\n"
+      properties:
+        join:
+          $ref: '#/components/schemas/FilterGroupJoinOperator'
+          description: The operator to use when joining filters within this group
+        AdditionalProperties:
+          $ref: '#/components/schemas/Filters'
+    SystemMetricsMemory:
+      type: object
+      required:
+      - device
+      properties:
+        device:
+          $ref: '#/components/schemas/SystemMetricsMemoryDevice'
+          description: Aggregated statistics for the device memory usage for the Spans in the Span Group
+        android_runtime:
+          $ref: '#/components/schemas/SystemMetricsMemoryAndroidRuntime'
+          description: Aggregated statistics for the Android Runtime memory usage for the Spans in the Span Group
+    SystemMetricsCpuTotal:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          $ref: '#/components/schemas/SystemMetricsCpuStatistics'
+          description: The aggregated mean value
+    Span:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the span
+        parent_span_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the parent span if applicable
+        trace_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the trace
+        category:
+          type: string
+          example: app_start
+          description: The category of the span
+        name:
+          type: string
+          example: My Span
+          description: The name of the span
+        display_name:
+          type: string
+          example: App Start - My Span
+          description: The name of the span for display purposes
+        duration:
+          type: number
+          example: 1000
+          description: The duration of the span in milliseconds
+        timestamp:
+          type: string
+          example: '2023-04-11T13:14:25.123Z'
+          description: The timestamp we've attributed to the Span
+        time_adjustment_type:
+          type: string
+          enum:
+          - adjusted
+          - device
+          - received
+          - unadjusted
+          example: adjusted
+          description: How the time was adjusted
+        start_time:
+          type: string
+          example: '2023-04-11T13:14:25.123Z'
+          description: The time the span started
+        is_first_class:
+          type: boolean
+          example: true
+          description: Whether the span is first class or just a sub-span
+        build_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the build that this span is associated with
+        project_id:
+          type: string
+          example: 6368f07a518fa064ce036bdb
+          description: The ID of the project that this span is associated with
+        span_group_id:
+          type: string
+          example: 1.app_start.My Span
+          description: The id of the span group if applicable
+        virtual_span_group_id:
+          type: string
+          example: 1.page_load./my/route
+          description: The raw id of the page load span group if applicable
+        statistics:
+          $ref: '#/components/schemas/SpanStatistics'
+          description: Any additional statistics for the span
+        metadata:
+          $ref: '#/components/schemas/SpanMetadata'
+          description: Additional metadata for the span
+      required:
+      - id
+      - trace_id
+      - category
+      - name
+      - display_name
+      - duration
+      - timestamp
+      - time_adjustment_type
+      - start_time
+      - is_first_class
+    ProjectApiView:
+      allOf:
+      - $ref: '#/components/schemas/ProjectBase'
+      - type: object
+        properties:
+          id:
+            type: string
+            example: 515fb9337c1074f6fd000003
+          organization_id:
+            type: string
+            example: 515fb9337c1074f6fd000007
+          type:
+            $ref: '#/components/schemas/ProjectType'
+          performance_display_type:
+            $ref: '#/components/schemas/PerformanceDisplayType'
+          slug:
+            type: string
+            example: example-project
+            description: 'unique, human-readable identifier that can be used in place of `id` in URLs
+
+              '
+          api_key:
+            type: string
+            example: deadbeef1234deadbeef1234deadbeef
+            description: 'the notifier API key used to configure the [notifier
+
+              library](https://docs.bugsnag.com/platforms/) being used to report errors in
+
+              the project
+
+              '
+          upload_api_key:
+            type:
+            - string
+            - 'null'
+            example: cafe1234cafe1234cafe1234cafe1234
+            description: 'the upload API key used to authenticate file upload requests (source maps, proguard files, etc.).
+
+              If null, the project does not have a separate upload API key configured.
+
+              '
+          must_use_upload_api_key:
+            type: boolean
+            example: false
+            description: 'whether upload requests must use the upload_api_key for authentication.
+
+              If true, the regular api_key will not be accepted for upload endpoints.
+
+              '
+          is_full_view:
+            type: boolean
+            example: true
+            description: 'Always true for this endpoint. Used to differentiate between terse and complete project
+
+              representations.
+
+              '
+          release_stages:
+            type: array
+            items:
+              example:
+              - staging
+              - production
+            description: 'The release stages for which this project has received events.
+
+              This will be an array of strings whose values will depend on your Project.
+
+              '
+          language:
+            type: string
+            example: ruby
+            description: 'The Project''s programming language as derived from the framework represented in the `type` field
+
+              '
+          created_at:
+            type: string
+            example: '2017-03-02T05:55:55.555Z'
+            description: 'The time of the Project''s creation.
+
+              '
+          updated_at:
+            type: string
+            example: '2017-03-03T05:55:55.555Z'
+            description: 'The time the Project was last modified.
+
+              '
+          url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003
+            description: 'The API URL for the Project.
+
+              '
+          html_url:
+            type: string
+            example: https://app.bugsnag.com/example-account/example-project
+            description: 'The dashboard URL for the project.
+
+              '
+          errors_url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/errors
+            description: 'The API URL for the Project''s Errors.
+
+              '
+          events_url:
+            type: string
+            example: https://api.bugsnag.com/projects/515fb9337c1074f6fd000003/events
+            description: 'The API URL for the Project''s Events.
+
+              '
+          open_error_count:
+            type: number
+            example: 10
+            description: 'The number of open errors the Project has. Considers all events currently stored
+
+              for the Project.
+
+              '
+          for_review_error_count:
+            type: number
+            example: 5
+            description: 'The number of errors for review the Project has. Considers all events currently stored
+
+              for the Project.
+
+              '
+          collaborators_count:
+            type: number
+            example: 15
+            description: 'The number of collaborators with access to the Project.
+
+              '
+          teams_count:
+            type: number
+            example: 5
+            description: 'The number of teams with access to the Project.
+
+              '
+          custom_event_fields_used:
+            type: number
+            example: 5
+            description: 'The count of how many [Custom Filters](https://docs.bugsnag.com/product/custom-filters/) have been created for the Project.
+
+              '
+          ecmascript_parse_version:
+            type: object
+            description: 'The details of the ECMAScript version used to parse JavaScript events. Only present for Browser JavaScript Projects.
+
+              '
+          stability_target_type:
+            type: string
+            example: session
+            description: 'Whether the project should use stability targets based on sessions or users. Values are `user` or `session`.
+
+              '
+          target_stability:
+            $ref: '#/components/schemas/StabilityTarget'
+            description: 'The stability level the Project''s collaborators aim to maintain.
+
+              '
+          critical_stability:
+            $ref: '#/components/schemas/StabilityTarget'
+            description: 'The minimum stability acceptable to the Project collaborators.
+
+              '
+    SpanHttpStatistics:
+      type: object
+      required:
+      - response_code
+      properties:
+        response_code:
+          type: number
+          example: 200
+          description: The response status code for the Span
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
+    TraceFieldOptionValue:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          example: 2g
+          description: The identifier to use when filtering by this value.
+        name:
+          type: string
+          example: 2G
+          description: A human readable representation of this value.
+    FrameRateStatistics:
+      type: object
+      required:
+      - p50
+      - p75
+      - p90
+      - p95
+      - p99
+      properties:
+        p50:
+          type: number
+          example: 10
+          description: The P50 of frames
+        p75:
+          type: number
+          example: 20
+          description: The P75 of frames
+        p90:
+          type: number
+          example: 30
+          description: The P90 of frames
+        p95:
+          type: number
+          example: 40
+          description: The P95 of frames
+        p99:
+          type: number
+          example: 50
+          description: The P99 of frames
+    SpanGroupSummary:
+      type: object
+      required:
+      - id
+      - category
+      - name
+      - display_name
+      properties:
+        id:
+          type: string
+          example: 1.app_start.AppStart/Cold
+          description: The ID of the Span Group.
+        category:
+          $ref: '#/components/schemas/SpanGroupCategory'
+          example: app_start
+          description: The performance category of the Span Group.
+        name:
+          type: string
+          example: AppStart/Cold
+          description: The name of the Span Group.
+        display_name:
+          type: string
+          example: AppStart - Cold
+          description: The name of the Span Group for display purposes.
+    SystemMetricsCpuMainThread:
+      type: object
+      required:
+      - mean
+      properties:
+        mean:
+          $ref: '#/components/schemas/SystemMetricsCpuStatistics'
+          description: The aggregated mean value
+    SpanGroupDurationStatistics:
+      type: object
+      required:
+      - p50
+      - p75
+      - p90
+      - p95
+      - p99
+      properties:
+        p50:
+          type: number
+          example: 1000
+          description: The P50 duration (in ms).
+        p75:
+          type: number
+          example: 1200
+          description: The P75 duration (in ms).
+        p90:
+          type: number
+          example: 1500
+          description: The P90 duration (in ms).
+        p95:
+          type: number
+          example: 1750
+          description: The P95 duration (in ms).
+        p99:
+          type: number
+          example: 2000
+          description: The P99 duration (in ms).
+    EventFieldCreateRequest:
+      type: object
+      properties:
+        path:
+          type: string
+          example: metaData.plan.tier
+          description: '[Path](https://docs.bugsnag.com/product/custom-filters/advanced-custom-filters/#custom-filter-path) to locate the relevant data inside an Event data structure'
+        reindex:
+          type: boolean
+          example: false
+          description: Whether to reindex historical events for this field
+        filter_options:
+          type: object
+          properties:
+            name:
+              type: string
+              example: plan tier
+              description: Human readable name for the filter
+        pivot_options:
+          $ref: '#/components/schemas/PivotOptions'
+          description: Configuration for how this field will appear in pivots and on the Error page
+      required:
+      - path
+      - filter_options
     SpanSystemMetrics:
       type: object
       properties:
@@ -5741,71 +5636,176 @@ components:
         memory:
           $ref: '#/components/schemas/SpanSystemMetricsMemory'
           description: Details about the device memory of the Span
-    SpanRenderingStatisticsFrameRate:
+    SpanCategoryStatisticsFullPageLoad:
+      type: object
+      properties:
+        largest_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The largest contentful paint time in milliseconds
+        first_input_delay:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The first input delay time in milliseconds
+        first_input_delay_ended_at:
+          type:
+          - string
+          - 'null'
+          example: '2023-04-11T13:14:25.123Z'
+          description: The time the first input delay ended
+        cumulative_layout_shift:
+          type:
+          - number
+          - 'null'
+          example: 0.2
+          description: Measure of how often visible elements move unexpectedly
+        time_to_first_byte:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The time to first byte in milliseconds
+        first_contentful_paint:
+          type:
+          - number
+          - 'null'
+          example: 1000
+          description: The first contentful paint time in milliseconds
+    SpanMetadata:
       type: object
       required:
-      - fps_mean
-      - fps_minimum
-      - fps_maximum
+      - key
+      - value
+      - level
       properties:
-        fps_mean:
+        key:
+          type: string
+          example: device.id
+          description: The key of the metadata
+        value:
+          type: string
+          example: '1234'
+          description: The value of the metadata. May be a string or an integer.
+        level:
+          $ref: '#/components/schemas/SpanMetadataLevel'
+          description: The location of the metadata attribute within the Trace payload
+    EventField:
+      type: object
+      properties:
+        custom:
+          type: boolean
+          example: false
+          description: Whether the field is a custom event field created by your organization
+        display_id:
+          type: string
+          example: user.id
+          description: Identifier which is the key to use for filtering by this field
+        filter_options:
+          type: object
+          properties:
+            name:
+              type: string
+              example: User ID
+              description: Human readable display name for the filter
+            description:
+              type: string
+              example: user impacted by an event
+              description: Description of what the filter is
+            aliases:
+              type: array
+              items:
+                type: string
+              example:
+              - user
+              - uid
+              description: Other possible names that match this field when filtering
+            hint_text:
+              type: string
+              example: Exact match only
+              description: Hint text to clarify the use of the field for filtering
+            hint_url:
+              type: string
+              example: http://docs.bugsnag.com/product/filtering-dashboard#user-id
+              description: Link to Bugsnag documentation about this filter
+          required:
+          - name
+        values:
+          type: array
+          items:
+            $ref: '#/components/schemas/_FilterValue'
+          description: Possible values for this filter, only if this filter has a finite set of values
+        match_types:
+          type: array
+          items:
+            type: string
+            enum:
+            - eq
+            - ne
+          description: "The valid match types when filtering by this field\n  - eq - Results must equal the value\n  - ne - Results must not equal the value\n"
+        pivot_options:
+          $ref: '#/components/schemas/PivotOptions'
+        reindex_in_progress:
+          type: boolean
+          example: true
+          description: Whether a reindex of this field is currently in progress (applicable to custom fields only)
+        reindex_percentage:
           type: number
-          example: 55
-          description: The average FPS for a Span
-        fps_minimum:
-          type: number
-          example: 5
-          description: The lowest seen FPS for a Span
-        fps_maximum:
-          type: number
-          example: 60
-          description: The highest seen FPS for a Span
-    EventDataRequestReportType:
+          example: 100
+          description: The percentage complete of the reindexing of this field (applicable to custom fields only)
+      required:
+      - filter_options
+      - pivot_options
+    FeatureFlagVariant:
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: string
+          description: The ID of the variant.
+          example: 515fb9337c1074f6fd000007
+        name:
+          type: string
+          description: The name of the variant.
+          example: blue_button
+        first_seen:
+          type: string
+          description: The first the time variant was received regardless of retention. Only present if the `release_stage_name` parameter was provided and the Variant has been seen in that release stage.
+          example: '2017-04-21T02:50:35+00:00'
+    PerformanceTargetType:
       type: string
       enum:
-      - gdpr
-      description: only include event fields that pertain to the user such as event.user, event.device, and event.request; you may need to remove/redact some fields before giving this data to your users that request it
-    PerformanceTargetConfiguration:
+      - category
+      - span_group
+    SystemMetrics:
+      type: object
+      properties:
+        cpu:
+          $ref: '#/components/schemas/SystemMetricsCpu'
+          description: Details about the CPU usage of the Spans
+        memory:
+          $ref: '#/components/schemas/SystemMetricsMemory'
+          description: Details about the memory usage of the Spans
+    PerformanceTargetConfigurationThreshold:
       type: object
       required:
-      - state
+      - duration
       properties:
-        state:
-          type: string
-          enum:
-          - enabled
-          - disabled
-          description: The state of the Performance Target.
-        warning_performance:
-          $ref: '#/components/schemas/PerformanceTargetConfigurationThreshold'
-          description: The warning performance threshold for the Performance Target. Required when state is enabled.
-        critical_performance:
-          $ref: '#/components/schemas/PerformanceTargetConfigurationThreshold'
-          description: The critical performance threshold for the Performance Target. Requires the advanced performance targets feature.
-  parameters:
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    OrganizationId:
-      name: organization_id
-      in: path
-      required: true
-      description: The unique identifier of the organization.
-      schema:
-        type: string
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
+        duration:
+          type: number
+          example: 1000
+          description: The duration threshold in milliseconds.
+    SpanMetadataLevel:
+      type: string
+      enum:
+      - unspecified
+      - resource
+      - span
   responses:
     insufficient_project_role:
       description: The user should be an Organization Administrator or Project Owner to perform this action
@@ -5854,4 +5854,4 @@ externalDocs:
   url: https://docs.bugsnag.com/api/data-access/
 x-refined-from:
 - bugsnag-data-access-openapi.yml
-- bugsnag-data-access-api-openapi.json
+- bugsnag-projects-api-openapi.yml

@@ -95,16 +95,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
+  parameters:
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
   schemas:
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
     Trend:
       type: object
       description: Represents time-series trend data for errors or projects.
@@ -126,21 +132,15 @@ components:
               events_count:
                 type: integer
                 description: The number of events in this bucket.
-  parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
   securitySchemes:
     tokenAuth:
       type: apiKey
