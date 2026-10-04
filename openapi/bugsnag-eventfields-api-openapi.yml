@@ -48,6 +48,15 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
     EventField:
       type: object
       description: Represents a data dimension available for filtering events.
@@ -70,15 +79,6 @@ components:
               items:
                 type: string
               description: The available filter values.
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
   parameters:
     ProjectId:
       name: project_id

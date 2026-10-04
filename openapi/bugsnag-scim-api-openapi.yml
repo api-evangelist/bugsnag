@@ -915,52 +915,6 @@ paths:
                 status: '404'
 components:
   schemas:
-    ScimListPaginationOptions:
-      type: object
-      properties:
-        startIndex:
-          type: number
-          example: 15
-          description: the pagination offset, 1-indexed, defaults to 1
-        itemsPerPage:
-          type: number
-          example: 10
-          description: the number of results returned in this response
-      required:
-      - startIndex
-      - itemsPerPage
-    ScimGroupOperationsMember:
-      type: object
-      properties:
-        value:
-          type: string
-          example: 515fb9337c1074f6fd000007
-          description: the id of a BugSnag collaborators in the org
-      required:
-      - value
-    ScimEmail:
-      type: object
-      properties:
-        value:
-          type: string
-          example: james@example.com
-      required:
-      - value
-    ScimName:
-      type: object
-      properties:
-        formatted:
-          type: string
-          example: James Smith
-        givenName:
-          type: string
-          example: James
-        familyName:
-          type: string
-          example: Smith
-      required:
-      - givenName
-      - familyName
     ScimGroupCreateRequest:
       type: object
       properties:
@@ -1005,6 +959,104 @@ components:
         required:
         - totalResults
         - Resources
+    ScimEmail:
+      type: object
+      properties:
+        value:
+          type: string
+          example: james@example.com
+      required:
+      - value
+    ScimGroupOperationsMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: the id of a BugSnag collaborators in the org
+      required:
+      - value
+    ScimGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        displayName:
+          type: string
+          example: Development Group
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupMember'
+          description: the collaborators in a group
+      required:
+      - id
+      - displayName
+      - members
+    ScimGroupMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        display:
+          type: string
+          example: james@example.com
+      required:
+      - value
+      - display
+    ScimGroupOperations:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - replace
+          - remove
+        path:
+          type: string
+          example: members
+          description: the target to update. Optional for `add` or `replace` operations and required for `remove` operations.
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupOperationsMember'
+          description: if updating the group's name, provide an object with a `displayName` attribute instead
+      required:
+      - op
+      - value
+    ScimName:
+      type: object
+      properties:
+        formatted:
+          type: string
+          example: James Smith
+        givenName:
+          type: string
+          example: James
+        familyName:
+          type: string
+          example: Smith
+      required:
+      - givenName
+      - familyName
+    ScimGroupListResponse:
+      type: object
+      properties:
+        total_results:
+          type: number
+          example: 10
+          description: the total number of groups matching the query
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroup'
+          description: the SCIM groups of the organization
+      required:
+      - total_results
+      - Resources
     ScimUser:
       type: object
       properties:
@@ -1028,72 +1080,20 @@ components:
       - userName
       - name
       - emails
-    ScimGroupOperations:
+    ScimListPaginationOptions:
       type: object
       properties:
-        op:
-          type: string
-          enum:
-          - add
-          - replace
-          - remove
-        path:
-          type: string
-          example: members
-          description: the target to update. Optional for `add` or `replace` operations and required for `remove` operations.
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroupOperationsMember'
-          description: if updating the group's name, provide an object with a `displayName` attribute instead
-      required:
-      - op
-      - value
-    ScimGroup:
-      type: object
-      properties:
-        id:
-          type: string
-          example: 515fb9337c1074f6fd000007
-        displayName:
-          type: string
-          example: Development Group
-        members:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroupMember'
-          description: the collaborators in a group
-      required:
-      - id
-      - displayName
-      - members
-    ScimGroupListResponse:
-      type: object
-      properties:
-        total_results:
+        startIndex:
+          type: number
+          example: 15
+          description: the pagination offset, 1-indexed, defaults to 1
+        itemsPerPage:
           type: number
           example: 10
-          description: the total number of groups matching the query
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroup'
-          description: the SCIM groups of the organization
+          description: the number of results returned in this response
       required:
-      - total_results
-      - Resources
-    ScimGroupMember:
-      type: object
-      properties:
-        value:
-          type: string
-          example: 515fb9337c1074f6fd000007
-        display:
-          type: string
-          example: james@example.com
-      required:
-      - value
-      - display
+      - startIndex
+      - itemsPerPage
   securitySchemes:
     tokenAuth:
       type: apiKey

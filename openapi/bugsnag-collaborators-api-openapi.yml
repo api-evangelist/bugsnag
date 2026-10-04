@@ -168,30 +168,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    OrganizationId:
-      name: organization_id
-      in: path
-      required: true
-      description: The unique identifier of the organization.
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    CollaboratorId:
-      name: collaborator_id
-      in: path
-      required: true
-      description: The unique identifier of the collaborator.
-      schema:
-        type: string
   schemas:
     Collaborator:
       type: object
@@ -225,6 +201,18 @@ components:
         two_factor_enabled:
           type: boolean
           description: Whether the collaborator has two-factor authentication enabled.
+    CollaboratorUpdate:
+      type: object
+      description: Request body for updating a collaborator's permissions.
+      properties:
+        is_admin:
+          type: boolean
+          description: Whether the collaborator should have administrator privileges.
+        project_ids:
+          type: array
+          items:
+            type: string
+          description: Updated list of project IDs the collaborator should access.
     CollaboratorInvite:
       type: object
       description: Request body for inviting a collaborator to an organization.
@@ -243,18 +231,6 @@ components:
           items:
             type: string
           description: List of project IDs the collaborator should have access to.
-    CollaboratorUpdate:
-      type: object
-      description: Request body for updating a collaborator's permissions.
-      properties:
-        is_admin:
-          type: boolean
-          description: Whether the collaborator should have administrator privileges.
-        project_ids:
-          type: array
-          items:
-            type: string
-          description: Updated list of project IDs the collaborator should access.
     Error:
       type: object
       description: An API error response.
@@ -264,6 +240,30 @@ components:
           items:
             type: string
           description: List of error messages.
+  parameters:
+    OrganizationId:
+      name: organization_id
+      in: path
+      required: true
+      description: The unique identifier of the organization.
+      schema:
+        type: string
+    CollaboratorId:
+      name: collaborator_id
+      in: path
+      required: true
+      description: The unique identifier of the collaborator.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
   securitySchemes:
     tokenAuth:
       type: apiKey

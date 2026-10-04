@@ -83,6 +83,13 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
     PerPage:
       name: per_page
       in: query
@@ -92,13 +99,6 @@ components:
         minimum: 1
         maximum: 100
         default: 30
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
     ReleaseId:
       name: release_id
       in: path
@@ -107,15 +107,6 @@ components:
       schema:
         type: string
   schemas:
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
     Release:
       type: object
       description: Represents a deployed version of an application.
@@ -174,6 +165,15 @@ components:
           type: string
           format: date-time
           description: The date and time the release record was created.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
   securitySchemes:
     tokenAuth:
       type: apiKey

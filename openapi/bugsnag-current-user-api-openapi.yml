@@ -346,6 +346,29 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
+    FilterMatchType:
+      type: string
+      enum:
+      - eq
+      - ne
+      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
+
+        - ne - Filter for items that don''t match the value
+
+        '
+    SeverityOptions:
+      type: string
+      enum:
+      - info
+      - warning
+      - error
+      description: '- info - can be used in manual Bugsnag.notify calls
+
+        - warning - the default severity when Bugsnag.notify is called manually
+
+        - error - the default severity for uncaught exceptions and crashes
+
+        '
     Filters:
       type: object
       properties:
@@ -927,61 +950,15 @@ components:
             required:
             - type
             - value
-    SavedSearchCreateRequest:
-      type: object
-      properties:
-        project_id:
-          type: string
-          example: 515fb9337c1074f6fd000003
-          description: ID of project this saved search is for
-        name:
-          type: string
-          example: most events
-          description: name of the saved search
-        filters:
-          $ref: '#/components/schemas/Filters'
-          description: 'The filters used to determine which Errors will be returned by the
-
-            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
-
-            '
-        sort:
-          $ref: '#/components/schemas/SearchSort'
-          description: the `error` property to sort results by
-        shared:
-          type: boolean
-          example: false
-          description: whether this saved search is shared among collaborators
-          default: false
-        project_default:
-          type: boolean
-          example: false
-          description: whether this saved search is the project default for the current user
-      required:
-      - project_id
-      - name
-      - filters
-      - project_default
-    SavedSearchUsageSummary:
-      type: object
-      properties:
-        project_notifications_count:
-          type: number
-          description: the number of project notifications using this saved search
-        current_user_using_for_email_notification:
-          type: boolean
-          description: whether the current user is using this saved search for email notifications
-        collaborator_email_notifications_count:
-          type: number
-          description: the number of other users using this saved search for email notifications
-        performance_monitor_count:
-          type: number
-          description: the number of performance monitors using this saved search
-      required:
-      - project_notifications_count
-      - current_user_using_for_email_notification
-      - collaborator_email_notifications_count
-      - performance_monitor_count
+    ErrorStatus:
+      type: string
+      enum:
+      - open
+      - in progress
+      - for_review
+      - fixed
+      - snoozed
+      - ignored
     SavedSearchUpdateRequest:
       type: object
       properties:
@@ -1008,34 +985,6 @@ components:
           type: boolean
           example: false
           description: whether this saved search is the project default for the current user
-    SeverityOptions:
-      type: string
-      enum:
-      - info
-      - warning
-      - error
-      description: '- info - can be used in manual Bugsnag.notify calls
-
-        - warning - the default severity when Bugsnag.notify is called manually
-
-        - error - the default severity for uncaught exceptions and crashes
-
-        '
-    ErrorStatusType:
-      type: string
-      enum:
-      - all
-      - some
-      - none
-    ErrorStatus:
-      type: string
-      enum:
-      - open
-      - in progress
-      - for_review
-      - fixed
-      - snoozed
-      - ignored
     SavedSearch:
       type: object
       properties:
@@ -1139,16 +1088,6 @@ components:
       - snoozed_error_inclusion
       - fixed_error_inclusion
       - ignored_error_inclusion
-    FilterMatchType:
-      type: string
-      enum:
-      - eq
-      - ne
-      description: '- eq - Filter for items that "match" (exact match or substring match depending on the field) the value
-
-        - ne - Filter for items that don''t match the value
-
-        '
     SearchSort:
       type: string
       enum:
@@ -1156,6 +1095,67 @@ components:
       - users
       - events
       - last_seen
+    SavedSearchUsageSummary:
+      type: object
+      properties:
+        project_notifications_count:
+          type: number
+          description: the number of project notifications using this saved search
+        current_user_using_for_email_notification:
+          type: boolean
+          description: whether the current user is using this saved search for email notifications
+        collaborator_email_notifications_count:
+          type: number
+          description: the number of other users using this saved search for email notifications
+        performance_monitor_count:
+          type: number
+          description: the number of performance monitors using this saved search
+      required:
+      - project_notifications_count
+      - current_user_using_for_email_notification
+      - collaborator_email_notifications_count
+      - performance_monitor_count
+    SavedSearchCreateRequest:
+      type: object
+      properties:
+        project_id:
+          type: string
+          example: 515fb9337c1074f6fd000003
+          description: ID of project this saved search is for
+        name:
+          type: string
+          example: most events
+          description: name of the saved search
+        filters:
+          $ref: '#/components/schemas/Filters'
+          description: 'The filters used to determine which Errors will be returned by the
+
+            search. See [Filtering](https://developer.smartbear.com/bugsnag/docs/data-access-filtering) for details.
+
+            '
+        sort:
+          $ref: '#/components/schemas/SearchSort'
+          description: the `error` property to sort results by
+        shared:
+          type: boolean
+          example: false
+          description: whether this saved search is shared among collaborators
+          default: false
+        project_default:
+          type: boolean
+          example: false
+          description: whether this saved search is the project default for the current user
+      required:
+      - project_id
+      - name
+      - filters
+      - project_default
+    ErrorStatusType:
+      type: string
+      enum:
+      - all
+      - some
+      - none
     User:
       type: object
       description: Represents an authenticated Bugsnag user account.
