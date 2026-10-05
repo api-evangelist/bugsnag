@@ -1,0 +1,70 @@
+slug: bugsnag
+provider: Bugsnag
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 5
+edges:
+- tag: Traces
+  spec_file: bugsnag-traces-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.9
+  evidence: POST /v1/traces sendTraces "Send trace data"; schemas ExportTraceServiceRequest, ResourceSpans,
+    ScopeSpans, Span
+  reason: OTLP-shaped trace ingestion with resource/scope spans is distributed tracing telemetry — plainly
+    logs/metrics/traces observability of the running service. No other reading fits.
+- tag: SCIM
+  spec_file: bugsnag-scim-api-openapi.yml
+  capability_id: BC-4230.50
+  capability_id_l1: BC-4230
+  capability_name: Tenant Identity Federation
+  confidence: 0.8
+  evidence: GET /organizations/{organization_id}/scim/v2/Users listScimCollaborators; POST .../scim/v2/Groups
+    createScimGroup; schemas ScimUser, ScimGroup
+  reason: Standard SCIM 2.0 Users/Groups provisioning endpoints for an organization — exactly the tenant
+    user-account lifecycle via SCIM described by Tenant Identity Federation. Residual ambiguity is only
+    whether to read it as generic IAM.
+- tag: Errors
+  spec_file: bugsnag-errors-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.72
+  evidence: GET /projects/{project_id}/errors  listProjectErrors; GET /projects/{project_id}/errors/{error_id}/trends  List
+    the Trends for an Error; schemas ErrorStatus, ElasticSearchEventApiView
+  reason: 'Core surface of an application stability monitoring product: querying, triaging and trending
+    runtime errors and events captured from production applications. That is observability of the running
+    service, not financial/transaction ''errors'' and not pre-release defect testing; some ambiguity with
+    defect management keeps confidence below 0.8.'
+- tag: Builds
+  spec_file: bugsnag-builds-api-openapi.yml
+  capability_id: BC-4210.30
+  capability_id_l1: BC-4210
+  capability_name: Release Engineering Management
+  confidence: 0.7
+  evidence: allows you to provide information about your application builds, releases, and deployments
+    ... It integrates with CI/CD pipelines to automate release tracking
+  reason: The single operation registers build/release metadata including version numbers and source control
+    info so releases can be tracked, which is release engineering discipline. Ambiguity between release
+    engineering and continuous integration sub-capabilities caps confidence.
+- tag: Events
+  spec_file: bugsnag-events-api-openapi.yml
+  capability_id: BC-4220.20
+  capability_id_l1: BC-4220
+  capability_name: Observability Management
+  confidence: 0.7
+  evidence: GET /projects/{project_id}/errors/{error_id}/events  listErrorEvents; schemas Breadcrumb,
+    StackFrame, Exception
+  reason: Reads individual crash/error event payloads with stack frames and breadcrumbs from running applications
+    — diagnostic telemetry that makes the production service understandable, i.e. observability. Not product
+    usage analytics (no funnels/cohorts) and not business event processing.
