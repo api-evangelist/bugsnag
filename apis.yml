@@ -482,6 +482,8 @@ apis:
   - type: CLI
     url: cli/bugsnag-cli.yml
 common:
+- type: FinOps
+  url: finops/bugsnag-finops.yml
 - type: CapabilityMap
   url: capabilities/bugsnag-capability-edges.yml
   name: Bugsnag Business Capability Map
