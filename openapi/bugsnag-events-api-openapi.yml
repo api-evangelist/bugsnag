@@ -107,80 +107,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
-    PerPage:
-      name: per_page
-      in: query
-      description: The number of results to return per page. Used for pagination.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 30
-    EventId:
-      name: event_id
-      in: path
-      required: true
-      description: The unique identifier of the event.
-      schema:
-        type: string
   schemas:
-    Breadcrumb:
-      type: object
-      description: Represents a breadcrumb event that occurred before the error.
-      properties:
-        timestamp:
-          type: string
-          format: date-time
-          description: The time the breadcrumb was recorded.
-        name:
-          type: string
-          description: The name or title of the breadcrumb event.
-        type:
-          type: string
-          enum:
-          - navigation
-          - request
-          - process
-          - log
-          - user
-          - state
-          - error
-          - manual
-          description: The type of breadcrumb event.
-        meta_data:
-          type: object
-          additionalProperties: true
-          description: Additional metadata associated with the breadcrumb.
-    Exception:
-      type: object
-      description: Represents an exception within an error event, including the error class, message, and stack trace.
-      properties:
-        error_class:
-          type: string
-          description: The class or type of the exception.
-        message:
-          type: string
-          description: The exception message.
-        stacktrace:
-          type: array
-          description: The stack trace frames for this exception.
-          items:
-            $ref: '#/components/schemas/StackFrame'
     StackFrame:
       type: object
       description: Represents a single frame in a stack trace.
@@ -205,6 +132,21 @@ components:
           additionalProperties:
             type: string
           description: A map of line numbers to code content around the error.
+    Exception:
+      type: object
+      description: Represents an exception within an error event, including the error class, message, and stack trace.
+      properties:
+        error_class:
+          type: string
+          description: The class or type of the exception.
+        message:
+          type: string
+          description: The exception message.
+        stacktrace:
+          type: array
+          description: The stack trace frames for this exception.
+          items:
+            $ref: '#/components/schemas/StackFrame'
     Event:
       type: object
       description: Represents an individual error occurrence, containing full exception details, stack traces, device information, and metadata.
@@ -329,6 +271,64 @@ components:
           items:
             type: string
           description: List of error messages.
+    Breadcrumb:
+      type: object
+      description: Represents a breadcrumb event that occurred before the error.
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: The time the breadcrumb was recorded.
+        name:
+          type: string
+          description: The name or title of the breadcrumb event.
+        type:
+          type: string
+          enum:
+          - navigation
+          - request
+          - process
+          - log
+          - user
+          - state
+          - error
+          - manual
+          description: The type of breadcrumb event.
+        meta_data:
+          type: object
+          additionalProperties: true
+          description: Additional metadata associated with the breadcrumb.
+  parameters:
+    EventId:
+      name: event_id
+      in: path
+      required: true
+      description: The unique identifier of the event.
+      schema:
+        type: string
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+    PerPage:
+      name: per_page
+      in: query
+      description: The number of results to return per page. Used for pagination.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 30
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
   securitySchemes:
     tokenAuth:
       type: apiKey

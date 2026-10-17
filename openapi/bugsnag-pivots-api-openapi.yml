@@ -97,6 +97,15 @@ components:
           type: number
           format: float
           description: The proportion of events with this pivot value.
+    Error:
+      type: object
+      description: An API error response.
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          description: List of error messages.
     Pivot:
       type: object
       description: Represents an available pivot dimension for grouping error data.
@@ -114,15 +123,6 @@ components:
           type: string
           format: uri
           description: The API URL to list values for this pivot.
-    Error:
-      type: object
-      description: An API error response.
-      properties:
-        errors:
-          type: array
-          items:
-            type: string
-          description: List of error messages.
   parameters:
     ProjectId:
       name: project_id

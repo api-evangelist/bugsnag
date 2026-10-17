@@ -286,6 +286,47 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ResourceSpans:
+      type: object
+      description: A collection of spans produced by a single instrumented resource.
+      properties:
+        resource:
+          type: object
+          description: The resource producing the spans, typically identifying the service name and version.
+          properties:
+            attributes:
+              type: array
+              description: Key-value attributes describing the resource.
+              items:
+                $ref: '#/components/schemas/KeyValue'
+        scopeSpans:
+          type: array
+          description: A collection of spans grouped by instrumentation scope.
+          items:
+            $ref: '#/components/schemas/ScopeSpans'
+    KeyValue:
+      type: object
+      description: A key-value pair used for attributes in the OpenTelemetry data model.
+      properties:
+        key:
+          type: string
+          description: The attribute key.
+        value:
+          type: object
+          description: The attribute value, which can be a string, integer, double, boolean, or array.
+          properties:
+            stringValue:
+              type: string
+              description: A string value.
+            intValue:
+              type: string
+              description: An integer value, encoded as a string.
+            doubleValue:
+              type: number
+              description: A double-precision floating point value.
+            boolValue:
+              type: boolean
+              description: A boolean value.
     ExportTraceServiceRequest:
       type: object
       description: The OTLP ExportTraceServiceRequest containing resource spans. This follows the OpenTelemetry protocol specification.
@@ -295,6 +336,39 @@ components:
           description: A collection of spans from a single resource (service).
           items:
             $ref: '#/components/schemas/ResourceSpans'
+    ExportTraceServiceResponse:
+      type: object
+      description: The response to an OTLP trace export request.
+      properties:
+        partialSuccess:
+          type: object
+          description: Information about partially successful exports.
+          properties:
+            rejectedSpans:
+              type: integer
+              description: The number of spans that were rejected.
+            errorMessage:
+              type: string
+              description: An error message if some spans were rejected.
+    ScopeSpans:
+      type: object
+      description: A collection of spans from a single instrumentation scope (library or component).
+      properties:
+        scope:
+          type: object
+          description: The instrumentation scope that produced the spans.
+          properties:
+            name:
+              type: string
+              description: The name of the instrumentation scope.
+            version:
+              type: string
+              description: The version of the instrumentation scope.
+        spans:
+          type: array
+          description: The individual spans within this scope.
+          items:
+            $ref: '#/components/schemas/Span'
     Span:
       type: object
       description: Represents a single operation within a trace. Spans have a name, start and end time, and attributes describing the operation.
@@ -363,80 +437,6 @@ components:
                 description: Key-value attributes for the event.
                 items:
                   $ref: '#/components/schemas/KeyValue'
-    ExportTraceServiceResponse:
-      type: object
-      description: The response to an OTLP trace export request.
-      properties:
-        partialSuccess:
-          type: object
-          description: Information about partially successful exports.
-          properties:
-            rejectedSpans:
-              type: integer
-              description: The number of spans that were rejected.
-            errorMessage:
-              type: string
-              description: An error message if some spans were rejected.
-    KeyValue:
-      type: object
-      description: A key-value pair used for attributes in the OpenTelemetry data model.
-      properties:
-        key:
-          type: string
-          description: The attribute key.
-        value:
-          type: object
-          description: The attribute value, which can be a string, integer, double, boolean, or array.
-          properties:
-            stringValue:
-              type: string
-              description: A string value.
-            intValue:
-              type: string
-              description: An integer value, encoded as a string.
-            doubleValue:
-              type: number
-              description: A double-precision floating point value.
-            boolValue:
-              type: boolean
-              description: A boolean value.
-    ResourceSpans:
-      type: object
-      description: A collection of spans produced by a single instrumented resource.
-      properties:
-        resource:
-          type: object
-          description: The resource producing the spans, typically identifying the service name and version.
-          properties:
-            attributes:
-              type: array
-              description: Key-value attributes describing the resource.
-              items:
-                $ref: '#/components/schemas/KeyValue'
-        scopeSpans:
-          type: array
-          description: A collection of spans grouped by instrumentation scope.
-          items:
-            $ref: '#/components/schemas/ScopeSpans'
-    ScopeSpans:
-      type: object
-      description: A collection of spans from a single instrumentation scope (library or component).
-      properties:
-        scope:
-          type: object
-          description: The instrumentation scope that produced the spans.
-          properties:
-            name:
-              type: string
-              description: The name of the instrumentation scope.
-            version:
-              type: string
-              description: The version of the instrumentation scope.
-        spans:
-          type: array
-          description: The individual spans within this scope.
-          items:
-            $ref: '#/components/schemas/Span'
     Span_2:
       type: object
       required:
@@ -501,6 +501,16 @@ components:
         parentSpanId:
           type: string
           description: The ID of the parent for this span. If this is the root span, parentSpanId should be `null`.
+    Payload:
+      type: object
+      required:
+      - resourceSpans
+      properties:
+        resourceSpans:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceSpan'
+          description: An array of trace reports that will be sent to BugSnag. Should contain at least 1 report.
     SuccessResponseBody:
       type: object
       description: ExportTraceServiceResponse See [here](https://opentelemetry.io/docs/specs/otlp/) for more information
@@ -515,32 +525,6 @@ components:
             error_message:
               type: string
               description: A developer-facing human-readable message in English. It should be used either to explain why the server rejected parts of the data during a partial success or to convey warnings/suggestions during a full success
-    Payload:
-      type: object
-      required:
-      - resourceSpans
-      properties:
-        resourceSpans:
-          type: array
-          items:
-            $ref: '#/components/schemas/ResourceSpan'
-          description: An array of trace reports that will be sent to BugSnag. Should contain at least 1 report.
-    ResourceSpan:
-      type: object
-      required:
-      - resource
-      - scopeSpans
-      properties:
-        resource:
-          type: array
-          items:
-            $ref: '#/components/schemas/Resource'
-          description: Metadata about where the span was generated from
-        scopeSpans:
-          type: array
-          items:
-            $ref: '#/components/schemas/Span_2'
-          description: Describes a unit of work or operation. A trace can be made up of multiple spans
     Resource:
       type: object
       required:
@@ -578,6 +562,22 @@ components:
         message:
           type: string
           description: A developer-facing error message, which should be in English.
+    ResourceSpan:
+      type: object
+      required:
+      - resource
+      - scopeSpans
+      properties:
+        resource:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+          description: Metadata about where the span was generated from
+        scopeSpans:
+          type: array
+          items:
+            $ref: '#/components/schemas/Span_2'
+          description: Describes a unit of work or operation. A trace can be made up of multiple spans
 externalDocs:
   description: Bugsnag Performance Trace Documentation
   url: https://docs.bugsnag.com/performance/sending-traces/

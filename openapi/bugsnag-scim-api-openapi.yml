@@ -915,67 +915,6 @@ paths:
                 status: '404'
 components:
   schemas:
-    ScimGroupCreateRequest:
-      type: object
-      properties:
-        displayName:
-          type: string
-          example: Development Group
-      required:
-      - displayName
-    ScimPatchOp:
-      type: object
-      properties:
-        op:
-          type: string
-          example: replace
-          description: the operation to perform on the field, only `replace` is supported
-        path:
-          type: string
-          example: active
-          description: the field to update, only `active` is supported
-        value:
-          type: boolean
-          example: true
-          description: the value to set
-      required:
-      - op
-      - path
-      - value
-    ScimUserListResponse:
-      allOf:
-      - $ref: '#/components/schemas/ScimListPaginationOptions'
-      - type: object
-        properties:
-          totalResults:
-            type: number
-            example: 150
-            description: the total number of users matching the query
-          Resources:
-            type: array
-            items:
-              $ref: '#/components/schemas/ScimUser'
-            description: the users of the organisation
-        required:
-        - totalResults
-        - Resources
-    ScimEmail:
-      type: object
-      properties:
-        value:
-          type: string
-          example: james@example.com
-      required:
-      - value
-    ScimGroupOperationsMember:
-      type: object
-      properties:
-        value:
-          type: string
-          example: 515fb9337c1074f6fd000007
-          description: the id of a BugSnag collaborators in the org
-      required:
-      - value
     ScimGroup:
       type: object
       properties:
@@ -994,69 +933,14 @@ components:
       - id
       - displayName
       - members
-    ScimGroupMember:
+    ScimEmail:
       type: object
       properties:
         value:
-          type: string
-          example: 515fb9337c1074f6fd000007
-        display:
           type: string
           example: james@example.com
       required:
       - value
-      - display
-    ScimGroupOperations:
-      type: object
-      properties:
-        op:
-          type: string
-          enum:
-          - add
-          - replace
-          - remove
-        path:
-          type: string
-          example: members
-          description: the target to update. Optional for `add` or `replace` operations and required for `remove` operations.
-        value:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroupOperationsMember'
-          description: if updating the group's name, provide an object with a `displayName` attribute instead
-      required:
-      - op
-      - value
-    ScimName:
-      type: object
-      properties:
-        formatted:
-          type: string
-          example: James Smith
-        givenName:
-          type: string
-          example: James
-        familyName:
-          type: string
-          example: Smith
-      required:
-      - givenName
-      - familyName
-    ScimGroupListResponse:
-      type: object
-      properties:
-        total_results:
-          type: number
-          example: 10
-          description: the total number of groups matching the query
-        Resources:
-          type: array
-          items:
-            $ref: '#/components/schemas/ScimGroup'
-          description: the SCIM groups of the organization
-      required:
-      - total_results
-      - Resources
     ScimUser:
       type: object
       properties:
@@ -1080,6 +964,44 @@ components:
       - userName
       - name
       - emails
+    ScimUserListResponse:
+      allOf:
+      - $ref: '#/components/schemas/ScimListPaginationOptions'
+      - type: object
+        properties:
+          totalResults:
+            type: number
+            example: 150
+            description: the total number of users matching the query
+          Resources:
+            type: array
+            items:
+              $ref: '#/components/schemas/ScimUser'
+            description: the users of the organisation
+        required:
+        - totalResults
+        - Resources
+    ScimGroupOperations:
+      type: object
+      properties:
+        op:
+          type: string
+          enum:
+          - add
+          - replace
+          - remove
+        path:
+          type: string
+          example: members
+          description: the target to update. Optional for `add` or `replace` operations and required for `remove` operations.
+        value:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroupOperationsMember'
+          description: if updating the group's name, provide an object with a `displayName` attribute instead
+      required:
+      - op
+      - value
     ScimListPaginationOptions:
       type: object
       properties:
@@ -1094,6 +1016,84 @@ components:
       required:
       - startIndex
       - itemsPerPage
+    ScimPatchOp:
+      type: object
+      properties:
+        op:
+          type: string
+          example: replace
+          description: the operation to perform on the field, only `replace` is supported
+        path:
+          type: string
+          example: active
+          description: the field to update, only `active` is supported
+        value:
+          type: boolean
+          example: true
+          description: the value to set
+      required:
+      - op
+      - path
+      - value
+    ScimGroupMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+        display:
+          type: string
+          example: james@example.com
+      required:
+      - value
+      - display
+    ScimGroupOperationsMember:
+      type: object
+      properties:
+        value:
+          type: string
+          example: 515fb9337c1074f6fd000007
+          description: the id of a BugSnag collaborators in the org
+      required:
+      - value
+    ScimGroupListResponse:
+      type: object
+      properties:
+        total_results:
+          type: number
+          example: 10
+          description: the total number of groups matching the query
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimGroup'
+          description: the SCIM groups of the organization
+      required:
+      - total_results
+      - Resources
+    ScimName:
+      type: object
+      properties:
+        formatted:
+          type: string
+          example: James Smith
+        givenName:
+          type: string
+          example: James
+        familyName:
+          type: string
+          example: Smith
+      required:
+      - givenName
+      - familyName
+    ScimGroupCreateRequest:
+      type: object
+      properties:
+        displayName:
+          type: string
+          example: Development Group
+      required:
+      - displayName
   securitySchemes:
     tokenAuth:
       type: apiKey

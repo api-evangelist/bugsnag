@@ -95,21 +95,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
 components:
-  parameters:
-    ErrorId:
-      name: error_id
-      in: path
-      required: true
-      description: The unique identifier of the error.
-      schema:
-        type: string
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The unique identifier of the project.
-      schema:
-        type: string
   schemas:
     Trend:
       type: object
@@ -141,6 +126,21 @@ components:
           items:
             type: string
           description: List of error messages.
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The unique identifier of the project.
+      schema:
+        type: string
+    ErrorId:
+      name: error_id
+      in: path
+      required: true
+      description: The unique identifier of the error.
+      schema:
+        type: string
   securitySchemes:
     tokenAuth:
       type: apiKey
