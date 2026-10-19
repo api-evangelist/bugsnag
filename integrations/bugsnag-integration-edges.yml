@@ -1,12 +1,19 @@
 generated: '2026-10-13'
 method: searched
 checked:
+- https://api.nuget.org/v3
 - https://connectors.airbyte.com/files/registries/v0/cloud_registry.json
 - https://connectors.airbyte.com/files/registries/v0/oss_registry.json
+- https://crates.io/api/v1
 - https://docs.mparticle.com/integrations/bugsnag/event/
 - https://github.com/PipedreamHQ/pipedream/tree/94800dd6de6640b942c65ea7ee655f71ac56d438/components/
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
+- https://proxy.golang.org
+- https://pypi.org/pypi
+- https://registry.npmjs.org
+- https://repo1.maven.org/maven2
+- https://rubygems.org/api/v1
 - https://www.twilio.com/docs/segment/connections/destinations/catalog/bugsnag
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - okta/integrations/okta-integration-edges.yml
@@ -196,6 +203,237 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Slack app
+- partner_name: Go module proxy
+  partner: null
+  partner_match: null
+  type: register
+  direction: provider-built
+  category: official SDK (Go)
+  evidence: https://pkg.go.dev/github.com/bugsnag/bugsnag-go
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Go module proxy (public registry JSON)
+    spec_file: null
+    language: Go
+    packages:
+    - name: github.com/bugsnag/bugsnag-go
+      version: v2.6.4+incompatible
+      released: '2026-04-14'
+      released_field: Time
+      lapsed: false
+      page: https://pkg.go.dev/github.com/bugsnag/bugsnag-go
+      repo_leg: github-org:bugsnag
+      publisher_leg: org:bugsnag
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: Maven Central
+  partner: maven-central
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Java/JVM)
+  evidence: https://central.sonatype.com/artifact/com.bugsnag/bugsnag
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Maven Central (public registry JSON)
+    spec_file: null
+    language: Java/JVM
+    packages:
+    - name: com.bugsnag:bugsnag
+      version: 4.0.1
+      released: '2026-07-21'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.bugsnag/bugsnag
+      repo_leg: github-org:bugsnag
+      publisher_leg: groupId:bugsnag.com
+      matched_by: domain
+    - name: com.bugsnag:bugsnag-android
+      version: 6.28.0
+      released: '2026-10-07'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android
+      repo_leg: domain:bugsnag.com
+      publisher_leg: groupId:bugsnag.com
+      matched_by: domain
+    - name: com.bugsnag:bugsnag-android-gradle-plugin
+      version: 8.2.0
+      released: '2025-01-27'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android-gradle-plugin
+      repo_leg: github-org:bugsnag
+      publisher_leg: groupId:bugsnag.com
+      matched_by: domain
+    - name: com.bugsnag:bugsnag-android-performance
+      version: 3.2.0
+      released: '2026-10-16'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-android-performance
+      repo_leg: domain:bugsnag.com
+      publisher_leg: groupId:bugsnag.com
+      matched_by: domain
+    - name: com.bugsnag:bugsnag-spring
+      version: 4.0.1
+      released: '2026-07-21'
+      released_field: lastUpdated
+      lapsed: false
+      page: https://central.sonatype.com/artifact/com.bugsnag/bugsnag-spring
+      repo_leg: github-org:bugsnag
+      publisher_leg: groupId:bugsnag.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: npm registry
+  partner: npm
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (JavaScript/TypeScript)
+  evidence: https://www.npmjs.com/package/@bugsnag/browser
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: npm registry (public registry JSON)
+    spec_file: null
+    language: JavaScript/TypeScript
+    packages:
+    - name: '@bugsnag/browser'
+      version: 9.1.0
+      released: '2026-10-09'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/browser
+      repo_leg: domain:bugsnag.com
+      publisher_leg: org:bugsnag
+      matched_by: domain
+    - name: '@bugsnag/cli'
+      version: 3.10.7
+      released: '2026-10-08'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/cli
+      repo_leg: github-org:bugsnag
+      publisher_leg: org:bugsnag
+      matched_by: github-org
+    - name: '@bugsnag/js'
+      version: 9.1.0
+      released: '2026-10-09'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/js
+      repo_leg: domain:bugsnag.com
+      publisher_leg: org:bugsnag
+      matched_by: domain
+    - name: '@bugsnag/node'
+      version: 9.1.0
+      released: '2026-10-09'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/node
+      repo_leg: domain:bugsnag.com
+      publisher_leg: org:bugsnag
+      matched_by: domain
+    - name: '@bugsnag/react-native'
+      version: 9.1.0
+      released: '2026-10-09'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/react-native
+      repo_leg: domain:bugsnag.com
+      publisher_leg: org:bugsnag
+      matched_by: domain
+    - name: '@bugsnag/source-maps'
+      version: 2.3.3
+      released: '2026-06-29'
+      released_field: modified
+      lapsed: false
+      page: https://www.npmjs.com/package/@bugsnag/source-maps
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: NuGet Gallery
+  partner: nuget
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (.NET)
+  evidence: https://www.nuget.org/packages/Bugsnag
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: NuGet Gallery (public registry JSON)
+    spec_file: null
+    language: .NET
+    packages:
+    - name: Bugsnag
+      version: 4.1.1
+      released: '2026-04-21'
+      released_field: published
+      lapsed: false
+      page: https://www.nuget.org/packages/Bugsnag
+      repo_leg: github-org:bugsnag
+      publisher_leg: org:bugsnag
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
+- partner_name: PyPI
+  partner: pypi
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Python)
+  evidence: https://pypi.org/project/bugsnag/
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI (public registry JSON)
+    spec_file: null
+    language: Python
+    packages:
+    - name: bugsnag
+      version: 4.9.2
+      released: '2026-09-15'
+      released_field: upload_time
+      lapsed: false
+      page: https://pypi.org/project/bugsnag/
+      repo_leg: domain:bugsnag.com
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-official-sdks.py
+    detected: '2026-10-18'
+  detected_by: sweep-official-sdks.py
+  first_seen: '2026-10-18'
 source:
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
