@@ -31,6 +31,9 @@ checked:
 - https://play.google.com/sdks
 - https://search.maven.org/solrsearch/select
 - google-play/integrations/google-play-integration-edges.yml
+- https://hex.pm/api
+- https://packagist.org/packages
+- https://pub.dev/api
 marketplace_apps: []
 edges:
 - partner_name: OpenTelemetry
@@ -566,6 +569,166 @@ edges:
   category: mobile SDK (analytics)
   publisher_verified:
   - Registered in Google Play SDK Console
+- partner_name: Packagist
+  partner: packagist
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (PHP)
+  evidence: https://packagist.org/packages/bugsnag/bugsnag
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: Packagist (public registry JSON)
+    spec_file: null
+    language: PHP
+    packages:
+    - name: bugsnag/bugsnag
+      version: v3.31.0
+      released: '2026-07-30'
+      released_field: time
+      lapsed: false
+      page: https://packagist.org/packages/bugsnag/bugsnag
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    - name: bugsnag/bugsnag-laravel
+      version: v2.31.0
+      released: '2026-09-10'
+      released_field: time
+      lapsed: false
+      page: https://packagist.org/packages/bugsnag/bugsnag-laravel
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    - name: bugsnag/bugsnag-psr-logger
+      version: v2.0.0
+      released: '2022-01-12'
+      released_field: time
+      lapsed: true
+      page: https://packagist.org/packages/bugsnag/bugsnag-psr-logger
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    - name: bugsnag/bugsnag-silex
+      version: v2.5.2
+      released: '2020-02-26'
+      released_field: time
+      lapsed: true
+      page: https://packagist.org/packages/bugsnag/bugsnag-silex
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+      abandoned: true
+    - name: bugsnag/bugsnag-symfony
+      version: v2.0.0
+      released: '2025-12-09'
+      released_field: time
+      lapsed: false
+      page: https://packagist.org/packages/bugsnag/bugsnag-symfony
+      repo_leg: github-org:bugsnag
+      publisher_leg: email:bugsnag.com
+      matched_by: domain
+    - name: bugsnag/bugsnag-wordpress
+      version: v2.0.0
+      released: '2026-04-27'
+      released_field: time
+      lapsed: false
+      page: https://packagist.org/packages/bugsnag/bugsnag-wordpress
+      repo_leg: github-org:bugsnag
+      publisher_leg: org:bugsnag
+      matched_by: github-org
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  detected_by: sweep-php-dart-elixir-package-registries.py
+  first_seen: '2026-10-22'
+- partner_name: pub.dev
+  partner: pub-dev
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Dart/Flutter)
+  evidence: https://pub.dev/packages/bugsnag_breadcrumbs_dart_io
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: pub.dev (public registry JSON)
+    spec_file: null
+    language: Dart/Flutter
+    packages:
+    - name: bugsnag_breadcrumbs_dart_io
+      version: 4.2.1
+      released: '2026-04-29'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/bugsnag_breadcrumbs_dart_io
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_breadcrumbs_http
+      version: 4.2.0
+      released: '2025-09-29'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/bugsnag_breadcrumbs_http
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_bridge
+      version: 2.1.0
+      released: '2024-08-29'
+      released_field: published
+      lapsed: true
+      page: https://pub.dev/packages/bugsnag_bridge
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_flutter
+      version: 4.2.2
+      released: '2026-10-15'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/bugsnag_flutter
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_flutter_dart_io_http_client
+      version: 2.1.0
+      released: '2024-08-29'
+      released_field: published
+      lapsed: true
+      page: https://pub.dev/packages/bugsnag_flutter_dart_io_http_client
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_flutter_performance
+      version: 2.1.1
+      released: '2026-05-25'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/bugsnag_flutter_performance
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    - name: bugsnag_http_client
+      version: 2.1.0
+      released: '2024-08-29'
+      released_field: published
+      lapsed: true
+      page: https://pub.dev/packages/bugsnag_http_client
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:bugsnag.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  detected_by: sweep-php-dart-elixir-package-registries.py
+  first_seen: '2026-10-22'
 source:
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/ecosystem/vendors.yaml
 - https://github.com/open-telemetry/opentelemetry.io/blob/main/data/registry/
