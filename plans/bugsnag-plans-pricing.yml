@@ -1,0 +1,83 @@
+# Pricing transcribed from the provider's own page — see provenance. Numbers are quoted, not derived.
+generated: '2026-10-28'
+method: searched
+source: https://www.bugsnag.com/pricing/
+sources:
+- https://www.bugsnag.com/pricing/
+provenance:
+  tool: engine/economics/harvest_pricing.py
+  run: 20261028T120612
+  grounding: every price_text was found verbatim in the fetched page text
+audience: business-product
+pricing_basis: tiered-subscription
+delivery:
+  delivery: managed+licensed
+  method: page
+  read: '2026-10-28'
+  evidence: On premises or SaaS deployment
+  managed_tier: Select
+published: true
+note: Tier selectors show event/span volumes but no dollar amounts beyond the 'starting at $0/month' placeholders;
+  Enterprise is quote-based. On-premises deployment offered on Enterprise.
+plan_count: 4
+currency: USD
+plans:
+- name: Free
+  price_text: $0 /month
+  price: 0
+  currency: USD
+  period: month
+  included_quota: 1 user; Error and performance monitoring; 7.5K events and 1M spans per month; 50+ platforms;
+    30+ third-party integrations
+- name: Select
+  price_text: STARTING AT $ 0 /month
+  price: 0
+  currency: USD
+  period: month
+  included_quota: Choose events from 50k to 3M monthly events; spans packs 1M-150M monthly spans
+- name: Preferred
+  price_text: STARTING AT $ 0 /month
+  price: 0
+  currency: USD
+  period: month
+  included_quota: Choose events from 100k to 3M monthly events; spans packs 1M-300M monthly spans
+- name: Enterprise
+  price_text: Contact Us
+  period: none
+  included_quota: Preferred plan features, plus automatic error assignment, premium support, CSM, SSO
+    provisioning, feature flags, On premises or SaaS deployment
+x-canonical:
+  generated: '2026-11-01'
+  vocabulary: engine/economics/plans-canonical.yml
+  models:
+  - free
+  units: []
+  plans:
+  - name: Free
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Select
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Preferred
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods:
+    - none
